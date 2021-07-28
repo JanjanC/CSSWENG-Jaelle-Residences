@@ -1,0 +1,22 @@
+{
+  "name": "cssweng",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francheska-vicente/cssweng.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francheska-vicente/cssweng/issues"
+  },
+  "homepage": "https://github.com/francheska-vicente/cssweng#readme",
+  "dependencies": {
+    "mongoose": "^5.13.3"
+  }
+}
