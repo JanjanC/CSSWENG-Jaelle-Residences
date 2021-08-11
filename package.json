@@ -1,11 +1,14 @@
 {
   "name": "cssweng",
+  "productName": "Jaelle Residences POS",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . --overwrite --asar",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,18 @@
   },
   "devDependencies": {
     "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
     "electron-packager": "^15.3.0"
+  },
+  "build": {
+    "appId": "com.cssweng.s11.team2.pos",
+    "target": "NSIS",
+    "directories": {
+      "output": "build"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
+    }
   }
 }
