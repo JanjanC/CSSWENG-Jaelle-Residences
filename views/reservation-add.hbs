@@ -1,14 +1,104 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-        <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
-
-        <title>Add Reservation</title>
-    </head>
-    <body>
+    <title>Add Reservation</title>
+</head>
+<body>
+    <div class="container-md">
+        <br>
         <h1>Add Reservation</h1>
-        <h3>This is the template to be used for the necessary imports, formatting, and all.</h3>
-    </body>
+        <hr>
+        <br>
+
+        <form id="form-submit" class="" action="reservation-add" method="post">
+            <!--ROW-->
+            <div class="row justify-content-center py-2">
+
+                <!-- COLUMN 1: Room Details -->
+                <div class="col-5 me-3 border p-4 pt-2 rounded">
+                    <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
+
+                    <!--Room Type-->
+                    <div class="form-group">
+                        <label class="h5">Room Type</label>
+                        <select class="form-select form-control w-75">
+                            <option class="text-muted" selected>Select the room type</option>
+                            <option value="room-type-1">Room Type 1</option>
+                            <option value="room-type-2">Room Type 2</option>
+                            <option value="room-type-3">Room Type 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Start Date -->
+                    <div class="form-group">
+                        <label class="h5 d-block">Start Date</label>
+                        <input class="form-control w-75" type="date" id="start-date" name="start-date">
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="form-group">
+                        <label class="h5 d-block">End Date</label>
+                        <input class="form-control w-75" type="date" id="end-date" name="end-date">
+                    </div>
+                </div>
+
+                <!--COLUMN 2: Customer Details-->
+                <div class="col-6 border p-4 pt-2 rounded">
+                    <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Customer Details</h3>
+
+                    <!--Full Name-->
+                    <div class="form-group">
+                        <label class="h5 d-block">Full Name</label>
+                        <input class="form-control w-75" type="text" placeholder="Enter Full Name" id="fullname" name="fullname">
+                    </div>
+
+                    <!--Address-->
+                    <div class="form-group">
+                        <label class="h5 d-block">Address</label>
+                        <input class="form-control w-75" type="email" placeholder="Enter Address" id="address" name="address">
+                    </div>
+
+                    <!--Contact No.-->
+                    <div class="form-group">
+                        <label class="h5 d-block">Contact No.</label>
+                        <input class="form-control w-75" type="text" placeholder="Enter Contact No." id="contact" name="contact">
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row-reverse mt-3">
+
+                <!-- Button trigger modal -->
+                <button id="reserve" type="button" class="btn btn-info mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
+                    <strong>Reserve</strong>
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="reserveModalLabel">Confirm Reservation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to reserve guest with the following information?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
+                                <button id="submit" type="submit" class="btn btn-warning"><strong>Confirm</strong></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="reservation-main" class="btn btn-secondary mb-4 mt-2 me-2 w-25"><strong>Return</strong></a>
+            </div>
+        </form>
+
+    </div>
+
+</body>
 </html>
