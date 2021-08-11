@@ -1,7 +1,6 @@
 //import the necessary modules
 const path = require('path');
 const express = require('express');
-const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const routes = require('./routes/routes.js')
@@ -11,8 +10,6 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
 
-//configure dotenv
-dotenv.config({path: path.join(__dirname, '.env')});
 //parse incoming requests with urlencoded payloads
 app.use(bodyParser.urlencoded({extended: false}));
 //set the file path containing the static assets
