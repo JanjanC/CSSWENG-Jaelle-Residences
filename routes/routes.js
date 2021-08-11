@@ -5,4 +5,5 @@ const app = express.Router();
 
 app.get('/', controller.getIndex);
 app.get('/reservation-main', controller.getReservationMain);
+app.get('/reservation-add', controller.getReservationAdd);
 module.exports = app;
