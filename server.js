@@ -13,8 +13,6 @@ const app = express();
 app.use(express.urlencoded({extended: false}));
 //set the file path containing the static assets
 app.use(express.static(path.join(__dirname, 'public')));
-//set the file path of the paths defined in './routes/routes.js'
-app.use('/', routes);
 //set the session middleware
 app.use(
     session({
@@ -24,11 +22,12 @@ app.use(
         store: MongoStore. create({mongoUrl: process.env.DB_URL})
     })
 );
-
 //set hbs as the view engine
 app.set('view engine', 'hbs');
 //set the file path containing the hbs files
 app.set('views', path.join(__dirname, 'views'))
+//set the file path of the paths defined in './routes/routes.js'
+app.use('/', routes);
 //set the file path containing the partial hbs files
 hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
