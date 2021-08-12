@@ -1,10 +1,14 @@
 {
   "name": "cssweng",
+  "productName": "Jaelle Residences POS",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "electron-packager . --overwrite --asar",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -17,7 +21,27 @@
   },
   "homepage": "https://github.com/francheska-vicente/cssweng#readme",
   "dependencies": {
+    "connect-mongo": "^4.4.1",
     "dotenv": "^10.0.0",
-    "mongoose": "^5.13.3"
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "hbs": "^4.1.2",
+    "mongoose": "^5.13.5"
+  },
+  "devDependencies": {
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "electron-packager": "^15.3.0"
+  },
+  "build": {
+    "appId": "com.cssweng.s11.team2.pos",
+    "target": "NSIS",
+    "directories": {
+      "output": "build"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
+    }
   }
 }
