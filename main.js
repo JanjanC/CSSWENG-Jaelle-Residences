@@ -1,17 +1,17 @@
+//configure environment variables
+process.env.HOSTNAME = "localhost"
+process.env.PORT = "3000"
+process.env.DB_URL = "mongodb+srv://admin:ilovecssweng@jaelle-residences.ptlf1.mongodb.net/jaelle-residences-db?retryWrites=true&w=majority"
+
 //import the necessary modules
 const path = require('path');
 const electron = require('electron');
-const dotenv = require('dotenv');
 const server = require('./server.js');
 
 //retrieves the necessary attributes from electron
 const {app, BrowserWindow} = electron;
 
 let mainWindow;
-
-//configure dotenv
-dotenv.config({path: path.join(__dirname, '.env')});
-
 //create new window once electron finishes initialization
 app.on('ready', function() {
 
