@@ -14,8 +14,14 @@ dotenv.config({path: path.join(__dirname, '.env')});
 
 //create new window once electron finishes initialization
 app.on('ready', function() {
+
+    //get screen size
+    const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize;
+
     //create new window
     mainWindow = new BrowserWindow({
+        width: width,
+        height: height,
         title: "Jaelle Residences",
         // icon: "",
         autoHideMenuBar: true
