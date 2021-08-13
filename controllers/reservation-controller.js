@@ -21,8 +21,8 @@ const reservationController = {
                 // create an object to be inserted into the database
                 booking = {
                     booked_type: type,
-                    guest_id: result._id,
-                    employee_id: req.session.employeeID,
+                    guest: result._id,
+                    employee: req.session.employeeID,
                     start_date: new Date(start),
                     end_date: new Date(end),
                     // TODO: confirm how this value is decided; maybe needs checkbox on form?
@@ -48,10 +48,13 @@ const reservationController = {
         let reservation = {
             start_date: {$lte: today},
             end_date: {$gte: today},
+            //it is considered to be a reservation when the confirmed_reservation exists in the database
             confirmed_reservation: {$exists: true}
         };
 
-        // db.findMany(Booking, reservation)
+        db.findMany(Booking, reservation, function(result){
+            console.log(result);
+        }, 'guest');
         res.render('reservation-main');
     }
 }
