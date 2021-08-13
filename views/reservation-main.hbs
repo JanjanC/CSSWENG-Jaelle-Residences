@@ -19,9 +19,9 @@
             <br>
             <hr>
 
-            <div class="col-md-3 border me-2 ms-2">
+            <div class="col-md-3 border me-2 ms-2 rounded">
                 <!--TODO: FIX HEADER TEXT ALIGNMENT-->
-                <h4 class="pb-2 text-center">Room Type 1</h4>
+                <h4 id="room-type-1" class="pb-2 text-center">Room Type 1</h4>
 
                 <!--TODO: FIX THE PADDING/MARGIN/BORDER-->
                 <!--TODO: SPECIFY THE DETAILS OF WHAT IS TO BE SHOWN-->
@@ -29,27 +29,34 @@
                 <!-- Room Item -->
                 <div class="d-flex border-bottom position-relative ml-0 mr-0 mb-2 border">
                     <div class="flex-grow-1">
-
-
                         <!-- Button trigger modal -->
-                        <button id="reservation-item-1" type="button" class="btn w-100" data-bs-toggle="modal" data-bs-target="#reserveItemModal">
-                            <h6 class="text-center"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>Customer details here</h6>
-                            <h5>Details here</h5>
+                        <button id="reservation-item-id" type="button" class="btn w-100 text-start" data-bs-toggle="modal" data-bs-target="#reserveItemModal">
+                            <h5><span id="reservation-firstname-label-id" class="fa fa-pencil" aria-hidden="true">Firstname</span> <span id="reservation-lastname-label-id" class="fa fa-pencil" aria-hidden="true">Lastname</span></h5>
+                            <h6 class="text-secondary"><span id="reservation-startdate-label-id">01/02/2021</span> - <span id="reservation-enddate-label-id">01/05/2021</span></h6>
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="reserveItemModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="reserveItemModalLabel">Reservation Information</h5>
+                                        <h4 class="modal-title" id="reserveItemModalLabel">Reservation Information</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        Specifics of customer information here
+                                    <div class="modal-body ps-3">
+                                        <h5>Guest Name:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-firstname-id">Firstname</span> <span id="reservation-lastname-id">Lastname</span></h5>
+                                        <h5>Room Type:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-type-id">Burger King Deluxe</span></h5>
+                                        <h5>Date:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-startdate-id">01/02/2021</span> - <span id="reservation-enddate-id">01/05/2021</span></h5>
+                                        <h5>Contact Number:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-contact-id">+01312413214</span></h5>
+                                        <h5>Address:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-address-id" class="text-break">31st Street of AAAAAAAAAAAAAAAAAA and BBBBBBBBBB and CCCCC</span></h5>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
-                                        <a href="reservation-edit" id="submit" class="btn btn-warning"><strong>Edit</strong></a>
+                                        <a href="../reservation-edit" class="btn btn-info"><strong>Edit</strong></a>
                                     </div>
                                 </div>
                             </div>
