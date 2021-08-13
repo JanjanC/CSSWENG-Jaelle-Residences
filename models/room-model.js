@@ -16,8 +16,20 @@ var RoomSchema = new mongoose.Schema({
 
     // the current rate the room goes for
     room_rate: {
-        type: Number,
-        required: true
+        daily: {
+            type: Number,
+            required: true
+        },
+
+        weekly: {
+            type: Number,
+            required: true
+        },
+
+        monthly: {
+            type: Number,
+            required: true
+        }
     },
 
     // signifies whether the room needs housekeeping or not

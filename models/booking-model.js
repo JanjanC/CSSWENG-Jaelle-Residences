@@ -10,7 +10,6 @@ var BookingSchema = new mongoose.Schema({
     // the room rate at the time of booking
     booked_rate: {
         type: Number,
-        required: true
     },
 
     // the type of room booked
