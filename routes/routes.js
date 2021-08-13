@@ -11,10 +11,10 @@ app.get('/index', controller.getIndex);
 
 app.get('/reservation/:month-:day-:year', reservationController.getReservationScreen);
 
-app.get('/reservation-add', controller.getReservationAdd);
+app.get('/create-reservation', controller.getCreateReservation);
 
 // reservation detail form gets submitted
-app.post('/reservation-add', reservationController.postAddReservation);
+app.post('/create-reservation', reservationController.postCreateReservation);
 
 
 module.exports = app;

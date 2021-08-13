@@ -3,8 +3,8 @@ const controller = {
         res.render('index');
     },
 
-    getReservationAdd: function (req, res) {
-        res.render('reservation-add');
+    getCreateReservation: function (req, res) {
+        res.render('reservation-create');
     }
 }
 

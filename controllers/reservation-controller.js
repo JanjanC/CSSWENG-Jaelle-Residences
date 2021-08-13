@@ -4,7 +4,7 @@ const Guest = require('../models/guest-model.js');
 const mongoose = require('mongoose');
 
 const reservationController = {
-    postAddReservation: function (req, res) {
+    postCreateReservation: function (req, res) {
         // collect information from post form
         let start = req.body.start_date;
         let end = req.body.end_date;
