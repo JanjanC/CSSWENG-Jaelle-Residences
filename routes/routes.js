@@ -16,5 +16,6 @@ app.get('/create-reservation', controller.getCreateReservation);
 // reservation detail form gets submitted
 app.post('/create-reservation', reservationController.postCreateReservation);
 
+app.get('/reservation-edit', controller.getEditReservation);
 
 module.exports = app;
