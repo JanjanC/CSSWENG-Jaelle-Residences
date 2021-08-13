@@ -43,11 +43,15 @@ const reservationController = {
 
     getReservationScreen: function(req, res){
 
+        let today = new Date(req.params.month, req.params.day, req.params.year);
+
         let reservation = {
-            date: new Date(req.params.month, req.params.day, req.params.year)
+            start_date: {$lte: today},
+            end_date: {$gte: today},
+            confirmed_reservation: {$exists: true}
         };
 
-        // db.findMany(Booking, )
+        // db.findMany(Booking, reservation)
         res.render('reservation-main');
     }
 }
