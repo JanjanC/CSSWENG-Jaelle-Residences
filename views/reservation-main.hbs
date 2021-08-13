@@ -29,12 +29,37 @@
                 <!-- Room Item -->
                 <div class="d-flex border-bottom position-relative ml-0 mr-0 mb-2 border">
                     <div class="flex-grow-1">
-                        <h6 class="pt-1 mb-2 text-center"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>Room details here</h6>
-                        <a href="#" class="stretched-link"></a>
+
+
+                        <!-- Button trigger modal -->
+                        <button id="reservation-item-1" type="button" class="btn w-100" data-bs-toggle="modal" data-bs-target="#reserveItemModal">
+                            <h6 class="text-center"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>Customer details here</h6>
+                            <h5>Details here</h5>
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="reserveItemModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="reserveItemModalLabel">Reservation Information</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Specifics of customer information here
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
+                                        <a href="reservation-edit" id="submit" class="btn btn-warning"><strong>Edit</strong></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
             </div>
+
             <!--DUPLICATE-->
             <div class="col-md-3 border me-2 ms-2">
                 <!--TODO: FIX HEADER TEXT ALIGNMENT-->
