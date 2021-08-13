@@ -8,10 +8,13 @@ const app = express.Router();
 app.get('/', signInController.getSignIn);
 app.post('/sign-in', signInController.postSignIn);
 app.get('/index', controller.getIndex);
-app.get('/reservation-main', controller.getReservationMain);
+
+app.get('/reservation/:month-:day-:year', reservationController.getReservationScreen);
+
 app.get('/reservation-add', controller.getReservationAdd);
 
 // reservation detail form gets submitted
 app.post('/reservation-add', reservationController.postAddReservation);
+
 
 module.exports = app;

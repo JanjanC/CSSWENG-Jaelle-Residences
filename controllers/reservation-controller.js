@@ -39,6 +39,16 @@ const reservationController = {
             }
             // NOTE: behavior when no existing record found to be added once details of form finalized
         });
+    },
+
+    getReservationScreen: function(req, res){
+
+        let reservation = {
+            date: new Date(req.params.month, req.params.day, req.params.year)
+        };
+
+        // db.findMany(Booking, )
+        res.render('reservation-main');
     }
 }
 
