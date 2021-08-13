@@ -4,7 +4,7 @@ var RoomSchema = new mongoose.Schema({
 
     // the room number for this room
     room_number: {
-        type: mongoose.ObjectId,
+        type: Number,
         required: true
     },
 

@@ -19,14 +19,14 @@ var BookingSchema = new mongoose.Schema({
     },
 
     // the ObjectID of the guest who made the booking
-    guest_id: {
+    guest: {
         type: mongoose.ObjectId,
         required: true,
         ref: 'Guest'
     },
 
     // the ObjectID of the employee who processed the booking
-    employee_id: {
+    employee: {
         type: mongoose.ObjectId,
         required: true,
         ref: 'Employee'

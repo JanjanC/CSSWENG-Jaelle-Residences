@@ -2,15 +2,17 @@ var mongoose = require('mongoose');
 
 var ActivitySchema = new mongoose.Schema({
     // the ObjectID of the employee who committed the action
-    employee_id: {
+    employee: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Employee'
     },
 
     // the ObjectID of the guest that was affected by the action if applicable
-    guest_id: {
+    guest: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Guest'
     },
 
     // the type of action taken

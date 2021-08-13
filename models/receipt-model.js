@@ -2,21 +2,24 @@ var mongoose = require('mongoose');
 
 var ReceiptSchema = new mongoose.Schema({
     // the ObjectID of the guest the receipt is intended for
-    guest_id: {
+    guest: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Guest'
     },
 
     // the ObjectID of the employee who checked-out the guest
-    employee_id: {
+    employee: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Employee'
     },
 
     // the ObjectID of the booking the receipt is intended for
-    booking_id: {
+    booking: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Booking'
     },
 
     // an object signifying which discounts apply to the transaction
