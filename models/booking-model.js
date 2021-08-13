@@ -3,8 +3,9 @@ var mongoose = require('mongoose');
 var BookingSchema = new mongoose.Schema({
     // the room number for the booking
     // this field is absent when a booking is merely reserved (i.e., the reservation has not been paid for)
-    room_number: {
-        type: String
+    room: {
+        type: mongoose.ObjectId,
+        ref: 'Room'
     },
 
     // the room rate at the time of booking
