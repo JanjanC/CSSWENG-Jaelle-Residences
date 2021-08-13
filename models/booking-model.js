@@ -21,13 +21,15 @@ var BookingSchema = new mongoose.Schema({
     // the ObjectID of the guest who made the booking
     guest_id: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Guest'
     },
 
     // the ObjectID of the employee who processed the booking
     employee_id: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Employee'
     },
 
     // the day the booking starts
