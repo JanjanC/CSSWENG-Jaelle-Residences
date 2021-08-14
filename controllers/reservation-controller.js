@@ -8,7 +8,7 @@ const reservationController = {
     //loads the main reservation page along with the list of reservations for a specific date
     getReservationScreen: function(req, res){
 
-        let today = new Date(req.params.year, req.params.month - 1, req.params.day);
+        let today = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
 
         let reservation = {
             start_date: {$lte: today},
@@ -17,7 +17,6 @@ const reservationController = {
             confirmed_reservation: {$exists: true}
         };
 
-        //TODO: Change query after create booking is fixed
         db.findMany(Booking, reservation, function(result){
 
             let list = [];
@@ -51,46 +50,46 @@ const reservationController = {
 
             let values = {
                 room_types: result,
-                date: new Date(req.params.year, req.params.month - 1, req.params.day)
+                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
             }
             res.render('reservation-create', values);
         });
     },
 
     postCreateReservation: function (req, res) {
-        // collect information from post form
-        let start = req.body.start_date;
-        let end = req.body.end_date;
-        let type = req.body.reserve_type_select;
+        // collect information from post request
+        let guest = {
+            first_name: req.body.firstname,
+            last_name: req.body.lastname,
+            address: req.body.address,
+            contact_number: req.body.contact,
+            company_name: req.body.company,
+            occupation: req.body.occupation
+        }
 
-        // find guest record
-        // NOTE: current set to only check first name; will update once finalized if name is going to be split
-        let guest_query = {
-            first_name: req.body.fullname
-        };
-        db.findOne(Guest, guest_query, function(result){
+        db.insertOne(Guest, guest, function(result){
             // existing record found
             if(result){
+                console.log(result);
                 // create an object to be inserted into the database
-                booking = {
-                    booked_type: type, //NOTE: Clean the string before saving to db
+                let reservation = {
+                    // // booked_rate: ,
+                    booked_type: req.body.reserve_type_select,
                     guest: result._id,
                     employee: req.session.employeeID,
-                    start_date: new Date(start),
-                    end_date: new Date(end),
-                    // TODO: confirm how this value is decided; maybe needs checkbox on form?
+                    start_date: new Date (req.body.start_date),
+                    end_date: new Date (req.body.end_date),
                     confirmed_reservation: false
-                };
+                }
 
                 // insert booking into database
-                db.insertOne(Booking, booking, function(flag){
-                    if(flag){
+                db.insertOne(Booking, reservation, function(flag){
+                    if(result){
                         // redirects to home screen after adding a record
                         res.redirect('/index');
                     }
                 });
             }
-            // NOTE: behavior when no existing record found to be added once details of form finalized
         });
     },
 

@@ -8,8 +8,6 @@ function validateEntry () {
 
 	let isValid = true;
 
-	console.log($('#reserve_type_select').val());
-
 	if ($('#reserve_type_select').val() == null) {
 		$('#reserve-type-error').text('Room Type cannot be empty');
 		isValid = false;
@@ -18,7 +16,10 @@ function validateEntry () {
 	}
 
 	if ($('#start-date').val() == '') {
-		$('#start-date-error').text('Room Type cannot be empty');
+		$('#start-date-error').text('Start Date cannot be empty');
+		isValid = false;
+	} else if (new Date($('#start-date').val()) < new Date()) {
+		$('#start-date-error').text('Start Date cannot be earlier than Today');
 		isValid = false;
 	} else {
 		$('#start-date-error').text('');
@@ -27,7 +28,7 @@ function validateEntry () {
 	if ($('#end-date').val() == '') {
 		$('#end-date-error').text('End Date cannot be empty');
 		isValid = false;
-	} else if ($('#start-date').val() != '' && $('#end-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
+	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 		$('#end-date-error').text('End Date cannot be earlier than Start Date');
 		isValid = false;
 	} else {
