@@ -29,7 +29,7 @@
                         <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
                             <option value="" disabled selected>Select the room type</option>
                             {{#each room_types}}
-                            <option value={{this}}>{{this}}</option>
+                            <option value="{{this}}">{{this}}</option>
                             {{/each}}
                         </select>
                         <p class="error" id="reserve-type-error"></p>
@@ -38,7 +38,7 @@
                     <!-- Start Date -->
                     <div class="form-group">
                         <label class="h5 d-block">Start Date</label>
-                        <input class="form-control w-75" type="date" id="start-date" name="start_date" value={{formatDate date}}>
+                        <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate date}}"">
                         <p class="error" id="start-date-error"></p>
                     </div>
 
