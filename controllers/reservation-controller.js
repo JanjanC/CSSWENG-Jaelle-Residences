@@ -44,23 +44,20 @@ const reservationController = {
     //loads the main reservation page along with the list of reservations for a specific date
     getReservationScreen: function(req, res){
 
-
-        // let today = new Date(req.params.month, req.params.day, req.params.year);
-        //
-        // let reservation = {
-        //     start_date: {$lte: today},
-        //     end_date: {$gte: today},
-        //     //it is considered to be a reservation when the confirmed_reservation exists in the database
-        //     confirmed_reservation: {$exists: true}
-        // };
+        let today = new Date(req.params.year, req.params.month - 1, req.params.day);
+        
+        let reservation = {
+            start_date: {$lte: today},
+            end_date: {$gte: today},
+            //it is considered to be a reservation when the confirmed_reservation exists in the database
+            confirmed_reservation: {$exists: true}
+        };
 
         //TODO: Change query after create booking is fixed
-        db.findMany(Booking, {}, function(result){
+        db.findMany(Booking, reservation, function(result){
 
             let list = [];
             let previous;
-
-            console.log(result);
 
             //categorize each room type into its own sub-array
             for (let i = 0; i < result.length; i++) {
