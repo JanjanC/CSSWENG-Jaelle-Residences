@@ -49,7 +49,6 @@ const reservationController = {
     getCreateReservation: function (req, res) {
         db.findDistinct(Room, 'room_type', function(result) {
 
-            console.log();
             let values = {
                 room_types: result,
                 date: new Date(req.params.year, req.params.month - 1, req.params.day)
@@ -96,16 +95,24 @@ const reservationController = {
     },
 
     getEditReservation: function (req, res) {
+
         db.findDistinct(Room, 'room_type', function(result) {
 
-            console.log();
             let values = {
-                room_types: result,
-                date: new Date(req.params.year, req.params.month - 1, req.params.day)
+                room_types: result
             }
-            res.render('reservation-edit', values);
+
+            db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
+                values['reservation'] = result;
+                console.log(values);
+                res.render('reservation-edit', values);
+            }, 'guest');
         });
     },
+
+    postEditReservation: function (req, res) {
+
+    }
 
 }
 

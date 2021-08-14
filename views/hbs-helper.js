@@ -15,3 +15,11 @@ hbs.registerHelper('formatDate', function(date) {
 	let day = date.getDate().toString().padStart(2, 0);
     return `${year}-${month}-${day}`;
 });
+
+hbs.registerHelper('select', function(value, option) {
+    if (value == option) {
+        return 'selected';
+    } else {
+        return '';
+    }
+});
