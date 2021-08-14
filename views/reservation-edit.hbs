@@ -38,14 +38,14 @@
                     <!-- Start Date -->
                     <div class="form-group">
                         <label class="h5 d-block">Start Date</label>
-                        <input class="form-control w-75" type="date" id="start-date" name="start_date" value={{formatDate reservation.start_date}}>
+                        <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate reservation.start_date}}">
                         <p class="error" id="start-date-error"></p>
                     </div>
 
                     <!-- End Date -->
                     <div class="form-group">
                         <label class="h5 d-block">End Date</label>
-                        <input class="form-control w-75" type="date" id="end-date" name="end_date" value={{formatDate reservation.end_date}}>
+                        <input class="form-control w-75" type="date" id="end-date" name="end_date" value="{{formatDate reservation.end_date}}">
                         <p class="error" id="end-date-error"></p>
                     </div>
                 </div>
@@ -57,14 +57,14 @@
                     <!--First Name-->
                     <div class="form-group">
                         <label class="h5 d-block">First Name</label>
-                        <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value={{reservation.guest.first_name}}>
+                        <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{reservation.guest.first_name}}">
                         <p class="error" id="firstname-error"></p>
                     </div>
 
                     <!--Last Name-->
                     <div class="form-group">
                         <label class="h5 d-block">Last Name</label>
-                        <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value={{reservation.guest.last_name}}>
+                        <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{reservation.guest.last_name}}">
                         <p class="error" id="lastname-error"></p>
                     </div>
 
@@ -75,7 +75,7 @@
                     <div class="form-group">
                         <label class="h5 d-block">Birthdate</label>
                         <!--<input type="text" placeholder="*To Date" onfocus="(this.type='date')" onblur="(this.type='text')" >-->
-                        <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value={{formatDate reservation.guest.birthdate}}>
+                        <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate reservation.guest.birthdate}}">
                     </div>
 
                     <!--Address-->
@@ -88,19 +88,19 @@
                     <!--Contact No.-->
                     <div class="form-group">
                         <label class="h5 d-block">Contact No.</label>
-                        <input class="form-control w-75" type="text" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value={{reservation.guest.contact_number}}>
+                        <input class="form-control w-75" type="text" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{reservation.guest.contact_number}}">
                     </div>
 
                     <!--Company's Name-->
                     <div class="form-group">
                         <label class="h5 d-block">Company Name</label>
-                        <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value={{reservation.guest.company_name}}>
+                        <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{reservation.guest.company_name}}">
                     </div>
 
                     <!--Occupation-->
                     <div class="form-group">
                         <label class="h5 d-block">Occupation</label>
-                        <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value={{reservation.guest.occupation}}>
+                        <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value="{{reservation.guest.occupation}}">
                     </div>
                 </div>
 
