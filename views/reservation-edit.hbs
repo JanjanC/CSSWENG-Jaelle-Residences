@@ -4,12 +4,12 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
 
-    <title>Create Reservation</title>
+    <title>Edit Reservation</title>
 </head>
 <body>
     <div class="container-md">
         <br>
-        <h1>Create Reservation</h1>
+        <h1>Edit Reservation</h1>
         <hr>
         <br>
 
@@ -106,19 +106,19 @@
             <div class="d-flex flex-row-reverse mt-3">
 
                 <!-- Button trigger modal -->
-                <button id="reserve" type="button" class="btn btn-info mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
-                    <strong>Reserve</strong>
+                <button id="modify" type="button" class="btn btn-primary mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#modifyModal">
+                    <strong>Modify</strong>
                 </button>
                 <!-- Modal -->
-                <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="reserveModalLabel">Confirm Reservation</h5>
+                                <h5 class="modal-title" id="reserveModalLabel">Modify Reservation</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                Are you sure you want to reserve guest with the following information?
+                                Are you sure you want to modify the reservation with the following information?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
 
                 <a href="javascript: history.back()" class="btn btn-secondary mb-4 mt-2 me-2 w-25"><strong>Return</strong></a>
             </div>
