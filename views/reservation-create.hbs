@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/reservation.js"></script>
 
     <title>Create Reservation</title>
 </head>
@@ -25,26 +27,26 @@
                     <div class="form-group">
                         <label class="h5">Room Type</label>
                         <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
-                            <option class="text-muted" selected>Select the room type</option>
+                            <option value="" disabled selected>Select the room type</option>
                             {{#each room_types}}
                             <option value={{this}}>{{this}}</option>
                             {{/each}}
                         </select>
-                        <p class="error" id="reserve-type-error"><em>Error message here</em></p>
+                        <p class="error" id="reserve-type-error"></p>
                     </div>
 
                     <!-- Start Date -->
                     <div class="form-group">
                         <label class="h5 d-block">Start Date</label>
                         <input class="form-control w-75" type="date" id="start-date" name="start_date" value={{formatDate date}}>
-                        <p class="error" id="start-date-error"><em>Error message here</em></p>
+                        <p class="error" id="start-date-error"></p>
                     </div>
 
                     <!-- End Date -->
                     <div class="form-group">
                         <label class="h5 d-block">End Date</label>
                         <input class="form-control w-75" type="date" id="end-date" name="end_date">
-                        <p class="error" id="end-date-error"><em>Error message here</em></p>
+                        <p class="error" id="end-date-error"></p>
                     </div>
                 </div>
 
@@ -56,14 +58,14 @@
                     <div class="form-group">
                         <label class="h5 d-block">First Name</label>
                         <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
-                        <p class="error" id="firstname-error"><em>Error message here</em></p>
+                        <p class="error" id="firstname-error"></p>
                     </div>
 
                     <!--Last Name-->
                     <div class="form-group">
                         <label class="h5 d-block">Last Name</label>
                         <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
-                        <p class="error" id="lastname-error"><em>Error message here</em></p>
+                        <p class="error" id="lastname-error"></p>
                     </div>
 
                     <!--OPTIONAL FIELDS BELOW-->
@@ -82,7 +84,7 @@
                         <label class="h5 d-block">Address</label>
                         <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3"></textarea>
                     </div>
-                    
+
                     <!--Contact No.-->
                     <div class="form-group">
                         <label class="h5 d-block">Contact No.</label>
@@ -106,7 +108,7 @@
             <div class="d-flex flex-row-reverse mt-3">
 
                 <!-- Button trigger modal -->
-                <button id="reserve" type="button" class="btn btn-info mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
+                <button id="reserve" type="button" class="btn btn-primary mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
                     <strong>Reserve</strong>
                 </button>
                 <!-- Modal -->
