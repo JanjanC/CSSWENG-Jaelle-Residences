@@ -17,6 +17,6 @@ app.get('/reservation/:year-:month-:day/create', reservationController.getCreate
 app.post('/reservation/create', reservationController.postCreateReservation);
 
 app.get('/reservation/:bookingID/edit', reservationController.getEditReservation);
-app.post('/reservation/:bookingID/edit', reservationController.getEditReservation);
+app.post('/reservation/:bookingID/edit', reservationController.postEditReservation);
 
 module.exports = app;

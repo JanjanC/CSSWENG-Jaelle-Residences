@@ -104,14 +104,39 @@ const reservationController = {
 
             db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
                 values['reservation'] = result;
-                console.log(values);
                 res.render('reservation-edit', values);
             }, 'guest');
         });
     },
 
     postEditReservation: function (req, res) {
+        let reservation = {
+            $set: {
+                booked_type: req.body.reserve_type_select,
+                start_date: req.body.start_date,
+                end_date: req.body.end_date
+            }
+        }
 
+        let guest = {
+            $set: {
+                first_name: req.body.firstname,
+                last_name: req.body.lastname,
+                birthdate: req.body.birthdate,
+                address: req.body.address,
+                contact_number: req.body.contact,
+                company_name: req.body.company,
+                occupation: req.body.occupation
+            }
+        }
+
+        db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(result) {
+            if (reservation) {
+                db.updateOne(Guest, {_id: result.guest}, guest, function(result) {
+                    res.redirect('/index');
+                });
+            }
+        });
     }
 
 }
