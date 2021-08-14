@@ -1,6 +1,6 @@
 const controller = {
     getIndex: function (req, res) {
-        res.render('index');
+        res.render('index', {today: new Date()});
     },
 
     getCreateReservation: function (req, res) {
