@@ -18,7 +18,7 @@ const signInController = {
             if(result) {
                 req.session.username = result.username;
                 req.session.employeeID = result._id;
-                res.redirect('/index');
+                res.redirect('index');
             }
         });
     }
