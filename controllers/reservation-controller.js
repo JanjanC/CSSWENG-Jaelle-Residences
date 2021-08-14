@@ -131,7 +131,7 @@ const reservationController = {
         }
 
         db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(result) {
-            if (reservation) {
+            if (result) {
                 db.updateOne(Guest, {_id: result.guest}, guest, function(result) {
                     res.redirect('/index');
                 });
