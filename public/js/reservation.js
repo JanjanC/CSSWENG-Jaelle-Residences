@@ -28,7 +28,7 @@ function validateEntry () {
 		$('#end-date-error').text('End Date cannot be empty');
 		isValid = false;
 	} else if ($('#start-date').val() != '' && $('#end-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
-		$('#end-date-error').text('End Date cannot earlier than Start Date');
+		$('#end-date-error').text('End Date cannot be earlier than Start Date');
 		isValid = false;
 	} else {
 		$('#end-date-error').text('');
