@@ -94,6 +94,19 @@ const reservationController = {
             // NOTE: behavior when no existing record found to be added once details of form finalized
         });
     },
+
+    getEditReservation: function (req, res) {
+        db.findDistinct(Room, 'room_type', function(result) {
+
+            console.log();
+            let values = {
+                room_types: result,
+                date: new Date(req.params.year, req.params.month - 1, req.params.day)
+            }
+            res.render('reservation-edit', values);
+        });
+    },
+
 }
 
 module.exports = reservationController;

@@ -16,6 +16,6 @@ app.get('/reservation/:year-:month-:day/create', reservationController.getCreate
 // reservation detail form gets submitted
 app.post('/reservation/create', reservationController.postCreateReservation);
 
-app.get('/reservation-edit', controller.getEditReservation);
+app.get('/reservation/:year-:month-:day/edit', reservationController.getEditReservation);
 
 module.exports = app;
