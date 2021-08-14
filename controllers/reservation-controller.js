@@ -1,6 +1,7 @@
 const db = require('../models/db.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
+const Room = require('../models/room-model.js');
 const mongoose = require('mongoose');
 
 const reservationController = {
@@ -46,9 +47,15 @@ const reservationController = {
     },
 
     getCreateReservation: function (req, res) {
-        
+        db.findDistinct(Room, 'room_type', function(result) {
 
-        res.render('reservation-create');
+            console.log();
+            let values = {
+                room_types: result,
+                date: new Date(req.params.year, req.params.month - 1, req.params.day)
+            }
+            res.render('reservation-create', values);
+        });
     },
 
     postCreateReservation: function (req, res) {

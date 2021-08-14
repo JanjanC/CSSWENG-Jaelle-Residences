@@ -61,6 +61,14 @@ const database = {
         });
     },
 
+    //searches for documents with distinct 'field' values in database based on the model 'model'
+    findDistinct: function(model, field, callback) {
+        model.distinct(field, function (err, res) {
+            if(err) throw err;
+            return callback(res);
+        });
+    },
+
     //updates the value of a single document with the object 'update' in the database based on the model 'model' filtered by the object 'filter'
     updateOne: function(model, filter, update, callback) {
         model.updateOne(filter, update, function(err, res) {

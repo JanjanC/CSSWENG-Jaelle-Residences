@@ -26,16 +26,16 @@
                         <label class="h5">Room Type</label>
                         <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
                             <option class="text-muted" selected>Select the room type</option>
-                            <option value="room-type-1">Room Type 1</option>
-                            <option value="room-type-2">Room Type 2</option>
-                            <option value="room-type-3">Room Type 3</option>
+                            {{#each room_types}}
+                            <option value={{this}}>{{this}}</option>
+                            {{/each}}
                         </select>
                     </div>
 
                     <!-- Start Date -->
                     <div class="form-group">
                         <label class="h5 d-block">Start Date</label>
-                        <input class="form-control w-75" type="date" id="start-date" name="start_date">
+                        <input class="form-control w-75" type="date" id="start-date" name="start_date" value={{formatDate date}}>
                     </div>
 
                     <!-- End Date -->
