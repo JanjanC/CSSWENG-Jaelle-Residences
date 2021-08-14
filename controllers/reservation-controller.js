@@ -8,7 +8,7 @@ const reservationController = {
     //loads the main reservation page along with the list of reservations for a specific date
     getReservationScreen: function(req, res){
 
-        let today = new Date(req.params.year, req.params.month - 1, req.params.day);
+        let today = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
 
         let reservation = {
             start_date: {$lte: today},
@@ -51,7 +51,7 @@ const reservationController = {
             console.log();
             let values = {
                 room_types: result,
-                date: new Date(req.params.year, req.params.month - 1, req.params.day)
+                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
             }
             res.render('reservation-create', values);
         });
@@ -78,8 +78,8 @@ const reservationController = {
                     booked_type: req.body.reserve_type_select,
                     guest: result._id,
                     employee: req.session.employeeID,
-                    start_date: req.body.start_date,
-                    end_date: req.body.end_date,
+                    start_date: new Date (req.body.start_date),
+                    end_date: new Date (req.body.end_date),
                     confirmed_reservation: false
                 }
 
