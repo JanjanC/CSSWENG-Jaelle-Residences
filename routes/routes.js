@@ -11,10 +11,10 @@ app.get('/index', controller.getIndex);
 
 app.get('/reservation/:month-:day-:year', reservationController.getReservationScreen);
 
-app.get('/create-reservation', controller.getCreateReservation);
+app.get('/reservation/:month-:day-:year/create', reservationController.getCreateReservation);
 
 // reservation detail form gets submitted
-app.post('/create-reservation', reservationController.postCreateReservation);
+app.post('/reservation/create', reservationController.postCreateReservation);
 
 app.get('/reservation-edit', controller.getEditReservation);
 
