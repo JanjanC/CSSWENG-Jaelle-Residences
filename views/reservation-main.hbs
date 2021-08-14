@@ -51,16 +51,27 @@
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-type">{{booked_type}}</span></h5>
                                         <h5>Reservation Date:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
+                                        <!-- Optional Fields -->
+                                        {{#if guest.birthdate}}
                                         <h5>Birthdate:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-birthdate">{{beautifyDate birthdate}}</span></h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
+                                        {{/if}}
+                                        {{#if guest.address}}
                                         <h5>Address:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
+                                        {{/if}}
+                                        {{#if guest.contact_number}}
                                         <h5>Contact Number:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-contact">{{guest.contact_number}}</span></h5>
+                                        {{/if}}
+                                        {{#if guest.company}}
                                         <h5>Company Name:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-company">{{guest.company}}</span></h5>
+                                        {{/if}}
+                                        {{#if guest.occupation}}
                                         <h5>Occupation:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-occupation">{{guest.occupation}}</span></h5>
+                                        {{/if}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
