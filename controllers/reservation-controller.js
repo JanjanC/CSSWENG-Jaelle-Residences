@@ -4,6 +4,53 @@ const Guest = require('../models/guest-model.js');
 const mongoose = require('mongoose');
 
 const reservationController = {
+    //loads the main reservation page along with the list of reservations for a specific date
+    getReservationScreen: function(req, res){
+
+        let today = new Date(req.params.year, req.params.month - 1, req.params.day);
+
+        let reservation = {
+            start_date: {$lte: today},
+            end_date: {$gte: today},
+            //it is considered to be a reservation when the confirmed_reservation exists in the database
+            confirmed_reservation: {$exists: true}
+        };
+
+        //TODO: Change query after create booking is fixed
+        db.findMany(Booking, reservation, function(result){
+
+            let list = [];
+            let previous;
+
+            //categorize each room type into its own sub-array
+            for (let i = 0; i < result.length; i++) {
+                //current booked type is differet from the previous booked type
+                if (previous == undefined || result[i].booked_type != previous.booked_type) {
+                    //initialize 'previous' variable to keep track of previous reservation
+                    previous = {
+                        booked_type: result[i].booked_type,
+                        reservations: [result[i]]
+                    }
+                    //add to the list of reservation
+                    list.push(previous);
+                //current booked type is same with the previous booked type
+                } else {
+                    previous.reservations.push(result[i]);
+                }
+            }
+
+            res.render('reservation-main', {list: list});
+
+        }, 'guest', {booked_type: 'asc'});
+
+    },
+
+    getCreateReservation: function (req, res) {
+        
+
+        res.render('reservation-create');
+    },
+
     postCreateReservation: function (req, res) {
         // collect information from post form
         let start = req.body.start_date;
@@ -40,47 +87,6 @@ const reservationController = {
             // NOTE: behavior when no existing record found to be added once details of form finalized
         });
     },
-
-    //loads the main reservation page along with the list of reservations for a specific date
-    getReservationScreen: function(req, res){
-
-        let today = new Date(req.params.year, req.params.month - 1, req.params.day);
-        
-        let reservation = {
-            start_date: {$lte: today},
-            end_date: {$gte: today},
-            //it is considered to be a reservation when the confirmed_reservation exists in the database
-            confirmed_reservation: {$exists: true}
-        };
-
-        //TODO: Change query after create booking is fixed
-        db.findMany(Booking, reservation, function(result){
-
-            let list = [];
-            let previous;
-
-            //categorize each room type into its own sub-array
-            for (let i = 0; i < result.length; i++) {
-                //current booked type is differet from the previous booked type
-                if (previous == undefined || result[i].booked_type != previous.booked_type) {
-                    //initialize 'previous' variable to keep track of previous reservation
-                    previous = {
-                        booked_type: result[i].booked_type,
-                        reservations: [result[i]]
-                    }
-                    //add to the list of reservation
-                    list.push(previous);
-                //current booked type is same with the previous booked type
-                } else {
-                    previous.reservations.push(result[i]);
-                }
-            }
-
-            res.render('reservation-main', {list: list});
-
-        }, 'guest', {booked_type: 'asc'});
-
-    }
 }
 
 module.exports = reservationController;
