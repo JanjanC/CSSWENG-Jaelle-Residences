@@ -34,7 +34,7 @@
                         {{#each reservations}}
                         <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
                             <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.first_name}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.last_name}}</span></h5>
-                            <h6 class="text-secondary"><span id="reservation-{{_id}}-startdate-label-id">{{formatDate start_date}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{formatDate end_date}}</span></h6>
+                            <h6 class="text-secondary"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate start_date}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate end_date}}</span></h6>
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
@@ -50,7 +50,7 @@
                                         <h5>Room Type:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-type-id">{{booked_type}}</span></h5>
                                         <h5>Date:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate-id">{{formatDate start_date}}</span> to <span id="reservation-enddate-id">{{formatDate end_date}}</span></h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate-id">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
                                         <h5>Contact Number:</h5>
                                         <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-contact-id">{{guest.contact_number}}</span></h5>
                                         <h5>Address:</h5>
