@@ -30,18 +30,21 @@
                             <option value={{this}}>{{this}}</option>
                             {{/each}}
                         </select>
+                        <p class="error" id="reserve-type-error"><em>Error message here</em></p>
                     </div>
 
                     <!-- Start Date -->
                     <div class="form-group">
                         <label class="h5 d-block">Start Date</label>
                         <input class="form-control w-75" type="date" id="start-date" name="start_date" value={{formatDate date}}>
+                        <p class="error" id="start-date-error"><em>Error message here</em></p>
                     </div>
 
                     <!-- End Date -->
                     <div class="form-group">
                         <label class="h5 d-block">End Date</label>
                         <input class="form-control w-75" type="date" id="end-date" name="end_date">
+                        <p class="error" id="end-date-error"><em>Error message here</em></p>
                     </div>
                 </div>
 
@@ -53,18 +56,21 @@
                     <div class="form-group">
                         <label class="h5 d-block">First Name</label>
                         <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
+                        <p class="error" id="firstname-error"><em>Error message here</em></p>
                     </div>
 
                     <!--Last Name-->
                     <div class="form-group">
                         <label class="h5 d-block">Last Name</label>
                         <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
+                        <p class="error" id="lastname-error"><em>Error message here</em></p>
                     </div>
 
                     <!--Birthday-->
                     <div class="form-group">
                         <label class="h5 d-block">Birthdate</label>
                         <input class="form-control w-50" type="date" id="birthdate" name="birthdate">
+                        <p class="error" id="birthdate-error"><em>Error message here</em></p>
                     </div>
 
                     <!--Address-->
@@ -72,9 +78,12 @@
                     <div class="form-group">
                         <label class="h5 d-block">Address</label>
                         <textarea class="form-control w-75" placeholder="Enter Address" id="address" name="address" rows="3"></textarea>
+                        <p class="error" id="address-error"><em>Error message here</em></p>
                     </div>
                     <br>
+                    <!--OPTIONAL FIELDS BELOW-->
                     <hr>
+
                     <!--Contact No.-->
                     <div class="form-group">
                         <label class="h5 d-block">Contact No.</label>
@@ -114,7 +123,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
-                                <button id="submit" type="submit" class="btn btn-warning"><strong>Confirm</strong></button>
+                                <button id="submit" type="submit" class="btn btn-primary"><strong>Confirm</strong></button>
                             </div>
                         </div>
                     </div>
