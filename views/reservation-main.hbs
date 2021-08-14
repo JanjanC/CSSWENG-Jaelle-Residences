@@ -46,15 +46,21 @@
                                     </div>
                                     <div class="modal-body ps-3">
                                         <h5>Guest Name:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-firstname-id">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-firstname">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
                                         <h5>Room Type:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-type-id">{{booked_type}}</span></h5>
-                                        <h5>Date:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate-id">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
-                                        <h5>Contact Number:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-contact-id">{{guest.contact_number}}</span></h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-type">{{booked_type}}</span></h5>
+                                        <h5>Reservation Date:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
+                                        <h5>Birthdate:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-birthdate">{{beautifyDate birthdate}}</span></h5>
                                         <h5>Address:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-address-id" class="text-break">{{guest.address}}</span></h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
+                                        <h5>Contact Number:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-contact">{{guest.contact_number}}</span></h5>
+                                        <h5>Company Name:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-company">{{guest.company}}</span></h5>
+                                        <h5>Occupation:</h5>
+                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-occupation">{{guest.occupation}}</span></h5>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
