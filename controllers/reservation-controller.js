@@ -64,7 +64,7 @@ const reservationController = {
         let guest = {
             first_name: req.body.firstname,
             last_name: req.body.lastname,
-            birthdate: new Date(req.body.birthdate),
+            birthdate: req.body.birthdate,
             address: req.body.address,
             contact_number: req.body.contact_number,
             company_name: req.body.company,
@@ -74,15 +74,14 @@ const reservationController = {
         //create a new guest document in the database
         db.insertOne(Guest, guest, function(result){
             if(result){
-
                 // create an object to be inserted into the database
                 let reservation = {
                     // // booked_rate: ,
                     booked_type: req.body.reserve_type_select,
                     guest: result._id,
                     employee: req.session.employeeID,
-                    start_date: new Date (req.body.start_date),
-                    end_date: new Date (req.body.end_date),
+                    start_date: req.body.start_date,
+                    end_date: req.body.end_date,
                     confirmed_reservation: false
                 }
 
