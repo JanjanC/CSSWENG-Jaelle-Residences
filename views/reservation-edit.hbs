@@ -75,7 +75,7 @@
                     <div class="form-group">
                         <label class="h5 d-block">Birthdate</label>
                         <!--<input type="text" placeholder="*To Date" onfocus="(this.type='date')" onblur="(this.type='text')" >-->
-                        <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate reservation.guest.birthdate}}">
+                        <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" {{#if reservation.guest.birthdate}}value="{{formatDate reservation.guest.birthdate}}"{{/if}}>
                     </div>
 
                     <!--Address-->
@@ -124,7 +124,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
-                                <button id="submit" type="submit" class="btn btn-primary"><strong>Confirm</strong></button>
+                                <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><strong>Confirm</strong></button>
                             </div>
                         </div>
                     </div>
