@@ -138,6 +138,16 @@ const reservationController = {
                 });
             }
         });
+    },
+
+    postDeleteReservation: function (req, res) {
+
+        db.deleteOne(Booking, {_id: req.params.bookingID}, function (result) {
+            if (result) {
+                res.redirect('/index');
+            }
+        });
+
     }
 
 }

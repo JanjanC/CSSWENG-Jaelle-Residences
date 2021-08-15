@@ -19,4 +19,5 @@ app.post('/reservation/create', reservationController.postCreateReservation);
 app.get('/reservation/:bookingID/edit', reservationController.getEditReservation);
 app.post('/reservation/:bookingID/edit', reservationController.postEditReservation);
 
+app.post('/reservation/:bookingID/delete', reservationController.postDeleteReservation);
 module.exports = app;
