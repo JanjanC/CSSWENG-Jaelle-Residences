@@ -1,47 +1,17 @@
 {
-  "name": "cssweng",
-  "productName": "Jaelle Residences POS",
+  "name": "pos-printer-test",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "build": "electron-packager . --overwrite --asar",
-    "dist": "electron-builder"
+    "start": "electron ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/francheska-vicente/cssweng.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/francheska-vicente/cssweng/issues"
-  },
-  "homepage": "https://github.com/francheska-vicente/cssweng#readme",
-  "dependencies": {
-    "connect-mongo": "^4.4.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "hbs": "^4.1.2",
-    "mongoose": "^5.13.5"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "electron": "^13.1.7",
-    "electron-builder": "^22.11.7",
-    "electron-packager": "^15.3.0"
-  },
-  "build": {
-    "appId": "com.cssweng.s11.team2.pos",
-    "target": "NSIS",
-    "directories": {
-      "output": "build"
-    },
-    "nsis": {
-      "allowToChangeInstallationDirectory": true,
-      "oneClick": false
-    }
+    "electron": "^13.1.9"
   }
 }
