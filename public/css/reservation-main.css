@@ -1,6 +1,17 @@
+@font-face {
+    font-family: SecularOne;
+    src: url("/css/fonts/SecularOne-Regular.ttf");
+}
+
 html, body {
+    font-family: SecularOne;
+    color: #262523;
     min-height: 100%;
     height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
 }
 
 .reservation-list-container {
@@ -8,6 +19,23 @@ html, body {
     overflow-y: scroll;
 }
 
-.container-reservation-main {
+.reservation-item:hover {
+    background-color: #ebe1dd;
+    transition: 0.3s;
+}
+
+.navbar {
+    background-color: #EBEFF2 !important;
+}
+
+#container-screen {
     height: 100%;
+}
+
+#sidebar {
+    background-color: #9fafbd;
+}
+
+#main-screen {
+    background-position: bottom;
 }
