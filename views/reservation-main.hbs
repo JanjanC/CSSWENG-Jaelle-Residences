@@ -13,22 +13,30 @@
     {{>navbar}}
 
     <!--MAIN ROW-->
-    <div class="row w-100 bg-light m-0 h-100">
+    <div class="row w-100 m-0 h-100">
 
         <!--COLUMN FOR SIDEBAR-->
-        <div class="col-3 bg-dark shadow-lg">
+        <div id="sidebar" class="col-2 shadow-lg">
         </div>
 
         <!--COLUMN FOR MAIN-->
-        <div class="col-9 mx-auto">
+        <div id="main-screen" class="col-10 mx-auto">
             <!--CONTAINER FOR MAIN RESERVATION-->
-            <div class="container-md shadow-lg p-4 container-reservation-main">
-                <h1>RESERVATION</h1>
+            <div id="container-screen" class="container-lg shadow-lg bg-light p-4">
+                <div class="d-flex pt-2 ps-2 m-0 align-items-center">
+                    <h1 class="m-0">RESERVATION</h1>
+                    <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill"><h5 class="p-2 m-0">Create Reservation</h5></a>
+                </div>
                 <hr>
+
+                <!--TODO: ACCOMPLISH ADD RESERVATION TURN TO BUTTON TO MAKE IT USABLE-->
+                <!--TODO: FIX THE ALIGNMENT-->
+
+
                 <!--TODO: DETERMINE THE END HEIGHT OF THE ROWS BEFORE IT BECOMES SCROLLABLE-->
                 <div class="row px-4 py-3">
                     {{#each list}}
-                    <div class="col-md-3 border me-2 ms-2 px-0 rounded reservation-list">
+                    <div class="col-md-3 border me-2 ms-2 px-0 pb-2 rounded reservation-list shadow-sm">
                         <!--TODO: FIX HEADER TEXT ALIGNMENT-->
                         <h4 id="{{booked_type}}" class="py-3 m-0 text-center">{{booked_type}}</h4>
                         <!--TODO: FIX THE PADDING/MARGIN/BORDER-->
@@ -36,7 +44,7 @@
                         <!--TODO: FIX TEXT ALIGNMENT-->
                         <!-- Room Item -->
                         <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
-                            <div class="flex-grow-1 p-3">
+                            <div class="flex-grow-1 px-3 pb-3">
                                 <!-- Button trigger modal -->
                                 {{#each reservations}}
                                 <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
@@ -97,11 +105,6 @@
                     {{/each}}
 
 
-                    <!--TODO: ACCOMPLISH ADD RESERVATION TURN TO BUTTON TO MAKE IT USABLE-->
-                    <!--TODO: FIX THE ALIGNMENT-->
-                    <div class="d-flex flex-row-reverse">
-                        <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary mb-4 mt-2 w-25">Create Reservation</a>
-                    </div>
                 </div>
             </div>
         </div>
