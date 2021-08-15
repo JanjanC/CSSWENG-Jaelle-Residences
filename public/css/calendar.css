@@ -1,0 +1,22 @@
+html, body {
+    min-height: 100%;
+    height: 100%;
+}
+
+#calendar {
+    text-align: center;
+    height: 100%;
+}
+
+.not-month {
+    background-color: #fcfcfc;
+}
+
+.in-month {
+    background-color: #eeeeee;
+}
+
+.today {
+    background-color: #dddddd;
+}
+

@@ -1,16 +1,68 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-        <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/css/calendar.css">
+		<script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+		<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript" src="/js/calendar.js"></script>
 
-        <title>Calendar</title>
-    </head>
-    <body>
-        {{>navbar}}
+		<title>Calendar</title>
+	</head>
+	<body>
+		{{>navbar}}
 
-        <div class="container-md">
-            <!--TODO: Calendar here occupying within the x-boundaries of the container-->
-        </div>
-    </body>
+		<div class="container-md">
+			<table class="table" id="calendar">
+				<thead>
+					<tr>
+						<th id="prev-month"><</th>
+					 	<th colspan="5">{{month}} {{year}}</th>
+					 	<th id="next-month">></th>
+					</tr>
+			  	</thead>
+			  	<tbody>
+					<tr>
+						<td>Sunday</td>
+						<td>Monday</td>
+						<td>Tuesday</td>
+						<td>Wednesday</td>
+						<td>Thursday</td>
+						<td>Friday</td>
+						<td>Saturday</td>
+					</tr>
+					<tr>
+						{{#each days.[0]}}
+						<td><p>{{this}}</p></td>
+						{{/each}}
+					</tr>
+					<tr>
+					  	{{#each days.[1]}}
+					  	<td><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each days.[2]}}
+					  	<td><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each days.[3]}}
+					  	<td><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each days.[4]}}
+					  	<td><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each days.[5]}}
+					  	<td><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
 </html>

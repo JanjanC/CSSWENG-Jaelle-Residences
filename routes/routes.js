@@ -1,6 +1,7 @@
 const express = require('express');
 const controller = require('../controllers/controller.js');
 const signInController = require('../controllers/sign-in-controller.js')
+const calendarController = require('../controllers/calendar-controller.js')
 const reservationController = require('../controllers/reservation-controller.js')
 
 const app = express.Router();
@@ -9,6 +10,8 @@ app.get('/', signInController.getSignIn);
 app.post('/sign-in', signInController.postSignIn);
 app.get('/sign-out', signInController.getSignOut);
 app.get('/index', controller.getIndex);
+
+app.get('/calendar', calendarController.getCalendar);
 
 app.get('/reservation/:year-:month-:day', reservationController.getReservationScreen);
 
