@@ -43,7 +43,6 @@ app.on("ready", function () {
     //if the printer is done printing, proceed to print next copy after a certain delay
     //stops checking if all copies have been printed
     let interval = setInterval(() => {
-      console.log(mainWindow.webContents.getPrinters()[printerIndex].status);
       if (mainWindow.webContents.getPrinters()[printerIndex].status === 1024) {
         printDataPassed = true;
       } else if (
