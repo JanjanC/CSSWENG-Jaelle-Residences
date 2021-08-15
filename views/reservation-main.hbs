@@ -3,6 +3,7 @@
 <head>
 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/reservation-main.css">
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
 
     <title>Reservation</title>
@@ -11,94 +12,104 @@
 
     {{>navbar}}
 
-    <!--TODO: FIX THE WAY IT'S LAIDOUT IN THE PAGE WITH REGARDS TO PADDINGS AND MARGINS-->
-    <!-- One full row with three columns for room type  -->
-    <div class="container-md">
+    <!--MAIN ROW-->
+    <div class="row w-100 bg-light m-0 h-100">
 
-        <!--TODO: DETERMINE THE END HEIGHT OF THE ROWS BEFORE IT BECOMES SCROLLABLE-->
-        <div class="row justify-content-center align-items-center">
-            <h1>Reservation</h1>
-            <br>
-            <hr>
+        <!--COLUMN FOR SIDEBAR-->
+        <div class="col-3 bg-dark shadow-lg">
+        </div>
 
-            {{#each list}}
-            <div class="col-md-3 border me-2 ms-2 rounded">
-                <!--TODO: FIX HEADER TEXT ALIGNMENT-->
-                <h4 id="{{booked_type}}" class="pb-2 text-center">{{booked_type}}</h4>
-
-                <!--TODO: FIX THE PADDING/MARGIN/BORDER-->
-                <!--TODO: SPECIFY THE DETAILS OF WHAT IS TO BE SHOWN-->
-                <!--TODO: FIX TEXT ALIGNMENT-->
-                <!-- Room Item -->
-                <div class="d-flex border-bottom position-relative ml-0 mr-0 mb-2 border">
-                    <div class="flex-grow-1">
-                        <!-- Button trigger modal -->
-                        {{#each reservations}}
-                        <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
-                            <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.first_name}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.last_name}}</span></h5>
-                            <h6 class="text-secondary"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate start_date}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate end_date}}</span></h6>
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="reserveItemModalLabel">Reservation Information</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body ps-3">
-                                        <h5>Guest Name:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-firstname">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
-                                        <h5>Room Type:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-type">{{booked_type}}</span></h5>
-                                        <h5>Reservation Date:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
-                                        <!-- Optional Fields -->
-                                        {{#if guest.birthdate}}
-                                        <h5>Birthdate:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
-                                        {{/if}}
-                                        {{#if guest.address}}
-                                        <h5>Address:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
-                                        {{/if}}
-                                        {{#if guest.contact_number}}
-                                        <h5>Contact Number:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-contact">{{guest.contact_number}}</span></h5>
-                                        {{/if}}
-                                        {{#if guest.company_name}}
-                                        <h5>Company Name:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-company">{{guest.company_name}}</span></h5>
-                                        {{/if}}
-                                        {{#if guest.occupation}}
-                                        <h5>Occupation:</h5>
-                                        <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-occupation">{{guest.occupation}}</span></h5>
-                                        {{/if}}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
-                                        <a href="/reservation-edit" class="btn btn-primary"><strong>Edit</strong></a>
+        <!--COLUMN FOR MAIN-->
+        <div class="col-9 mx-auto">
+            <!--CONTAINER FOR MAIN RESERVATION-->
+            <div class="container-md shadow-lg p-4 container-reservation-main">
+                <h1>RESERVATION</h1>
+                <hr>
+                <!--TODO: DETERMINE THE END HEIGHT OF THE ROWS BEFORE IT BECOMES SCROLLABLE-->
+                <div class="row px-4 py-3">
+                    {{#each list}}
+                    <div class="col-md-3 border me-2 ms-2 px-0 rounded reservation-list">
+                        <!--TODO: FIX HEADER TEXT ALIGNMENT-->
+                        <h4 id="{{booked_type}}" class="py-3 m-0 text-center">{{booked_type}}</h4>
+                        <!--TODO: FIX THE PADDING/MARGIN/BORDER-->
+                        <!--TODO: SPECIFY THE DETAILS OF WHAT IS TO BE SHOWN-->
+                        <!--TODO: FIX TEXT ALIGNMENT-->
+                        <!-- Room Item -->
+                        <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
+                            <div class="flex-grow-1 p-3">
+                                <!-- Button trigger modal -->
+                                {{#each reservations}}
+                                <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
+                                    <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.first_name}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.last_name}}</span></h5>
+                                    <h6 class="text-secondary"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate start_date}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate end_date}}</span></h6>
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="reserveItemModalLabel">Reservation Information</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body ps-3">
+                                                <h5>Guest Name:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-firstname">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
+                                                <h5>Room Type:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-type">{{booked_type}}</span></h5>
+                                                <h5>Reservation Date:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-startdate">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
+                                                <!-- Optional Fields -->
+                                                {{#if guest.birthdate}}
+                                                <h5>Birthdate:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
+                                                {{/if}}
+                                                {{#if guest.address}}
+                                                <h5>Address:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
+                                                {{/if}}
+                                                {{#if guest.contact_number}}
+                                                <h5>Contact Number:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-contact">{{guest.contact_number}}</span></h5>
+                                                {{/if}}
+                                                {{#if guest.company_name}}
+                                                <h5>Company Name:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-company">{{guest.company_name}}</span></h5>
+                                                {{/if}}
+                                                {{#if guest.occupation}}
+                                                <h5>Occupation:</h5>
+                                                <h5 class="ms-4 text-secondary"><span id="reservation-{{_id}}-occupation">{{guest.occupation}}</span></h5>
+                                                {{/if}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
+                                                <a href="/reservation-edit" class="btn btn-primary"><strong>Edit</strong></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                {{/each}}
                             </div>
                         </div>
-                        {{/each}}
+                    </div>
+                    {{else}}
+                        <!--TODO: FIX THIS, INADD KO LANG ITO INCASE NA WALANG RESERVATION FOR THE DAY-->
+                        <p>No reservations today</p>
+                    {{/each}}
+
+
+                    <!--TODO: ACCOMPLISH ADD RESERVATION TURN TO BUTTON TO MAKE IT USABLE-->
+                    <!--TODO: FIX THE ALIGNMENT-->
+                    <div class="d-flex flex-row-reverse">
+                        <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary mb-4 mt-2 w-25">Create Reservation</a>
                     </div>
                 </div>
             </div>
-            {{else}}
-                <!--TODO: FIX THIS, INADD KO LANG ITO INCASE NA WALANG RESERVATION FOR THE DAY-->
-                <p>No reservations today</p>
-            {{/each}}
-
-
-            <!--TODO: ACCOMPLISH ADD RESERVATION TURN TO BUTTON TO MAKE IT USABLE-->
-            <!--TODO: FIX THE ALIGNMENT-->
-            <div class="d-flex flex-row-reverse">
-                <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary mb-4 mt-2 w-25">Create Reservation</a>
-            </div>
         </div>
     </div>
+
+    <!--TODO: FIX THE WAY IT'S LAIDOUT IN THE PAGE WITH REGARDS TO PADDINGS AND MARGINS-->
+    <!-- One full row with three columns for room type  -->
+
 
 
 
