@@ -31,7 +31,7 @@ const database = {
     insertOne: function(model, doc, callback) {
         model.create(doc, function(err, res) {
             if(err) throw err;
-            console.log('Added ' + res);
+            console.log('Document inserted ' + res);
             return callback(res);
         });
     },
@@ -40,7 +40,7 @@ const database = {
     insertMany: function(model, docs, callback) {
         model.insertMany(docs, function(err, res) {
             if(err) throw err;
-            console.log('Added ' + res);
+            console.log('Documents inserted ' + res);
             return callback(res);
         });
     },
@@ -73,7 +73,7 @@ const database = {
     updateOne: function(model, filter, update, callback) {
         model.findOneAndUpdate(filter, update, function(err, res) {
             if(err) throw err;
-            console.log('Document modified: ' + res.nModified);
+            console.log('Document modified' + res);
             return callback(res);
         });
     },
