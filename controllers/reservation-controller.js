@@ -11,6 +11,7 @@ const reservationController = {
         let today = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
 
         let reservation = {
+            //the date today is between the start date and end date of the reservation, inclusive
             start_date: {$lte: today},
             end_date: {$gte: today},
             //it is considered to be a reservation when the confirmed_reservation exists in the database
@@ -46,6 +47,8 @@ const reservationController = {
     },
 
     getCreateReservation: function (req, res) {
+
+        //find all unique room types in the database
         db.findDistinct(Room, 'room_type', function(result) {
 
             let values = {
@@ -61,29 +64,28 @@ const reservationController = {
         let guest = {
             first_name: req.body.firstname,
             last_name: req.body.lastname,
-            birthdate: new Date(req.body.birthdate),
+            birthdate: req.body.birthdate,
             address: req.body.address,
             contact_number: req.body.contact_number,
             company_name: req.body.company,
             occupation: req.body.occupation
         }
 
+        //create a new guest document in the database
         db.insertOne(Guest, guest, function(result){
-            // existing record found
             if(result){
-                console.log(result);
                 // create an object to be inserted into the database
                 let reservation = {
                     // // booked_rate: ,
                     booked_type: req.body.reserve_type_select,
                     guest: result._id,
                     employee: req.session.employeeID,
-                    start_date: new Date (req.body.start_date),
-                    end_date: new Date (req.body.end_date),
+                    start_date: req.body.start_date,
+                    end_date: req.body.end_date,
                     confirmed_reservation: false
                 }
 
-                // insert booking into database
+                // create a new reservation in the database
                 db.insertOne(Booking, reservation, function(flag){
                     if(result){
                         // redirects to home screen after adding a record
