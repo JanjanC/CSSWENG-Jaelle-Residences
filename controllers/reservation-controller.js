@@ -113,16 +113,15 @@ const reservationController = {
         let reservation = {
             $set: {
                 booked_type: req.body.reserve_type_select,
-                start_date: req.body.start_date,
-                end_date: req.body.end_date
+                start_date: new Date(req.body.start_date),
+                end_date: new Date(req.body.end_date)
             }
         }
-
         let guest = {
             $set: {
                 first_name: req.body.firstname,
                 last_name: req.body.lastname,
-                birthdate: req.body.birthdate,
+                birthdate: new Date(req.body.birthdate),
                 address: req.body.address,
                 contact_number: req.body.contact,
                 company_name: req.body.company,
