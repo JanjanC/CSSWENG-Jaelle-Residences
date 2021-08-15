@@ -71,7 +71,7 @@ const database = {
 
     //updates the value of a single document with the object 'update' in the database based on the model 'model' filtered by the object 'filter'
     updateOne: function(model, filter, update, callback) {
-        model.updateOne(filter, update, function(err, res) {
+        model.findOneAndUpdate(filter, update, function(err, res) {
             if(err) throw err;
             console.log('Document modified: ' + res.nModified);
             return callback(res);
