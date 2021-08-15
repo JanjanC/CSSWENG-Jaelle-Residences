@@ -7,6 +7,7 @@ const app = express.Router();
 
 app.get('/', signInController.getSignIn);
 app.post('/sign-in', signInController.postSignIn);
+app.get('/sign-out', signInController.getSignOut);
 app.get('/index', controller.getIndex);
 
 app.get('/reservation/:year-:month-:day', reservationController.getReservationScreen);
