@@ -15,10 +15,12 @@ function validateEntry () {
 		$('#reserve-type-error').text('');
 	}
 
+	let today = new Date();
+	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 	if ($('#start-date').val() == '') {
 		$('#start-date-error').text('Start Date cannot be empty');
 		isValid = false;
-	} else if (new Date($('#start-date').val()) < new Date()) {
+	} else if (new Date($('#start-date').val()) < new Date(todayString)) {
 		$('#start-date-error').text('Start Date cannot be earlier than Today');
 		isValid = false;
 	} else {
