@@ -21,11 +21,6 @@ h1, h2, h3, h4, h5 {
     text-transform: uppercase;
 }
 
-
-.navbar {
-    background-color: #EBEFF2 !important;
-}
-
 .reservation-list-container {
     height: 20em;
     overflow-y: scroll;
@@ -41,22 +36,8 @@ h1, h2, h3, h4, h5 {
     text-transform: initial;
 }
 
-.sidebar-item {
-    display: table-cell;
-    vertical-align: middle;
-}
-
 #container-screen {
     height: 100%;
-}
-
-#sidebar {
-    background-color: #88A5BF;
-    z-index: 1;
-}
-
-#sidebar-list {
-    width: inherit;
 }
 
 #screen-info {
