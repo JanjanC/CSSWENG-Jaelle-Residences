@@ -18,8 +18,10 @@
         <!--COLUMN FOR SIDEBAR-->
         <div id="sidebar" class="col-2 p-0 shadow-sm">
             <div id="sidebar-list" class="list-group position-fixed h-100">
-                <a href="#" id="booking-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center">Booking</h2></a>
-                <a href="#" id="reservation-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 active"><h2 class="m-0 text-center">Reservation</h2></a>
+                <a href="#" id="booking-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center text-break">Calendar</h2></a>
+                <a href="#" id="booking-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center text-break">Booking</h2></a>
+                <a href="#" id="reservation-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 active"><h2 class="m-0 text-center text-break">Reservation</h2></a>
+                <!--TODO: ADD MODAL INFO WITH NEAT ORGANIZATION-->
                 <a href="#" id="help-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center">Help</h2></a>
 
             </div>
@@ -30,7 +32,7 @@
         <!--COLUMN FOR MAIN-->
         <div id="main-screen" class="col-10 mx-auto">
             <!--CONTAINER FOR MAIN RESERVATION-->
-            <div id="container-screen" class="container-lg shadow-lg bg-light p-4">
+            <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 align-items-center">
                     <h1 class="m-0">RESERVATION</h1>
                     <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill"><h5 class="p-2 m-0">Create Reservation</h5></a>
@@ -70,7 +72,7 @@
                                             </div>
                                             <div class="modal-body px-4 pt-3 pb-4">
                                                 <h4>Guest Name:</h4>
-                                                <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-firstname">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
+                                                <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-firstname" class="text-break">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
                                                 <h4>Room Type:</h4>
                                                 <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-type">{{booked_type}}</span></h5>
                                                 <h4>Reservation Date:</h4>
@@ -90,7 +92,7 @@
                                                 {{/if}}
                                                 {{#if guest.company_name}}
                                                 <h4>Company Name:</h4>
-                                                <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-company">{{guest.company_name}}</span></h5>
+                                                <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-company" class="text-break">{{guest.company_name}}</span></h5>
                                                 {{/if}}
                                                 {{#if guest.occupation}}
                                                 <h4>Occupation:</h4>
