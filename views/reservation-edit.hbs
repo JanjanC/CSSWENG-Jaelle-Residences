@@ -107,8 +107,8 @@
             </div>
             <div class="d-flex flex-row-reverse mt-3">
 
-                <!-- Button trigger modal -->
-                <button id="modify" type="button" class="btn btn-primary mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#modifyModal">
+                <!-- Modify trigger modal -->
+                <button id="modify" type="button" class="btn btn-primary mb-3 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#modifyModal">
                     <strong>Modify</strong>
                 </button>
                 <!-- Modal -->
@@ -130,7 +130,34 @@
                     </div>
                 </div>
 
-                <a href="javascript: history.back()" class="btn btn-secondary mb-4 mt-2 me-2 w-25"><strong>Return</strong></a>
+                <a href="javascript: history.back()" class="btn btn-secondary mb-3 mt-2 me-2 w-25"><strong>Return</strong></a>
+            </div>
+        </form>
+
+        <!--Delete Form-->
+        <form id="form-delete" class="d-flex form-inline flex-row-reverse m-0 mb-4" action="reservation/delete" method="get">
+            <!--Delete Post-->
+            <!-- Button trigger modal -->
+            <button id="delete" type="button" class="btn btn-danger m-0 mb-4 w-25" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <strong>Delete</strong>
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reserveModalLabel">Delete Reservation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete the reservation?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><strong>Close</strong></button>
+                            <button id="delete" type="submit" class="btn btn-danger"><strong>Delete</strong></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
 
