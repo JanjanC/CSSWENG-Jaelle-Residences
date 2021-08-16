@@ -15,3 +15,10 @@ hbs.registerHelper('formatDate', function(date) {
 	let day = date.getDate().toString().padStart(2, 0);
     return `${year}-${month}-${day}`;
 });
+
+//returns the date in the format of YYYY-MM-DD
+hbs.registerHelper('addLeadingZeros', function(num) {
+	if (num >= 1 && num <= 9)
+		return `0` + num;
+    return num;
+});

@@ -11,9 +11,10 @@ const calendarController = {
         let cal = new Calendar();
 
         let calendar = {
-            month: monthNames[today.getMonth()],
-            days: cal.monthDays(today.getFullYear(), today.getMonth()),
-            year: today.getFullYear()
+            currMonthNum: today.getMonth()+1,
+            currMonthName: monthNames[today.getMonth()],
+            daysInMonth: cal.monthDays(today.getFullYear(), today.getMonth()),
+            currYear: today.getFullYear()
         };
 
         res.render('calendar', calendar);

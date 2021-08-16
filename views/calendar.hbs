@@ -16,8 +16,8 @@
 			<table class="table" id="calendar">
 				<thead>
 					<tr>
-						<th id="prev-month"><</th>
-					 	<th colspan="5">{{month}} {{year}}</th>
+						<th id="prev-month" onclick="/calendar/"><</th>
+					 	<th colspan="5">{{currMonthName}} {{currYear}}</th>
 					 	<th id="next-month">></th>
 					</tr>
 			  	</thead>
@@ -32,33 +32,28 @@
 						<td>Saturday</td>
 					</tr>
 					<tr>
-						{{#each days.[0]}}
-						<td><p>{{this}}</p></td>
+						{{#each daysInMonth.[0]}}
+						<td onclick="window.location.href='/reservation/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}'"><p>{{this}}</p></td>
 						{{/each}}
 					</tr>
 					<tr>
-					  	{{#each days.[1]}}
-					  	<td><p>{{this}}</p></td>
+					  	{{#each daysInMonth.[1]}}
+					  	<td onclick="window.location.href='/reservation/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}'"><p>{{this}}</p></td>
 					  	{{/each}}
 					</tr>
 					<tr>
-					  	{{#each days.[2]}}
-					  	<td><p>{{this}}</p></td>
+					  	{{#each daysInMonth.[2]}}
+					  	<td onclick="window.location.href='/reservation/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}'"><p>{{this}}</p></td>
 					  	{{/each}}
 					</tr>
 					<tr>
-					  	{{#each days.[3]}}
-					  	<td><p>{{this}}</p></td>
+					  	{{#each daysInMonth.[3]}}
+					  	<td onclick="window.location.href='/reservation/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}'"><p>{{this}}</p></td>
 					  	{{/each}}
 					</tr>
 					<tr>
-					  	{{#each days.[4]}}
-					  	<td><p>{{this}}</p></td>
-					  	{{/each}}
-					</tr>
-					<tr>
-					  	{{#each days.[5]}}
-					  	<td><p>{{this}}</p></td>
+					  	{{#each daysInMonth.[4]}}
+					  	<td onclick="window.location.href='/reservation/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}'"><p>{{this}}</p></td>
 					  	{{/each}}
 					</tr>
 				</tbody>
