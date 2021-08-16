@@ -17,9 +17,10 @@ hbs.registerHelper('formatDate', function(date) {
 });
 
 //returns the date in the format of YYYY-MM-DD
-hbs.registerHelper('formatDateNoDay', function(date) {
-	let year = date.getFullYear().toString();
-    let month = (date.getMonth() + 1).toString().padStart(2, 0);
+hbs.registerHelper('getCurrentMonthYear', function() {
+    let today = new Date();
+	let year = today.getFullYear().toString();
+    let month = (today.getMonth() + 1).toString().padStart(2, 0);
     return `${year}-${month}`;
 });
 

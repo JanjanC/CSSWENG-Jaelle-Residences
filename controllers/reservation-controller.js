@@ -9,12 +9,12 @@ const reservationController = {
     //loads the main reservation page along with the list of reservations for a specific date
     getReservationScreen: function(req, res){
 
-        let today = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+        let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
 
         let reservation = {
-            //the date today is between the start date and end date of the reservation, inclusive
-            start_date: {$lte: today},
-            end_date: {$gte: today},
+            //the current date is between the start date and end date of the reservation, inclusive
+            start_date: {$lte: date},
+            end_date: {$gte: date},
             //it is considered to be a reservation when the confirmed_reservation exists in the database
             confirmed_reservation: {$exists: true}
         };
@@ -41,21 +41,19 @@ const reservationController = {
                 }
             }
 
-            res.render('reservation-main', {list: list, today: today});
+            res.render('reservation-main', {list: list});
 
         }, 'guest', {booked_type: 'asc'});
 
     },
 
     getCreateReservation: function (req, res) {
-
         //find all unique room types in the database
         db.findDistinct(Room, 'room_type', function(result) {
 
             let values = {
                 room_types: result,
-                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`),
-                today: today
+                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
             }
             res.render('reservation-create', values);
         });
