@@ -1,0 +1,27 @@
+@font-face {
+    font-family: SecularOne;
+    src: url("/css/fonts/SecularOne-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Bahnschrift";
+    src: url("/css/fonts/bahnschrift.ttf")
+}
+
+html, body {
+    font-family: "Bahnschrift";
+    color: #262523;
+    min-height: 100%;
+    height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: SecularOne;
+    text-transform: uppercase;
+}
+
+.btn {
+    font-family: SecularOne;
+    font-style: normal;
+    text-transform: uppercase;
+}
