@@ -22,6 +22,7 @@ function initializeCalendar () {
             if($(this.cells[i]).text() == '0') {
                 $(this.cells[i]).text('')
                 $(this.cells[i]).addClass('not-month')
+                $(this.cells[i]).attr("onclick","");
             }
 
             //adds css for days part of month

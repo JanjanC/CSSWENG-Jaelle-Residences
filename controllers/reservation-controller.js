@@ -41,7 +41,7 @@ const reservationController = {
                 }
             }
 
-            res.render('reservation-main', {list: list});
+            res.render('reservation-main', {list: list, today: today});
 
         }, 'guest', {booked_type: 'asc'});
 
@@ -54,7 +54,8 @@ const reservationController = {
 
             let values = {
                 room_types: result,
-                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
+                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`),
+                today: today
             }
             res.render('reservation-create', values);
         });
