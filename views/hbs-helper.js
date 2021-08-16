@@ -17,8 +17,35 @@ hbs.registerHelper('formatDate', function(date) {
 });
 
 //returns the date in the format of YYYY-MM-DD
+hbs.registerHelper('formatDateNoDay', function(date) {
+	let year = date.getFullYear().toString();
+    let month = (date.getMonth() + 1).toString().padStart(2, 0);
+    return `${year}-${month}`;
+});
+
+//returns the previous month
+hbs.registerHelper('getPrevMonth', function(date) {
+	let current;
+	if (date.getMonth() == 11) {
+	    current = new Date(date.getFullYear() + 1, 0, 1);
+	} else {
+	    current = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+	}
+    return `${current.getFullYear()}-${current.getMonth()+1}`;
+});
+
+//returns the next month
+hbs.registerHelper('getNextMonth', function(date) {
+	let current;
+	if (date.getMonth() == 11) {
+	    current = new Date(date.getFullYear() + 1, 0, 1);
+	} else {
+	    current = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+	}
+    return `${current.getFullYear()}-${current.getMonth()+1}`;
+});
+
+//returns a string with leading zero if single digit number
 hbs.registerHelper('addLeadingZeros', function(num) {
-	if (num >= 1 && num <= 9)
-		return `0` + num;
-    return num;
+    return num.toString().padStart(2, 0);
 });

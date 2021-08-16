@@ -10,7 +10,7 @@
 		<title>Calendar</title>
 	</head>
 	<body>
-		{{>navbar}}
+		{{>navbar today=today}}
 
 		<div class="container-md">
 			<table class="table" id="calendar">
@@ -18,7 +18,7 @@
 					<tr>
 						<th id="prev-month" onclick="/calendar/"><</th>
 					 	<th colspan="5">{{currMonthName}} {{currYear}}</th>
-					 	<th id="next-month">></th>
+					 	<th id="next-month" onclick="window.location.href='/calendar/{{getNextMonth currMonthYear}}'">></th>
 					</tr>
 			  	</thead>
 			  	<tbody>

@@ -7,14 +7,16 @@ const monthNames = [
 
 const calendarController = {
     getCalendar: function (req, res) {
-        let today = new Date();
+        let current = new Date(`${req.params.year}-${req.params.month}-01`);
         let cal = new Calendar();
 
         let calendar = {
-            currMonthNum: today.getMonth()+1,
-            currMonthName: monthNames[today.getMonth()],
-            daysInMonth: cal.monthDays(today.getFullYear(), today.getMonth()),
-            currYear: today.getFullYear()
+            currMonthNum: current.getMonth()+1,
+            currMonthName: monthNames[current.getMonth()],
+            daysInMonth: cal.monthDays(current.getFullYear(), current.getMonth()),
+            currYear: current.getFullYear(),
+            currMonthYear: current,
+            today: new Date()
         };
 
         res.render('calendar', calendar);

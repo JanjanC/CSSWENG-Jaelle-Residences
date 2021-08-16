@@ -11,7 +11,7 @@ app.post('/sign-in', signInController.postSignIn);
 app.get('/sign-out', signInController.getSignOut);
 app.get('/index', controller.getIndex);
 
-app.get('/calendar', calendarController.getCalendar);
+app.get('/calendar/:year-:month', calendarController.getCalendar);
 
 app.get('/reservation/:year-:month-:day', reservationController.getReservationScreen);
 
