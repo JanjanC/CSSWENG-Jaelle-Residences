@@ -27,7 +27,7 @@ hbs.registerHelper('formatDateNoDay', function(date) {
 hbs.registerHelper('getPrevMonth', function(date) {
 	let current;
 	if (date.getMonth() == 0) {
-	    current = new Date(date.getFullYear() - 1, 0, 1);
+	    current = new Date(date.getFullYear() - 1, 11, 1);
 	} else {
 	    current = new Date(date.getFullYear(), date.getMonth() - 1, 1);
 	}
