@@ -4,14 +4,26 @@
 }
 
 html, body {
-    font-family: SecularOne;
+    font-family: "Bahnschrift";
     color: #262523;
     min-height: 100%;
     height: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5 {
+    font-family: SecularOne;
     text-transform: uppercase;
+}
+
+.btn {
+    font-family: SecularOne;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+
+.navbar {
+    background-color: #EBEFF2 !important;
 }
 
 .reservation-list-container {
@@ -20,12 +32,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .reservation-item:hover {
-    background-color: #ebe1dd;
+    background-color: #F2E8DF;
     transition: 0.3s;
 }
 
-.navbar {
-    background-color: #EBEFF2 !important;
+.reservation-field {
+    font-family: "Bahnschrift";
+    text-transform: initial;
+}
+
+.sidebar-item {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 #container-screen {
@@ -33,7 +51,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #sidebar {
-    background-color: #9fafbd;
+    background-color: #88A5BF;
+    z-index: 1;
+}
+
+#sidebar-list {
+    width: inherit;
+}
+
+#screen-info {
+    border-left-width: 3px !important;
 }
 
 #main-screen {
