@@ -1,8 +1,8 @@
 const express = require('express');
 const controller = require('../controllers/controller.js');
-const signInController = require('../controllers/sign-in-controller.js')
-const calendarController = require('../controllers/calendar-controller.js')
-const reservationController = require('../controllers/reservation-controller.js')
+const signInController = require('../controllers/sign-in-controller.js');
+const calendarController = require('../controllers/calendar-controller.js');
+const reservationController = require('../controllers/reservation-controller.js');
 
 const app = express.Router();
 
