@@ -1,0 +1,9 @@
+.navbar {
+    background-color: #EBEFF2 !important;
+}
+
+.nav-link {
+    font-size: 24px;
+    font-family: SecularOne;
+    text-transform: uppercase;
+}
