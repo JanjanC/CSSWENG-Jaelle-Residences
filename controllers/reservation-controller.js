@@ -1,4 +1,5 @@
 const db = require('../models/db.js');
+const Activity = require('../models/activity-model.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
@@ -72,13 +73,13 @@ const reservationController = {
         }
 
         //create a new guest document in the database
-        db.insertOne(Guest, guest, function(result){
-            if(result){
+        db.insertOne(Guest, guest, function(guestResult){
+            if(guestResult){
                 // create an object to be inserted into the database
                 let reservation = {
                     // // booked_rate: ,
                     booked_type: req.body.reserve_type_select,
-                    guest: result._id,
+                    guest: guestResult._id,
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
@@ -86,10 +87,21 @@ const reservationController = {
                 }
 
                 // create a new reservation in the database
-                db.insertOne(Booking, reservation, function(flag){
-                    if(result){
-                        // redirects to home screen after adding a record
-                        res.redirect('/index');
+                db.insertOne(Booking, reservation, function(reservationResult){
+                    if(reservationResult){
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: reservationResult._id,
+                            activity_type: 'Create Reservation',
+                            timestamp: new Date()
+                        }
+
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after adding a record
+                                res.redirect('/index');
+                            }
+                        });
                     }
                 });
             }
