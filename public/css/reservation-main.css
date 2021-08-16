@@ -1,26 +1,3 @@
-@font-face {
-    font-family: SecularOne;
-    src: url("/css/fonts/SecularOne-Regular.ttf");
-}
-
-html, body {
-    font-family: "Bahnschrift";
-    color: #262523;
-    min-height: 100%;
-    height: 100%;
-}
-
-h1, h2, h3, h4, h5 {
-    font-family: SecularOne;
-    text-transform: uppercase;
-}
-
-.btn {
-    font-family: SecularOne;
-    font-style: normal;
-    text-transform: uppercase;
-}
-
 .reservation-list-container {
     height: 20em;
     overflow-y: scroll;
