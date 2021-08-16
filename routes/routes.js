@@ -13,9 +13,9 @@ app.get('/index', controller.getIndex);
 
 app.get('/calendar', calendarController.getCalendar);
 
-app.get('/reservation/:year-:month-:day', reservationController.getReservationScreen);
+app.get('/:year-:month-:day/reservation', reservationController.getReservationScreen);
 
-app.get('/reservation/:year-:month-:day/create', reservationController.getCreateReservation);
+app.get('/:year-:month-:day/reservation/create', reservationController.getCreateReservation);
 
 // reservation detail form gets submitted
 app.post('/reservation/create', reservationController.postCreateReservation);
