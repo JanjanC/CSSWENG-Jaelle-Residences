@@ -3,31 +3,23 @@
 <head>
 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
     <link rel="stylesheet" type="text/css" href="/css/reservation-main.css">
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/js/help.js"></script>
 
     <title>Reservation</title>
 </head>
 <body>
 
+    <!--NAVBAR-->
     {{>navbar}}
 
     <!--MAIN ROW-->
     <div class="row w-100 m-0 h-100">
-
-        <!--COLUMN FOR SIDEBAR-->
-        <div id="sidebar" class="col-2 p-0 shadow-sm">
-            <div id="sidebar-list" class="list-group position-fixed h-100">
-                <a href="/calendar/{{getCurrentMonthYear}}" id="booking-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center text-break">Calendar</h2></a>
-                <a href="#" id="booking-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center text-break">Booking</h2></a>
-                <a href="#" id="reservation-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 active"><h2 class="m-0 text-center text-break">Reservation</h2></a>
-                <!--TODO: ADD MODAL INFO WITH NEAT ORGANIZATION-->
-                <a href="#" id="help-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5"><h2 class="m-0 text-center">Help</h2></a>
-
-            </div>
-
-
-        </div>
+        {{>sidebar}}
 
         <!--COLUMN FOR MAIN-->
         <div id="main-screen" class="col-10 mx-auto">
@@ -35,24 +27,14 @@
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 align-items-center">
                     <h1 class="m-0">RESERVATION</h1>
-                    <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill"><h5 class="p-2 m-0">Create Reservation</h5></a>
+                    <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form"><h5 class="p-2 m-0">Create Reservation</h5></a>
                     <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservations are created, edited, and managed corresponding the current date chosen.</p>
                 </div>
                 <hr>
-
-                <!--TODO: ACCOMPLISH ADD RESERVATION TURN TO BUTTON TO MAKE IT USABLE-->
-                <!--TODO: FIX THE ALIGNMENT-->
-
-
-                <!--TODO: DETERMINE THE END HEIGHT OF THE ROWS BEFORE IT BECOMES SCROLLABLE-->
                 <div class="row px-4 py-3 d-flex justify-content-center">
                     {{#each list}}
                     <div class="col-md-3 border me-2 ms-2 px-0 pb-2 rounded reservation-list shadow-sm">
-                        <!--TODO: FIX HEADER TEXT ALIGNMENT-->
-                        <h4 id="{{booked_type}}" class="py-3 m-0 text-center">{{booked_type}}</h4>
-                        <!--TODO: FIX THE PADDING/MARGIN/BORDER-->
-                        <!--TODO: SPECIFY THE DETAILS OF WHAT IS TO BE SHOWN-->
-                        <!--TODO: FIX TEXT ALIGNMENT-->
+                        <h4 id="{{booked_type}}" class="p-3 m-0 text-center text-break">{{booked_type}}</h4>
                         <!-- Room Item -->
                         <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
                             <div class="flex-grow-1 px-3 pb-3">
@@ -111,20 +93,12 @@
                         </div>
                     </div>
                     {{else}}
-                        <!--TODO: FIX THIS, INADD KO LANG ITO INCASE NA WALANG RESERVATION FOR THE DAY-->
-                        <p>No reservations today</p>
+                    <!--TODO: FIX THIS, INADD KO LANG ITO INCASE NA WALANG RESERVATION FOR THE DAY-->
+                    <h4 class="m-0 p-0 text-secondary text-center">No reservations today</h4>
                     {{/each}}
                 </div>
             </div>
         </div>
     </div>
-
-    <!--TODO: FIX THE WAY IT'S LAIDOUT IN THE PAGE WITH REGARDS TO PADDINGS AND MARGINS-->
-    <!-- One full row with three columns for room type  -->
-
-
-
-
-
 </body>
 </html>
