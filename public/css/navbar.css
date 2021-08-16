@@ -7,3 +7,7 @@
     font-family: SecularOne;
     text-transform: uppercase;
 }
+
+.popover-body {
+    font-family: "Bahnschrift" !important;
+}
