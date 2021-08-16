@@ -20,42 +20,45 @@ const reservationController = {
         };
 
         db.findMany(Booking, reservation, function(result){
+            if (result) {
+                let list = [];
+                let previous;
 
-            let list = [];
-            let previous;
-
-            //categorize each room type into its own sub-array
-            for (let i = 0; i < result.length; i++) {
-                //current booked type is differet from the previous booked type
-                if (previous == undefined || result[i].booked_type != previous.booked_type) {
-                    //initialize 'previous' variable to keep track of previous reservation
-                    previous = {
-                        booked_type: result[i].booked_type,
-                        reservations: [result[i]]
+                //categorize each room type into its own sub-array
+                for (let i = 0; i < result.length; i++) {
+                    //current booked type is differet from the previous booked type
+                    if (previous == undefined || result[i].booked_type != previous.booked_type) {
+                        //initialize 'previous' variable to keep track of previous reservation
+                        previous = {
+                            booked_type: result[i].booked_type,
+                            reservations: [result[i]]
+                        }
+                        //add to the list of reservation
+                        list.push(previous);
+                    //current booked type is same with the previous booked type
+                    } else {
+                        previous.reservations.push(result[i]);
                     }
-                    //add to the list of reservation
-                    list.push(previous);
-                //current booked type is same with the previous booked type
-                } else {
-                    previous.reservations.push(result[i]);
                 }
+                res.render('reservation-main', {list: list});
+            } else {
+                res.redirect('/error');
             }
-
-            res.render('reservation-main', {list: list});
-
         }, 'guest', {booked_type: 'asc'});
-
     },
 
     getCreateReservation: function (req, res) {
         //find all unique room types in the database
         db.findDistinct(Room, 'room_type', function(result) {
-
-            let values = {
-                room_types: result,
-                date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
+            if (result) {
+                let values = {
+                    room_types: result,
+                    date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
+                }
+                res.render('reservation-create', values);
+            } else {
+                res.redirect('/error');
             }
-            res.render('reservation-create', values);
         });
     },
 
@@ -73,7 +76,7 @@ const reservationController = {
 
         //create a new guest document in the database
         db.insertOne(Guest, guest, function(guestResult){
-            if(guestResult){
+            if(guestResult) {
                 // create an object to be inserted into the database
                 let reservation = {
                     // // booked_rate: ,
@@ -87,7 +90,7 @@ const reservationController = {
 
                 // create a new reservation in the database
                 db.insertOne(Booking, reservation, function(reservationResult){
-                    if(reservationResult){
+                    if(reservationResult) {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: reservationResult._id,
@@ -99,10 +102,16 @@ const reservationController = {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
                                 res.redirect('/index');
+                            } else {
+                                res.redirect('/error');
                             }
                         });
+                    } else {
+                        res.redirect('/error');
                     }
                 });
+            } else {
+                res.redirect('/error');
             }
         });
     },

@@ -5,6 +5,10 @@ const controller = {
 
     getEditReservation: function (req, res) {
         res.render('reservation-edit');
+    },
+
+    getError: function (req, res) {
+        res.render('error');
     }
 }
 

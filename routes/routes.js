@@ -22,4 +22,7 @@ app.post('/reservation/create', reservationController.postCreateReservation);
 
 app.get('/reservation-edit', controller.getEditReservation);
 
+app.get(`/error`, controller.getError);
+app.get(`*`, controller.getError);
+app.post(`*`, controller.getError);
 module.exports = app;
