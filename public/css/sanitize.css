@@ -25,3 +25,15 @@ button, .btn {
     font-style: normal;
     text-transform: uppercase;
 }
+
+#container-screen {
+    height: 100%;
+}
+
+#screen-info {
+    border-left-width: 3px !important;
+}
+
+#main-screen {
+    background-position: bottom;
+}

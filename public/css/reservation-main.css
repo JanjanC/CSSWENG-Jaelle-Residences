@@ -12,15 +12,3 @@
     font-family: "Bahnschrift";
     text-transform: initial;
 }
-
-#container-screen {
-    height: 100%;
-}
-
-#screen-info {
-    border-left-width: 3px !important;
-}
-
-#main-screen {
-    background-position: bottom;
-}
