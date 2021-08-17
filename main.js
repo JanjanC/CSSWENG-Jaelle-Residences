@@ -15,17 +15,17 @@ let mainWindow;
 //create new window once electron finishes initialization
 app.on('ready', function() {
 
-    //get screen size
-    const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize;
-
     //create new window
     mainWindow = new BrowserWindow({
-        width: width,
-        height: height,
         title: "Jaelle Residences",
         // icon: "",
-        autoHideMenuBar: true
+        autoHideMenuBar: true,
+        show: false
     });
+
+    //maximize and show the window
+    mainWindow.maximize();
+    mainWindow.show();
 
     //opens the web application
     mainWindow.loadURL(`http://${process.env.HOSTNAME}:${process.env.PORT}/`);
