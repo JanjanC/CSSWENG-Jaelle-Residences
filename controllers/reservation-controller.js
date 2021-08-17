@@ -193,12 +193,34 @@ const reservationController = {
 
     postDeleteReservation: function (req, res) {
 
-        db.deleteOne(Booking, {_id: req.params.bookingID}, function (result) {
-            if (result) {
-                res.redirect('/index');
+        let reservation = {
+            $set: {
+                isCancelled: true
+            }
+        }
+
+        db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(reservationResult) {
+
+            if (reservationResult) {
+                let activity = {
+                    employee: req.session.employeeID,
+                    booking: reservationResult._id,
+                    activityType: 'Cancel Reservation',
+                    timestamp: new Date()
+                }
+
+                db.insertOne(Activity, activity, function(activityResult) {
+                    if (activityResult) {
+                        // redirects to home screen after adding a record
+                        res.redirect('/index');
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
             }
         });
-
     }
 }
 
