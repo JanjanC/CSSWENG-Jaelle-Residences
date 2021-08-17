@@ -3,6 +3,7 @@ const controller = require('../controllers/controller.js');
 const signInController = require('../controllers/sign-in-controller.js');
 const calendarController = require('../controllers/calendar-controller.js');
 const reservationController = require('../controllers/reservation-controller.js');
+const bookingController = require('../controllers/booking-controller.js');
 
 const app = express.Router();
 
@@ -21,6 +22,11 @@ app.get('/:year-:month-:day/reservation/create', reservationController.getCreate
 app.post('/reservation/create', reservationController.postCreateReservation);
 
 app.get('/reservation-edit', controller.getEditReservation);
+
+app.get('/:year-:month-:day/booking', bookingController.getBookingScreen);
+app.get('/:year-:month-:day/booking/:roomNumber', bookingController.getRoomBookingInfo);
+app.get('/rooms', bookingController.getRooms)
+
 
 app.get(`/error`, controller.getError);
 app.get(`*`, controller.getError);
