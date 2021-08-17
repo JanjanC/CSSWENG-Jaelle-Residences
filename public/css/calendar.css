@@ -25,6 +25,11 @@ html, body {
     background-color: #dddddd;
 }
 
+.dofweek:hover {
+    background-color: #F2E8DF;
+    transition: 0.3s;
+}
+
 td {
     text-transform: uppercase;
     height: 7em;
@@ -35,7 +40,8 @@ td:hover {
     transition: 0.3s;
 }
 
-.dofweek:hover {
-    background-color: #F2E8DF;
-    transition: 0.3s;
+th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 28px;
 }
