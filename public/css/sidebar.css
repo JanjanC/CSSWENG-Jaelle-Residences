@@ -1,0 +1,12 @@
+.sidebar-item {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#sidebar {
+    background-color: #88A5BF;
+}
+
+#sidebar-list {
+    width: inherit;
+}

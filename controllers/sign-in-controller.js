@@ -19,7 +19,16 @@ const signInController = {
                 req.session.username = result.username;
                 req.session.employeeID = result._id;
                 res.redirect('index');
+            } else {
+                res.redirect('/error');
             }
+        });
+    },
+
+    getSignOut: function(req, res) {
+        req.session.destroy(function(err) {
+            if(err) throw err;
+            res.redirect(`/`);
         });
     }
 }

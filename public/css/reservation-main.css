@@ -1,0 +1,19 @@
+.reservation-list-container {
+    height: 20em;
+    overflow-y: scroll;
+}
+
+.reservation-item:hover {
+    background-color: #F2E8DF;
+    transition: 0.3s;
+}
+
+.reservation-field {
+    font-family: "Bahnschrift";
+    text-transform: initial;
+}
+
+.room-type-label:hover {
+    background-color: #DFEBF0;
+    transition: 0.3s;
+}
