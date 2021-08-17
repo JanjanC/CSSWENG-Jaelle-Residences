@@ -8,6 +8,11 @@ html, body {
     height: 100%;
 }
 
+#prev-month:hover, #next-month:hover {
+    background-color: #E2F0E1;
+    transition: 0.3s;
+}
+
 .not-month {
     background-color: #fcfcfc;
 }
@@ -20,3 +25,17 @@ html, body {
     background-color: #dddddd;
 }
 
+td {
+    text-transform: uppercase;
+    height: 7em;
+}
+
+td:hover {
+    background-color: #DFEBF0;
+    transition: 0.3s;
+}
+
+.dofweek:hover {
+    background-color: #F2E8DF;
+    transition: 0.3s;
+}
