@@ -48,6 +48,11 @@ var RoomSchema = new mongoose.Schema({
     availability_status: {
         type: String,
         required: true
+    },
+
+    connected_rooms: {
+        type: Array,
+        required: false
     }
 });
 
