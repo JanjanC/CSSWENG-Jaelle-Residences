@@ -12,3 +12,8 @@
     font-family: "Bahnschrift";
     text-transform: initial;
 }
+
+.room-type-label:hover {
+    background-color: #DFEBF0;
+    transition: 0.3s;
+}
