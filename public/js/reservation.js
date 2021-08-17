@@ -20,6 +20,7 @@ function validateEntry () {
 	//get the date today in the format of YYYY-MM-DD
 	let today = new Date();
 	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+	let fiveYearString = `${(today.getFullYear() + 5).toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 
 	//the start date input field is empty
 	if ($('#start-date').val() == '') {
@@ -28,6 +29,9 @@ function validateEntry () {
 	// the start date is earlier than today
 	} else if (new Date($('#start-date').val()) < new Date(todayString)) {
 		$('#start-date-error').text('Start Date cannot be earlier than Today');
+		isValid = false;
+	} else if (new Date($('#start-date').val()) > new Date(fiveYearString)) {
+		$('#start-date-error').text('Start Date may only be 5 Years from Today');
 		isValid = false;
 	} else {
 		$('#start-date-error').text('');
@@ -44,6 +48,9 @@ function validateEntry () {
 	// the end date is earlier than the start date
 	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 		$('#end-date-error').text('End Date cannot be earlier than Start Date');
+		isValid = false;
+	} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
+		$('#end-date-error').text('End Date may only be 5 Years from Today');
 		isValid = false;
 	} else {
 		$('#end-date-error').text('');
