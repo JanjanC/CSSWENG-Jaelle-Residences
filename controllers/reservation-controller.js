@@ -118,16 +118,24 @@ const reservationController = {
 
     getEditReservation: function (req, res) {
 
-        db.findDistinct(Room, 'room_type', function(result) {
+        db.findDistinct(Room, 'room_type', function(roomResult) {
+            if (roomResult) {
 
-            let values = {
-                room_types: result
+                db.findOne(Booking, {_id: req.params.bookingID}, function(reservationResult) {
+
+                    if (reservationResult) {
+                        let values = {
+                            room_types: roomResult,
+                            reservation: reservationResult
+                        }
+                        res.render('reservation-edit', values);
+                    } else {
+                        res.redirect('/error');
+                    }
+                }, 'guest');
+            } else {
+                res.redirect('/error');
             }
-
-            db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
-                values['reservation'] = result;
-                res.render('reservation-edit', values);
-            }, 'guest');
         });
     },
 
@@ -139,27 +147,34 @@ const reservationController = {
                 end_date: req.body.end_date
             }
         }
-        let guest = {
-            $set: {
-                first_name: req.body.firstname,
-                last_name: req.body.lastname,
-                birthdate: req.body.birthdate,
-                address: req.body.address,
-                contact_number: req.body.contact,
-                company_name: req.body.company,
-                occupation: req.body.occupation
-            }
-        }
 
         db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(result) {
+
+            let guest = {
+                $set: {
+                    first_name: req.body.firstname,
+                    last_name: req.body.lastname,
+                    birthdate: req.body.birthdate,
+                    address: req.body.address,
+                    contact_number: req.body.contact,
+                    company_name: req.body.company,
+                    occupation: req.body.occupation
+                }
+            }
+
             if (result) {
                 db.updateOne(Guest, {_id: result.guest}, guest, function(result) {
-                    res.redirect('/index');
+                    if (result) {
+                        res.redirect('/index');
+                    } else {
+                        res.redirect('/error');
+                    }
                 });
+            } else {
+                res.redirect('/error');
             }
         });
     }
-
 }
 
 module.exports = reservationController;
