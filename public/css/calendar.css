@@ -11,6 +11,7 @@ html, body {
 #prev-month:hover, #next-month:hover {
     background-color: #E2F0E1;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .not-month {
@@ -38,6 +39,7 @@ td {
 td:hover {
     background-color: #DFEBF0;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 th {
