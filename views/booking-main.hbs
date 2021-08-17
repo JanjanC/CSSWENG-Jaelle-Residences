@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+	    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+	    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+
+	    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+	    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+	    <script type="text/javascript" src="/js/help.js"></script>
+
+		<title>Room Management</title>
+	</head>
+	<body>
+		<!--NAVBAR-->
+		{{>navbar}}
+
+		<!--MAIN ROW-->
+		<div class="row w-100 m-0 h-100">
+			<!--COLUMN FOR SIDEBAR-->
+			{{>sidebar}}
+
+			<!--COLUMN FOR MAIN-->
+			<div id="main-screen" class="col-10 mx-auto">
+				<!--CONTAINER FOR MAIN RESERVATION-->
+				<div id="container-screen" class="container shadow-lg bg-light p-4">
+					<div class="d-flex pt-2 ps-2 m-0 align-items-center">
+						<h1 class="m-0">BOOKING</h1>
+						<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where bookings are created, edited, and managed corresponding the current date chosen.</p>
+					</div>
+					<hr>
+
+					<!--ROOM ARRAY HERE-->
+
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
