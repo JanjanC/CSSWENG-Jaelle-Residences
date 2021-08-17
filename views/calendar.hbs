@@ -67,6 +67,11 @@
 					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
 					  	{{/each}}
 					</tr>
+					<tr>
+					  	{{#each daysInMonth.[5]}}
+					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
 				</tbody>
 			</table>
 		</div>
