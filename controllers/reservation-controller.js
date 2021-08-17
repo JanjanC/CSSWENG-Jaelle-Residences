@@ -148,7 +148,7 @@ const reservationController = {
             }
         }
 
-        db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(result) {
+        db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(reservationResult) {
 
             let guest = {
                 $set: {
@@ -162,10 +162,25 @@ const reservationController = {
                 }
             }
 
-            if (result) {
-                db.updateOne(Guest, {_id: result.guest}, guest, function(result) {
-                    if (result) {
-                        res.redirect('/index');
+            if (reservationResult) {
+                db.updateOne(Guest, {_id: reservationResult.guest}, guest, function(guestResult) {
+                    if (guestResult) {
+
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: reservationResult._id,
+                            activity_type: 'Modify Reservation',
+                            timestamp: new Date()
+                        }
+
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after adding a record
+                                res.redirect('/index');
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
                     } else {
                         res.redirect('/error');
                     }
