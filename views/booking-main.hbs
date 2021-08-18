@@ -1,50 +1,219 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-	    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
-	    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
-	    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
-	    <link rel="stylesheet" type="text/css" href="/css/booking.css">
+<head>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+	<link rel="stylesheet" type="text/css" href="/css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+	<link rel="stylesheet" type="text/css" href="/css/booking.css">
 
-	    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
-	    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
-	    <script type="text/javascript" src="/js/help.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+	<script type="text/javascript" src="/js/help.js"></script>
 
 
-		<title>Room Management</title>
-	</head>
-	<body>
-		<!--NAVBAR-->
-		{{>navbar}}
+	<title>Room Management</title>
+</head>
+<body>
+	<!--NAVBAR-->
+	{{>navbar}}
 
-		<!--MAIN ROW-->
-		<div class="row w-100 m-0 h-100">
-			<!--COLUMN FOR SIDEBAR-->
-			{{>sidebar}}
+	<!--MAIN ROW-->
+	<div class="row w-100 m-0 h-100">
+		<!--COLUMN FOR SIDEBAR-->
+		{{>sidebar}}
 
-			<!--COLUMN FOR MAIN-->
-			<div id="main-screen" class="col-10 mx-auto">
-				<!--CONTAINER FOR MAIN RESERVATION-->
-				<div id="container-screen" class="container shadow-lg bg-light p-4">
-					<div class="d-flex pt-2 ps-2 m-0 align-items-center">
-						<h1 class="m-0">BOOKING</h1>
-						<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where bookings are created, edited, and managed corresponding the current date chosen.</p>
-					</div>
-					<hr>
-
-					<!--ROOM ARRAY HERE-->
-
-					<div id="grid-container">
-						{{#each list}}
-						<div class="room-container">
-							<a href = "{{room._id}}/create" class="link">{{room.room_number}}</a>
-						</div>
-						{{/each}}
-					</div>
-
+		<!--COLUMN FOR MAIN-->
+		<div id="main-screen" class="col-10 mx-auto">
+			<!--CONTAINER FOR MAIN room-->
+			<div id="container-screen" class="container shadow-lg bg-light p-4">
+				<div class="d-flex pt-2 ps-2 m-0 align-items-center">
+					<h1 class="m-0">BOOKING</h1>
+					<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where bookings are created, edited, and managed corresponding the current date chosen.</p>
 				</div>
+				<hr>
+
+				<!--ROOM ARRAY HERE-->
+				<div id="" class="row m-3">
+					{{#each list}}
+
+					<!--BOOKED-->
+					<div class="room-container col-2 p-0 m-0 border booked">
+						<button id="room-{{_id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{_id}}-modal">
+							<h3 class="text-center room-number">{{room.room_number}}</h3>
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="room-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body px-4 pt-3 pb-4">
+										<h4>Room Status:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-status">Booked</span></h5>
+										<h4>Guest Name:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-firstname" class="text-break">{{guest.first_name}}John</span> <span id="room-lastname-id">{{guest.last_name}}Doe</span></h5>
+										<h4>Room Type:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-type">Deluxe</span></h5>
+										<h4>Room Rate:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-rate">5000 Php/Week</span></h5>
+										<!-- Optional Fields -->
+										{{#if guest.birthdate}}
+										<h4>Birthdate:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
+										{{/if}}
+										{{#if guest.address}}
+										<h4>Address:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
+										{{/if}}
+										{{#if guest.contact_number}}
+										<h4>Contact Number:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-contact">{{guest.contact_number}}</span></h5>
+										{{/if}}
+										{{#if guest.company_name}}
+										<h4>Company Name:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-company" class="text-break">{{guest.company_name}}</span></h5>
+										{{/if}}
+										{{#if guest.occupation}}
+										<h4>Occupation:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-occupation">{{guest.occupation}}</span></h5>
+										{{/if}}
+
+									</div>
+									<div class="modal-footer">
+
+										<!-- Delete Form -->
+										<!-- Button trigger modal -->
+										<button id="delete" name="delete" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+											<h5 class="p-1 m-0">Delete</h5>
+										</button>
+
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
+										<a href="{{room._id}}/edit" class="btn btn-primary"><h5 class="m-0 p-1">Edit</h5></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+						<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title" id="deleteModalLabel">Delete Booking</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body p-4">
+										<p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+										<p>Are you sure you want to <strong>permanently delete</strong> this booking with the following information?</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Return</h5></button>
+										<form id="form-delete" class="m-0 p-1" action="/booking/{{room._id}}/delete" method="post">
+											<button type="submit" class="btn btn-danger"><h5 class="m-0 p-1">Delete</h5></button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!--VACANT
+					<div class="room-container col-2 p-0 m-0 border vacant">
+						<button id="room-{{_id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{_id}}-modal">
+							<h3 class="text-center">{{room.room_number}}</h3>
+						</button>
+						<!- - Modal - ->
+						<div class="modal fade" id="room-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body px-4 pt-3 pb-4">
+										<h4>Room Status:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-status">Vacant</span></h5>
+										<h4>Room Type:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-type">Deluxe</span></h5>
+										<h4>Room Rate:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-rate">5000 Php/Week</span></h5>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
+										<a href="{{room._id}}/create" class="btn btn-primary"><h5 class="m-0 p-1">Book</h5></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					-->
+
+					<!--OCCUPIED
+					<div class="room-container col-2 p-0 m-0 border occupied">
+						<button id="room-{{_id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{_id}}-modal">
+							<h3 class="text-center room-number">{{room.room_number}}</h3>
+						</button>
+
+						<!- - Modal - ->
+						<div class="modal fade" id="room-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body px-4 pt-3 pb-4">
+										<h4>Room Status:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-status">Occupied</span></h5>
+										<h4>Guest Name:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-firstname" class="text-break">{{guest.first_name}}John</span> <span id="room-lastname-id">{{guest.last_name}}Doe</span></h5>
+										<h4>Room Type:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-type">Deluxe</span></h5>
+										<h4>Room Rate:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-rate">5000 Php/Week</span></h5>
+										<!- - Optional Fields - ->
+										{{#if guest.birthdate}}
+										<h4>Birthdate:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
+										{{/if}}
+										{{#if guest.address}}
+										<h4>Address:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
+										{{/if}}
+										{{#if guest.contact_number}}
+										<h4>Contact Number:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-contact">{{guest.contact_number}}</span></h5>
+										{{/if}}
+										{{#if guest.company_name}}
+										<h4>Company Name:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-company" class="text-break">{{guest.company_name}}</span></h5>
+										{{/if}}
+										{{#if guest.occupation}}
+										<h4>Occupation:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{_id}}-occupation">{{guest.occupation}}</span></h5>
+										{{/if}}
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				-->
+
+					{{/each}}
+				</div>
+
 			</div>
 		</div>
-	</body>
+	</div>
+
+
+
+</body>
 </html>
