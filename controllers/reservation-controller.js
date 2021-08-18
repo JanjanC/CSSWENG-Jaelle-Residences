@@ -70,7 +70,7 @@ const reservationController = {
             last_name: req.body.lastname,
             birthdate: req.body.birthdate,
             address: req.body.address,
-            contact_number: req.body.contact_number,
+            contact_number: req.body.contact,
             company_name: req.body.company,
             occupation: req.body.occupation
         }
