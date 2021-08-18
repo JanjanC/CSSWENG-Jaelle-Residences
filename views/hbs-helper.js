@@ -25,6 +25,17 @@ hbs.registerHelper('select', function(value, option) {
     }
 });
 
+hbs.registerHelper('isPastTransaction', function (date, options) {
+    let today = new Date();
+	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+    if (new Date(todayString) > new Date(date)) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+
 //returns the date in the format of YYYY-MM
 hbs.registerHelper('getCurrentMonthYear', function() {
     let today = new Date();
