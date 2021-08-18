@@ -50,6 +50,21 @@ const bookingController = {
 		}, undefined, {room_number: 'asc'});
 	},
 
+	getCreateBooking: function(req, res) {
+
+		db.findOne(Room, {_id: req.params.roomID}, function(result) {
+			if (result) {
+				let values = {
+                    room: result,
+                    date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
+                }
+				res.render('booking-create', values);
+			} else {
+				res.redirect('/error');
+			}
+		});
+	},
+
     availableRooms: function(req, res){
         // extract dates and room type
         start = new Date("8/18/21");

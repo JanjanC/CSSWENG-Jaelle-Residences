@@ -27,10 +27,9 @@ app.post('/reservation/:bookingID/edit', reservationController.postEditReservati
 app.post('/reservation/:bookingID/delete', reservationController.postDeleteReservation);
 
 app.get('/:year-:month-:day/booking', bookingController.getBookingScreen);
-// app.get('/:year-:month-:day/booking/:roomNumber', bookingController.getRoomBookingInfo);
-// app.get('/rooms', bookingController.getRooms)
 
-app.get('/booking-vacant', bookingController.getBookingVacant);
+app.get('/:year-:month-:day/booking/:roomID/create', bookingController.getCreateBooking);
+// app.get('/rooms', bookingController.getRooms)
 
 app.get(`/error`, controller.getError);
 app.get(`*`, controller.getError);

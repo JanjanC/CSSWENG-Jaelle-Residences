@@ -60,19 +60,19 @@
                         <!--Room Type-->
                         <div class="form-group mb-3">
                             <label class="h5">Room Type</label>
-                            <input class="form-control w-75" type="text" id="room-type" name="room_type" placeholder="Deluxe Insert Room Type Here" value="Deluxe Insert Room Type Here" disabled>
+                            <input class="form-control w-75" type="text" id="room-type" name="room_type" value="{{room.room_type}}" disabled>
                         </div>
 
                         <!--Room Number-->
                         <div class="form-group mb-3">
                             <label class="h5">Room Number</label>
-                            <input class="form-control w-75" type="number" id="room-number" name="room_number" placeholder="412" value="412" disabled>
+                            <input class="form-control w-75" type="number" id="room-number" name="room_number" value="{{room.room_number}}" disabled>
                         </div>
 
                         <!-- Start Date -->
                         <div class="form-group">
                             <label class="h5 d-block">Start Date</label>
-                            <input class="form-control w-75" type="date" id="start-date" name="start_date" value="" disabled>
+                            <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate date}}" disabled>
                             <em><p class="error text-danger" id="start-date-error"></p></em>
                         </div>
 
@@ -271,8 +271,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </form>
     </div>
