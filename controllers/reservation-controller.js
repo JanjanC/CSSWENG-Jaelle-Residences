@@ -206,16 +206,18 @@ const reservationController = {
             }
         }
 
+        //cancel the booking by setting is_cancelled to true
         db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(reservationResult) {
 
             if (reservationResult) {
                 let activity = {
                     employee: req.session.employeeID,
                     booking: reservationResult._id,
-                    activityType: 'Cancel Reservation',
+                    activity_type: 'Cancel Reservation',
                     timestamp: new Date()
                 }
 
+                //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
                         // redirects to home screen after adding a record
