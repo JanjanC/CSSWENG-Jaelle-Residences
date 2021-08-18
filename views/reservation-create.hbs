@@ -27,7 +27,7 @@
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">CREATE RESERVATION</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservation forms are accomplished and created. <span class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</span></p>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservation forms are accomplished and created.</p>
                 </div>
 
                 <form id="form-submit" class="" action="/reservation/create" method="post">
@@ -120,6 +120,7 @@
                     </div>
                     <div class="d-flex flex-row-reverse mt-3">
 
+                        <!-- RESERVE-->
                         <!-- Button trigger modal -->
                         <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
                             Reserve
@@ -144,7 +145,32 @@
                             </div>
                         </div>
 
-                        <a href="javascript: history.back()" class="btn btn-secondary mb-4 mt-2 me-2 w-25">Return</a>
+                        <!-- RETURN -->
+                        <!-- Button trigger modal -->
+                        <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                            Return
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: You will lose data inputs in the fields and <strong>would not be saved</strong> when the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to return to the previous page?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <a href="javascript: history.back()" class="btn btn-danger">Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </form>
             </div>
