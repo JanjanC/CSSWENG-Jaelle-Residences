@@ -16,6 +16,7 @@ hbs.registerHelper('formatDate', function(date) {
     return `${year}-${month}-${day}`;
 });
 
+//this function is used to select an option in a drop-down list
 hbs.registerHelper('select', function(value, option) {
     if (value == option) {
         return 'selected';
@@ -24,7 +25,7 @@ hbs.registerHelper('select', function(value, option) {
     }
 });
 
-//returns the date in the format of YYYY-MM-DD
+//returns the date in the format of YYYY-MM
 hbs.registerHelper('getCurrentMonthYear', function() {
     let today = new Date();
 	let year = today.getFullYear().toString();
