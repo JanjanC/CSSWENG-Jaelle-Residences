@@ -16,7 +16,8 @@ const reservationController = {
             start_date: {$lte: date},
             end_date: {$gte: date},
             //it is considered to be a reservation when the confirmed_reservation exists in the database
-            confirmed_reservation: {$exists: true}
+            confirmed_reservation: {$exists: true},
+            is_cancelled: false
         };
 
         db.findMany(Booking, reservation, function(result){
@@ -85,7 +86,8 @@ const reservationController = {
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
-                    confirmed_reservation: false
+                    confirmed_reservation: false,
+                    is_cancelled: false
                 }
 
                 // create a new reservation in the database
@@ -195,7 +197,7 @@ const reservationController = {
 
         let reservation = {
             $set: {
-                isCancelled: true
+                is_cancelled: true
             }
         }
 

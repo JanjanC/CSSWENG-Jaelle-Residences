@@ -56,7 +56,7 @@ var BookingSchema = new mongoose.Schema({
         type: Boolean
     },
 
-    isCancelled: {
+    is_cancelled: {
         type: Boolean
     }
 
