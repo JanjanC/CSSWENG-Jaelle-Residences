@@ -100,6 +100,7 @@ const reservationController = {
                             timestamp: new Date()
                         }
 
+                        //saves the action of the employee to an activity log
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
@@ -120,9 +121,10 @@ const reservationController = {
 
     getEditReservation: function (req, res) {
 
+        //find all unique room types in the database
         db.findDistinct(Room, 'room_type', function(roomResult) {
             if (roomResult) {
-
+                //get the reservation details so that the update booking formed will be pre-filled
                 db.findOne(Booking, {_id: req.params.bookingID}, function(reservationResult) {
 
                     if (reservationResult) {
@@ -150,6 +152,7 @@ const reservationController = {
             }
         }
 
+        //update the reservation details in the database
         db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(reservationResult) {
 
             let guest = {
@@ -165,6 +168,7 @@ const reservationController = {
             }
 
             if (reservationResult) {
+                //update the customer details in the database
                 db.updateOne(Guest, {_id: reservationResult.guest}, guest, function(guestResult) {
                     if (guestResult) {
 
@@ -175,6 +179,7 @@ const reservationController = {
                             timestamp: new Date()
                         }
 
+                        //saves the action of the employee to an activity log
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record

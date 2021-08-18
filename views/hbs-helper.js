@@ -16,6 +16,7 @@ hbs.registerHelper('formatDate', function(date) {
     return `${year}-${month}-${day}`;
 });
 
+//this function is used to select an option in a drop-down list
 hbs.registerHelper('select', function(value, option) {
     if (value == option) {
         return 'selected';
@@ -24,7 +25,18 @@ hbs.registerHelper('select', function(value, option) {
     }
 });
 
-//returns the date in the format of YYYY-MM-DD
+hbs.registerHelper('isPastTransaction', function (date, options) {
+    let today = new Date();
+	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+    if (new Date(todayString) > new Date(date)) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+
+//returns the date in the format of YYYY-MM
 hbs.registerHelper('getCurrentMonthYear', function() {
     let today = new Date();
 	let year = today.getFullYear().toString();
