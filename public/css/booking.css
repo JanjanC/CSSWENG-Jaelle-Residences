@@ -1,19 +1,43 @@
+/*
 #grid-container {
 	display: grid;
 	grid-template-columns: auto auto auto auto auto auto auto auto auto;
 	grid-gap: 10px;
  	padding: 10px;
 }
+*/
 
 .link {
-	display: block; 
+	display: block;
 	text-decoration: none;
 	color: black;
 }
 
+.room-field {
+    font-family: "Bahnschrift";
+    text-transform: initial;
+}
 
 .room-container {
 	background-color: rgba(255, 255, 255, 0.8);
-  	font-size: 30px;
-  	text-align: center;
+	font-size: 30px;
+	height: 5em;
+}
+
+.room-container:hover {
+    background-color: #DFEBF0;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#deleteModal p {
+	font-size: 20px;
+}
+
+.modal-backdrop {
+  display: none;
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.6);
 }
