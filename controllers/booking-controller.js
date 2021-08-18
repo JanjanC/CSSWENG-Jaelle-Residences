@@ -7,42 +7,48 @@ const mongoose = require('mongoose');
 
 const bookingController = {
 	getBookingScreen: function (req, res) {
-		let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
 
-		let booking = {
-            start_date: {$lte: date},
-            end_date: {$gte: date},
-            $or: [{confirmed_reservation: {$exists: false}}, 
-            	  {confirmed_reservation: {$eq: true}}
-            	 ]
-        };
-        
-        db.findMany(Booking, booking, function (result) {
-        	if (result) {
+		db.findMany(Room, {}, function (roomResult) {
 
-        	}
-        });
+			if (roomResult) {
 
-        res.render('booking-main', null);
+				let list = [];
+				for (let i = 0; i < roomResult.length; i++) {
+					let room = {
+						room: roomResult[i],
+						booking: null
+					}
+					list.push(room);
+				}
+
+				let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+
+				let booking = {
+		            start_date: {$lte: date},
+		            end_date: {$gte: date},
+		            $or: [{confirmed_reservation: {$exists: false}},
+		            	  {confirmed_reservation: true}]
+		        };
+
+				db.findMany(Booking, booking, function (bookingResult) {
+		        	if (bookingResult) {
+						for (let i = 0; i < bookingResult.length; i++) {
+							let index = roomResult.indexOf(bookingResult[i].room);
+							if (index != -1) {
+								list['booking'] = bookingResult[i];
+							}
+						}
+						console.log(list);
+						res.render('booking-main', {list: list});
+		        	} else {
+						res.redirect('/error');
+					}
+		        }, 'guest');
+			} else {
+				res.redirect('/error')
+			}
+		}, undefined, {room_number: 'asc'});
 	},
-
-	getRoomBookingInfo: function (req, res) {
-
-	},
-
-    getRooms: function(req, res) {
-        db.findMany(Room, null, function (result) {
-            if(result) {
-                var result = {
-                    rooms : result
-                };
-
-                result.rooms.sort((a, b) => (a.room_number > b.room_number) ? 1 : -1)
-
-                res.send(result);
-            }
-        });
-    },
 
     availableRooms: function(req, res){
         // extract dates and room type
