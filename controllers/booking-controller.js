@@ -65,6 +65,75 @@ const bookingController = {
 		});
 	},
 
+	postCreateBooking: function(req, res) {
+		// collect information from post request
+        let guest = {
+            first_name: req.body.firstname,
+            last_name: req.body.lastname,
+            birthdate: req.body.birthdate,
+            address: req.body.address,
+            contact_number: req.body.contact,
+            company_name: req.body.company,
+            occupation: req.body.occupation
+        }
+
+        //create a new guest document in the database
+        db.insertOne(Guest, guest, function(guestResult){
+            if(guestResult) {
+                // create an object to be inserted into the database
+                let booking = {
+                    room: req.params.roomID,
+                    booked_type: req.body.reserve_type_select,
+                    guest: guestResult._id,
+                    employee: req.session.employeeID,
+                    start_date: req.body.start_date,
+                    end_date: req.body.end_date,
+                    is_cancelled: false
+                }
+
+                // create a new reservation in the database
+                db.insertOne(Booking, booking, function(bookingResult){
+                    if(bookingResult) {
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activity_type: 'Create Booking',
+                            timestamp: new Date()
+                        }
+
+                        //saves the action of the employee to an activity log
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after adding a record
+                                res.redirect('/index');
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
+	},
+
+	checkAvailability: function(req, res) {
+		//you don't want anything where the start and end are inside your period
+		// booking_query = {
+        //     booked_type: type,
+		// 	$or:[{status : 0, StatusDate1:{$gte:somedate}},
+        //      {status : 1, StatusDate2:{$gte:somedate}},
+        //      {status : 2, StatusDate3:{$gte:somedate}},
+        //      {status : 3, StatusDate4:{$gte:somedate}}]
+        //     start_date: {$gte: start},
+        //     end_date: {$lte: end},
+        //     $or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}]
+        // };
+	},
+
     availableRooms: function(req, res){
         // extract dates and room type
         start = new Date("8/18/21");
