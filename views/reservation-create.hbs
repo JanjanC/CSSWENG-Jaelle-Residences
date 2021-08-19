@@ -122,7 +122,7 @@
 
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
-                        <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
+                        <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
                             Reserve
                         </button>
                         <!-- Modal -->
@@ -136,6 +136,8 @@
                                     <div class="modal-body">
                                         <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                         <p>Are you sure you want to reserve guest with the following information?</p>
+                                        <div id="entered-info">
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
