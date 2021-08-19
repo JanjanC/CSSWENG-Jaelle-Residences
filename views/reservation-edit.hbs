@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label class="h5">Room Type</label>
                                 <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
-                                    <option value="" disabled>Select the room type</option>
+                                    <option value="" hidden>Select the room type</option>
                                     {{#each room_types}}
                                     <option value="{{this}}" {{select ../reservation.booked_type this}}>{{this}}</option>
                                     {{/each}}
@@ -153,11 +153,11 @@
                     <div class="d-flex flex-row-reverse mt-3">
 
                         <!-- Button trigger modal -->
-                        <button id="modify" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#modifyModal">
+                        <button id="reserve" type="button" class="btn btn-primary mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
                             Modify
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -167,6 +167,8 @@
                                     <div class="modal-body">
                                         <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                         <p>Are you sure you want to <strong>make changes</strong> and <strong>modify</strong> the reservation with the following information?</p>
+                                        <div id="inputted-info">
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
