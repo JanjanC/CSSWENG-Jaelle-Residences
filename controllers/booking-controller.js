@@ -33,17 +33,21 @@ const bookingController = {
 				db.findMany(Booking, booking, function (bookingResult) {
 		        	if (bookingResult) {
 						for (let i = 0; i < bookingResult.length; i++) {
-							let index = roomResult.indexOf(bookingResult[i].room);
-							if (index != -1) {
-								list['booking'] = bookingResult[i];
+							console.log(bookingResult[i].room);
+
+							for (let j = 0; j < list.length; j++) {
+								if (JSON.stringify(list[j].room) == JSON.stringify(bookingResult[i].room)) {
+									list[j].booking = bookingResult[i];
+									break;
+								}
 							}
 						}
-						console.log(list);
+						// console.log(list);
 						res.render('booking-main', {list: list});
 		        	} else {
 						res.redirect('/error');
 					}
-		        }, 'guest');
+		        }, 'room guest');
 			} else {
 				res.redirect('/error')
 			}
