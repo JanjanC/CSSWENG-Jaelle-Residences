@@ -91,7 +91,7 @@ const bookingController = {
                     is_cancelled: false
                 }
 
-                // create a new reservation in the database
+                // create a new booking in the database
                 db.insertOne(Booking, booking, function(bookingResult){
                     if(bookingResult) {
                         let activity = {
@@ -135,49 +135,88 @@ const bookingController = {
 	},
 
     availableRooms: function(req, res){
-        // extract dates and room type
+        // extract dates and room number
         start = new Date("8/18/21");
         end = new Date("8/21/21");
-        type = "Studio Type"
+        startCopy = new Date(start.valueOf());
+        endCopy = new Date(end.valueOf());
+        lower_bound = startCopy.setFullYear(startCopy.getFullYear() - 5);
+        upper_bound = endCopy.setFullYear(endCopy.getFullYear() + 5);
+        number = "302"
 
         // set conditions for the queries
-        room_query ={
-            room_type: type
-        };
-
         booking_query = {
-            booked_type: type,
-            start_date: {$gte: start},
-            end_date: {$lte: end},
-            $or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}]
+            room_number: number,
+            // reservation dates only within 5 years
+            $and: [{start_date: {$gte: lower_bound}}, {end_date: {$lte: upper_bound}}],
+            // must be a booking
+            $or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}],
+            // cases to check for existing bookings
+            $or: [
+                {$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
+                {start_date: {$lte: end}},
+                {end_date: {$gte: start}},
+                {$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
+            ]
         };
 
-        // find rooms of a specified type
-        db.findMany(Room, room_query, function(room_result){
-            if(room_result){
-                // find bookings for rooms of the specified type between start and end date inclusive
-                db.findMany(Booking, booking_query, function(booking_result){
-                    let rooms = [];
-                    // store room numbers in an array
-                    for(i = 0; i < room_result.length; i++){
-                        rooms.push(result[i].room_number);
-                    }
-
-                    // check if there are existing bookings for each room and
-                    // remove them from the array if bookings are found
-                    for(i = 0; i < rooms.length; i++){
-                        for(j = 0; j < booking_result.length; j++){
-                            if(booking_result[j].room_number == rooms[i]){
-                                rooms.splice(i,1);
-                                i--;
-                                break;
-                            }
-                        }
-                    }
-                    // Array rooms will contain the available rooms
-                });
+        // find bookings for a specified room between the start and end date inclusive
+        db.findOne(Booking, booking_query, function(booking_result){
+            // stores a Boolean signifying whether room is available or not
+            let answer;
+            // when no bookings are found
+            if(!booking_result){
+                answer = true;
             }
+            // when at least one booking is found
+            else{
+                answer = false;
+            }                        
         });
+
+        // // extract dates and room type
+        // start = new Date("8/18/21");
+        // end = new Date("8/21/21");
+        // type = "Studio Type"
+
+        // // set conditions for the queries
+        // room_query ={
+        //     room_type: type
+        // };
+
+        // booking_query = {
+        //     booked_type: type,
+        //     start_date: {$gte: start},
+        //     end_date: {$lte: end},
+        //     $or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}]
+        // };
+
+        // // find rooms of a specified type
+        // db.findMany(Room, room_query, function(room_result){
+        //     if(room_result){
+        //         // find bookings for rooms of the specified type between start and end date inclusive
+        //         db.findMany(Booking, booking_query, function(booking_result){
+        //             let rooms = [];
+        //             // store room numbers in an array
+        //             for(i = 0; i < room_result.length; i++){
+        //                 rooms.push(result[i].room_number);
+        //             }
+
+        //             // check if there are existing bookings for each room and
+        //             // remove them from the array if bookings are found
+        //             for(i = 0; i < rooms.length; i++){
+        //                 for(j = 0; j < booking_result.length; j++){
+        //                     if(booking_result[j].room_number == rooms[i]){
+        //                         rooms.splice(i,1);
+        //                         i--;
+        //                         break;
+        //                     }
+        //                 }
+        //             }
+        //             // Array rooms will contain the available rooms
+        //         });
+        //     }
+        // });
     }
 }
 
