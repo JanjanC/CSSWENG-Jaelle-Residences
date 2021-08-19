@@ -3,7 +3,7 @@ $(document).ready(function () {
 	$('#submit').click(function() {
 		return validateEntry();
 	});
-	
+
 	$('#reserve').on('click', function(){
 		let details = [];
 		checkEmptyAndAddToArray(details, $('#reserve_type_select'), "Room Type: ");
@@ -104,6 +104,13 @@ function validateEntry () {
 		isValid = false;
 	} else {
 		$('#lastname-error').text('');
+	}
+
+	if (new Date($('#birthdate').val()) > new Date(todayString)) {
+		$('#birthdate-error').text('Birthdate cannot be later than Today');
+		isValid = false;
+	} else {
+		$('#birthdate-error').text('');
 	}
 
 	return isValid;
