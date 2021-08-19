@@ -4,7 +4,7 @@
 }
 
 .reservation-item:hover {
-    background-color: #F2E8DF;
+    background-color: #FCF1D9;
     transition: 0.3s;
 }
 
@@ -14,6 +14,6 @@
 }
 
 .room-type-label:hover {
-    background-color: #DFEBF0;
+    background-color: #DFECF6;
     transition: 0.3s;
 }
