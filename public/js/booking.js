@@ -3,7 +3,42 @@ $(document).ready(function () {
 	$('#submit').click(function() {
 		return validateEntry();
 	});
+
+	$('#reserve').on('click', function(){
+		let details = [];
+		checkEmptyAndAddToArray(details, $('#room_type'), "Room Type: ");
+		checkEmptyAndAddToArray(details, $('#room-number'), "Room Number: ");
+		checkEmptyAndAddToArray(details, $('#start-date'), "Start Date: ");
+		checkEmptyAndAddToArray(details, $('#end-date'), "End Date: ");
+		checkEmptyAndAddToArray(details, $('#firstname'), "First Name: ");
+		checkEmptyAndAddToArray(details, $('#lastname'), "Last Name: ");
+		checkEmptyAndAddToArray(details, $('#birthdate'), "Birthdate: ");
+		checkEmptyAndAddToArray(details, $('#address'), "Address: ");
+		checkEmptyAndAddToArray(details, $('#contact'), "Contact No.: ");
+		checkEmptyAndAddToArray(details, $('#company'), "Company Name: ");
+		checkEmptyAndAddToArray(details, $('#occupation'), "Occupation: ");
+		let message = details.join('<br>')
+
+		$('#entered-info').html(message);
+		$('#bookModal').modal('show');
+	});
 });
+
+function checkEmptyAndAddToArray(arr, field, tag){
+	switch(tag){
+		case "Room Type: ":
+			if(field.val() != null){
+				temp = tag + field.val();
+				arr.push(temp);
+			}
+			break;
+		default:
+			if(field.val() != ''){
+				temp = tag + field.val();
+				arr.push(temp);
+			}
+	}
+}
 
 function validateEntry () {
 
