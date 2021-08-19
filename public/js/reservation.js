@@ -6,16 +6,16 @@ $(document).ready(function () {
 
 	$('#reserve').on('click', function(){
 		let details = [];
-		checkEmptyAndAddToArray(details, $('#reserve_type_select'), "Room Type: ");
-		checkEmptyAndAddToArray(details, $('#start-date'), "Start Date: ");
-		checkEmptyAndAddToArray(details, $('#end-date'), "End Date: ");
-		checkEmptyAndAddToArray(details, $('#firstname'), "First Name: ");
-		checkEmptyAndAddToArray(details, $('#lastname'), "Last Name: ");
-		checkEmptyAndAddToArray(details, $('#birthdate'), "Birthdate: ");
-		checkEmptyAndAddToArray(details, $('#address'), "Address: ");
-		checkEmptyAndAddToArray(details, $('#contact'), "Contact No.: ");
-		checkEmptyAndAddToArray(details, $('#company'), "Company Name: ");
-		checkEmptyAndAddToArray(details, $('#occupation'), "Occupation: ");
+		pushToArray(details, "Room Type", $('#reserve_type_select').val());
+		pushToArray(details, "Start Date", $('#start-date').val());
+		pushToArray(details, "End Date", $('#end-date').val());
+		pushToArray(details, "First Name", $('#firstname').val());
+		pushToArray(details, "Last Name", $('#lastname').val());
+		pushToArray(details, "Birthdate", $('#birthdate').val());
+		pushToArray(details, "Address", $('#address').val());
+		pushToArray(details, "Contact No.", $('#contact').val());
+		pushToArray(details, "Company Name", $('#company').val());
+		pushToArray(details, "Occupation", $('#occupation').val());
 		let message = details.join('<br>')
 
 		$('#entered-info').html(message);
@@ -23,19 +23,9 @@ $(document).ready(function () {
 	});
 });
 
-function checkEmptyAndAddToArray(arr, field, tag){
-	switch(tag){
-		case "Room Type: ":
-			if(field.val() != null){
-				temp = tag + field.val();
-				arr.push(temp);
-			}
-			break;
-		default:
-			if(field.val() != ''){
-				temp = tag + field.val();
-				arr.push(temp);
-			}
+function pushToArray(array, field, value){
+	if(value != ''){
+		array.push(`${field}: ${value}`);
 	}
 }
 
@@ -44,7 +34,7 @@ function validateEntry () {
 	let isValid = true;
 
 	//no room type is selected
-	if ($('#reserve_type_select').val() == null) {
+	if ($('#reserve_type_select').val() == '') {
 		$('#reserve-type-error').text('Room Type cannot be empty');
 		isValid = false;
 	} else {

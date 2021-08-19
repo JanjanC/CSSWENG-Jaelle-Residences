@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <label class="h5">Room Type</label>
                                 <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
-                                    <option value="" disabled selected>Select the room type</option>
+                                    <option value="" hidden selected>Select the room type</option>
                                     {{#each room_types}}
                                     <option value="{{this}}">{{this}}</option>
                                     {{/each}}
