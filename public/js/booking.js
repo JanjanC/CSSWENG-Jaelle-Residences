@@ -7,6 +7,25 @@ $(document).ready(function () {
 	$('#book').click(function(){
 		showInput();
 	});
+
+	$('#end-date').change(function () {
+        let information = {
+			room_number: $('#room-number').val(),
+			start_date: $('#start-date').val(),
+			end_date: $('#end-date').val()
+		}
+
+        $.get('/check-availability', information, function(result) {
+            //If a dupe was found
+            if(result) {
+                $('#end-date-error').text('Room Unavailable for the Inputted End Date');
+                $('#book').prop('disabled', true);
+            } else {
+                $('#end-date-error').text('');
+                $('#book').prop('disabled', false);
+            }
+        });
+    });
 });
 
 function showInput () {

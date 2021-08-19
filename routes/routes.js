@@ -31,7 +31,8 @@ app.get('/:year-:month-:day/booking', bookingController.getBookingScreen);
 app.get('/:year-:month-:day/booking/:roomID/create', bookingController.getCreateBooking);
 
 app.post('/booking/:roomID/create', bookingController.postCreateBooking);
-// app.get('/rooms', bookingController.getRooms)
+
+app.get('/check-availability', bookingController.checkAvailability)
 
 app.get(`/error`, controller.getError);
 app.get(`*`, controller.getError);

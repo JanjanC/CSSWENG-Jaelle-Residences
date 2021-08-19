@@ -125,29 +125,15 @@ const bookingController = {
         });
 	},
 
-	checkAvailability: function(req, res) {
-		//you don't want anything where the start and end are inside your period
-		// booking_query = {
-        //     booked_type: type,
-		// 	$or:[{status : 0, StatusDate1:{$gte:somedate}},
-        //      {status : 1, StatusDate2:{$gte:somedate}},
-        //      {status : 2, StatusDate3:{$gte:somedate}},
-        //      {status : 3, StatusDate4:{$gte:somedate}}]
-        //     start_date: {$gte: start},
-        //     end_date: {$lte: end},
-        //     $or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}]
-        // };
-	},
-
-    availableRooms: function(req, res){
+    checkAvailability: function(req, res){
         // extract dates and room number
-        start = new Date("8/18/21");
-        end = new Date("8/21/21");
+        start = new Date(req.query.start_date);
+        end = new Date(req.query.end_date);
         startCopy = new Date(start.valueOf());
         endCopy = new Date(end.valueOf());
         lower_bound = startCopy.setFullYear(startCopy.getFullYear() - 5);
         upper_bound = endCopy.setFullYear(endCopy.getFullYear() + 5);
-        number = "302"
+        number = req.query.room_number;
 
         // set conditions for the queries
         booking_query = {
@@ -168,14 +154,12 @@ const bookingController = {
         // find bookings for a specified room between the start and end date inclusive
         db.findOne(Booking, booking_query, function(booking_result){
             // stores a Boolean signifying whether room is available or not
-            let answer;
             // when no bookings are found
             if(!booking_result){
-                answer = true;
-            }
-            // when at least one booking is found
-            else{
-                answer = false;
+                res.send(true);
+			// when at least one booking is found
+            } else{
+                res.send(false);
             }
         });
 
