@@ -50,3 +50,12 @@ hbs.registerHelper('getNextMonth', function(date) {
 hbs.registerHelper('addLeadingZeros', function(num) {
     return num.toString().padStart(2, 0);
 });
+
+//Conditional that returns the content inside if the date parameter is later than the current date
+hbs.registerHelper('ifNotPastDate', function(date, options) {
+    let current = new Date();
+    if(date >= current) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
