@@ -83,7 +83,7 @@ const bookingController = {
                 // create an object to be inserted into the database
                 let booking = {
                     room: req.params.roomID,
-                    booked_type: req.body.reserve_type_select,
+                    booked_type: req.body.room_type,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
@@ -171,7 +171,7 @@ const bookingController = {
             // when at least one booking is found
             else{
                 answer = false;
-            }                        
+            }
         });
 
         // // extract dates and room type
