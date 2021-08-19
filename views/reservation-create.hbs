@@ -53,14 +53,14 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date</label>
-                                <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate date}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="start-date" name="start_date" value="{{formatDate date}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
                             <!-- End Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">End Date</label>
-                                <input class="form-control w-75" type="date" id="end-date" name="end_date">
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
                         </div>
@@ -89,7 +89,8 @@
                             <!--Birthday-->
                             <div class="form-group mb-3">
                                 <label class="h5 d-block">Birthdate</label>
-                                <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
+                                <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
+                                <em><p class="error text-danger" id="birthdate-error"></p></em>
                             </div>
 
                             <!--Address-->
@@ -122,7 +123,7 @@
 
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
-                        <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
+                        <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
                             Reserve
                         </button>
                         <!-- Modal -->
@@ -136,6 +137,8 @@
                                     <div class="modal-body">
                                         <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                         <p>Are you sure you want to reserve guest with the following information?</p>
+                                        <div id="entered-info">
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

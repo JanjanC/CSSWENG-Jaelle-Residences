@@ -3,7 +3,41 @@ $(document).ready(function () {
 	$('#submit').click(function() {
 		return validateEntry();
 	});
+
+	$('#reserve').on('click', function(){
+		let details = [];
+		checkEmptyAndAddToArray(details, $('#reserve_type_select'), "Room Type: ");
+		checkEmptyAndAddToArray(details, $('#start-date'), "Start Date: ");
+		checkEmptyAndAddToArray(details, $('#end-date'), "End Date: ");
+		checkEmptyAndAddToArray(details, $('#firstname'), "First Name: ");
+		checkEmptyAndAddToArray(details, $('#lastname'), "Last Name: ");
+		checkEmptyAndAddToArray(details, $('#birthdate'), "Birthdate: ");
+		checkEmptyAndAddToArray(details, $('#address'), "Address: ");
+		checkEmptyAndAddToArray(details, $('#contact'), "Contact No.: ");
+		checkEmptyAndAddToArray(details, $('#company'), "Company Name: ");
+		checkEmptyAndAddToArray(details, $('#occupation'), "Occupation: ");
+		let message = details.join('<br>')
+
+		$('#entered-info').html(message);
+		$('#reserveModal').modal('show');
+	});
 });
+
+function checkEmptyAndAddToArray(arr, field, tag){
+	switch(tag){
+		case "Room Type: ":
+			if(field.val() != null){
+				temp = tag + field.val();
+				arr.push(temp);
+			}
+			break;
+		default:
+			if(field.val() != ''){
+				temp = tag + field.val();
+				arr.push(temp);
+			}
+	}
+}
 
 function validateEntry () {
 
@@ -70,6 +104,13 @@ function validateEntry () {
 		isValid = false;
 	} else {
 		$('#lastname-error').text('');
+	}
+
+	if (new Date($('#birthdate').val()) > new Date(todayString)) {
+		$('#birthdate-error').text('Birthdate cannot be later than Today');
+		isValid = false;
+	} else {
+		$('#birthdate-error').text('');
 	}
 
 	return isValid;

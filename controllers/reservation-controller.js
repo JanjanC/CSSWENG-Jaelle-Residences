@@ -104,7 +104,7 @@ const reservationController = {
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
-                                res.redirect('/index');
+                                res.redirect(`/${req.body.start_date}/reservation/`);
                             } else {
                                 res.redirect('/error');
                             }
@@ -183,7 +183,7 @@ const reservationController = {
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
-                                res.redirect('/index');
+                                res.redirect(`/${req.body.start_date}/reservation/`);
                             } else {
                                 res.redirect('/error');
                             }
@@ -220,8 +220,11 @@ const reservationController = {
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-                        // redirects to home screen after adding a record
-                        res.redirect('/index');
+                        // redirects to home screen after deleting a record
+                        let today = new Date();
+                    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+                        res.redirect(`/${todayString}/reservation/`);
                     } else {
                         res.redirect('/error');
                     }
