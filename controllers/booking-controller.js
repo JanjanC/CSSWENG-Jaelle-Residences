@@ -92,6 +92,7 @@ const bookingController = {
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
+					checked_in: false,
                     is_cancelled: false
                 }
 
@@ -109,7 +110,7 @@ const bookingController = {
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
-                                res.redirect('/index');
+                                res.redirect(`/${req.body.start_date}/booking/`);
                             } else {
                                 res.redirect('/error');
                             }
