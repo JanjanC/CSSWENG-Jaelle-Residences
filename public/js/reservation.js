@@ -4,7 +4,7 @@ $(document).ready(function () {
 		return validateEntry();
 	});
 
-	$('#reserve').on('click', function(){
+	$('#reserve').click(function(){
 		let details = [];
 		pushToArray(details, 'Room Type', $('#reserve_type_select').val());
 		pushToArray(details, 'Start Date', $('#start-date').val());
