@@ -6,16 +6,16 @@ $(document).ready(function () {
 
 	$('#reserve').on('click', function(){
 		let details = [];
-		pushToArray(details, "Room Type", $('#reserve_type_select').val());
-		pushToArray(details, "Start Date", $('#start-date').val());
-		pushToArray(details, "End Date", $('#end-date').val());
-		pushToArray(details, "First Name", $('#firstname').val());
-		pushToArray(details, "Last Name", $('#lastname').val());
-		pushToArray(details, "Birthdate", $('#birthdate').val());
-		pushToArray(details, "Address", $('#address').val());
-		pushToArray(details, "Contact No.", $('#contact').val());
-		pushToArray(details, "Company Name", $('#company').val());
-		pushToArray(details, "Occupation", $('#occupation').val());
+		pushToArray(details, 'Room Type', $('#reserve_type_select').val());
+		pushToArray(details, 'Start Date', $('#start-date').val());
+		pushToArray(details, 'End Date', $('#end-date').val());
+		pushToArray(details, 'First Name', $('#firstname').val());
+		pushToArray(details, 'Last Name', $('#lastname').val());
+		pushToArray(details, 'Birthdate', $('#birthdate').val());
+		pushToArray(details, 'Address', $('#address').val());
+		pushToArray(details, 'Contact No.', $('#contact').val());
+		pushToArray(details, 'Company Name', $('#company').val());
+		pushToArray(details, 'Occupation', $('#occupation').val());
 		let message = details.join('<br>')
 
 		$('#inputted-info').html(message);
