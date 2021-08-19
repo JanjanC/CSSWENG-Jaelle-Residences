@@ -4,46 +4,36 @@ $(document).ready(function () {
 		return validateEntry();
 	});
 
-	$('#reserve').on('click', function(){
+	$('#book').click(function(){
 		let details = [];
-		checkEmptyAndAddToArray(details, $('#room_type'), "Room Type: ");
-		checkEmptyAndAddToArray(details, $('#room-number'), "Room Number: ");
-		checkEmptyAndAddToArray(details, $('#start-date'), "Start Date: ");
-		checkEmptyAndAddToArray(details, $('#end-date'), "End Date: ");
-		checkEmptyAndAddToArray(details, $('#firstname'), "First Name: ");
-		checkEmptyAndAddToArray(details, $('#lastname'), "Last Name: ");
-		checkEmptyAndAddToArray(details, $('#birthdate'), "Birthdate: ");
-		checkEmptyAndAddToArray(details, $('#address'), "Address: ");
-		checkEmptyAndAddToArray(details, $('#contact'), "Contact No.: ");
-		checkEmptyAndAddToArray(details, $('#company'), "Company Name: ");
-		checkEmptyAndAddToArray(details, $('#occupation'), "Occupation: ");
+		pushToArray(details, 'Room Type', $('#room_type').val());
+		pushToArray(details, 'Room Number', $('#room-number').val());
+		pushToArray(details, 'Start Date', $('#start-date').val());
+		pushToArray(details, 'End Date', $('#end-date').val());
+		pushToArray(details, 'First Name', $('#firstname').val());
+		pushToArray(details, 'Last Name', $('#lastname').val());
+		pushToArray(details, 'Birthdate', $('#birthdate').val());
+		pushToArray(details, 'Address', $('#address').val());
+		pushToArray(details, 'Contact No.', $('#contact').val());
+		pushToArray(details, 'Company Name', $('#company').val());
+		pushToArray(details, 'Occupation', $('#occupation').val());
 		let message = details.join('<br>')
 
-		$('#entered-info').html(message);
+		$('#inputted-info').html(message);
 		$('#bookModal').modal('show');
 	});
 });
 
-function checkEmptyAndAddToArray(arr, field, tag){
-	switch(tag){
-		case "Room Type: ":
-			if(field.val() != null){
-				temp = tag + field.val();
-				arr.push(temp);
-			}
-			break;
-		default:
-			if(field.val() != ''){
-				temp = tag + field.val();
-				arr.push(temp);
-			}
+function pushToArray(array, field, value){
+	if(value != ''){
+		array.push(`${field}: ${value}`);
 	}
 }
 
 function validateEntry () {
 
 	let isValid = true;
-	
+
 	//get the date today in the format of YYYY-MM-DD
 	let today = new Date();
 	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
