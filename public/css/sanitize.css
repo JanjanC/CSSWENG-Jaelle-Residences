@@ -31,8 +31,24 @@ button, .btn {
     background-color: #f8f9fa !important;
 }
 
+.text-primary {
+    color: #2E6D9E!important;
+}
+
+.btn-primary {
+    border-color: #0d1f2d;
+    background-color: #0d1f2d;
+    color: #f8f9fa;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    border-color: #0d1f2d;
+    background-color: #0d1f2d;
+    color: #f5c86d;
+    transition: 0.3s;
+}
+
 #container-screen {
-    background-color: #f8f9fa !important;
     height: 100%;
 }
 
