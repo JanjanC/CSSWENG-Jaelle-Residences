@@ -5,24 +5,28 @@ $(document).ready(function () {
 	});
 
 	$('#book').click(function(){
-		let details = [];
-		pushToArray(details, 'Room Type', $('#room_type').val());
-		pushToArray(details, 'Room Number', $('#room-number').val());
-		pushToArray(details, 'Start Date', $('#start-date').val());
-		pushToArray(details, 'End Date', $('#end-date').val());
-		pushToArray(details, 'First Name', $('#firstname').val());
-		pushToArray(details, 'Last Name', $('#lastname').val());
-		pushToArray(details, 'Birthdate', $('#birthdate').val());
-		pushToArray(details, 'Address', $('#address').val());
-		pushToArray(details, 'Contact No.', $('#contact').val());
-		pushToArray(details, 'Company Name', $('#company').val());
-		pushToArray(details, 'Occupation', $('#occupation').val());
-		let message = details.join('<br>')
-
-		$('#inputted-info').html(message);
-		$('#bookModal').modal('show');
+		showInput();
 	});
 });
+
+function showInput () {
+	let details = [];
+	pushToArray(details, 'Room Type', $('#room_type').val());
+	pushToArray(details, 'Room Number', $('#room-number').val());
+	pushToArray(details, 'Start Date', $('#start-date').val());
+	pushToArray(details, 'End Date', $('#end-date').val());
+	pushToArray(details, 'First Name', $('#firstname').val());
+	pushToArray(details, 'Last Name', $('#lastname').val());
+	pushToArray(details, 'Birthdate', $('#birthdate').val());
+	pushToArray(details, 'Address', $('#address').val());
+	pushToArray(details, 'Contact No.', $('#contact').val());
+	pushToArray(details, 'Company Name', $('#company').val());
+	pushToArray(details, 'Occupation', $('#occupation').val());
+	let message = details.join('<br>')
+
+	$('#inputted-info').html(message);
+	$('#bookModal').modal('show');
+}
 
 function pushToArray(array, field, value){
 	if(value != ''){
