@@ -57,7 +57,8 @@ var BookingSchema = new mongoose.Schema({
     },
 
     is_cancelled: {
-        type: Boolean
+        type: Boolean,
+        required: true
     }
 
 });
