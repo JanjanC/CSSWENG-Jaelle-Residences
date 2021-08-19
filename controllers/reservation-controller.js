@@ -104,7 +104,7 @@ const reservationController = {
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
-                                res.redirect('/index');
+                                res.redirect(`/${req.body.start_date}/reservation/`);
                             } else {
                                 res.redirect('/error');
                             }
@@ -183,7 +183,7 @@ const reservationController = {
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to home screen after adding a record
-                                res.redirect('/index');
+                                res.redirect(`/${req.body.start_date}/reservation/`);
                             } else {
                                 res.redirect('/error');
                             }
