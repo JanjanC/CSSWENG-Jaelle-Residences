@@ -18,7 +18,7 @@ $(document).ready(function () {
 		pushToArray(details, "Occupation", $('#occupation').val());
 		let message = details.join('<br>')
 
-		$('#entered-info').html(message);
+		$('#inputted-info').html(message);
 		$('#reserveModal').modal('show');
 	});
 });
