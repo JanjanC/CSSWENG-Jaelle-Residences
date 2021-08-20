@@ -10,8 +10,35 @@ $(document).ready(function () {
 
 	$('#end-date').change(function () {
 		checkAvailability();
+		computePrice();
     });
 });
+
+function computePrice () {
+	let roomID = $('#room-id').text();
+
+	$.get('/get-room', {roomID: roomID}, function(result) {
+		if (result) {
+			let time =  1000 * 60 * 60 * 24;
+
+			let startDate = new Date($('#start-date').val()).getTime();
+			let endDate = new Date($('#end-date').val()).getTime();
+			let duration = Math.round(Math.abs((endDate - startDate) / time));
+
+			if (duration == 0) {
+				duration += 1
+			}
+
+			let rate = result.room_rate.daily;
+			let total = rate * duration;
+
+			$('#room-rate').val(total);
+			$('#duration').val(total);
+			$('#room-gross-cost').val(total);
+
+		}
+	});
+}
 
 function checkAvailability () {
 	let rooms = [];

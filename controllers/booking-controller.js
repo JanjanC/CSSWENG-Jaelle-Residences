@@ -133,6 +133,14 @@ const bookingController = {
         });
 	},
 
+	getRoom: function(req, res) {
+		let roomID = req.query.roomID;
+
+		db.findOne(Room, {_id: roomID}, function(result) {
+			res.send(result);
+		});
+	},
+
     checkAvailability: function(req, res) {
         // extract dates and room number
         let start = new Date(req.query.start_date);
@@ -142,7 +150,6 @@ const bookingController = {
         let upper_bound = new Date(req.query.end_date);
         lower_bound.setFullYear(lower_bound.getFullYear() - 5);
         upper_bound.setFullYear(upper_bound.getFullYear() + 5);
-		console.log(req.query);
         // set conditions for the queries
         booking_query = {
             $and: [
@@ -168,10 +175,10 @@ const bookingController = {
         };
 
         // find bookings for a specified room between the start and end date inclusive
-        db.findOne(Booking, booking_query, function(booking_result){
+        db.findOne(Booking, booking_query, function(result){
             // stores a Boolean signifying whether room is available or not
             // when a bookings is found
-            if(booking_result){
+            if(result){
                 res.send(false);
             // when no booking is found
             } else{
