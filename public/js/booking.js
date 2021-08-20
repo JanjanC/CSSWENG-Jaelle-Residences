@@ -9,32 +9,36 @@ $(document).ready(function () {
 	});
 
 	$('#end-date').change(function () {
-		let rooms = [];
-
-		rooms.push($('#room-id').text());
-
-		$('.connected-rooms').each(function () {
-			rooms.push($(this).text());
-		})
-
-        let information = {
-			start_date: $('#start-date').val(),
-			end_date: $('#end-date').val(),
-			rooms: rooms
-		}
-
-        $.get('/check-availability', information, function(result) {
-            //is available
-            if(result) {
-				$('#end-date-error').text('');
-                $('#book').prop('disabled', false);
-            } else {
-				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-                $('#book').prop('disabled', true);
-            }
-        });
+		checkAvailability();
     });
 });
+
+function checkAvailability () {
+	let rooms = [];
+
+	rooms.push($('#room-id').text());
+
+	$('.connected-rooms').each(function () {
+		rooms.push($(this).text());
+	})
+
+	let information = {
+		start_date: $('#start-date').val(),
+		end_date: $('#end-date').val(),
+		rooms: rooms
+	}
+
+	$.get('/check-availability', information, function(result) {
+		//is available
+		if(result) {
+			$('#end-date-error').text('');
+			$('#book').prop('disabled', false);
+		} else {
+			$('#end-date-error').text('Room Unavailable for the Inputted Dates');
+			$('#book').prop('disabled', true);
+		}
+	});
+}
 
 function showInput () {
 	let details = [];
