@@ -129,38 +129,49 @@ const bookingController = {
         // extract dates and room number
         start = new Date(req.query.start_date);
         end = new Date(req.query.end_date);
-        startCopy = new Date(start.valueOf());
-        endCopy = new Date(end.valueOf());
-        lower_bound = startCopy.setFullYear(startCopy.getFullYear() - 5);
-        upper_bound = endCopy.setFullYear(endCopy.getFullYear() + 5);
+        lower_bound = new Date(req.query.start_date);
+        upper_bound = new Date(req.query.end_date);
+        lower_bound.setFullYear(lower_bound.getFullYear() - 5);
+        upper_bound.setFullYear(upper_bound.getFullYear() + 5);
         number = req.query.room_number;
+        console.log(typeof(number)+number);
 
-        // set conditions for the queries
-        booking_query = {
-            room_number: number,
-            // reservation dates only within 5 years
-            $and: [{start_date: {$gte: lower_bound}}, {end_date: {$lte: upper_bound}}],
-            // must be a booking
-            $or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}],
-            // cases to check for existing bookings
-            $or: [
-                {$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-                {start_date: {$lte: end}},
-                {end_date: {$gte: start}},
-                {$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
-            ]
-        };
+        db.findOne(Room, {room_number: req.query.room_number}, function(roomResult){
+            console.log("DEBUG IN ROOMSEARCH" + roomResult);
+            // TODO: fix issue where roomResult is always null
+            // if(roomResult){
+                // set conditions for the queries
+                booking_query = {
+                    $and:[
+                        {room: mongoose.mongo.ObjectID('611a2b62687236173c223aea')},
+                        // reservation dates only within 5 years
+                        {$and: [{start_date: {$gte: lower_bound}}, {end_date: {$lte: upper_bound}}]},
+                        // must be a booking
+                        {$or: [{confirmed_reservation: {$exists: false}},{confirmed_reservation: true}]},
+                        // cases to check for existing bookings
+                        {$or: [
+                            {$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
+                            {$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
+                            {$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
+                            {$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
+                        ]}
+                    ]
+                };
+                // console.log(roomResult._id);
 
-        // find bookings for a specified room between the start and end date inclusive
-        db.findOne(Booking, booking_query, function(booking_result){
-            // stores a Boolean signifying whether room is available or not
-            // when a bookings is found
-            if(booking_result){
-                res.send(false);
-			// when no booking is found
-            } else{
-                res.send(true);
-            }
+                // find bookings for a specified room between the start and end date inclusive
+                db.findOne(Booking, booking_query, function(booking_result){
+                    console.log("DEBUG: IN BOOKINGCONTROLLER CHECK");
+                    // stores a Boolean signifying whether room is available or not
+                    // when a bookings is found
+                    if(booking_result){
+                        res.send(false);
+                    // when no booking is found
+                    } else{
+                        res.send(true);
+                    }
+                });
+            // }
         });
 
         // // extract dates and room type
