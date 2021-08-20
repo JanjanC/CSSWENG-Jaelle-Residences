@@ -51,10 +51,10 @@ function validateEntry () {
 		$('#start-date-error').text('Start Date cannot be empty');
 		isValid = false;
 	// the start date is earlier than today
-	} else if ($('#start-date').val() < todayString) {
+	} else if (new Date($('#start-date').val()) < new Date(todayString)) {
 		$('#start-date-error').text('Start Date cannot be earlier than Today');
 		isValid = false;
-	} else if ($('#start-date').val() > fiveYearString) {
+	} else if (new Date($('#start-date').val()) > new Date(fiveYearString)) {
 		$('#start-date-error').text('Start Date may only be 5 Years from Today');
 		isValid = false;
 	} else {
@@ -66,17 +66,14 @@ function validateEntry () {
 		$('#end-date-error').text('End Date cannot be empty');
 		isValid = false;
 	// the end date is earlier than today
-	} else if ($('#end-date').val() < todayString) {
+	} else if (new Date($('#end-date').val()) < new Date(todayString)) {
 		$('#end-date-error').text('End Date cannot be earlier than Today');
 		isValid = false;
 	// the end date is earlier than the start date
-	} else if ($('#start-date').val() != '' && $('#end-date').val() < $('#start-date').val()) {
+	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 		$('#end-date-error').text('End Date cannot be earlier than Start Date');
 		isValid = false;
-	} else if ($('#start-date').val() != '' && $('#end-date').val() === $('#start-date').val()) {
-		$('#end-date-error').text('End Date cannot the same as Start Date');
-		isValid = false;
-	} else if ($('#end-date').val() > fiveYearString) {
+	} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
 		$('#end-date-error').text('End Date may only be 5 Years from Today');
 		isValid = false;
 	} else {
@@ -99,7 +96,7 @@ function validateEntry () {
 		$('#lastname-error').text('');
 	}
 
-	if ($('#birthdate').val() > todayString) {
+	if (new Date($('#birthdate').val()) > new Date(todayString)) {
 		$('#birthdate-error').text('Birthdate cannot be later than Today');
 		isValid = false;
 	} else {
