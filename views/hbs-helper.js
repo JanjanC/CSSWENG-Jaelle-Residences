@@ -70,3 +70,15 @@ hbs.registerHelper('getNextMonth', function(date) {
 hbs.registerHelper('addLeadingZeros', function(num) {
     return num.toString().padStart(2, 0);
 });
+
+//Conditional that returns the content inside if the date parameter is later than the current date
+hbs.registerHelper('isNotPastDate', function(date, options) {
+    let today = new Date();
+	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+    if (new Date(date) >= new Date(todayString)) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
