@@ -9,10 +9,14 @@ $(document).ready(function () {
 	});
 
 	$('#end-date').change(function () {
+		const $rid = document.querySelector('#rid');
+		const rid = $rid.getAttribute('rid');
+		
         let information = {
 			room_number: $('#room-number').val(),
 			start_date: $('#start-date').val(),
-			end_date: $('#end-date').val()
+			end_date: $('#end-date').val(),
+			rid: rid
 		}
 
         $.get('/check-availability', information, function(result) {
