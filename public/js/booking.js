@@ -16,13 +16,13 @@ $(document).ready(function () {
 		}
 
         $.get('/check-availability', information, function(result) {
-            //If a dupe was found
+            //is available
             if(result) {
-                $('#end-date-error').text('Room Unavailable for the Inputted End Date');
-                $('#book').prop('disabled', true);
-            } else {
-                $('#end-date-error').text('');
+				$('#end-date-error').text('');
                 $('#book').prop('disabled', false);
+            } else {
+				$('#end-date-error').text('Room Unavailable for the Inputted End Date');
+                $('#book').prop('disabled', true);
             }
         });
     });

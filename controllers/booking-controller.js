@@ -154,12 +154,12 @@ const bookingController = {
         // find bookings for a specified room between the start and end date inclusive
         db.findOne(Booking, booking_query, function(booking_result){
             // stores a Boolean signifying whether room is available or not
-            // when no bookings are found
-            if(!booking_result){
-                res.send(true);
-			// when at least one booking is found
-            } else{
+            // when a bookings is found
+            if(booking_result){
                 res.send(false);
+			// when no booking is found
+            } else{
+                res.send(true);
             }
         });
 
