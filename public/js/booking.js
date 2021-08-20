@@ -113,5 +113,12 @@ function validateEntry () {
 		$('#lastname-error').text('');
 	}
 
+	if (new Date($('#birthdate').val()) > new Date(todayString)) {
+		$('#birthdate-error').text('Birthdate cannot be later than Today');
+		isValid = false;
+	} else {
+		$('#birthdate-error').text('');
+	}
+
 	return isValid;
 }
