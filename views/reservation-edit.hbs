@@ -121,7 +121,7 @@
                             <!--Birthday-->
                             <div class="form-group mb-3">
                                 <label class="h5 d-block">Birthdate</label>
-                                <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" {{#if reservation.guest.birthdate}}value="{{formatDate reservation.guest.birthdate}}"{{/if}}>
+                                <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" {{#if reservation.guest.birthdate}}value="{{formatDate reservation.guest.birthdate}}"{{/if}}>
                             </div>
 
                             <!--Address-->
@@ -133,7 +133,7 @@
                             <!--Contact No.-->
                             <div class="form-group mb-3">
                                 <label class="h5 d-block">Contact No.</label>
-                                <input class="form-control w-75" type="number" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{reservation.guest.contact_number}}">
+                                <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{reservation.guest.contact_number}}">
                             </div>
 
                             <!--Company's Name-->
