@@ -133,20 +133,20 @@ const bookingController = {
         });
 	},
 
-    checkAvailability: function(req, res){
+    checkAvailability: function(req, res) {
         // extract dates and room number
         let start = new Date(req.query.start_date);
         let end = new Date(req.query.end_date);
-		let roomID = req.query.room_id;
+		let rooms = req.query.rooms;
         let lower_bound = new Date(req.query.start_date);
         let upper_bound = new Date(req.query.end_date);
         lower_bound.setFullYear(lower_bound.getFullYear() - 5);
         upper_bound.setFullYear(upper_bound.getFullYear() + 5);
-
+		console.log(req.query);
         // set conditions for the queries
         booking_query = {
             $and: [
-                {room: roomID},
+                {room: {$in : rooms}},
                 // reservation dates only within 5 years
                 {$and: [
 					{start_date: {$gte: lower_bound}},

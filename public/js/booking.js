@@ -9,12 +9,19 @@ $(document).ready(function () {
 	});
 
 	$('#end-date').change(function () {
+		let rooms = [];
+
+		rooms.push($('#room-id').text());
+
+		$('.connected-rooms').each(function () {
+			rooms.push($(this).text());
+		})
+
         let information = {
 			start_date: $('#start-date').val(),
 			end_date: $('#end-date').val(),
-			room_id: $('#room-id').text()
+			rooms: rooms
 		}
-		console.log(information);
 
         $.get('/check-availability', information, function(result) {
             //is available
