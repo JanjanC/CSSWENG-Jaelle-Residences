@@ -11,6 +11,7 @@ var RoomSchema = new mongoose.Schema({
     // the type of room
     room_type: {
         type: String,
+        trim: true,
         required: true
     },
 
@@ -44,6 +45,13 @@ var RoomSchema = new mongoose.Schema({
     // signifies whether the room needs repair or not
     need_repair: {
         type: Boolean,
+        required: true
+    },
+
+    // signifies whether the room is vacant or occupied
+    availability_status: {
+        type: String,
+        trim: true,
         required: true
     },
 

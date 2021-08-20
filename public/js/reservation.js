@@ -28,7 +28,7 @@ function showInput () {
 }
 
 function pushToArray(array, field, value){
-	if(value != ''){
+	if(value.trim() != ''){
 		array.push(`${field}: ${value}`);
 	}
 }

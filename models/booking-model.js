@@ -16,6 +16,7 @@ var BookingSchema = new mongoose.Schema({
     // the type of room booked
     booked_type: {
         type: String,
+        trim: true,
         required: true
     },
 
