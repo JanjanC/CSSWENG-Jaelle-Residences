@@ -22,14 +22,17 @@ var RoomSchema = new mongoose.Schema({
         },
 
         weekly: {
-            type: Number,
-            required: true
+            type: Number
         },
 
         monthly: {
-            type: Number,
-            required: true
+            type: [Number],
         }
+    },
+
+    max_pax: {
+        type: Number,
+        required: true
     },
 
     // signifies whether the room needs housekeeping or not
@@ -44,15 +47,11 @@ var RoomSchema = new mongoose.Schema({
         required: true
     },
 
-    // signifies whether the room is vacant or occupied
-    availability_status: {
-        type: String,
-        required: true
-    },
-
     connected_rooms: {
-        type: Array,
-        required: false
+        type: [{
+            type: mongoose.ObjectId,
+            ref: 'Room'
+        }]
     }
 });
 
