@@ -35,16 +35,22 @@ const bookingController = {
 				db.findMany(Booking, booking, function (bookingResult) {
 		        	if (bookingResult) {
 						for (let i = 0; i < bookingResult.length; i++) {
-							console.log(bookingResult[i].room);
-
 							for (let j = 0; j < list.length; j++) {
-								if (JSON.stringify(list[j].room) == JSON.stringify(bookingResult[i].room)) {
+								if (list[j].room._id.toString() == bookingResult[i].room._id.toString()) {
 									list[j].booking = bookingResult[i];
 									break;
 								}
 							}
+							for(let k = 0; k < bookingResult[i].room.connected_rooms.length; k++) {
+
+								for (let j = 0; j < list.length; j++) {
+									if (list[j].room._id.toString() == bookingResult[i].room.connected_rooms[k].toString()) {
+										list[j].booking = bookingResult[i];
+										break;
+									}
+								}
+							}
 						}
-						// console.log(list);
 						res.render('booking-main', {list: list});
 		        	} else {
 						res.redirect('/error');
