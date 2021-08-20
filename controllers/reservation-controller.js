@@ -40,7 +40,7 @@ const reservationController = {
                         previous.reservations.push(result[i]);
                     }
                 }
-                res.render('reservation-main', {list: list, date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)});
+                res.render('reservation-main', {list: list, date: date});
             } else {
                 res.redirect('/error');
             }
