@@ -17,23 +17,19 @@ var EmployeeSchema = new mongoose.Schema({
     // the employee's first name
     first_name: {
         type: String,
+        trim: true,
         required: true
     },
 
     // the employee's first name
     last_name: {
         type: String,
+        trim: true,
         required: true
     },
 
     // the employee's role (staff or admin)
     role: {
-        type: String,
-        required: true
-    },
-
-    // the username of the admin that registered the employee
-    registered_by: {
         type: String,
         required: true
     },
