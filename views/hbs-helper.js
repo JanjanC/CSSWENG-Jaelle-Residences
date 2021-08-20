@@ -24,6 +24,14 @@ hbs.registerHelper('getCurrentMonthYear', function() {
     return `${year}-${month}`;
 });
 
+//returns the date in the format of YYYY-MM-DD
+hbs.registerHelper('getMonthYear', function(date) {
+    date = new Date(date);
+	let year = date.getFullYear().toString();
+    let month = (date.getMonth() + 1).toString().padStart(2, 0);
+    return `${year}-${month}`;
+});
+
 //returns the previous month
 hbs.registerHelper('getPrevMonth', function(date) {
 	let current;
