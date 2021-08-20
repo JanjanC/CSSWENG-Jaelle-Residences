@@ -19,10 +19,6 @@
 
     {{>navbar}}
 
-    <div hidden>
-        <span id="rid" rid="{{room._id}}"></span>
-    </div>
-
     <div class="row w-100 m-0 h-100">
         <!--COLUMN FOR SIDEBAR-->
         {{>sidebar}}
@@ -60,6 +56,11 @@
                     <!-- COLUMN 1: Room Details -->
                     <div class="col-5 me-3 border p-4 pt-2 rounded">
                         <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
+
+
+                        <div hidden>
+                            <span id="room-id">{{room._id}}</span>
+                        </div>
 
                         <!--Room Type-->
                         <div class="form-group mb-3">

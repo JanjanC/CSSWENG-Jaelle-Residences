@@ -9,15 +9,12 @@ $(document).ready(function () {
 	});
 
 	$('#end-date').change(function () {
-		const $rid = document.querySelector('#rid');
-		const rid = $rid.getAttribute('rid');
-		
         let information = {
-			room_number: $('#room-number').val(),
 			start_date: $('#start-date').val(),
 			end_date: $('#end-date').val(),
-			rid: rid
+			room_id: $('#room-id').text()
 		}
+		console.log(information);
 
         $.get('/check-availability', information, function(result) {
             //is available
@@ -25,7 +22,7 @@ $(document).ready(function () {
 				$('#end-date-error').text('');
                 $('#book').prop('disabled', false);
             } else {
-				$('#end-date-error').text('Room Unavailable for the Inputted End Date');
+				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
                 $('#book').prop('disabled', true);
             }
         });
