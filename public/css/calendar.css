@@ -9,7 +9,7 @@ html, body {
 }
 
 #prev-month:hover, #next-month:hover {
-    background-color: #E2F0E1;
+    background-color: #CFE3F2;
     transition: 0.3s;
     cursor: pointer;
 }
@@ -23,12 +23,18 @@ html, body {
 }
 
 .today {
-    background-color: #dddddd;
+    background-color: #FCF1D9!important;
+}
+
+.today:hover {
+    background-color: #F8E4B4!important;
+    transition: 0.3s;
 }
 
 .dofweek:hover {
-    background-color: #F2E8DF;
+    background-color: #EAEAEC;
     transition: 0.3s;
+    cursor: default;
 }
 
 td {
@@ -36,8 +42,8 @@ td {
     height: 7em;
 }
 
-td:hover {
-    background-color: #DFEBF0;
+td.in-month:hover {
+    background-color: #DFECF6;
     transition: 0.3s;
     cursor: pointer;
 }
