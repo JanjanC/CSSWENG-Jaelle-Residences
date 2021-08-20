@@ -1,10 +1,31 @@
 .sidebar-item {
     display: table-cell;
     vertical-align: middle;
+    border: 0px;
+    color: #f8f9fa !important;
+    background-color: #0d1f2d;
+}
+
+.sidebar-item:hover {
+    color: #0d1f2d !important;
+    background-color: #f5c86d;
+    transition: 0.3s;
+}
+
+.sidebar-item.active {
+    display: table-cell;
+    vertical-align: middle;
+    color: #0d1f2d !important;
+    background-color: #f5c86d;
+}
+
+.sidebar-item.active:hover {
+    transition: 0.3s;
+    background-color: #F2B740;
 }
 
 #sidebar {
-    background-color: #88A5BF;
+    background-color: #0d1f2d;
 }
 
 #sidebar-list {
