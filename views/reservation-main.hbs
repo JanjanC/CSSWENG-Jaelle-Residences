@@ -31,11 +31,11 @@
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 align-items-center">
                     <h1 class="m-0">RESERVATION</h1>
-                    {{#isPastDate date}}
+                    {{#isNotPastDate date}}
                         <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill align-middle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
                             <h5 class="p-2 m-0"><span class="material-icons-outlined">queue</span> Create Reservation</h5>
                         </a>
-                    {{/isPastDate}}
+                    {{/isNotPastDate}}
                     <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservations are created, edited, and managed corresponding the current date chosen.</p>
                     <div id="chosen-date" class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm">
                         <span class="material-icons-two-tone md-36 mb-2">today</span>
