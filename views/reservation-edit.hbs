@@ -27,39 +27,6 @@
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">EDIT RESERVATION</h1>
                     <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where <strong>existing reservation</strong> forms are edited and deleted.</p>
-
-                    <div class="mt-4 ms-auto me-5 w-25 d-flex flex-column align-items-center">
-
-                        <!-- Delete Form -->
-                         <form id="form-delete" action="/reservation/{{reservation._id}}/delete" method="post">
-                             <!-- Button trigger modal -->
-                             <button id="delete" name="delete" type="button" class="btn btn-danger rounded-pill mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                 <h5 class="p-2 m-0">Delete Reservation</h5>
-                             </button>
-
-                             <!-- Modal -->
-                             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                 <div class="modal-dialog modal-dialog-centered">
-                                     <div class="modal-content">
-                                         <div class="modal-header">
-                                             <h5 class="modal-title" id="deleteModalLabel">Delete Reservation</h5>
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                         </div>
-                                         <div class="modal-body">
-                                             <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                             <p>Are you sure you want to <strong>permanently delete</strong> this reservation with the following information?</p>
-                                         </div>
-                                         <div class="modal-footer">
-                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                             <button type="submit" class="btn btn-danger">Delete</button>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </form>
-
-                        <p class="text-danger text-center">WARNING: This would <strong>permanently delete</strong> this current reservation. Retrieving it won't be possible.</p>
-                    </div>
                 </div>
 
                 <form id="form-submit" class="" action="/reservation/{{reservation._id}}/edit" method="post">
