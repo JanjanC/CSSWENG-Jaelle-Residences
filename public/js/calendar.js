@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	$('#nav-calendar').addClass('active');
 	initializeCalendar();
 });
 
