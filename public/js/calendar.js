@@ -3,7 +3,20 @@ $(document).ready(function () {
 });
 
 function initializeCalendar () {
-	var today = (new Date()).getDate()
+	const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	let date = new Date();
+	let today = date.getDate();
+	let curMonth = months[date.getMonth()];
+	let curYear = date.getFullYear();
+
+	let calendarMonth = $('#cal-month').text();
+	let calendarYear =  parseInt($('#cal-year').text());
+
+	console.log("CUR MONTH = " + curMonth);
+	console.log("CUR YEAR = " + curYear);
+	console.log("CAL MONTH = " + calendarMonth);
+	console.log("CAL YEAR = " + calendarYear);
 
 	$('#calendar tr').each(function() {
         for (let i = 0; i < 7; i++) {
@@ -14,7 +27,7 @@ function initializeCalendar () {
             }
 
             //adds css for today
-            if (parseInt($(this.cells[i]).text()) == today) {
+            if (parseInt($(this.cells[i]).text()) == today && curMonth == calendarMonth && curYear == calendarYear) {
                 $(this.cells[i]).addClass('today')
             }
 
