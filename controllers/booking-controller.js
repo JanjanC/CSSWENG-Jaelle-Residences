@@ -66,13 +66,28 @@ const bookingController = {
 
 	getCreateBooking: function(req, res) {
 
-		db.findOne(Room, {_id: req.params.roomID}, function(result) {
-			if (result) {
-				let values = {
-                    room: result,
-                    date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
-                }
-				res.render('booking-create', values);
+		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+			if (roomResult) {
+
+				let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+
+				let reservation = {
+		            //the current date is between the start date and end date of the reservation, inclusive
+		            start_date: date,
+					booked_type: roomResult.room_type,
+		            //it is considered to be a reservation when the confirmed_reservation exists in the database
+		            confirmed_reservation: false,
+		            is_cancelled: false
+		        };
+
+				db.findMany(Booking, reservation, function (reservationResult) {
+					let values = {
+	                    room: roomResult,
+						reservations: reservationResult,
+	                    date:date
+	                }
+					res.render('booking-create', values);
+				}, 'guest');
 			} else {
 				res.redirect('/error');
 			}
