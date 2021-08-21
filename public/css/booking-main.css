@@ -27,7 +27,6 @@
 .room-container:hover {
     background-color: #DFEBF0;
     transition: 0.3s;
-    cursor: pointer;
 }
 
 #chosen-date:hover {
