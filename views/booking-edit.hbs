@@ -13,7 +13,7 @@
     <script type="text/javascript" src="/js/booking.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Create Reservation</title>
+    <title>Edit Reservation</title>
 </head>
 <body>
 
@@ -26,30 +26,13 @@
         <div id="main-screen" class="col-10 mx-auto">
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
-                    <h1 class="m-0">Booking Vacant</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where booking forms for vacant rooms are to be accomplished.</p>
+                    <h1 class="m-0">Modify Booking</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where parts of existing booking forms for booked rooms are modified.</p>
                 </div>
 
                 <br>
 
-                <div class="ps-2">
-                    <!--NOTE:
-                    THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
-                    CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
-                    -->
-                    <h2 class="ms-3 text-primary">Reservation</h2>
-                    <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
-                    <div class="form-group ms-4 mb-3">
-                        <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
-                            <option value="" disabled selected>(Optional) Select a reservation</option>
-                            <option value="">
-                                John A. Doe | Aug 24 2021 - Aug 26 2021
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
+                <form id="form-submit" class="" action="/booking/{{room._id}}/edit" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
                         <!-- COLUMN 1: Room Details -->
@@ -281,13 +264,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -297,25 +273,25 @@
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
                         <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
-                            Book
+                            Modify
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="bookModalLabel">Confirm Booking</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Modify Booking</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                        <p>Are you sure you want to book guest with the following information?</p>
+                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Modify</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to edit the existing booking form with the following information?</p>
                                         <div id="inputted-info">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Modify</button>
                                     </div>
                                 </div>
                             </div>
