@@ -36,258 +36,320 @@
                     <!--NOTE:
                     THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
                     CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
-                -->
-                <h2 class="">Reservation</h2>
-                <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
-                <div class="form-group ms-4 mb-3">
-                    <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
-                        <option value="" disabled selected>(Optional) Select a reservation</option>
-                        <option value="">
-                            John A. Doe | Aug 24 2021 - Aug 26 2021
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
-                <!--ROW-->
-                <div class="row justify-content-center py-2">
-
-                    <!-- COLUMN 1: Room Details -->
-                    <div class="col-5 me-3 border p-4 pt-2 rounded">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
-
-
-                        <div hidden>
-                            <span id="room-id">{{room._id}}</span>
-                            {{#each room.connected_rooms}}
-                            <span class="connected-rooms">{{this}}</span>
-                            {{/each}}
-                        </div>
-
-                        <!--Room Type-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Room Type</label>
-                            <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}">
-                        </div>
-
-                        <!--Room Number-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Room Number</label>
-                            <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}">
-                        </div>
-
-                        <!-- Start Date -->
-                        <div class="form-group">
-                            <label class="h5 d-block">Start Date</label>
-                            <input class="form-control w-75" type="date" readonly="true" id="start-date" name="start_date" value="{{formatDate date}}">
-                            <em><p class="error text-danger" id="start-date-error"></p></em>
-                        </div>
-
-                        <!--NOTE:
-                        THE ONLY ONES THAT WILL BE ACCEPTED ARE THOSE THAT HAVE ENDDATES THAT ARE VALID
-                        MEANING... END DATES WITH NO CONFLICT WITH OTHER BOOKINGS/OCCUPIED IN THE DATABASE
-
-                        For example: If reserved customer (A) have Aug 1 - Aug 5... But in the database, another customer (B) is already booked for Aug 4.
-                        The enddate field will complain that there is a conflict.
                     -->
-                    <!-- End Date -->
-                    <div class="form-group">
-                        <label class="h5 d-block">End Date</label>
-                        <input class="form-control w-75" type="date" id="end-date" name="end_date" min="{{formatDate date}}">
-                        <em><p class="error text-danger" id="end-date-error"></p></em>
+                    <h2 class="ms-3 text-primary">Reservation</h2>
+                    <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
+                    <div class="form-group ms-4 mb-3">
+                        <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
+                            <option value="" disabled selected>(Optional) Select a reservation</option>
+                            <option value="">
+                                John A. Doe | Aug 24 2021 - Aug 26 2021
+                            </option>
+                        </select>
                     </div>
                 </div>
 
-                <!--COLUMN 2: Customer Details-->
-                <div class="col-6 border p-4 pt-2 rounded">
+                <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
+                    <!--ROW-->
+                    <div class="row justify-content-center py-2">
+                        <!-- COLUMN 1: Room Details -->
+                        <div class="col-5 me-3 border p-4 pt-2 rounded">
 
-                    <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
-                    <!--CUSTOMER INFO-->
-                    <div id="customer-info" class="mb-4">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Customer Details</h3>
+                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
 
-                        <!--First Name-->
-                        <div class="form-group">
-                            <label class="h5 d-block">First Name</label>
-                            <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
-                            <em><p class="error text-danger" id="firstname-error"></p></em>
-                        </div>
+                            <div hidden>
+                                <span id="room-id">{{room._id}}</span>
+                                {{#each room.connected_rooms}}
+                                <span class="connected-rooms">{{this}}</span>
+                                {{/each}}
+                            </div>
 
-                        <!--Last Name-->
-                        <div class="form-group">
-                            <label class="h5 d-block">Last Name</label>
-                            <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
-                            <em><p class="error text-danger" id="lastname-error"></p></em>
-                        </div>
+                            <!--Room Type-->
+                            <div class="form-group mb-3">
+                                <label class="h5">Room Type</label>
+                                <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}" disabled>
+                            </div>
 
-                        <!--OPTIONAL FIELDS BELOW-->
-                        <hr>
+                            <!--Room Number-->
+                            <div class="form-group mb-3">
+                                <label class="h5">Room Number</label>
+                                <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}" disabled>
+                            </div>
 
-                        <!--Birthday-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Birthdate</label>
-                            <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
-                            <em><p class="error text-danger" id="birthdate-error"></p></em>
-                        </div>
+                            <!-- Start Date -->
+                            <div class="form-group">
+                                <label class="h5 d-block">Start Date</label>
+                                <input class="form-control w-75" type="date" readonly="true" id="start-date" name="start_date" value="{{formatDate date}}" disabled>
+                                <em><p class="error text-danger" id="start-date-error"></p></em>
+                            </div>
 
-                        <!--Address-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Address</label>
-                            <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3"></textarea>
-                        </div>
+                            <!--NOTE:
+                            THE ONLY ONES THAT WILL BE ACCEPTED ARE THOSE THAT HAVE ENDDATES THAT ARE VALID
+                            MEANING... END DATES WITH NO CONFLICT WITH OTHER BOOKINGS/OCCUPIED IN THE DATABASE
 
-                        <!--Contact No.-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Contact No.</label>
-                            <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact">
-                        </div>
-
-                        <!--Company's Name-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Company Name</label>
-                            <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company">
-                        </div>
-
-                        <!--Occupation-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Occupation</label>
-                            <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation">
-                        </div>
-                    </div>
-                </div>
-
-                <!--TRANSACTION-->
-                <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
-                    <!--TRANSACTION INFO-->
-                    <div id="transaction-info" class="mb-4">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Transaction Details</h3>
-
-                        <!--Number of days-->
-                        <!--NOTE: Automatic set in date set-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Number of Days</label>
-                            <input class="form-control w-25" type="number" id="duration" name="duration" disabled>
-                        </div>
-
-                        <!--Room Rate-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Room Rate Per Day (Php)</label>
-                            <div class="input-group mb-3  w-25">
-                                <input type="number" id="room-rate" name="room_rate" class="form-control" disabled>
-                                <span class="input-group-text">Php/Day</span>
+                            For example: If reserved customer (A) have Aug 1 - Aug 5... But in the database, another customer (B) is already booked for Aug 4.
+                            The enddate field will complain that there is a conflict.
+                            -->
+                            <!-- End Date -->
+                            <div class="form-group">
+                                <label class="h5 d-block">End Date</label>
+                                <input class="form-control w-75" type="date" id="end-date" name="end_date" min="{{formatDate date}}">
+                                <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
                         </div>
 
-                        <!--Room Rate-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Discount</label>
-                            <div class="input-group mb-3 w-25">
-                                <input type="number" id="room-discount" name="room_discount" class="form-control" value="10" disabled>
-                                <span class="input-group-text">%</span>
-                            </div>
-                        </div>
+                        <!--COLUMN 2: Customer Details-->
+                        <div class="col-6 border p-4 pt-2 rounded">
 
-                        <!--Gross Cost-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Gross Cost</label>
-                            <div class="input-group mb-3 w-25">
-                                <input type="number" id="room-gross-cost" name="room_gross_cost" class="form-control" disabled>
-                                <span class="input-group-text">Php</span>
-                            </div>
-                        </div>
+                            <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
+                            <!--CUSTOMER INFO-->
+                            <div id="customer-info" class="mb-4">
+                                <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Customer Details</h3>
 
-                        <!--Net Cost-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Net Cost</label>
-                            <div class="input-group mb-3 w-25">
-                                <input type="number" id="room-net-cost" name="room_net_cost" class="form-control" value="33333.58" disabled>
-                                <span class="input-group-text">Php</span>
-                            </div>
-                        </div>
+                                <!--First Name-->
+                                <div class="form-group">
+                                    <label class="h5 d-block">First Name</label>
+                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
+                                    <em><p class="error text-danger" id="firstname-error"></p></em>
+                                </div>
 
-                        <!--Customer Payment-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Customer Payment</label>
-                            <div class="input-group mb-3 w-25">
-                                <input type="number" id="room-payment" name="room_payment" class="form-control" value="30000.00">
-                                <span class="input-group-text">Php</span>
-                            </div>
-                        </div>
+                                <!--Last Name-->
+                                <div class="form-group">
+                                    <label class="h5 d-block">Last Name</label>
+                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
+                                    <em><p class="error text-danger" id="lastname-error"></p></em>
+                                </div>
 
-                        <!--Remaining Balance-->
-                        <div class="form-group mb-3">
-                            <label class="h5">Remaining Balance</label>
-                            <div class="input-group mb-3 w-25">
-                                <input type="number" id="room-balance" name="room_balance" class="form-control" value="3333.58" disabled>
-                                <span class="input-group-text">Php</span>
-                            </div>
-                        </div>
+                                <!--OPTIONAL FIELDS BELOW-->
+                                <hr>
 
+                                <!--Birthday-->
+                                <div class="form-group">
+                                    <label class="h5 d-block">Birthdate</label>
+                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
+                                    <em><p class="error text-danger" id="birthdate-error"></p></em>
+                                </div>
 
-                    </div>
-                </div>
+                                <!--Address-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Address</label>
+                                    <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3"></textarea>
+                                </div>
 
-            </div>
-            <div class="d-flex flex-row-reverse mt-3">
+                                <!--Contact No.-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Contact No.</label>
+                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact">
+                                </div>
 
-                <!-- RESERVE-->
-                <!-- Button trigger modal -->
-                <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
-                    Book
-                </button>
-                <!-- Modal -->
-                <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="bookModalLabel">Confirm Booking</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                <p>Are you sure you want to book guest with the following information?</p>
-                                <div id="inputted-info">
+                                <!--Company's Name-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Company Name</label>
+                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company">
+                                </div>
+
+                                <!--Occupation-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Occupation</label>
+                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation">
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
-                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- RETURN -->
-                <!-- Button trigger modal -->
-                <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
-                    Return
-                </button>
-                <!-- Modal -->
-                <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-danger">WARNING: You will lose data inputs in the fields and <strong>would not be saved</strong> when the <strong>Confirm</strong> button has been pressed.</p>
-                                <p>Are you sure you want to return to the previous page?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <a href="javascript: history.back()" class="btn btn-danger">Return</a>
+                        <!--TRANSACTION-->
+                        <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
+                            <!--TRANSACTION INFO-->
+                            <div id="transaction-info" class="row mb-4 justify-content-between">
+                                <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Transaction Details</h3>
+
+
+                                <!--TRANSACTION 1st COL-->
+                                <div class="col-5">
+                                    <!--Number of days-->
+                                    <!--NOTE: Automatic set in date set-->
+                                    <div class="form-group mb-3">
+                                            <label class="h5">Number of Days</label>
+                                            <input class="form-control w-50" type="number" id="duration" name="duration" disabled>
+                                    </div>
+
+                                    <!--Room Rate-->
+                                    <div class="form-group mb-3">
+                                            <label class="h5">Room Rate Per Day (Php)</label>
+                                            <div class="input-group mb-3 w-50">
+                                                <input type="number" id="room-rate" name="room_rate" class="form-control" disabled>
+                                                <span class="input-group-text">Php/Day</span>
+                                            </div>
+                                    </div>
+
+                                    <!--TODO: Number of Pax-->
+                                    <div class="form-group mb-3">
+                                            <label class="h5">Number of Pax/Guests</label>
+                                            <input class="form-control w-50" type="number" id="room-pax" name="room_pax" enabled>
+                                    </div>
+
+                                    <!--TODO: Number of Pwd-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Number of PWD</label>
+                                        <div class="input-group mb-3 w-50">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-pwd" type="checkbox" value="" checked>
+                                            </div>
+                                            <input class="form-control" type="number" id="room-pwd" name="room_pwd">
+                                        </div>
+                                    </div>
+
+                                    <!--TODO: Number of Seniors-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Number of Senior Citizens</label>
+                                        <div class="input-group mb-3 w-50">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-senior" type="checkbox" value="" checked>
+                                            </div>
+                                            <input class="form-control" type="number" id="room-senior" name="room_senior">
+                                        </div>
+                                    </div>
+
+                                    <!--Discount-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Other Discounts</label>
+                                        <div class="input-group mb-3 w-auto">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-other" type="checkbox" value="" checked>
+                                            </div>
+                                            <input type="text" id="room-discount-reason" name="room_discount_reason" class="form-control w-auto" placeholder="Reason" value="">
+                                            <input type="number" id="room-discount" name="room_discount" class="form-control" value="10">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Extras-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Extra Charges</label>
+                                        <div class="input-group mb-3 w-75">
+                                            <input type="number" id="room-extra" name="room-extra" class="form-control" enabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--TRANSACTION 2nd COL-->
+                                <div class="col-5">
+                                    <!--Initial Cost-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Initial Cost</label>
+                                        <div class="input-group mb-3 w-75">
+                                            <input type="number" id="room-initial-cost" name="room_initial_cost" class="form-control" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Subtracted-->
+                                    <div class="form-group mb-4">
+                                        <label class="h5 text-danger">Subtracted Amount</label>
+                                        <div class="input-group mb-3 w-75">
+                                            <input type="number" id="room-subtract" name="room_subtract" class="form-control" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <!--Total Cost-->
+                                    <div class="form-group mb-3 mt-4 text-end text-primary">
+                                        <label class="h5">Total Cost</label>
+                                        <div class="input-group mb-3 w-75 ms-auto">
+                                            <input type="number" id="room-net-cost" name="room_net_cost" class="form-control" value="33333.58" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Customer Payment-->
+                                    <div class="form-group mb-3 text-end text-primary">
+                                        <label class="h5">Customer Payment</label>
+                                        <div class="input-group mb-3 w-75 ms-auto">
+                                            <input type="number" id="room-payment" name="room_payment" class="form-control" value="30000.00">
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Remaining Balance-->
+                                    <div class="form-group mb-3 text-end text-primary">
+                                        <label class="h5">Remaining Balance</label>
+                                        <div class="input-group mb-3 w-75 ms-auto">
+                                            <input type="number" id="room-balance" name="room_balance" class="form-control" value="3333.58" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <!--MODAL-->
+                    <div class="d-flex flex-row-reverse mt-3">
+                        <!-- RESERVE-->
+                        <!-- Button trigger modal -->
+                        <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
+                            Book
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="bookModalLabel">Confirm Booking</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to book guest with the following information?</p>
+                                        <div id="inputted-info">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RETURN -->
+                        <!-- Button trigger modal -->
+                        <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                            Return
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: You will lose data inputs in the fields and <strong>would not be saved</strong> when the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to return to the previous page?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <a href="javascript: history.back()" class="btn btn-danger">Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
-</div>
-
-
 </body>
 </html>
