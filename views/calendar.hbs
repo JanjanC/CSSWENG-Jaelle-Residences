@@ -28,7 +28,7 @@
 				<thead>
 					<tr>
 						<th id="prev-month" data-bs-toggle="tooltip" data-bs-placement="right" title="Previous Month" onclick="window.location.href='/calendar/{{getPrevMonth currMonthYear}}'"><</th>
-					 	<th class="h2 p-3" colspan="5">{{currMonthName}} {{currYear}}</th>
+					 	<th class="h2 p-3" colspan="5"><span id="cal-month">{{currMonthName}}</span> <span id="cal-year">{{currYear}}</span></th>
 					 	<th id="next-month" data-bs-toggle="tooltip" data-bs-placement="left" title="Next Month" onclick="window.location.href='/calendar/{{getNextMonth currMonthYear}}'">></th>
 					</tr>
 			  	</thead>
