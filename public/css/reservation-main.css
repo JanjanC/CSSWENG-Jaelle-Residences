@@ -21,5 +21,17 @@
 #chosen-date:hover {
     background-color: #DFECF6;
     transition: 0.3s;
-    cursor: default;
+    cursor: pointer;
+}
+
+.modal-backdrop {
+  display: none;
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#deleteModal {
+    z-index: 1060;
 }

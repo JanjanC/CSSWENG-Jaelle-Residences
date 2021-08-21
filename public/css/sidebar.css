@@ -1,4 +1,4 @@
-.sidebar-item {
+.sidebar-item, .sidebar-item:focus {
     display: table-cell;
     vertical-align: middle;
     border: 0px;
