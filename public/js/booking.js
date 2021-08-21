@@ -20,21 +20,43 @@ function computePrice () {
 	$.get('/get-room', {roomID: roomID}, function(result) {
 		if (result) {
 			let time =  1000 * 60 * 60 * 24;
-
 			let startDate = new Date($('#start-date').val()).getTime();
 			let endDate = new Date($('#end-date').val()).getTime();
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
 
-			if (duration == 0) {
-				duration += 1
+			let months = 0;
+			let weeks = 0;
+			let days = 0;
+
+			if (duration <= 0) {
+				duration = 1;
+			}
+			$('#duration').val(duration);
+
+			let remaining = duration;
+
+			if (result.room_rate.monthly) {
+				months = Math.floor(remaining / 30);
+				remaining = remaining % 30;
 			}
 
-			let rate = result.room_rate.daily;
-			let total = rate * duration;
+			if (result.room_rate.weekly) {
+				weeks = Math.floor(remaining / 7);
+				remaining = remaining % 7;
+			}
 
-			$('#room-rate').val(total);
-			$('#duration').val(total);
-			$('#room-gross-cost').val(total);
+			if (result.room_rate.daily) {
+				days = remaining;
+			}
+
+			let total = result.room_rate.monthly * months + result.room_rate.weekly * weeks + result.room_rate.daily * days;
+			let rate = total / duration;
+
+			$('#room-initial-cost').val(total);
+			$('#room-rate').val(rate.toFixed(2));
+
+
+
 
 		}
 	});
