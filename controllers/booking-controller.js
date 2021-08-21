@@ -150,14 +150,6 @@ const bookingController = {
         });
 	},
 
-	getRoom: function(req, res) {
-		let roomID = req.query.roomID;
-
-		db.findOne(Room, {_id: roomID}, function(result) {
-			res.send(result);
-		});
-	},
-
     checkAvailability: function(req, res) {
         // extract dates and room number
         let start = new Date(req.query.start_date);
@@ -202,7 +194,16 @@ const bookingController = {
                 res.send(true);
             }
         });
-    }
+    },
+
+	getRoom: function(req, res) {
+		let roomID = req.query.roomID;
+
+		db.findOne(Room, {_id: roomID}, function(result) {
+			res.send(result);
+		});
+	},
+	
 }
 
 module.exports =  bookingController;
