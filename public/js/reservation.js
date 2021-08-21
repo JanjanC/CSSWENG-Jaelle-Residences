@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	$('#reservation-sidebar').addClass('active');
 	//onclick event of the button with an id of 'submit'
 	$('#submit').click(function() {
 		return validateEntry();
