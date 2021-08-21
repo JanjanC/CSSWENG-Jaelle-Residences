@@ -45,7 +45,41 @@ $(document).ready(function () {
 	$('#room-payment').keyup(function () {
 		computeBalance();
 	});
+
+	$('#reservation_select').change(function () {
+		updateForm();
+		checkAvailability();
+		computeRoomPrice();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
 });
+
+function updateForm () {
+	let reservationID = $('#reservation_select').val();
+
+	jQuery.ajaxSetup({async: false});
+
+	$.get('/get-reservation', {reservationID: reservationID}, function(result) {
+		if (result) {
+			let endDate = new Date(result.end_date);
+			endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
+
+			$('#end-date').val(endDate);
+			$('#firstname').val(result.guest.first_name);
+			$('#lastname').val(result.guest.last_name);
+			$('#birthdate').val(result.guest.birthdate);
+			$('#address').val(result.guest.address);
+			$('#contact').val(result.guest.contact_number);
+			$('#company').val(result.guest.company_name);
+			$('#occupation').val(result.guest.occupation);
+		}
+	});
+
+	jQuery.ajaxSetup({async: true});
+}
 
 function computeRoomPrice () {
 	let roomID = $('#room-id').text();

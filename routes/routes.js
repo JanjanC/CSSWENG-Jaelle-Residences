@@ -36,6 +36,8 @@ app.get('/check-availability', bookingController.checkAvailability)
 
 app.get('/get-room', bookingController.getRoom)
 
+app.get('/get-reservation', reservationController.getReservation);
+
 app.get(`/error`, controller.getError);
 app.get(`*`, controller.getError);
 app.post(`*`, controller.getError);
