@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const bookingController = {
 	getBookingScreen: function (req, res) {
 
+		let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+
 		db.findMany(Room, {}, function (roomResult) {
 
 			if (roomResult) {
@@ -51,7 +53,7 @@ const bookingController = {
 								}
 							}
 						}
-						res.render('booking-main', {list: list});
+						res.render('booking-main', {list: list, date: date});
 		        	} else {
 						res.redirect('/error');
 					}
