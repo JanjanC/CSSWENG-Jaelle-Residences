@@ -5,10 +5,12 @@
 	<link rel="stylesheet" type="text/css" href="/css/sanitize.css">
 	<link rel="stylesheet" type="text/css" href="/css/navbar.css">
 	<link rel="stylesheet" type="text/css" href="/css/sidebar.css">
-	<link rel="stylesheet" type="text/css" href="/css/booking.css">
+	<link rel="stylesheet" type="text/css" href="/css/booking-main.css">
+	<link rel="stylesheet" type="text/css" href="/css/material.css">
 
 	<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+	<script type="text/javascript" src="/js/booking-main.js"></script>
 	<script type="text/javascript" src="/js/help.js"></script>
 
 
@@ -30,6 +32,11 @@
 				<div class="d-flex pt-2 ps-2 m-0 align-items-center">
 					<h1 class="m-0">BOOKING</h1>
 					<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where bookings are created, edited, and managed corresponding the current date chosen.</p>
+					<div id="chosen-date" class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" onclick="window.location='/calendar/{{getMonthYear date}}'">
+                        <span class="material-icons-two-tone md-36 mb-2">today</span>
+                        <h5 class="m-0">Chosen Date</h5>
+                        <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
+                    </div>
 				</div>
 				<hr>
 
