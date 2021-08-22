@@ -69,7 +69,25 @@ $(document).ready(function () {
 		computeTotal();
 		computeBalance();
 	});
+
+	$('#form-submit').submit(function () {
+		submitForm();
+	});
 });
+
+function submitForm () {
+	let reservation = $('#reservation_select').val();
+	let roomID = $('#room-id').text();
+
+	console.log(reservation);
+	console.log(roomID);
+
+	if (reservation != '') {
+		$('#form-submit').attr('action', `/booking/${roomID}/confirm`);
+	}
+
+	return true;
+}
 
 function updateForm () {
 	let reservationID = $('#reservation_select').val();
