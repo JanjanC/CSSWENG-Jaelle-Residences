@@ -32,7 +32,7 @@ const bookingController = {
 						{confirmed_reservation: {$exists: false}},
 		            	{confirmed_reservation: true}
 					],
-					is_cancelled: false;
+					is_cancelled: false
 		        };
 
 				db.findMany(Booking, booking, function (bookingResult) {
