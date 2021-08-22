@@ -66,13 +66,28 @@ const bookingController = {
 
 	getCreateBooking: function(req, res) {
 
-		db.findOne(Room, {_id: req.params.roomID}, function(result) {
-			if (result) {
-				let values = {
-                    room: result,
-                    date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
-                }
-				res.render('booking-create', values);
+		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+			if (roomResult) {
+
+				let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+
+				let reservation = {
+		            //the current date is between the start date and end date of the reservation, inclusive
+		            start_date: date,
+					booked_type: roomResult.room_type,
+		            //it is considered to be a reservation when the confirmed_reservation exists in the database
+		            confirmed_reservation: false,
+		            is_cancelled: false
+		        };
+
+				db.findMany(Booking, reservation, function (reservationResult) {
+					let values = {
+	                    room: roomResult,
+						reservations: reservationResult,
+	                    date:date
+	                }
+					res.render('booking-create', values);
+				}, 'guest');
 			} else {
 				res.redirect('/error');
 			}
@@ -135,14 +150,6 @@ const bookingController = {
         });
 	},
 
-	getRoom: function(req, res) {
-		let roomID = req.query.roomID;
-
-		db.findOne(Room, {_id: roomID}, function(result) {
-			res.send(result);
-		});
-	},
-
     checkAvailability: function(req, res) {
         // extract dates and room number
         let start = new Date(req.query.start_date);
@@ -187,7 +194,69 @@ const bookingController = {
                 res.send(true);
             }
         });
-    }
+    },
+
+	getRoom: function(req, res) {
+		let roomID = req.query.roomID;
+
+		db.findOne(Room, {_id: roomID}, function(result) {
+			res.send(result);
+		});
+	},
+
+	confirmReservation: function(req, res) {
+		console.log(req.body);
+		console.log(req.params);
+		let reservation = {
+            $set: {
+				room: req.params.roomID,
+                end_date: req.body.end_date,
+				confirmed_reservation: true
+            }
+        }
+
+		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+
+			if (bookingResult) {
+				let guest = {
+		            first_name: req.body.firstname,
+		            last_name: req.body.lastname,
+		            birthdate: req.body.birthdate,
+		            address: req.body.address,
+		            contact_number: req.body.contact,
+		            company_name: req.body.company,
+		            occupation: req.body.occupation
+		        }
+
+				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+					if (guestResult) {
+
+						let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activity_type: 'Confirm Reservation',
+                            timestamp: new Date()
+                        }
+
+						db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to booking screen after adding a record
+                                res.redirect(`/${req.body.start_date}/booking/`);
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+					} else {
+						res.redirect('/error');
+					}
+				});
+			} else {
+				res.redirect('/error');
+			}
+
+		});
+	}
+
 }
 
 module.exports =  bookingController;

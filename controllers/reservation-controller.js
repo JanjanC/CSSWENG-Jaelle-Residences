@@ -233,6 +233,15 @@ const reservationController = {
                 res.redirect('/error');
             }
         });
+    },
+
+    getReservation: function (req, res) {
+        let reservationID = req.query.reservationID;
+        db.findOne(Booking, {_id: reservationID}, function (result) {
+            if (result) {
+                res.send(result);
+            }
+        }, 'guest');
     }
 }
 

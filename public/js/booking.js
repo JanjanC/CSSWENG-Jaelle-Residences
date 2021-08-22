@@ -10,23 +10,133 @@ $(document).ready(function () {
 
 	$('#end-date').change(function () {
 		checkAvailability();
-		computePrice();
+		computeRoomPrice();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
     });
+
+	$('#is-pwd').change(function () {
+		enablePWD();
+	});
+
+	$('#is-senior').change(function () {
+		enableSenior();
+	});
+
+	$('#room-pax').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-senior').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-pwd').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-discount').keyup(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-extra').keyup(function () {
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-payment').keyup(function () {
+		computeBalance();
+	});
+
+	$('#reservation_select').change(function () {
+		updateForm();
+		checkAvailability();
+		computeRoomPrice();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#form-submit').submit(function () {
+		submitForm();
+	});
 });
 
-function computePrice () {
+function submitForm () {
+	let reservation = $('#reservation_select').val();
 	let roomID = $('#room-id').text();
 
-	$.get('/get-room', {roomID: roomID}, function(result) {
+	console.log(reservation);
+	console.log(roomID);
+
+	if (reservation != '') {
+		$('#form-submit').attr('action', `/booking/${roomID}/confirm`);
+	}
+
+	return true;
+}
+
+function updateForm () {
+	let reservationID = $('#reservation_select').val();
+
+	jQuery.ajaxSetup({async: false});
+
+	$.get('/reservation', {reservationID: reservationID}, function(result) {
+		if (result) {
+			let endDate = new Date(result.end_date);
+			endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
+
+			let birthdate = '';
+			if (result.guest.birthdate) {
+				birthdate = new Date(result.guest.birthdate);
+				birthdate = `${birthdate.getFullYear().toString()}-${(birthdate.getMonth() + 1).toString().padStart(2, 0)}-${birthdate.getDate().toString().padStart(2, 0)}`;
+			}
+
+			$('#end-date').val(endDate);
+			$('#firstname').val(result.guest.first_name);
+			$('#lastname').val(result.guest.last_name);
+			$('#birthdate').val(birthdate);
+			$('#address').val(result.guest.address);
+			$('#contact').val(result.guest.contact_number);
+			$('#company').val(result.guest.company_name);
+			$('#occupation').val(result.guest.occupation);
+		}
+	});
+
+	jQuery.ajaxSetup({async: true});
+}
+
+function computeRoomPrice () {
+	let roomID = $('#room-id').text();
+
+	jQuery.ajaxSetup({async: false});
+
+	$.get('/room', {roomID: roomID}, function(result) {
 		if (result) {
 			let time =  1000 * 60 * 60 * 24;
 			let startDate = new Date($('#start-date').val()).getTime();
 			let endDate = new Date($('#end-date').val()).getTime();
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
-
 			let months = 0;
 			let weeks = 0;
 			let days = 0;
+
+			let monthlyRate = 0;
+			let weeklyRate = 0;
+			let dailyRate = 0;
 
 			if (duration <= 0) {
 				duration = 1;
@@ -34,32 +144,115 @@ function computePrice () {
 			$('#duration').val(duration);
 
 			let remaining = duration;
-
+			let pax = parseInt($('#room-pax').val());
+			console.log(result);
 			if (result.room_rate.monthly) {
+				if (Number.isNaN(pax)) {
+					pax = 1;
+				}
+
+				if (pax > result.room_rate.monthly.length) {
+					pax = result.room_rate.monthly.length;
+				}
+				monthlyRate = result.room_rate.monthly[pax - 1];
 				months = Math.floor(remaining / 30);
 				remaining = remaining % 30;
 			}
 
 			if (result.room_rate.weekly) {
+				weeklyRate = result.room_rate.weekly;
 				weeks = Math.floor(remaining / 7);
 				remaining = remaining % 7;
 			}
 
 			if (result.room_rate.daily) {
+				dailyRate = result.room_rate.daily;
 				days = remaining;
 			}
 
-			let total = result.room_rate.monthly * months + result.room_rate.weekly * weeks + result.room_rate.daily * days;
+			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 			let rate = total / duration;
 
-			$('#room-initial-cost').val(total);
+			$('#room-initial-cost').val(total.toFixed(2));
 			$('#room-rate').val(rate.toFixed(2));
-
-
-
-
 		}
 	});
+
+	jQuery.ajaxSetup({async: true});
+}
+
+function computeCharges () {
+	let total = parseInt($('#room-initial-cost').val());
+	let extra = parseInt($('#room-extra').val());
+
+	if (extra) {
+		total = total + extra;
+	}
+
+	$('#room-initial-cost').val(total.toFixed(2))
+}
+
+function enableSenior () {
+	let senior = $('#is-senior').is(':checked');
+	$('#room-senior').prop('disabled', !senior);
+}
+
+function enablePWD () {
+	let pwd = $('#is-pwd').is(':checked');
+	$('#room-pwd').prop('disabled', !pwd);
+}
+
+function computeDiscount () {
+	let total = parseInt($('#room-initial-cost').val());
+	let senior = parseInt($('#room-senior').val());
+	let pwd = parseInt($('#room-pwd').val());
+	let additional = parseInt($('#room-discount').val());
+	let pax = parseInt($('#room-pax').val());
+
+	let count = 0
+	if (senior) {
+		count = count + senior;
+	}
+
+	if (pwd) {
+		count = count + pwd;
+	}
+
+	if (count > pax) {
+		count = pax;
+	}
+
+	let percent = 0;
+
+	if (pax) {
+		percent = percent + count / pax * 20;
+	}
+
+	if (additional) {
+		percent = percent + additional;
+	}
+
+	percent = percent / 100;
+
+	let discount = total * percent;
+
+	$('#room-subtract').val(discount.toFixed(2));
+}
+
+function computeTotal () {
+	let total = parseInt($('#room-initial-cost').val());
+	let discount = parseInt($('#room-subtract').val());
+	let net = total - discount;
+
+	$('#room-net-cost').val(net.toFixed(2));
+}
+
+function computeBalance () {
+	let net = parseInt($('#room-net-cost').val());
+	let payment = parseInt($('#room-payment').val());
+	let balance = payment - net;
+
+	$('#room-balance').val(balance.toFixed(2));
 }
 
 function checkAvailability () {
@@ -69,7 +262,7 @@ function checkAvailability () {
 
 	$('.connected-rooms').each(function () {
 		rooms.push($(this).text());
-	})
+	});
 
 	let information = {
 		start_date: $('#start-date').val(),
@@ -77,7 +270,7 @@ function checkAvailability () {
 		rooms: rooms
 	}
 
-	$.get('/check-availability', information, function(result) {
+	$.get('/room/availability', information, function(result) {
 		//is available
 		if(result) {
 			$('#end-date-error').text('');
