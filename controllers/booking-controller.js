@@ -204,12 +204,12 @@ const bookingController = {
 		});
 	},
 
-	convertToBooking: function(req, res) {
-
+	confirmReservation: function(req, res) {
+		console.log(req.body);
+		console.log(req.params);
 		let reservation = {
             $set: {
 				room: req.params.roomID,
-                booked_type: req.body.reserve_type_select,
                 end_date: req.body.end_date,
 				confirmed_reservation: true
             }
@@ -228,9 +228,9 @@ const bookingController = {
 		            occupation: req.body.occupation
 		        }
 
-				db.updateOne(Guest, {_id: bookingResult}, guest, function (guestResult) {
+				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
 					if (guestResult) {
-						res.redirect(`/${req.body.start_date}/reservation/`);
+						res.redirect(`/${req.body.start_date}/booking/`);
 					} else {
 						res.redirect('/error');
 					}
