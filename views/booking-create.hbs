@@ -168,14 +168,14 @@
                             <!--NOTE: Automatic set in date set-->
                             <div class="form-group mb-3">
                                 <label class="h5">Number of Days</label>
-                                <input class="form-control w-50" type="number" id="duration" name="duration" disabled>
+                                <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration">
                             </div>
 
                             <!--Room Rate-->
                             <div class="form-group mb-3">
                                 <label class="h5">Avg. Room Rate Per Day (Php)</label>
                                 <div class="input-group mb-3 w-50">
-                                    <input type="number" id="room-rate" name="room_rate" class="form-control" disabled>
+                                    <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control">
                                     <span class="input-group-text">Php/Day</span>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@
                             <div class="form-group mb-3">
                                 <label class="h5">Extra Charges</label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-extra" name="room-extra" class="form-control" enabled>
+                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-extra" name="room_extra" class="form-control" enabled>
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -234,7 +234,7 @@
                             <div class="form-group mb-3">
                                 <label class="h5">Initial Cost</label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" id="room-initial-cost" name="room_initial_cost" class="form-control" disabled>
+                                    <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                             <div class="form-group mb-4">
                                 <label class="h5 text-danger">Subtracted Amount</label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" id="room-subtract" name="room_subtract" class="form-control" disabled>
+                                    <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -254,7 +254,7 @@
                             <div class="form-group mb-3 mt-4 text-end text-primary">
                                 <label class="h5">Total Cost</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" id="room-net-cost" name="room_net_cost" class="form-control" disabled>
+                                    <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                             <div class="form-group mb-3 text-end text-primary">
                                 <label class="h5">Remaining Balance</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" id="room-balance" name="room_balance" class="form-control" disabled>
+                                    <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>

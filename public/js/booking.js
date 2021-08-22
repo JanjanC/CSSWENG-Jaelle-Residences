@@ -118,7 +118,7 @@ function computeRoomPrice () {
 
 	jQuery.ajaxSetup({async: false});
 
-	$.get('/get-room', {roomID: roomID}, function(result) {
+	$.get('/room', {roomID: roomID}, function(result) {
 		if (result) {
 			let time =  1000 * 60 * 60 * 24;
 			let startDate = new Date($('#start-date').val()).getTime();
@@ -264,7 +264,7 @@ function checkAvailability () {
 		rooms: rooms
 	}
 
-	$.get('/check-availability', information, function(result) {
+	$.get('/room/availability', information, function(result) {
 		//is available
 		if(result) {
 			$('#end-date-error').text('');

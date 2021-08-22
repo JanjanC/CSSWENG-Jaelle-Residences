@@ -32,9 +32,9 @@ app.get('/:year-:month-:day/booking/:roomID/create', bookingController.getCreate
 
 app.post('/booking/:roomID/create', bookingController.postCreateBooking);
 
-app.get('/check-availability', bookingController.checkAvailability)
+app.get('/room/availability', bookingController.checkAvailability)
 
-app.get('/get-room', bookingController.getRoom)
+app.get('/room', bookingController.getRoom)
 
 app.get('/get-reservation', reservationController.getReservation);
 
