@@ -255,6 +255,16 @@ const bookingController = {
 			}
 
 		});
+	},
+
+	getEditBooking: function(req, res) {
+		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
+			if (result) {
+				res.render('booking-edit', result);
+			} else {
+				res.redirect('/error');
+			}
+		}, 'room guest');
 	}
 
 }

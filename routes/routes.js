@@ -40,6 +40,8 @@ app.get('/room', bookingController.getRoom)
 
 app.post('/booking/:roomID/confirm', bookingController.confirmReservation);
 
+app.get('/booking/:bookingID/edit', bookingController.getEditBooking);
+
 app.get(`/error`, controller.getError);
 app.get(`*`, controller.getError);
 app.post(`*`, controller.getError);
