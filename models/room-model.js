@@ -50,6 +50,11 @@ var RoomSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true
+    },
+
+    connected_rooms: {
+        type: Array,
+        required: false
     }
 });
 
