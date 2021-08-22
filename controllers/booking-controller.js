@@ -230,7 +230,22 @@ const bookingController = {
 
 				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
 					if (guestResult) {
-						res.redirect(`/${req.body.start_date}/booking/`);
+
+						let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activity_type: 'Confirm Reservation',
+                            timestamp: new Date()
+                        }
+
+						db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to booking screen after adding a record
+                                res.redirect(`/${req.body.start_date}/booking/`);
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
 					} else {
 						res.redirect('/error');
 					}
