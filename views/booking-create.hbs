@@ -30,24 +30,25 @@
 
                 <br>
 
-                <div class="ps-2">
-                    <!--NOTE:
-                    THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
-                    CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
-                -->
-                <h2 class="ms-3 text-primary">Reservation</h2>
-                <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
-                <div class="form-group ms-4 mb-3">
-                    <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
-                        <option value="" hidden selected>(Optional) Select a reservation</option>
-                        {{#each reservations}}
-                        <option value="{{_id}}">{{guest.first_name}} {{guest.last_name}} | {{formatDate start_date}} - {{formatDate end_date}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-
             <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
+
+                <div class="ps-2">
+                        <!--NOTE:
+                        THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
+                        CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
+                    -->
+                    <h2 class="ms-3 text-primary">Reservation</h2>
+                    <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
+                    <div class="form-group ms-4 mb-3">
+                        <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
+                            <option value="" hidden selected>(Optional) Select a reservation</option>
+                            {{#each reservations}}
+                            <option value="{{_id}}">{{guest.first_name}} {{guest.last_name}} | {{formatDate start_date}} - {{formatDate end_date}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
                 <!--ROW-->
                 <div class="row justify-content-center py-2">
                     <!-- COLUMN 1: Room Details -->
