@@ -203,7 +203,45 @@ const bookingController = {
 			res.send(result);
 		});
 	},
-	
+
+	convertToBooking: function(req, res) {
+
+		let reservation = {
+            $set: {
+				room: req.params.roomID,
+                booked_type: req.body.reserve_type_select,
+                end_date: req.body.end_date,
+				confirmed_reservation: true
+            }
+        }
+
+		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+
+			if (bookingResult) {
+				let guest = {
+		            first_name: req.body.firstname,
+		            last_name: req.body.lastname,
+		            birthdate: req.body.birthdate,
+		            address: req.body.address,
+		            contact_number: req.body.contact,
+		            company_name: req.body.company,
+		            occupation: req.body.occupation
+		        }
+
+				db.updateOne(Guest, {_id: bookingResult}, guest, function (guestResult) {
+					if (guestResult) {
+						res.redirect(`/${req.body.start_date}/reservation/`);
+					} else {
+						res.redirect('/error');
+					}
+				});
+			} else {
+				res.redirect('/error');
+			}
+
+		});
+	}
+
 }
 
 module.exports =  bookingController;
