@@ -18,12 +18,26 @@ $(document).ready(function () {
     });
 
 	$('#is-pwd').change(function () {
+		enablePWD();
+	});
+
+	$('#is-senior').change(function () {
+		enableSenior();
+	});
+
+	$('#room-pax').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
-	$('#is-senior').change(function () {
+	$('#room-senior').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-pwd').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -106,9 +120,17 @@ function computeRoomPrice () {
 			$('#duration').val(duration);
 
 			let remaining = duration;
-
+			let pax = parseInt($('#room-pax').val());
+			console.log(result);
 			if (result.room_rate.monthly) {
-				monthlyRate = result.room_rate.monthly[0];
+				if (Number.isNaN(pax)) {
+					pax = 1;
+				}
+
+				if (pax > result.room_rate.monthly.length) {
+					pax = result.room_rate.monthly.length;
+				}
+				monthlyRate = result.room_rate.monthly[pax - 1];
 				months = Math.floor(remaining / 30);
 				remaining = remaining % 30;
 			}
@@ -146,15 +168,40 @@ function computeCharges () {
 	$('#room-initial-cost').val(total.toFixed(2))
 }
 
+function enableSenior () {
+	let senior = $('#is-senior').is(':checked');
+	$('#room-senior').prop('disabled', !senior);
+}
+
+function enablePWD () {
+	let pwd = $('#is-pwd').is(':checked');
+	$('#room-pwd').prop('disabled', !pwd);
+}
+
 function computeDiscount () {
 	let total = parseInt($('#room-initial-cost').val());
-	let pwd = $('#is-pwd').is(':checked');
-	let senior = $('#is-senior').is(':checked');
+	let senior = parseInt($('#room-senior').val());
+	let pwd = parseInt($('#room-pwd').val());
 	let additional = parseInt($('#room-discount').val());
+	let pax = parseInt($('#room-pax').val());
+
+	let count = 0
+	if (senior) {
+		count = count + senior;
+	}
+
+	if (pwd) {
+		count = count + pwd;
+	}
+
+	if (count > pax) {
+		count = pax;
+	}
 
 	let percent = 0;
-	if (pwd || senior) {
-		percent = percent + 20;
+
+	if (pax) {
+		percent = percent + count / pax * 20;
 	}
 
 	if (additional) {
