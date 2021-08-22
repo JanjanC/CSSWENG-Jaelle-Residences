@@ -149,23 +149,23 @@
                                     <!--Number of days-->
                                     <!--NOTE: Automatic set in date set-->
                                     <div class="form-group mb-3">
-                                            <label class="h5">Number of Days</label>
-                                            <input class="form-control w-50" type="number" id="duration" name="duration" disabled>
+                                        <label class="h5">Number of Days</label>
+                                        <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration">
                                     </div>
 
                                     <!--Room Rate-->
                                     <div class="form-group mb-3">
-                                            <label class="h5">Avg. Room Rate Per Day (Php)</label>
-                                            <div class="input-group mb-3 w-50">
-                                                <input type="number" id="room-rate" name="room_rate" class="form-control" disabled>
-                                                <span class="input-group-text">Php/Day</span>
-                                            </div>
+                                        <label class="h5">Avg. Room Rate Per Day (Php)</label>
+                                        <div class="input-group mb-3 w-50">
+                                            <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control">
+                                            <span class="input-group-text">Php/Day</span>
+                                        </div>
                                     </div>
 
                                     <!--TODO: Number of Pax-->
                                     <div class="form-group mb-3">
-                                            <label class="h5">Number of Pax/Guests</label>
-                                            <input class="form-control w-50" type="number" id="room-pax" name="room_pax" enabled>
+                                        <label class="h5">Number of Pax/Guests</label>
+                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
                                     </div>
 
                                     <!--TODO: Number of Pwd-->
@@ -173,9 +173,9 @@
                                         <label class="h5">Number of PWD</label>
                                         <div class="input-group mb-3 w-50">
                                             <div class="input-group-text">
-                                                <input class="form-check-input mt-0" id="is-pwd" type="checkbox" value="" checked>
+                                                <input class="form-check-input mt-0" id="is-pwd" type="checkbox" value="">
                                             </div>
-                                            <input class="form-control" type="number" id="room-pwd" name="room_pwd">
+                                            <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd" disabled>
                                         </div>
                                     </div>
 
@@ -184,9 +184,9 @@
                                         <label class="h5">Number of Senior Citizens</label>
                                         <div class="input-group mb-3 w-50">
                                             <div class="input-group-text">
-                                                <input class="form-check-input mt-0" id="is-senior" type="checkbox" value="" checked>
+                                                <input class="form-check-input mt-0" id="is-senior" type="checkbox" value="">
                                             </div>
-                                            <input class="form-control" type="number" id="room-senior" name="room_senior">
+                                            <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior" disabled>
                                         </div>
                                     </div>
 
@@ -194,11 +194,8 @@
                                     <div class="form-group mb-3">
                                         <label class="h5">Other Discounts</label>
                                         <div class="input-group mb-3 w-auto">
-                                            <div class="input-group-text">
-                                                <input class="form-check-input mt-0" id="is-other" type="checkbox" value="" checked>
-                                            </div>
                                             <input type="text" id="room-discount-reason" name="room_discount_reason" class="form-control w-auto" placeholder="Reason" value="">
-                                            <input type="number" id="room-discount" name="room_discount" class="form-control" value="10">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount" name="room_discount" class="form-control">
                                             <span class="input-group-text">%</span>
                                         </div>
                                     </div>
@@ -207,7 +204,7 @@
                                     <div class="form-group mb-3">
                                         <label class="h5">Extra Charges</label>
                                         <div class="input-group mb-3 w-75">
-                                            <input type="number" id="room-extra" name="room-extra" class="form-control" enabled>
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-extra" name="room_extra" class="form-control" enabled>
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -219,7 +216,7 @@
                                     <div class="form-group mb-3">
                                         <label class="h5">Initial Cost</label>
                                         <div class="input-group mb-3 w-75">
-                                            <input type="number" id="room-initial-cost" name="room_initial_cost" class="form-control" disabled>
+                                            <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -228,7 +225,7 @@
                                     <div class="form-group mb-4">
                                         <label class="h5 text-danger">Subtracted Amount</label>
                                         <div class="input-group mb-3 w-75">
-                                            <input type="number" id="room-subtract" name="room_subtract" class="form-control" disabled>
+                                            <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -239,7 +236,7 @@
                                     <div class="form-group mb-3 mt-4 text-end text-primary">
                                         <label class="h5">Total Cost</label>
                                         <div class="input-group mb-3 w-75 ms-auto">
-                                            <input type="number" id="room-net-cost" name="room_net_cost" class="form-control" value="33333.58" disabled>
+                                            <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -248,7 +245,7 @@
                                     <div class="form-group mb-3 text-end text-primary">
                                         <label class="h5">Customer Payment</label>
                                         <div class="input-group mb-3 w-75 ms-auto">
-                                            <input type="number" id="room-payment" name="room_payment" class="form-control" value="30000.00">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -257,7 +254,7 @@
                                     <div class="form-group mb-3 text-end text-primary">
                                         <label class="h5">Remaining Balance</label>
                                         <div class="input-group mb-3 w-75 ms-auto">
-                                            <input type="number" id="room-balance" name="room_balance" class="form-control" value="3333.58" disabled>
+                                            <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
