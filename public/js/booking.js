@@ -86,9 +86,17 @@ function computeRoomPrice () {
 			$('#duration').val(duration);
 
 			let remaining = duration;
-
+			let pax = parseInt($('#room-pax').val());
+			console.log(result);
 			if (result.room_rate.monthly) {
-				monthlyRate = result.room_rate.monthly[0];
+				if (Number.isNaN(pax)) {
+					pax = 1;
+				}
+
+				if (pax > result.room_rate.monthly.length) {
+					pax = result.room_rate.monthly.length;
+				}
+				monthlyRate = result.room_rate.monthly[pax - 1];
 				months = Math.floor(remaining / 30);
 				remaining = remaining % 30;
 			}
