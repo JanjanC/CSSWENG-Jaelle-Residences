@@ -18,6 +18,8 @@ app.get('/:year-:month-:day/reservation', reservationController.getReservationSc
 
 app.get('/:year-:month-:day/reservation/create', reservationController.getCreateReservation);
 
+app.get('/reservation', reservationController.getReservation);
+
 // reservation detail form gets submitted
 app.post('/reservation/create', reservationController.postCreateReservation);
 
@@ -35,8 +37,6 @@ app.post('/booking/:roomID/create', bookingController.postCreateBooking);
 app.get('/room/availability', bookingController.checkAvailability)
 
 app.get('/room', bookingController.getRoom)
-
-app.get('/get-reservation', reservationController.getReservation);
 
 app.post('/booking/:roomID/confirm', bookingController.confirmReservation);
 
