@@ -98,7 +98,9 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <a href="/reservation-edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
+                                                {{#isNotPastDate end_date}}
+                                                <a href="/reservation/{{_id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
+                                                {{/isNotPastDate}}
                                             </div>
                                         </div>
                                     </div>

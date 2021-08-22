@@ -20,7 +20,8 @@ app.get('/:year-:month-:day/reservation/create', reservationController.getCreate
 // reservation detail form gets submitted
 app.post('/reservation/create', reservationController.postCreateReservation);
 
-app.get('/reservation-edit', controller.getEditReservation);
+app.get('/reservation/:bookingID/edit', reservationController.getEditReservation);
+app.post('/reservation/:bookingID/edit', reservationController.postEditReservation);
 
 app.get(`/error`, controller.getError);
 app.get(`*`, controller.getError);
