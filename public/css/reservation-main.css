@@ -1,0 +1,25 @@
+.reservation-list-container {
+    height: 20em;
+    overflow-y: scroll;
+}
+
+.reservation-item:hover {
+    background-color: #FCF1D9;
+    transition: 0.3s;
+}
+
+.reservation-field {
+    font-family: "Secondary";
+    text-transform: initial;
+}
+
+.room-type-label:hover {
+    background-color: #DFECF6;
+    transition: 0.3s;
+}
+
+#chosen-date:hover {
+    background-color: #DFECF6;
+    transition: 0.3s;
+    cursor: pointer;
+}

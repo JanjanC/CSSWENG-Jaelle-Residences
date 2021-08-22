@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    <link rel="stylesheet" type="text/css" href="/css/reservation-create.css">
+    <link rel="stylesheet" type="text/css" href="/css/material.css">
+
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/js/reservation.js"></script>
+    <script type="text/javascript" src="/js/help.js"></script>
+
+    <title>Create Reservation</title>
+</head>
+<body>
+
+    {{>navbar}}
+
+    <div class="row w-100 m-0 h-100">
+
+        <div id="main-screen" class="col-10 mx-auto">
+            <div id="container-screen" class="container shadow-lg bg-light p-4">
+                <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
+                    <h1 class="m-0">CREATE RESERVATION</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservation forms are accomplished and created.</p>
+                </div>
+
+                <form id="form-submit" class="" action="/reservation/create" method="post">
+                    <!--ROW-->
+                    <div class="row justify-content-center py-2">
+
+                        <!-- COLUMN 1: Room Details -->
+                        <div class="col-5 me-3 border p-4 pt-2 rounded">
+                            <h3 class="pb-2 ps-0 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
+
+                            <!--Room Type-->
+                            <div class="form-group">
+                                <label class="h5">Room Type</label>
+                                <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
+                                    <option value="" hidden selected>Select the room type</option>
+                                    {{#each room_types}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <em><p class="error text-danger" id="reserve-type-error"></p></em>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="form-group">
+                                <label class="h5 d-block">Start Date</label>
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="start-date" name="start_date" value="{{formatDate date}}">
+                                <em><p class="error text-danger" id="start-date-error"></p></em>
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="form-group">
+                                <label class="h5 d-block">End Date</label>
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date">
+                                <em><p class="error text-danger" id="end-date-error"></p></em>
+                            </div>
+                        </div>
+
+                        <!--COLUMN 2: Customer Details-->
+                        <div class="col-6 border p-4 pt-2 rounded">
+                            <h3 class="pb-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
+
+                            <!--First Name-->
+                            <div class="form-group">
+                                <label class="h5 d-block">First Name</label>
+                                <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
+                                <em><p class="error text-danger" id="firstname-error"></p></em>
+                            </div>
+
+                            <!--Last Name-->
+                            <div class="form-group">
+                                <label class="h5 d-block">Last Name</label>
+                                <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
+                                <em><p class="error text-danger" id="lastname-error"></p></em>
+                            </div>
+
+                            <!--OPTIONAL FIELDS BELOW-->
+                            <hr>
+
+                            <!--Birthday-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Birthdate</label>
+                                <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
+                                <em><p class="error text-danger" id="birthdate-error"></p></em>
+                            </div>
+
+                            <!--Address-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Address</label>
+                                <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3"></textarea>
+                            </div>
+
+                            <!--Contact No.-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Contact No.</label>
+                                <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact">
+                            </div>
+
+                            <!--Company's Name-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Company Name</label>
+                                <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company">
+                            </div>
+
+                            <!--Occupation-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Occupation</label>
+                                <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-row-reverse mt-3">
+
+                        <!-- RESERVE-->
+                        <!-- Button trigger modal -->
+                        <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
+                            Reserve
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="reserveModalLabel">Confirm Reservation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to reserve guest with the following information?</p>
+                                        <div id="inputted-info">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RETURN -->
+                        <!-- Button trigger modal -->
+                        <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                            Return
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: This page contains temporary data. Information that you have entered will <strong>NOT</strong> be <strong>SAVED</strong>. This action cannot be undone once the <strong>RETURN</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to return to the previous page?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

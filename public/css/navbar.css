@@ -1,0 +1,33 @@
+.navbar {
+    background-color: #211f22 !important;
+}
+
+.nav-link {
+    font-size: 24px;
+    font-family: "Primary";
+    text-transform: uppercase;
+    color: #f8f9fa !important;
+}
+
+.navbar-toggler {
+    background-color: #f8f9fa;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: #f5c86d !important;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.nav-link.active {
+    color: #f5c86d !important;
+}
+
+.popover-body {
+    font-family: "Secondary" !important;
+}

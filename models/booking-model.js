@@ -3,32 +3,35 @@ var mongoose = require('mongoose');
 var BookingSchema = new mongoose.Schema({
     // the room number for the booking
     // this field is absent when a booking is merely reserved (i.e., the reservation has not been paid for)
-    room_number: {
-        type: String
+    room: {
+        type: mongoose.ObjectId,
+        ref: 'Room'
     },
 
     // the room rate at the time of booking
     booked_rate: {
         type: Number,
-        required: true
     },
 
     // the type of room booked
     booked_type: {
         type: String,
+        trim: true,
         required: true
     },
 
     // the ObjectID of the guest who made the booking
-    guest_id: {
+    guest: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Guest'
     },
 
     // the ObjectID of the employee who processed the booking
-    employee_id: {
+    employee: {
         type: mongoose.ObjectId,
-        required: true
+        required: true,
+        ref: 'Employee'
     },
 
     // the day the booking starts

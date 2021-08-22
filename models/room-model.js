@@ -4,20 +4,33 @@ var RoomSchema = new mongoose.Schema({
 
     // the room number for this room
     room_number: {
-        type: mongoose.ObjectId,
+        type: Number,
         required: true
     },
 
     // the type of room
     room_type: {
         type: String,
+        trim: true,
         required: true
     },
 
     // the current rate the room goes for
     room_rate: {
-        type: Number,
-        required: true
+        daily: {
+            type: Number,
+            required: true
+        },
+
+        weekly: {
+            type: Number,
+            required: true
+        },
+
+        monthly: {
+            type: Number,
+            required: true
+        }
     },
 
     // signifies whether the room needs housekeeping or not
@@ -35,6 +48,7 @@ var RoomSchema = new mongoose.Schema({
     // signifies whether the room is vacant or occupied
     availability_status: {
         type: String,
+        trim: true,
         required: true
     }
 });

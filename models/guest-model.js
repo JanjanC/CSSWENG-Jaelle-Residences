@@ -4,87 +4,45 @@ var GuestSchema = new mongoose.Schema ({
     // the guest's first name
     first_name: {
         type: String,
+        trim: true,
         required: true
     },
 
     // the guest's last name
     last_name: {
         type: String,
-        required: true
-    },
-
-    // the guest's sex
-    sex: {
-        type: String,
+        trim: true,
         required: true
     },
 
     // the guest's birthday
     birthdate: {
-        type: Date,
-        required: true
+        type: Date
     },
 
     // the guest's address
     address: {
         type: String,
-        required: true
+        trim: true
     },
 
     // the guest's contact number
     contact_number: {
         type: String,
-        required: true
-    },
-
-    // the guest's emergency contact person
-    emergency_contact_person: {
-        type: String,
-        required: true
-    },
-
-    // the guest's emergency contact number
-    emergency_contact_number: {
-        type: String,
-        required: true
+        trim: true
     },
 
     // the guest's company name
     company_name: {
         type: String,
-        // required: true
+        trim: true
     },
 
-    // the guest's company address
-    company_address: {
+    // the guest's occupation
+    occupation: {
         type: String,
-        // required: true
-    },
-
-    // the type of id the guest presented
-    id_type: {
-        type: String,
-        required: true
-    },
-
-    // the id number in the guest's id
-    id_number: {
-        type: String,
-        required: true
-    },
-
-    // the expiration date of the id presented
-    id_expiration: {
-        type: Date,
-        required: true
-    },
-
-    // the guest's remaining credit
-    credit: {
-        type: Number,
-        required: true,
-        default: 0
-    },
+        trim: true
+    }
 });
 
 module.exports = mongoose.model('Guest', GuestSchema);

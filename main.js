@@ -14,12 +14,18 @@ const {app, BrowserWindow} = electron;
 let mainWindow;
 //create new window once electron finishes initialization
 app.on('ready', function() {
+
     //create new window
     mainWindow = new BrowserWindow({
         title: "Jaelle Residences",
         // icon: "",
-        autoHideMenuBar: true
+        autoHideMenuBar: true,
+        show: false
     });
+
+    //maximize and show the window
+    mainWindow.maximize();
+    mainWindow.show();
 
     //opens the web application
     mainWindow.loadURL(`http://${process.env.HOSTNAME}:${process.env.PORT}/`);

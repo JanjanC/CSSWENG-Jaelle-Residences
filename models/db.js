@@ -46,16 +46,24 @@ const database = {
     },
 
     //searches for a single document in the database based on the model 'model' filtered by the object 'query'
-    findOne: function(model, query, callback, projection='') {
-        model.findOne(query, projection, function(err, res) {
+    findOne: function(model, query, callback, populate='') {
+        model.findOne(query).populate(populate).exec(function(err, res) {
             if(err) throw err;
             return callback(res);
         });
     },
 
     //searches for multiple documents in the database based on the model 'model' filtered by the object 'query'
-    findMany: function(model, query, callback, projection='', sort=null) {
-        model.find(query, projection).sort(sort).exec(function (err, res) {
+    findMany: function(model, query, callback, populate='', sort=null) {
+        model.find(query).populate(populate).sort(sort).exec(function (err, res) {
+            if(err) throw err;
+            return callback(res);
+        });
+    },
+
+    //searches for documents with distinct 'field' values in database based on the model 'model'
+    findDistinct: function(model, field, callback) {
+        model.distinct(field, function (err, res) {
             if(err) throw err;
             return callback(res);
         });

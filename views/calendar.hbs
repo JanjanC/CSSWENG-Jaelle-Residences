@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+	    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+	    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+	    <link rel="stylesheet" type="text/css" href="/css/calendar.css">
+		<link rel="stylesheet" type="text/css" href="/css/material.css">
+
+	    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+	    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+	    <script type="text/javascript" src="/js/help.js"></script>
+		<script type="text/javascript" src="/js/calendar.js"></script>
+
+		<title>Calendar</title>
+	</head>
+	<body>
+		{{>navbar}}
+
+		<div class="container shadow-lg p-4">
+
+			<div class="d-flex pt-2 ps-2 mt-2 mb-3 align-items-center">
+				<h1 class="m-0">CALENDAR</h1>
+				<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-50 text-secondary">This is the screen where dates to manage booking and reservation for are chosen.<br> <span class="text-primary">Click any of the date tiles to proceed to the booking and reservation of the said date.</span></p>
+			</div>
+
+			<table class="table" id="calendar">
+				<thead>
+					<tr>
+						<th id="prev-month" data-bs-toggle="tooltip" data-bs-placement="right" title="Previous Month" onclick="window.location.href='/calendar/{{getPrevMonth currMonthYear}}'"><</th>
+					 	<th class="h2 p-3" colspan="5"><span id="cal-month">{{currMonthName}}</span> <span id="cal-year">{{currYear}}</span></th>
+					 	<th id="next-month" data-bs-toggle="tooltip" data-bs-placement="left" title="Next Month" onclick="window.location.href='/calendar/{{getNextMonth currMonthYear}}'">></th>
+					</tr>
+			  	</thead>
+			  	<tbody>
+					<tr>
+						<td class="dofweek">Sunday</td>
+						<td class="dofweek">Monday</td>
+						<td class="dofweek">Tuesday</td>
+						<td class="dofweek">Wednesday</td>
+						<td class="dofweek">Thursday</td>
+						<td class="dofweek">Friday</td>
+						<td class="dofweek">Saturday</td>
+					</tr>
+					<tr>
+						{{#each daysInMonth.[0]}}
+						<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+						{{/each}}
+					</tr>
+					<tr>
+					  	{{#each daysInMonth.[1]}}
+					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each daysInMonth.[2]}}
+					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each daysInMonth.[3]}}
+					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each daysInMonth.[4]}}
+					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+					<tr>
+					  	{{#each daysInMonth.[5]}}
+					  	<td onclick="window.location.href='/{{../currYear}}-{{addLeadingZeros ../currMonthNum}}-{{addLeadingZeros this}}/reservation/'"><p>{{this}}</p></td>
+					  	{{/each}}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

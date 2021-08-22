@@ -1,0 +1,55 @@
+html, body {
+    min-height: 100%;
+    height: 100%;
+}
+
+#calendar {
+    text-align: center;
+    height: 100%;
+}
+
+#prev-month:hover, #next-month:hover {
+    background-color: #CFE3F2;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.not-month {
+    background-color: #fcfcfc;
+}
+
+.in-month {
+    background-color: #eeeeee;
+}
+
+.today {
+    background-color: #FCF1D9!important;
+}
+
+.today:hover {
+    background-color: #F8E4B4!important;
+    transition: 0.3s;
+}
+
+.dofweek:hover {
+    background-color: #EAEAEC;
+    transition: 0.3s;
+    cursor: default;
+}
+
+td {
+    text-transform: uppercase;
+    height: 7em;
+}
+
+td.in-month:hover {
+    background-color: #DFECF6;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 28px;
+}
