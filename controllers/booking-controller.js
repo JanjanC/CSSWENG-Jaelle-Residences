@@ -205,8 +205,7 @@ const bookingController = {
 	},
 
 	confirmReservation: function(req, res) {
-		console.log(req.body);
-		console.log(req.params);
+
 		let reservation = {
             $set: {
 				room: req.params.roomID,
@@ -258,13 +257,72 @@ const bookingController = {
 	},
 
 	getEditBooking: function(req, res) {
+
 		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
 			if (result) {
+				console.log(result);
 				res.render('booking-edit', result);
 			} else {
 				res.redirect('/error');
 			}
 		}, 'room guest');
+	},
+
+	postEditBooking: function(req, res) {
+
+		console.log(req.body);
+		console.log(req.params);
+
+		let booking = {
+            $set: {
+                end_date: req.body.end_date
+            }
+        }
+
+        //update the booking details in the database
+        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
+
+            let guest = {
+                $set: {
+                    first_name: req.body.firstname,
+                    last_name: req.body.lastname,
+                    birthdate: req.body.birthdate,
+                    address: req.body.address,
+                    contact_number: req.body.contact,
+                    company_name: req.body.company,
+                    occupation: req.body.occupation
+                }
+            }
+
+            if (bookingResult) {
+                //update the customer details in the database
+                db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
+                    if (guestResult) {
+
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activity_type: 'Modify Booking',
+                            timestamp: new Date()
+                        }
+
+                        //saves the action of the employee to an activity log
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after adding a record
+                                res.redirect(`/${req.body.start_date}/booking/`);
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
 	}
 
 }

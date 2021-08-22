@@ -30,7 +30,7 @@
 
                 <br>
 
-                <form id="form-submit" class="" action="/booking/{{room._id}}/edit" method="post">
+                <form id="form-submit" class="" action="/booking/{{_id}}/edit" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
                         <!-- COLUMN 1: Room Details -->
@@ -48,19 +48,19 @@
                             <!--Room Type-->
                             <div class="form-group mb-3">
                                 <label class="h5">Room Type</label>
-                                <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}" disabled>
+                                <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}">
                             </div>
 
                             <!--Room Number-->
                             <div class="form-group mb-3">
                                 <label class="h5">Room Number</label>
-                                <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}" disabled>
+                                <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}">
                             </div>
 
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date</label>
-                                <input class="form-control w-75" type="date" readonly="true" id="start-date" name="start_date" value="{{formatDate start_date}}" disabled>
+                                <input class="form-control w-75" type="date" readonly="true" id="start-date" name="start_date" value="{{formatDate start_date}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -271,11 +271,11 @@
                             Modify
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Modify Booking</h5>
+                                        <h5 class="modal-title" id="bookModalLabel">Modify Booking</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -316,7 +316,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </form>
             </div>
