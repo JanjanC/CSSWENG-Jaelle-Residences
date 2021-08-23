@@ -237,8 +237,10 @@ const reservationController = {
 
     getReservation: function (req, res) {
         let reservationID = req.query.reservationID;
+        //get the reservation information given a reservationID
         db.findOne(Booking, {_id: reservationID}, function (result) {
             if (result) {
+                //send the result
                 res.send(result);
             }
         }, 'guest');
