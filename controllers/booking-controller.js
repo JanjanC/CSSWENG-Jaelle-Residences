@@ -51,7 +51,7 @@ const bookingController = {
 									break;
 								}
 							}
-							//lop the each othe connected rooms in the booking
+							//loop through each of the connected rooms in the booking
 							for(let k = 0; k < bookingResult[i].room.connected_rooms.length; k++) {
 								//loop through each room
 								for (let j = 0; j < list.length; j++) {
@@ -180,7 +180,8 @@ const bookingController = {
                 {$and:[
                     {$or: [
                         {confirmed_reservation: {$exists: false}},
-                        {confirmed_reservation: true}]},
+                        {confirmed_reservation: true}
+					]},
                     {is_cancelled: false}
                 ]},
                 // cases to check for existing bookings
