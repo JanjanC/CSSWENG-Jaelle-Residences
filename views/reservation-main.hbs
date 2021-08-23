@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <!-- Delete modal -->
-                                                <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{_id}}-Modal">
                                                     Delete
                                                 </button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -111,11 +111,11 @@
                                 </div>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="delete-{{_id}}-Modal" tabindex="-1" aria-labelledby="delete-{{_id}}-ModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel">Delete Reservation</h5>
+                                                <h5 class="modal-title" id="delete-{{_id}}-ModalLabel">Delete Reservation</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
