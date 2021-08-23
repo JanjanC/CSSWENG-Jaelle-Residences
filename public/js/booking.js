@@ -8,6 +8,15 @@ $(document).ready(function () {
 		showInput();
 	});
 
+	$('#start-date').change(function () {
+		checkAvailability();
+		computeRoomPrice();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+    });
+
 	$('#end-date').change(function () {
 		checkAvailability();
 		computeRoomPrice();
@@ -71,52 +80,60 @@ function computeRoomPrice () {
 			let time =  1000 * 60 * 60 * 24;
 			let startDate = new Date($('#start-date').val()).getTime();
 			let endDate = new Date($('#end-date').val()).getTime();
-			let duration = Math.round(Math.abs((endDate - startDate) / time));
-			let months = 0;
-			let weeks = 0;
-			let days = 0;
 
-			let monthlyRate = 0;
-			let weeklyRate = 0;
-			let dailyRate = 0;
+			if (startDate && endDate && endDate - startDate >= 0) {
 
-			if (duration <= 0) {
-				duration = 1;
-			}
-			$('#duration').val(duration);
+				let duration = Math.round(Math.abs((endDate - startDate) / time));
+				let months = 0;
+				let weeks = 0;
+				let days = 0;
 
-			let remaining = duration;
-			let pax = parseInt($('#room-pax').val());
-			console.log(result);
-			if (result.room_rate.monthly) {
-				if (Number.isNaN(pax)) {
-					pax = 1;
+				let monthlyRate = 0;
+				let weeklyRate = 0;
+				let dailyRate = 0;
+
+				if (duration <= 0) {
+					duration = 1;
 				}
 
-				if (pax > result.room_rate.monthly.length) {
-					pax = result.room_rate.monthly.length;
+				let remaining = duration;
+				let pax = parseInt($('#room-pax').val());
+				console.log(result);
+				if (result.room_rate.monthly) {
+					if (Number.isNaN(pax)) {
+						pax = 1;
+					}
+
+					if (pax > result.room_rate.monthly.length) {
+						pax = result.room_rate.monthly.length;
+					}
+					monthlyRate = result.room_rate.monthly[pax - 1];
+					months = Math.floor(remaining / 30);
+					remaining = remaining % 30;
 				}
-				monthlyRate = result.room_rate.monthly[pax - 1];
-				months = Math.floor(remaining / 30);
-				remaining = remaining % 30;
+
+				if (result.room_rate.weekly) {
+					weeklyRate = result.room_rate.weekly;
+					weeks = Math.floor(remaining / 7);
+					remaining = remaining % 7;
+				}
+
+				if (result.room_rate.daily) {
+					dailyRate = result.room_rate.daily;
+					days = remaining;
+				}
+
+				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
+				let rate = total / duration;
+
+				$('#duration').val(duration);
+				$('#room-initial-cost').val(total.toFixed(2));
+				$('#room-rate').val(rate.toFixed(2));
+			} else {
+				$('#duration').val(0);
+				$('#room-initial-cost').val(0.00);
+				$('#room-rate').val(0.00);
 			}
-
-			if (result.room_rate.weekly) {
-				weeklyRate = result.room_rate.weekly;
-				weeks = Math.floor(remaining / 7);
-				remaining = remaining % 7;
-			}
-
-			if (result.room_rate.daily) {
-				dailyRate = result.room_rate.daily;
-				days = remaining;
-			}
-
-			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
-			let rate = total / duration;
-
-			$('#room-initial-cost').val(total.toFixed(2));
-			$('#room-rate').val(rate.toFixed(2));
 		}
 	});
 
@@ -198,30 +215,35 @@ function computeBalance () {
 }
 
 function checkAvailability () {
-	let rooms = [];
+	let startDate = $('#start-date').val();
+	let endDate = $('#end-date').val();
 
-	rooms.push($('#room-id').text());
+	if (startDate && endDate && endDate >= startDate) {
+		let rooms = [];
 
-	$('.connected-rooms').each(function () {
-		rooms.push($(this).text());
-	});
+		rooms.push($('#room-id').text());
 
-	let information = {
-		start_date: $('#start-date').val(),
-		end_date: $('#end-date').val(),
-		rooms: rooms
-	}
+		$('.connected-rooms').each(function () {
+			rooms.push($(this).text());
+		});
 
-	$.get('/room/availability', information, function(result) {
-		//is available
-		if(result) {
-			$('#end-date-error').text('');
-			$('#book').prop('disabled', false);
-		} else {
-			$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-			$('#book').prop('disabled', true);
+		let information = {
+			start_date: startDate,
+			end_date: endDate,
+			rooms: rooms
 		}
-	});
+
+		$.get('/room/availability', information, function(result) {
+			//is available
+			if(result) {
+				$('#end-date-error').text('');
+				$('#book').prop('disabled', false);
+			} else {
+				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
+				$('#book').prop('disabled', true);
+			}
+		});
+	}
 }
 
 function showInput () {
