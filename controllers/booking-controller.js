@@ -97,7 +97,7 @@ const bookingController = {
 	},
 
 	getCreateBooking: function(req, res) {
-
+		//find the information of the room given a roomID
 		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
 			if (roomResult) {
 
@@ -112,13 +112,14 @@ const bookingController = {
 		            confirmed_reservation: false,
 		            is_cancelled: false
 		        };
-
+				//find all the reservations such that the current date is between the start and end date of the reservation
 				db.findMany(Booking, reservation, function (reservationResult) {
 					let values = {
 	                    room: roomResult,
 						reservations: reservationResult,
 	                    date:date
 	                }
+					//reender to create booking page
 					res.render('booking-create', values);
 				}, 'guest');
 			} else {
@@ -240,16 +241,18 @@ const bookingController = {
 	},
 
 	confirmReservation: function(req, res) {
-		console.log(req.body);
-		console.log(req.params);
+
 		let reservation = {
             $set: {
+				//assign the guest to a room
 				room: req.params.roomID,
+				start_date: req.body.start_date,
                 end_date: req.body.end_date,
+				//confirm the reservation
 				confirmed_reservation: true
             }
         }
-
+		//confirm the reservation, assign the guest to a room, and update the booking dates
 		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
 			if (bookingResult) {
@@ -262,7 +265,7 @@ const bookingController = {
 		            company_name: req.body.company,
 		            occupation: req.body.occupation
 		        }
-
+				//upda the information of the guest
 				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
 					if (guestResult) {
 
@@ -272,7 +275,7 @@ const bookingController = {
                             activity_type: 'Confirm Reservation',
                             timestamp: new Date()
                         }
-
+						//saves the action of the employee to an activity log
 						db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
                                 // redirects to booking screen after adding a record
