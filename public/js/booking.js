@@ -8,6 +8,17 @@ $(document).ready(function () {
 		showInput();
 	});
 
+	$('#start-date').change(function () {
+		if($('#end-date').val() != ''){
+			checkAvailability();
+			computeRoomPrice();
+			computeCharges();
+			computeDiscount();
+			computeTotal();
+			computeBalance();
+		}
+    });
+
 	$('#end-date').change(function () {
 		checkAvailability();
 		computeRoomPrice();
