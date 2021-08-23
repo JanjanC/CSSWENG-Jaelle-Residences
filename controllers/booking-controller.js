@@ -162,11 +162,13 @@ const bookingController = {
 					{start_date: {$gte: lower_bound}},
 					{end_date: {$lte: upper_bound}}
 				]},
-                // must be a booking
-                {$or: [
-					{confirmed_reservation: {$exists: false}},
-					{confirmed_reservation: true}
-				]},
+                // must be an active booking
+                {$and:[
+                    {$or: [
+                        {confirmed_reservation: {$exists: false}},
+                        {confirmed_reservation: true}]},
+                    {is_cancelled: false}
+                ]},
                 // cases to check for existing bookings
                 {$or: [
                     {$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
