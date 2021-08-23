@@ -296,10 +296,10 @@ const bookingController = {
 	},
 
 	getEditBooking: function(req, res) {
-
+		//get the booking information given the bookingID
 		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
 			if (result) {
-				console.log(result);
+				//render the edit booking screen
 				res.render('booking-edit', result);
 			} else {
 				res.redirect('/error');
@@ -308,12 +308,9 @@ const bookingController = {
 	},
 
 	postEditBooking: function(req, res) {
-
-		console.log(req.body);
-		console.log(req.params);
-
 		let booking = {
             $set: {
+				start_date: req.body.start_date,
                 end_date: req.body.end_date
             }
         }
@@ -348,7 +345,7 @@ const bookingController = {
                         //saves the action of the employee to an activity log
                         db.insertOne(Activity, activity, function(activityResult) {
                             if (activityResult) {
-                                // redirects to home screen after adding a record
+                                // redirects to home screen after updating the booking
                                 res.redirect(`/${req.body.start_date}/booking/`);
                             } else {
                                 res.redirect('/error');
