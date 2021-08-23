@@ -114,8 +114,8 @@ const bookingController = {
                     booked_type: req.body.room_type,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
-                    start_date: req.body.start_date,
-                    end_date: req.body.end_date,
+                    start_date: new Date (`${req.body.start_date} 14:00:00`),
+                    end_date: new Date(`${req.body.end_date} 12:00:00`),
 					checked_in: false,
                     is_cancelled: false
                 }
@@ -160,8 +160,8 @@ const bookingController = {
 
     checkAvailability: function(req, res) {
         // extract dates and room numbers
-        let start = new Date(req.query.start_date);
-        let end = new Date(req.query.end_date);
+        let start = new Date(`${req.query.start_date} 14:00:00`);
+        let end = new Date(`${req.query.end_date} 12:00:00`);
 		let rooms = req.query.rooms;
         let lower_bound = new Date(req.query.start_date);
         let upper_bound = new Date(req.query.end_date);
