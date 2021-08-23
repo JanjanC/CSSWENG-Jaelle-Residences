@@ -20,5 +20,5 @@
 5. To create an executable file, run the command `npm run-script dist`.
 
 ## Sign In Details
-- username: myname
+- username: name
 - password: 123
