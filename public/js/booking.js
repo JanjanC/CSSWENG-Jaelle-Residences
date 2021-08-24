@@ -8,6 +8,15 @@ $(document).ready(function () {
 		showInput();
 	});
 
+	$('#start-date').change(function () {
+		checkAvailability();
+		computeRoomPrice();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+    });
+
 	$('#end-date').change(function () {
 		checkAvailability();
 		computeRoomPrice();
@@ -93,8 +102,17 @@ function updateForm () {
 
 	$.get('/reservation', {reservationID: reservationID}, function(result) {
 		if (result) {
-			let endDate = new Date(result.end_date);
-			endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
+			let startDate = '';
+			if (result.start_date) {
+				startDate = new Date(result.start_date);
+				startDate = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
+			}
+
+			let endDate = '';
+			if (result.end_date) {
+				endDate = new Date(result.end_date);
+				endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
+			}
 
 			let birthdate = '';
 			if (result.guest.birthdate) {
@@ -102,6 +120,7 @@ function updateForm () {
 				birthdate = `${birthdate.getFullYear().toString()}-${(birthdate.getMonth() + 1).toString().padStart(2, 0)}-${birthdate.getDate().toString().padStart(2, 0)}`;
 			}
 
+			$('#start-date').val(startDate);
 			$('#end-date').val(endDate);
 			$('#firstname').val(result.guest.first_name);
 			$('#lastname').val(result.guest.last_name);
@@ -126,52 +145,60 @@ function computeRoomPrice () {
 			let time =  1000 * 60 * 60 * 24;
 			let startDate = new Date($('#start-date').val()).getTime();
 			let endDate = new Date($('#end-date').val()).getTime();
-			let duration = Math.round(Math.abs((endDate - startDate) / time));
-			let months = 0;
-			let weeks = 0;
-			let days = 0;
 
-			let monthlyRate = 0;
-			let weeklyRate = 0;
-			let dailyRate = 0;
+			if (startDate && endDate && endDate - startDate >= 0) {
 
-			if (duration <= 0) {
-				duration = 1;
-			}
-			$('#duration').val(duration);
+				let duration = Math.round(Math.abs((endDate - startDate) / time));
+				let months = 0;
+				let weeks = 0;
+				let days = 0;
 
-			let remaining = duration;
-			let pax = parseInt($('#room-pax').val());
-			console.log(result);
-			if (result.room_rate.monthly) {
-				if (Number.isNaN(pax)) {
-					pax = 1;
+				let monthlyRate = 0;
+				let weeklyRate = 0;
+				let dailyRate = 0;
+
+				if (duration <= 0) {
+					duration = 1;
 				}
 
-				if (pax > result.room_rate.monthly.length) {
-					pax = result.room_rate.monthly.length;
+				let remaining = duration;
+				let pax = parseInt($('#room-pax').val());
+				console.log(result);
+				if (result.room_rate.monthly) {
+					if (Number.isNaN(pax)) {
+						pax = 1;
+					}
+
+					if (pax > result.room_rate.monthly.length) {
+						pax = result.room_rate.monthly.length;
+					}
+					monthlyRate = result.room_rate.monthly[pax - 1];
+					months = Math.floor(remaining / 30);
+					remaining = remaining % 30;
 				}
-				monthlyRate = result.room_rate.monthly[pax - 1];
-				months = Math.floor(remaining / 30);
-				remaining = remaining % 30;
+
+				if (result.room_rate.weekly) {
+					weeklyRate = result.room_rate.weekly;
+					weeks = Math.floor(remaining / 7);
+					remaining = remaining % 7;
+				}
+
+				if (result.room_rate.daily) {
+					dailyRate = result.room_rate.daily;
+					days = remaining;
+				}
+
+				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
+				let rate = total / duration;
+
+				$('#duration').val(duration);
+				$('#room-initial-cost').val(total.toFixed(2));
+				$('#room-rate').val(rate.toFixed(2));
+			} else {
+				$('#duration').val(0);
+				$('#room-initial-cost').val(0.00);
+				$('#room-rate').val(0.00);
 			}
-
-			if (result.room_rate.weekly) {
-				weeklyRate = result.room_rate.weekly;
-				weeks = Math.floor(remaining / 7);
-				remaining = remaining % 7;
-			}
-
-			if (result.room_rate.daily) {
-				dailyRate = result.room_rate.daily;
-				days = remaining;
-			}
-
-			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
-			let rate = total / duration;
-
-			$('#room-initial-cost').val(total.toFixed(2));
-			$('#room-rate').val(rate.toFixed(2));
 		}
 	});
 
@@ -182,11 +209,15 @@ function computeCharges () {
 	let total = parseInt($('#room-initial-cost').val());
 	let extra = parseInt($('#room-extra').val());
 
-	if (extra) {
-		total = total + extra;
-	}
+	if (total) {
+		if (extra) {
+			total = total + extra;
+		}
 
-	$('#room-initial-cost').val(total.toFixed(2))
+		$('#room-initial-cost').val(total.toFixed(2));
+	} else {
+		$('#room-initial-cost').val(0.00);
+	}
 }
 
 function enableSenior () {
@@ -206,77 +237,108 @@ function computeDiscount () {
 	let additional = parseInt($('#room-discount').val());
 	let pax = parseInt($('#room-pax').val());
 
-	let count = 0
-	if (senior) {
-		count = count + senior;
+	if (total) {
+		let count = 0
+		if (senior) {
+			count = count + senior;
+		}
+
+		if (pwd) {
+			count = count + pwd;
+		}
+
+		if (count > pax) {
+			count = pax;
+		}
+
+		let percent = 0;
+
+		if (pax) {
+			percent = percent + count / pax * 20;
+		}
+
+		if (additional) {
+			percent = percent + additional;
+		}
+
+		percent = percent / 100;
+
+		let discount = total * percent;
+
+		$('#room-subtract').val(discount.toFixed(2));
+	} else {
+		$('#room-subtract').val(0.00);
 	}
-
-	if (pwd) {
-		count = count + pwd;
-	}
-
-	if (count > pax) {
-		count = pax;
-	}
-
-	let percent = 0;
-
-	if (pax) {
-		percent = percent + count / pax * 20;
-	}
-
-	if (additional) {
-		percent = percent + additional;
-	}
-
-	percent = percent / 100;
-
-	let discount = total * percent;
-
-	$('#room-subtract').val(discount.toFixed(2));
 }
 
 function computeTotal () {
 	let total = parseInt($('#room-initial-cost').val());
 	let discount = parseInt($('#room-subtract').val());
-	let net = total - discount;
 
-	$('#room-net-cost').val(net.toFixed(2));
+	if (total) {
+		let net = total;
+		if (discount) {
+			net = total - discount;
+		}
+
+		$('#room-net-cost').val(net.toFixed(2));
+	} else {
+		$('#room-net-cost').val(0.00);
+	}
+
 }
 
 function computeBalance () {
 	let net = parseInt($('#room-net-cost').val());
 	let payment = parseInt($('#room-payment').val());
-	let balance = payment - net;
 
-	$('#room-balance').val(balance.toFixed(2));
+	if (net) {
+
+		let balance = payment;
+		if (payment) {
+			balance = payment - net
+		}
+
+		$('#room-balance').val(balance.toFixed(2));
+	} else {
+		$('#room-balance').val(0.00);
+	}
+
+
 }
 
 function checkAvailability () {
-	let rooms = [];
+	let startDate = $('#start-date').val();
+	let endDate = $('#end-date').val();
+	let bookingid = $('#booking-id').text();
 
-	rooms.push($('#room-id').text());
+	if (startDate && endDate && endDate >= startDate) {
+		let rooms = [];
 
-	$('.connected-rooms').each(function () {
-		rooms.push($(this).text());
-	});
+		rooms.push($('#room-id').text());
 
-	let information = {
-		start_date: $('#start-date').val(),
-		end_date: $('#end-date').val(),
-		rooms: rooms
-	}
+		$('.connected-rooms').each(function () {
+			rooms.push($(this).text());
+		});
 
-	$.get('/room/availability', information, function(result) {
-		//is available
-		if(result) {
-			$('#end-date-error').text('');
-			$('#book').prop('disabled', false);
-		} else {
-			$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-			$('#book').prop('disabled', true);
+		let information = {
+			start_date: startDate,
+			end_date: endDate,
+			rooms: rooms,
+			bookingid: bookingid
 		}
-	});
+
+		$.get('/room/availability', information, function(result) {
+			//is available
+			if(result) {
+				$('#end-date-error').text('');
+				$('#book').prop('disabled', false);
+			} else {
+				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
+				$('#book').prop('disabled', true);
+			}
+		});
+	}
 }
 
 function showInput () {

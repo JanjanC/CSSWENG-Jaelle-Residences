@@ -39,6 +39,7 @@
                             <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
 
                             <div hidden>
+                                <span id="booking-id">{{_id}}</span>
                                 <span id="room-id">{{room._id}}</span>
                                 {{#each room.connected_rooms}}
                                 <span class="connected-rooms">{{this}}</span>
@@ -60,7 +61,7 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date</label>
-                                <input class="form-control w-75" type="date" readonly="true" id="start-date" name="start_date" value="{{formatDate start_date}}">
+                                <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate start_date}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -74,7 +75,7 @@
                             <!-- End Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">End Date</label>
-                                <input class="form-control w-75" type="date" id="end-date" name="end_date" value={{formatDate end_date}} min="{{formatDate start_date}}">
+                                <input class="form-control w-75" type="date" id="end-date" name="end_date" value="{{formatDate end_date}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
                         </div>
