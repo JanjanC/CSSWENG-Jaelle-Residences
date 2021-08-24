@@ -23,11 +23,6 @@
 	height: 10em;
 }
 
-.room-container:hover {
-    background-color: #DFEBF0;
-    transition: 0.3s;
-}
-
 .room-number {
 	font-size: 30px;
 }
@@ -48,4 +43,31 @@
 
 .deleteModalItem {
     z-index: 1060;
+}
+
+.booked {
+	background-color: #FCF1D9;
+}
+
+.occupied {
+	background-color: #FFD6E6;
+}
+
+.vacant {
+	background-color: #E6FFF3;
+}
+
+.room-container.booked:hover {
+    background-color: #FFECC2;
+    transition: 0.3s;
+}
+
+.room-container.occupied:hover {
+    background-color: #FFC9D7;
+    transition: 0.3s;
+}
+
+.room-container.vacant:hover {
+    background-color: #D1FFE3;
+    transition: 0.3s;
 }
