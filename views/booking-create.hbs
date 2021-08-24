@@ -57,6 +57,7 @@
                         <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
 
                         <div hidden>
+                            <span id="booking-id">{{_id}}</span>
                             <span id="room-id">{{room._id}}</span>
                             {{#each room.connected_rooms}}
                             <span class="connected-rooms">{{this}}</span>

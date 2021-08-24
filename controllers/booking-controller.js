@@ -196,7 +196,7 @@ const bookingController = {
         // set the conditions for the queries
         booking_query = {
             $and: [
-				{_id: {$ne: req.query.bookingid}},
+				{_id: {$ne: mongoose.mongo.ObjectID(req.query.bookingid)}},
                 {room: {$in : rooms}},
                 // reservation dates only within 5 years
                 {$and: [
