@@ -36,7 +36,7 @@
 					<div class="ms-auto d-flex flex-column align-items-end w-25">
 						<form class="d-flex flex-column form-group justify-content-center align-items-center w-50" action="" method="get">
 							<h5>Chosen Time</h5>
-							<input type="time" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}">
+							<input type="time" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shows the current status of rooms at this specified time given the date">
 						</form>
 					</div>
 
@@ -50,8 +50,8 @@
 				<hr>
 				<div class="d-flex justify-content-end align-items-center me-3">
 					<span class="text-secondary h5 me-2">LEGEND:</span>
-					<span class="legend occupied h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="A guest is currently checked in the specified room">Occupied</span>
-					<span class="legend booked h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="A guest has currently booked in the specified room">Booked</span>
+					<span class="legend occupied h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently being occupied by a customer">Occupied</span>
+					<span class="legend booked h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room has already been booked by a customer">Booked</span>
 					<span class="legend vacant h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently available for booking">Vacant</span>
 				</div>
 
