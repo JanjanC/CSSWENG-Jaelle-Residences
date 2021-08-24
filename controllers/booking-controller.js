@@ -194,60 +194,35 @@ const bookingController = {
         lower_bound.setFullYear(lower_bound.getFullYear() - 5);
         upper_bound.setFullYear(upper_bound.getFullYear() + 5);
         // set the conditions for the queries
-		if(req.query.bookingid == ''){
-			booking_query = {
-				$and: [
-					{room: {$in : rooms}},
-					// reservation dates only within 5 years
-					{$and: [
-						{start_date: {$gte: lower_bound}},
-						{end_date: {$lte: upper_bound}}
-					]},
-					// must be an active booking
-					{$and:[
-						{$or: [
-							{confirmed_reservation: {$exists: false}},
-							{confirmed_reservation: true}
-						]},
-						{is_cancelled: false}
-					]},
-					// cases to check for existing bookings
+		booking_query = {
+			$and: [
+				{room: {$in : rooms}},
+				// reservation dates only within 5 years
+				{$and: [
+					{start_date: {$gte: lower_bound}},
+					{end_date: {$lte: upper_bound}}
+				]},
+				// must be an active booking
+				{$and:[
 					{$or: [
-						{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-						{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
-						{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
-						{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
-					]}
-				]
-			};
-		}
-        else{
-			booking_query = {
-				$and: [
-					{_id: {$ne: req.query.bookingid}},
-					{room: {$in : rooms}},
-					// reservation dates only within 5 years
-					{$and: [
-						{start_date: {$gte: lower_bound}},
-						{end_date: {$lte: upper_bound}}
+						{confirmed_reservation: {$exists: false}},
+						{confirmed_reservation: true}
 					]},
-					// must be an active booking
-					{$and:[
-						{$or: [
-							{confirmed_reservation: {$exists: false}},
-							{confirmed_reservation: true}
-						]},
-						{is_cancelled: false}
-					]},
-					// cases to check for existing bookings
-					{$or: [
-						{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-						{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
-						{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
-						{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
-					]}
-				]
-			};
+					{is_cancelled: false}
+				]},
+				// cases to check for existing bookings
+				{$or: [
+					{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
+					{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
+					{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
+					{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
+				]}
+			]
+		};
+
+		// when checking availability while editing booking, do not include itself as a conflicting booking
+		if(req.query.bookingid != ''){
+			booking_query.$and.push({_id: {$ne: req.query.bookingid}});
 		}
 
         // find atleast one booking for a specified room between the start and end date inclusive
