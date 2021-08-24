@@ -29,9 +29,9 @@
 }
 
 .modal {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
 }
 
-#deleteModal {
+.deleteModalItem {
     z-index: 1060;
 }
