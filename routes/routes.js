@@ -28,8 +28,6 @@ app.post('/reservation/:bookingID/delete', reservationController.postDeleteReser
 
 app.get('/:year-:month-:day/booking', bookingController.getBookingScreen);
 
-app.get('/time/booking', bookingController.getBookingScreenAtCertainTime);
-
 app.get('/:year-:month-:day/booking/:roomID/create', bookingController.getCreateBooking);
 
 app.post('/booking/:roomID/create', bookingController.postCreateBooking);
