@@ -35,7 +35,7 @@
                     THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
                     CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
                 -->
-                <h2 class="ms-3 text-primary">Reservation</h2>
+                <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Reservation</h2>
                 <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
                 <div class="form-group ms-4 mb-3">
                     <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
@@ -53,7 +53,7 @@
                     <!-- COLUMN 1: Room Details -->
                     <div class="col-5 me-3 border p-4 pt-2 rounded">
 
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
 
                         <div hidden>
                             <span id="room-id">{{room._id}}</span>
@@ -102,7 +102,7 @@
                     <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
                     <!--CUSTOMER INFO-->
                     <div id="customer-info" class="mb-4">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Customer Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
 
                         <!--First Name-->
                         <div class="form-group">
@@ -158,7 +158,7 @@
                 <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
                     <!--TRANSACTION INFO-->
                     <div id="transaction-info" class="row mb-4 justify-content-between">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Transaction Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
 
 
                         <!--TRANSACTION 1st COL-->
@@ -167,14 +167,14 @@
                             <!--NOTE: Automatic set in date set-->
                             <div class="form-group mb-3">
                                 <label class="h5">Number of Days</label>
-                                <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration">
+                                <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration" disabled>
                             </div>
 
                             <!--Room Rate-->
                             <div class="form-group mb-3">
                                 <label class="h5">Avg. Room Rate Per Day (Php)</label>
                                 <div class="input-group mb-3 w-50">
-                                    <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control">
+                                    <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control" disabled>
                                     <span class="input-group-text">Php/Day</span>
                                 </div>
                             </div>
