@@ -57,17 +57,21 @@
 	background-color: #E6FFF3;
 }
 
-.room-container.booked:hover {
+.legend:hover {
+	cursor: default;
+}
+
+.room-container.booked:hover, .legend.booked:hover {
     background-color: #FFECC2;
     transition: 0.3s;
 }
 
-.room-container.occupied:hover {
+.room-container.occupied:hover, .legend.occupied:hover {
     background-color: #FFC9D7;
     transition: 0.3s;
 }
 
-.room-container.vacant:hover {
+.room-container.vacant:hover, .legend.vacant:hover {
     background-color: #D1FFE3;
     transition: 0.3s;
 }
