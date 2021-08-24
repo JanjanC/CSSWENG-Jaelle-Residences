@@ -36,7 +36,7 @@
 					<div class="ms-auto d-flex flex-column align-items-end w-25">
 						<form class="d-flex flex-column form-group justify-content-center align-items-center w-50" action="" method="get">
 							<h5>Chosen Time</h5>
-							<input type="time" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}">
+							<input type="time" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Shows the current status of rooms at this specified time given the date">
 						</form>
 					</div>
 
@@ -48,6 +48,12 @@
                     </div>
 				</div>
 				<hr>
+				<div class="d-flex justify-content-end align-items-center me-3">
+					<span class="text-secondary h5 me-2">LEGEND:</span>
+					<span class="legend occupied h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently being occupied by a customer">Occupied</span>
+					<span class="legend booked h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room has already been booked by a customer">Booked</span>
+					<span class="legend vacant h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently available for booking">Vacant</span>
+				</div>
 
 				<!--ROOM ARRAY HERE-->
 				<div id="" class="row m-3">
@@ -64,7 +70,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header booked">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -76,7 +82,7 @@
 										<h4>Room Type:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-type">{{room.room_type}}</span></h5>
 										<h4>Room Rate:</h4>
-										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate}}</span></h5>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 										<!-- Optional Fields -->
 										{{#if booking.guest.birthdate}}
 										<h4>Birthdate:</h4>
@@ -105,17 +111,18 @@
 										<!-- Delete Form -->
 										<!-- Button trigger modal -->
 										<button id="delete" name="delete" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
-											<h5 class="p-1 m-0">Delete</h5>
+											<span class="material-icons-outlined me-1">delete</span>Delete
 										</button>
 
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
-										<a href="/booking/{{booking._id}}/edit" class="btn btn-primary"><h5 class="m-0 p-1">Edit</h5></a>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<a href="/booking/{{booking._id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
+
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- Modal -->
-						<div class="modal fade" id="delete-{{room._id}}-Modal" tabindex="-1" aria-labelledby="delete-{{room._id}}-ModalLabel" aria-hidden="true">
+						<div class="modal fade deleteModalItem" id="delete-{{room._id}}-Modal" tabindex="-1" aria-labelledby="delete-{{room._id}}-ModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -127,9 +134,9 @@
 										<p>Are you sure you want to <strong>permanently delete</strong> this booking with the following information?</p>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Return</h5></button>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Return</button>
 										<form id="form-delete" class="m-0 p-1" action="/booking/{{room._id}}/delete" method="post">
-											<button type="submit" class="btn btn-danger"><h5 class="m-0 p-1">Delete</h5></button>
+											<button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
 										</form>
 									</div>
 								</div>
@@ -148,7 +155,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header occupied">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -160,7 +167,7 @@
 										<h4>Room Type:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-type">{{room.room_type}}</span></h5>
 										<h4>Room Rate:</h4>
-										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate}}</span></h5>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 										<!-- Optional Fields -->
 										{{#if booking.guest.birthdate}}
 										<h4>Birthdate:</h4>
@@ -185,7 +192,7 @@
 
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
@@ -202,7 +209,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header vacant">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -212,11 +219,13 @@
 										<h4>Room Type:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-type">{{room.room_type}}</span></h5>
 										<h4>Room Rate:</h4>
-										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate}}</span></h5>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
-										<a href="{{room._id}}/create" class="btn btn-primary"><h5 class="m-0 p-1">Book</h5></a>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										{{#isNotPastDate ../date}}
+											<a href="{{room._id}}/create" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add</span>Book</a>
+										{{/isNotPastDate}}
 									</div>
 								</div>
 							</div>
