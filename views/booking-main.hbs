@@ -105,11 +105,11 @@
 										<!-- Delete Form -->
 										<!-- Button trigger modal -->
 										<button id="delete" name="delete" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
-											<h5 class="p-1 m-0">Delete</h5>
+											Delete
 										</button>
 
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
-										<a href="{{room._id}}/edit" class="btn btn-primary"><h5 class="m-0 p-1">Edit</h5></a>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<a href="{{room._id}}/edit" class="btn btn-primary">Edit</a>
 									</div>
 								</div>
 							</div>
@@ -129,7 +129,7 @@
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Return</h5></button>
 										<form id="form-delete" class="m-0 p-1" action="/booking/{{room._id}}/delete" method="post">
-											<button type="submit" class="btn btn-danger"><h5 class="m-0 p-1">Delete</h5></button>
+											<button type="submit" class="btn btn-danger">Delete</button>
 										</form>
 									</div>
 								</div>
@@ -185,7 +185,7 @@
 
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
@@ -215,8 +215,8 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate}}</span></h5>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h5 class="m-0 p-1">Close</h5></button>
-										<a href="{{room._id}}/create" class="btn btn-primary"><h5 class="m-0 p-1">Book</h5></a>
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<a href="{{room._id}}/create" class="btn btn-primary">Book</a>
 									</div>
 								</div>
 							</div>
