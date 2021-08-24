@@ -364,41 +364,6 @@ const bookingController = {
                 res.redirect('/error');
             }
         });
-	},
-
-	postDeleteBooking: function(req, res) {
-		let booking = {
-            $set: {
-                is_cancelled: true
-            }
-        }
-
-        //cancel the booking by setting is_cancelled to true
-        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
-
-            if (bookingResult) {
-                let activity = {
-                    employee: req.session.employeeID,
-                    booking: bookingResult._id,
-                    activity_type: 'Cancel Booking',
-                    timestamp: new Date()
-                }
-
-                //saves the action of the employee to an activity log
-                db.insertOne(Activity, activity, function(activityResult) {
-                    if (activityResult) {
-                        let today = new Date();
-                    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
-
-                        res.redirect(`/${todayString}/booking/`);
-                    } else {
-                        res.redirect('/error');
-                    }
-                });
-            } else {
-                res.redirect('/error');
-            }
-        });
 	}
 
 }
