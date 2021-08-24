@@ -104,7 +104,7 @@
 
 										<!-- Delete Form -->
 										<!-- Button trigger modal -->
-										<button id="delete" name="delete" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+										<button id="delete" name="delete" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
 											<h5 class="p-1 m-0">Delete</h5>
 										</button>
 
@@ -115,11 +115,11 @@
 							</div>
 						</div>
 						<!-- Modal -->
-						<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+						<div class="modal fade" id="delete-{{room._id}}-Modal" tabindex="-1" aria-labelledby="delete-{{room._id}}-ModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h3 class="modal-title" id="deleteModalLabel">Delete Booking</h3>
+										<h3 class="modal-title" id="delete-{{room._id}}-ModalLabel">Delete Booking</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body p-4">
