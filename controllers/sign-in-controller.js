@@ -13,9 +13,11 @@ const signInController = {
 
         let username = req.body.username;
         let password = req.body.password;
+        answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
 
         db.findOne(Employee, {username: username}, function(result) {
             if(result) {
+                answer.usernameFlag = "hidden";
                 bcrypt.compare(password, result.password, function(err, equal) {
                     if (equal) {
                         req.session.username = result.username;
@@ -23,11 +25,13 @@ const signInController = {
 
                         res.redirect('/index');
                     } else {
-                        // TODO: redirect to sign in failure page
+                        answer.passwordFlag = "";
+                        res.render('sign-in-fail', answer);
                     }
                 });
             } else {
-                res.redirect('/error');
+                answer.usernameFlag="";
+                res.render('sign-in-fail', answer);
             }
         });
     },
