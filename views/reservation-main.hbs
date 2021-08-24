@@ -99,7 +99,7 @@
                                             <div class="modal-footer">
                                                 <!-- Delete modal -->
                                                 <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{_id}}-Modal">
-                                                    Delete
+                                                    <span class="material-icons-outlined me-1">delete</span>Delete
                                                 </button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 {{#isNotPastDate end_date}}
@@ -126,7 +126,7 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <!--Delete Form-->
                                                 <form id="form-delete" action="/reservation/{{_id}}/delete" method="post">
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
                                                 </form>
                                             </div>
                                         </div>
