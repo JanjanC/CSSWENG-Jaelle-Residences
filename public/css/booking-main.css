@@ -38,10 +38,6 @@
     cursor: pointer;
 }
 
-#deleteModal p {
-	font-size: 20px;
-}
-
 .modal-backdrop {
   display: none;
 }
