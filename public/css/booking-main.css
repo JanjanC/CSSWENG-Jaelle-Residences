@@ -23,11 +23,6 @@
 	height: 10em;
 }
 
-.room-container:hover {
-    background-color: #DFEBF0;
-    transition: 0.3s;
-}
-
 .room-number {
 	font-size: 30px;
 }
@@ -38,14 +33,45 @@
     cursor: pointer;
 }
 
-#deleteModal p {
-	font-size: 20px;
-}
-
 .modal-backdrop {
   display: none;
 }
 
 .modal {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.deleteModalItem {
+    z-index: 1060;
+}
+
+.booked {
+	background-color: #FCF1D9;
+}
+
+.occupied {
+	background-color: #FFD6E6;
+}
+
+.vacant {
+	background-color: #E6FFF3;
+}
+
+.legend:hover {
+	cursor: default;
+}
+
+.room-container.booked:hover, .legend.booked:hover {
+    background-color: #FFECC2;
+    transition: 0.3s;
+}
+
+.room-container.occupied:hover, .legend.occupied:hover {
+    background-color: #FFC9D7;
+    transition: 0.3s;
+}
+
+.room-container.vacant:hover, .legend.vacant:hover {
+    background-color: #D1FFE3;
+    transition: 0.3s;
 }
