@@ -34,7 +34,7 @@
 
                         <!-- COLUMN 1: Room Details -->
                         <div class="col-5 me-3 border p-4 pt-2 rounded">
-                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
+                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
 
                             <!--Room Type-->
                             <div class="form-group">
@@ -65,7 +65,7 @@
 
                         <!--COLUMN 2: Customer Details-->
                         <div class="col-6 border p-4 pt-2 rounded">
-                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Customer Details</h3>
+                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
 
                             <!--First Name-->
                             <div class="form-group">
@@ -120,25 +120,25 @@
 
                         <!-- Button trigger modal -->
                         <button id="reserve" type="button" class="btn btn-primary mb-4 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#reserveModal">
-                            Modify
+                            Edit
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="reserveModalLabel">Modify Reservation</h5>
+                                        <h5 class="modal-title" id="reserveModalLabel">Edit Reservation</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                        <p>Are you sure you want to <strong>make changes</strong> and <strong>modify</strong> the reservation with the following information?</p>
+                                        <p>Are you sure you want to <strong>make changes</strong> and <strong>edit</strong> the reservation with the following information?</p>
                                         <div id="inputted-info">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -158,12 +158,12 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p class="text-danger">WARNING: You will lose data inputs in the fields and <strong>would not be saved</strong> when the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p class="text-danger">WARNING: This page contains temporary data. Information that you have entered will <strong>NOT</strong> be <strong>SAVED</strong>. This action cannot be undone once the <strong>RETURN</strong> button has been pressed.</p>
                                         <p>Are you sure you want to return to the previous page?</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <a href="javascript: history.back()" class="btn btn-danger">Return</a>
+                                        <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
                                     </div>
                                 </div>
                             </div>

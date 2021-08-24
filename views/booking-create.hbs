@@ -13,7 +13,7 @@
     <script type="text/javascript" src="/js/booking.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Create Reservation</title>
+    <title>Create Booking</title>
 </head>
 <body>
 
@@ -54,7 +54,7 @@
                     <!-- COLUMN 1: Room Details -->
                     <div class="col-5 me-3 border p-4 pt-2 rounded">
 
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Room Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
 
                         <div hidden>
                             <span id="room-id">{{room._id}}</span>
@@ -66,13 +66,13 @@
                         <!--Room Type-->
                         <div class="form-group mb-3">
                             <label class="h5">Room Type</label>
-                            <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}">
+                            <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}" disabled>
                         </div>
 
                         <!--Room Number-->
                         <div class="form-group mb-3">
                             <label class="h5">Room Number</label>
-                            <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}">
+                            <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}" disabled>
                         </div>
 
                         <!-- Start Date -->
@@ -103,7 +103,7 @@
                     <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
                     <!--CUSTOMER INFO-->
                     <div id="customer-info" class="mb-4">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Customer Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
 
                         <!--First Name-->
                         <div class="form-group">
@@ -159,7 +159,7 @@
                 <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
                     <!--TRANSACTION INFO-->
                     <div id="transaction-info" class="row mb-4 justify-content-between">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3">Transaction Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
 
 
                         <!--TRANSACTION 1st COL-->
@@ -168,14 +168,14 @@
                             <!--NOTE: Automatic set in date set-->
                             <div class="form-group mb-3">
                                 <label class="h5">Number of Days</label>
-                                <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration">
+                                <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration" disabled>
                             </div>
 
                             <!--Room Rate-->
                             <div class="form-group mb-3">
                                 <label class="h5">Avg. Room Rate Per Day (Php)</label>
                                 <div class="input-group mb-3 w-50">
-                                    <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control">
+                                    <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control" disabled>
                                     <span class="input-group-text">Php/Day</span>
                                 </div>
                             </div>
@@ -234,7 +234,7 @@
                             <div class="form-group mb-3">
                                 <label class="h5">Initial Cost</label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control">
+                                    <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control" disabled>
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                             <div class="form-group mb-4">
                                 <label class="h5 text-danger">Subtracted Amount</label>
                                 <div class="input-group mb-3 w-75">
-                                    <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control">
+                                    <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control" disabled>
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -254,7 +254,7 @@
                             <div class="form-group mb-3 mt-4 text-end text-primary">
                                 <label class="h5">Total Cost</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control">
+                                    <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control" disabled>
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                             <div class="form-group mb-3 text-end text-primary">
                                 <label class="h5">Remaining Balance</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control">
+                                    <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control" disabled>
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -298,13 +298,13 @@
                             </div>
                             <div class="modal-body">
                                 <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                <p>Are you sure you want to book guest with the following information?</p>
+                                <p>Are you sure you want to <strong>book guest</strong> with the following information?</p>
                                 <div id="inputted-info">
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+                                <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
                             </div>
                         </div>
                     </div>
@@ -324,12 +324,12 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p class="text-danger">WARNING: You will lose data inputs in the fields and <strong>would not be saved</strong> when the <strong>Confirm</strong> button has been pressed.</p>
+                                <p class="text-danger">WARNING: This page contains temporary data. Information that you have entered will <strong>NOT</strong> be <strong>SAVED</strong>. This action cannot be undone once the <strong>RETURN</strong> button has been pressed.</p>
                                 <p>Are you sure you want to return to the previous page?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <a href="javascript: history.back()" class="btn btn-danger">Return</a>
+                                <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
                             </div>
                         </div>
                     </div>
