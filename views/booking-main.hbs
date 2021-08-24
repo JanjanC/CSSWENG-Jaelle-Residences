@@ -48,6 +48,12 @@
                     </div>
 				</div>
 				<hr>
+				<div class="d-flex justify-content-end align-items-center me-3">
+					<span class="text-secondary h5 me-2">LEGEND:</span>
+					<span class="legend occupied h5 rounded-pill border p-2 me-1">Occupied</span>
+					<span class="legend booked h5 label rounded-pill border p-2 me-1">Booked</span>
+					<span class="legend vacant h5 label rounded-pill border p-2">Vacant</span>
+				</div>
 
 				<!--ROOM ARRAY HERE-->
 				<div id="" class="row m-3">
@@ -64,7 +70,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header booked">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -148,7 +154,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header occupied">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -202,7 +208,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header vacant">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
