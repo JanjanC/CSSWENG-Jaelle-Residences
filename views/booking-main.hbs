@@ -222,7 +222,9 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-										<a href="{{room._id}}/create" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add</span>Book</a>
+										{{#isNotPastDate ../date}}
+											<a href="{{room._id}}/create" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add</span>Book</a>
+										{{/isNotPastDate}}
 									</div>
 								</div>
 							</div>
