@@ -6,7 +6,8 @@ const bcrypt = require(`bcryptjs`);
 const signInController = {
 
     getSignIn: function (req, res) {
-        res.render('sign-in');
+        answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
+        res.render('sign-in', answer);
     },
 
     postSignIn: function(req, res) {
@@ -26,12 +27,12 @@ const signInController = {
                         res.redirect('/index');
                     } else {
                         answer.passwordFlag = "";
-                        res.render('sign-in-fail', answer);
+                        res.render('sign-in', answer);
                     }
                 });
             } else {
                 answer.usernameFlag="";
-                res.render('sign-in-fail', answer);
+                res.render('sign-in', answer);
             }
         });
     },
