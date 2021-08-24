@@ -144,11 +144,15 @@ function computeCharges () {
 	let total = parseInt($('#room-initial-cost').val());
 	let extra = parseInt($('#room-extra').val());
 
-	if (extra) {
-		total = total + extra;
-	}
+	if (total) {
+		if (extra) {
+			total = total + extra;
+		}
 
-	$('#room-initial-cost').val(total.toFixed(2))
+		$('#room-initial-cost').val(total.toFixed(2));
+	} else {
+		$('#room-initial-cost').val(0.00);
+	}
 }
 
 function enableSenior () {
@@ -168,50 +172,74 @@ function computeDiscount () {
 	let additional = parseInt($('#room-discount').val());
 	let pax = parseInt($('#room-pax').val());
 
-	let count = 0
-	if (senior) {
-		count = count + senior;
+	if (total) {
+		let count = 0
+		if (senior) {
+			count = count + senior;
+		}
+
+		if (pwd) {
+			count = count + pwd;
+		}
+
+		if (count > pax) {
+			count = pax;
+		}
+
+		let percent = 0;
+
+		if (pax) {
+			percent = percent + count / pax * 20;
+		}
+
+		if (additional) {
+			percent = percent + additional;
+		}
+
+		percent = percent / 100;
+
+		let discount = total * percent;
+
+		$('#room-subtract').val(discount.toFixed(2));
+	} else {
+		$('#room-subtract').val(0.00);
 	}
-
-	if (pwd) {
-		count = count + pwd;
-	}
-
-	if (count > pax) {
-		count = pax;
-	}
-
-	let percent = 0;
-
-	if (pax) {
-		percent = percent + count / pax * 20;
-	}
-
-	if (additional) {
-		percent = percent + additional;
-	}
-
-	percent = percent / 100;
-
-	let discount = total * percent;
-
-	$('#room-subtract').val(discount.toFixed(2));
 }
 
 function computeTotal () {
 	let total = parseInt($('#room-initial-cost').val());
 	let discount = parseInt($('#room-subtract').val());
-	let net = total - discount;
 
-	$('#room-net-cost').val(net.toFixed(2));
+	if (total) {
+		let net = total;
+		if (discount) {
+			net = total - discount;
+		}
+
+		$('#room-net-cost').val(net.toFixed(2));
+	} else {
+		$('#room-net-cost').val(0.00);
+	}
+
 }
 
 function computeBalance () {
 	let net = parseInt($('#room-net-cost').val());
 	let payment = parseInt($('#room-payment').val());
-	let balance = payment - net;
 
-	$('#room-balance').val(balance.toFixed(2));
+	if (net) {
+
+		let balance = payment;
+		if (payment) {
+			balance = payment - net
+		}
+
+		$('#room-balance').val(balance.toFixed(2));
+	} else {
+		$('#room-balance').val(0.00);
+	}
+
+
 }
 
 function checkAvailability () {

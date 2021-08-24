@@ -7,8 +7,21 @@ const mongoose = require('mongoose');
 
 const bookingController = {
 	getBookingScreen: function (req, res) {
+		let today = new Date();
+		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+		let timeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
 
-		let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+		//there is a given time
+		if (req.query.time !== undefined) {
+			timeString = `${req.query.time}:00`;
+		}
+
+		//there is a given date
+		if (req.params.year !== undefined && req.params.month !== undefined && req.params.day !== undefined) {
+			dateString = `${req.params.year}-${req.params.month}-${req.params.day}`;
+		}
+
+		let date = new Date(`${dateString} ${timeString}`);
 
 		//find all the rooms in the database
 		db.findMany(Room, {}, function (roomResult) {
@@ -64,8 +77,15 @@ const bookingController = {
 								}
 							}
 						}
+
+						values = {
+							list: list,
+							date: date,
+							time: timeString
+						}
+
 						//loads the main booking page
-						res.render('booking-main', {list: list, date: date});
+						res.render('booking-main', values);
 		        	} else {
 						res.redirect('/error');
 					}
