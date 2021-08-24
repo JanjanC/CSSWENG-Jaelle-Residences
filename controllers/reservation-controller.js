@@ -16,7 +16,7 @@ const reservationController = {
             start_date: {$lte: date},
             end_date: {$gte: date},
             //it is considered to be a reservation when the confirmed_reservation exists in the database
-            confirmed_reservation: {$exists: true},
+            confirmed_reservation: false,
             is_cancelled: false
         };
 

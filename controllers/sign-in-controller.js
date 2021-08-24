@@ -6,16 +6,19 @@ const bcrypt = require(`bcryptjs`);
 const signInController = {
 
     getSignIn: function (req, res) {
-        res.render('sign-in');
+        answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
+        res.render('sign-in', answer);
     },
 
     postSignIn: function(req, res) {
 
         let username = req.body.username;
         let password = req.body.password;
+        answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
 
         db.findOne(Employee, {username: username}, function(result) {
             if(result) {
+                answer.usernameFlag = "hidden";
                 bcrypt.compare(password, result.password, function(err, equal) {
                     if (equal) {
                         req.session.username = result.username;
@@ -23,11 +26,13 @@ const signInController = {
 
                         res.redirect('/index');
                     } else {
-                        // TODO: redirect to sign in failure page
+                        answer.passwordFlag = "";
+                        res.render('sign-in', answer);
                     }
                 });
             } else {
-                res.redirect('/error');
+                answer.usernameFlag="";
+                res.render('sign-in', answer);
             }
         });
     },
