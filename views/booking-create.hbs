@@ -207,9 +207,14 @@
                             <!--Discount-->
                             <div class="form-group mb-3">
                                 <label class="h5">Other Discounts</label>
+                                <div class="input-group mb-2 w-auto">
+                                    <input type="text" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-auto" placeholder="Reason" value="">
+                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
+                                    <span class="input-group-text">Php</span>
+                                </div>
                                 <div class="input-group mb-3 w-auto">
-                                    <input type="text" id="room-discount-reason" name="room_discount_reason" class="form-control w-auto" placeholder="Reason" value="">
-                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount" name="room_discount" class="form-control">
+                                    <input type="text" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-auto" placeholder="Reason" value="">
+                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
