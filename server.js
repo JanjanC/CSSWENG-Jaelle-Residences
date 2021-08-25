@@ -10,6 +10,10 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
 
+process.env.HOSTNAME = "localhost"
+process.env.PORT = "3000"
+process.env.DB_URL = "mongodb+srv://admin:ilovecssweng@jaelle-residences.ptlf1.mongodb.net/jaelle-residences-db?retryWrites=true&w=majority"
+
 //parse incoming requests with urlencoded payloads
 app.use(express.urlencoded({extended: false}));
 //set the file path containing the static assets
