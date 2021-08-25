@@ -76,7 +76,7 @@
 
                         <!-- Start Date -->
                         <div class="form-group">
-                            <label class="h5 d-block">Start Date</label>
+                            <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
                             <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate date}}">
                             <em><p class="error text-danger" id="start-date-error"></p></em>
                         </div>
@@ -90,7 +90,7 @@
                     -->
                     <!-- End Date -->
                     <div class="form-group">
-                        <label class="h5 d-block">End Date</label>
+                        <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
                         <input class="form-control w-75" type="date" id="end-date" name="end_date">
                         <em><p class="error text-danger" id="end-date-error"></p></em>
                     </div>
@@ -105,14 +105,14 @@
 
                         <!--First Name-->
                         <div class="form-group">
-                            <label class="h5 d-block">First Name</label>
+                            <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
                             <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
                             <em><p class="error text-danger" id="firstname-error"></p></em>
                         </div>
 
                         <!--Last Name-->
                         <div class="form-group">
-                            <label class="h5 d-block">Last Name</label>
+                            <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
                             <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
                             <em><p class="error text-danger" id="lastname-error"></p></em>
                         </div>
@@ -179,7 +179,7 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="h5">Number of Pax/Guests</label>
+                                <label class="h5">Number of Pax/Guests<span class="text-danger">*</span></label>
                                 <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
                             </div>
 
@@ -256,7 +256,7 @@
 
                             <!--Customer Payment-->
                             <div class="form-group mb-3 text-end text-primary">
-                                <label class="h5">Customer Payment</label>
+                                <label class="h5"><span class="text-danger">*</span>Customer Payment</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
                                     <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                     <span class="input-group-text">Php</span>
