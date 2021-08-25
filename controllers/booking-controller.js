@@ -80,7 +80,7 @@ const bookingController = {
 
 						values = {
 							list: list,
-							date: date,
+							date: dateString,
 							time: timeString
 						}
 
