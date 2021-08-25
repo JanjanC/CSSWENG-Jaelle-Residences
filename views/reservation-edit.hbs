@@ -38,7 +38,7 @@
 
                             <!--Room Type-->
                             <div class="form-group">
-                                <label class="h5">Room Type</label>
+                                <label class="h5">Room Type<span class="text-danger">*</span></label>
                                 <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
                                     <option value="" hidden>Select the room type</option>
                                     {{#each room_types}}
@@ -50,14 +50,14 @@
 
                             <!-- Start Date -->
                             <div class="form-group">
-                                <label class="h5 d-block">Start Date</label>
+                                <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
                                 <input class="form-control w-75" type="date" onkeydown="return false" id="start-date" name="start_date" value="{{formatDate reservation.start_date}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
                             <!-- End Date -->
                             <div class="form-group">
-                                <label class="h5 d-block">End Date</label>
+                                <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
                                 <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date" value="{{formatDate reservation.end_date}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
@@ -69,14 +69,14 @@
 
                             <!--First Name-->
                             <div class="form-group">
-                                <label class="h5 d-block">First Name</label>
+                                <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
                                 <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{reservation.guest.first_name}}">
                                 <em><p class="error text-danger" id="firstname-error"></p></em>
                             </div>
 
                             <!--Last Name-->
                             <div class="form-group">
-                                <label class="h5 d-block">Last Name</label>
+                                <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
                                 <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{reservation.guest.last_name}}">
                                 <em><p class="error text-danger" id="lastname-error"></p></em>
                             </div>
