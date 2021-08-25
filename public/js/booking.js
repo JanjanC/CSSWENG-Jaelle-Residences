@@ -10,8 +10,7 @@ $(document).ready(function () {
 
 	$('#start-date').change(function () {
 		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -19,8 +18,7 @@ $(document).ready(function () {
 
 	$('#end-date').change(function () {
 		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -59,7 +57,7 @@ $(document).ready(function () {
 	});
 
 	$('#room-extra').keyup(function () {
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -70,7 +68,7 @@ $(document).ready(function () {
 	});
 });
 
-function computeRoomPrice () {
+function computeInitialCost () {
 	let roomID = $('#room-id').text();
 
 	jQuery.ajaxSetup({async: false});
@@ -126,6 +124,11 @@ function computeRoomPrice () {
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
 
+				let extra = parseInt($('#room-extra').val());
+				if (extra) {
+					total = total + extra;
+				}
+
 				$('#duration').val(duration);
 				$('#room-initial-cost').val(total.toFixed(2));
 				$('#room-rate').val(rate.toFixed(2));
@@ -138,21 +141,6 @@ function computeRoomPrice () {
 	});
 
 	jQuery.ajaxSetup({async: true});
-}
-
-function computeCharges () {
-	let total = parseInt($('#room-initial-cost').val());
-	let extra = parseInt($('#room-extra').val());
-
-	if (total) {
-		if (extra) {
-			total = total + extra;
-		}
-
-		$('#room-initial-cost').val(total.toFixed(2));
-	} else {
-		$('#room-initial-cost').val(0.00);
-	}
 }
 
 function enableSenior () {
