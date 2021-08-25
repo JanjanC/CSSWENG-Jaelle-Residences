@@ -231,7 +231,7 @@ function computeBalance () {
 
 		let balance = payment;
 		if (payment) {
-			balance = payment - net
+			balance =  net - payment;
 		}
 
 		$('#room-balance').val(balance.toFixed(2));
