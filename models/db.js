@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config();
-const url = process.env.DB_URL;
+// const url = process.env.DB_URL;
+const url = "mongodb+srv://admin:ilovecssweng@jaelle-residences.ptlf1.mongodb.net/jaelle-residences-db?retryWrites=true&w=majority"
 
 const Activity = require('./activity-model.js');
 const Booking = require('./booking-model.js');
