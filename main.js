@@ -20,7 +20,10 @@ app.on('ready', function() {
         title: "Jaelle Residences",
         // icon: "",
         autoHideMenuBar: true,
-        show: false
+        show: false,
+        webPreferences: {
+            devTools: false
+        }
     });
 
     //maximize and show the window
