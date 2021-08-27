@@ -11,13 +11,13 @@
                     <a id="nav-room" class="nav-link rounded-pill px-3" aria-current="page" href="#">Room Management</a>
                 </li>
                 <li class="nav-item">
+                    <a href="/calendar/{{getCurrentMonthYear}}" id="nav-calendar" class="nav-link rounded-pill px-3">Calendar</a>
+                </li>
+                <li class="nav-item">
                     <a id="nav-customer" class="nav-link rounded-pill px-3" href="#">Customers</a>
                 </li>
                 <li class="nav-item">
                     <a id="nav-employees" class="nav-link rounded-pill px-3" href="#">Employees</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/calendar/{{getCurrentMonthYear}}" id="nav-calendar" class="nav-link rounded-pill px-3">Calendar</a>
                 </li>
             </ul>
 
@@ -42,8 +42,8 @@
                         <span class="material-icons-outlined md-36">info</span>
                     </button>
                 </li>
-                <li class="nav-item dropdown align-self-center">
-                    <a class="nav-link dropdown-toggle rounded-pill pe-3 ps-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle rounded-pill px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Username
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

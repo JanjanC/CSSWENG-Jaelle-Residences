@@ -12,7 +12,6 @@ html, body {
     font-family: "Secondary";
     color: #0d1f2d;
     min-height: 100%;
-    height: 100%;
     background-color: #E7EBEF;
 }
 
@@ -49,7 +48,7 @@ button, .btn {
 }
 
 #container-screen {
-    height: 100%;
+    min-height: 100vh;
 }
 
 #screen-info {
