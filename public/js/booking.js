@@ -450,7 +450,7 @@ function validateEntry () {
 	}
 
 	if ($('#room-pax').val() == '' || $('#room-pax').val().trim().length == 0) {
-		$('#room-pax-error').text('Number of Pax/Guest cannot be empty');
+		$('#room-pax-error').text('Number of Guest cannot be empty');
 		isValid = false;
 	} else {
 		$('#room-pax-error').text('');
@@ -463,11 +463,31 @@ function validateEntry () {
 		$('#room-payment-error').text('');
 	}
 
-	if ($('#room-pax').val() != '') {
-		$('#room-pax-error').text('Number of Pax/Guest cannot be empty');
+	if ($('#room-pax').val() == '') {
+		$('#room-pax-error').text('Number of Guest cannot be empty');
 		isValid = false;
 	} else {
 		$('#room-pax-error').text('');
+	}
+
+	if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-pwd-error').text('Number of PWD and Senior cannot exceed the Number of Guests');
+		isValid  = false;
+	} else if ( $('#room-pax').val() != '' && $('#room-pwd').val() != '' && parseInt($('#room-pwd').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-pwd-error').text('Number of PWD cannot exceed the Number of Guests');
+		isValid  = false;
+	} else {
+		$('#room-pwd-error').text('');
+	}
+
+	if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-senior-error').text('Number of PWD and Senior cannot exceed the Number of Guests');
+		isValid  = false;
+	} else if ( $('#room-pax').val() != '' && $('#room-senior').val() != '' && parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-senior-error').text('Number of Senior cannot exceed the Number of Guests');
+		isValid  = false;
+	} else {
+		$('#room-senior-error').text('');
 	}
 
 	return isValid;
