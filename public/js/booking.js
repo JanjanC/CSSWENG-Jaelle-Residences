@@ -10,8 +10,7 @@ $(document).ready(function () {
 
 	$('#start-date').change(function () {
 		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -19,8 +18,7 @@ $(document).ready(function () {
 
 	$('#end-date').change(function () {
 		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -34,7 +32,16 @@ $(document).ready(function () {
 		enableSenior();
 	});
 
+	$('#is-discount-php').change(function () {
+		enableDiscountPhp();
+	});
+
+	$('#is-discount-percent').change(function () {
+		enableDiscountPercent();
+	});
+
 	$('#room-pax').change(function () {
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -52,6 +59,18 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	$('#room-discount-percent').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-discount-php').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
 	$('#room-discount').keyup(function () {
 		computeDiscount();
 		computeTotal();
@@ -59,7 +78,7 @@ $(document).ready(function () {
 	});
 
 	$('#room-extra').keyup(function () {
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -88,7 +107,7 @@ function submitForm () {
 	let reservation = $('#reservation_select').val();
 	let roomID = $('#room-id').text();
 
-	if (reservation != '') {
+	if (reservation) {
 		$('#form-submit').attr('action', `/booking/${roomID}/confirm`);
 	}
 
@@ -163,15 +182,16 @@ function computeRoomPrice () {
 
 				let remaining = duration;
 				let pax = parseInt($('#room-pax').val());
-				console.log(result);
+
 				if (result.room_rate.monthly) {
-					if (Number.isNaN(pax)) {
+					if (Number.isNaN(pax) || pax <= 0) {
 						pax = 1;
 					}
 
 					if (pax > result.room_rate.monthly.length) {
 						pax = result.room_rate.monthly.length;
 					}
+
 					monthlyRate = result.room_rate.monthly[pax - 1];
 					months = Math.floor(remaining / 30);
 					remaining = remaining % 30;
@@ -191,6 +211,16 @@ function computeRoomPrice () {
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
 
+				pax = parseInt($('#room-pax').val());
+				if (!Number.isNaN(pax) && pax > result.max_pax) {
+					total = total + (pax - result.max_pax) * 400;
+				}
+
+				let extra = parseInt($('#room-extra').val());
+				if (extra) {
+					total = total + extra;
+				}
+
 				$('#duration').val(duration);
 				$('#room-initial-cost').val(total.toFixed(2));
 				$('#room-rate').val(rate.toFixed(2));
@@ -205,36 +235,105 @@ function computeRoomPrice () {
 	jQuery.ajaxSetup({async: true});
 }
 
-function computeCharges () {
-	let total = parseInt($('#room-initial-cost').val());
-	let extra = parseInt($('#room-extra').val());
-
-	if (total) {
-		if (extra) {
-			total = total + extra;
-		}
-
-		$('#room-initial-cost').val(total.toFixed(2));
-	} else {
-		$('#room-initial-cost').val(0.00);
-	}
-}
-
 function enableSenior () {
 	let senior = $('#is-senior').is(':checked');
 	$('#room-senior').prop('disabled', !senior);
+
+	if (senior) {
+		$('#is-discount-php').prop('checked', !senior);
+		$('#room-discount-reason-php').prop('disabled', senior);
+		$('#room-discount-reason-php').val('');
+		$('#room-discount-php').prop('disabled', senior);
+		$('#room-discount-php').val('');
+
+		$('#is-discount-percent').prop('checked', !senior);
+		$('#room-discount-reason-percent').prop('disabled', senior);
+		$('#room-discount-reason-percent').val('');
+		$('#room-discount-percent').prop('disabled', senior);
+		$('#room-discount-percent').val('');
+	} else {
+		$('#room-senior').val('');
+	}
 }
 
 function enablePWD () {
 	let pwd = $('#is-pwd').is(':checked');
 	$('#room-pwd').prop('disabled', !pwd);
+
+	if (pwd) {
+		$('#is-discount-php').prop('checked', !pwd);
+		$('#room-discount-reason-php').prop('disabled', pwd);
+		$('#room-discount-reason-php').val('');
+		$('#room-discount-php').prop('disabled', pwd);
+		$('#room-discount-php').val('');
+
+		$('#is-discount-percent').prop('checked', !pwd);
+		$('#room-discount-reason-percent').prop('disabled', pwd);
+		$('#room-discount-reason-percent').val('');
+		$('#room-discount-percent').prop('disabled', pwd);
+		$('#room-discount-percent').val('');
+	} else {
+		$('#room-pwd').val('');
+	}
+}
+
+function enableDiscountPhp () {
+	let discountPhp = $('#is-discount-php').is(':checked');
+	$('#room-discount-reason-php').prop('disabled', !discountPhp);
+	$('#room-discount-php').prop('disabled', !discountPhp);
+
+	if (discountPhp) {
+		$('#is-senior').prop('checked', !discountPhp);
+		$('#room-senior').prop('disabled', discountPhp);
+		$('#room-senior').val('');
+
+		$('#is-pwd').prop('checked', !discountPhp);
+		$('#room-pwd').prop('disabled', discountPhp);
+		$('#room-pwd').val('');
+
+		$('#is-discount-percent').prop('checked', !discountPhp);
+		$('#room-discount-reason-percent').prop('disabled', discountPhp);
+		$('#room-discount-reason-percent').val('');
+		$('#room-discount-percent').prop('disabled', discountPhp);
+		$('#room-discount-percent').val('');
+	} else {
+		$('#room-discount-reason-php').val('');
+		$('#room-discount-php').val('');
+	}
+
+}
+
+function enableDiscountPercent () {
+	let discountPercent = $('#is-discount-percent').is(':checked');
+	$('#room-discount-reason-percent').prop('disabled', !discountPercent);
+	$('#room-discount-percent').prop('disabled', !discountPercent);
+
+	if (discountPercent) {
+		$('#is-senior').prop('checked', !discountPercent);
+		$('#room-senior').prop('disabled', discountPercent);
+		$('#room-senior').val('');
+
+		$('#is-pwd').prop('checked', !discountPercent);
+		$('#room-pwd').prop('disabled', discountPercent);
+		$('#room-pwd').val('');
+
+		$('#is-discount-php').prop('checked', !discountPercent);
+		$('#room-discount-reason-php').prop('disabled', discountPercent);
+		$('#room-discount-reason-php').val('');
+		$('#room-discount-php').prop('disabled', discountPercent);
+		$('#room-discount-php').val('');
+	} else {
+		$('#room-discount-reason-percent').val('');
+		$('#room-discount-percent').val('');
+	}
 }
 
 function computeDiscount () {
 	let total = parseInt($('#room-initial-cost').val());
 	let senior = parseInt($('#room-senior').val());
 	let pwd = parseInt($('#room-pwd').val());
-	let additional = parseInt($('#room-discount').val());
+	let additionalPhp = parseInt($('#room-discount-php').val());
+	let additionalPercent = parseInt($('#room-discount-percent').val())
 	let pax = parseInt($('#room-pax').val());
 
 	if (total) {
@@ -247,23 +346,27 @@ function computeDiscount () {
 			count = count + pwd;
 		}
 
-		if (count > pax) {
-			count = pax;
-		}
-
-		let percent = 0;
-
+		let seniorPwdDiscount = 0;
 		if (pax) {
-			percent = percent + count / pax * 20;
+			if (count > pax) {
+				count = pax;
+			}
+
+			let seniorPwdPercent =  count / pax * 20;
+			seniorPwdDiscount = seniorPwdPercent / 100 * total;
 		}
 
-		if (additional) {
-			percent = percent + additional;
+		let additionalPercentDiscount = 0;
+		if (additionalPercent) {
+			additionalPercentDiscount = additionalPercent / 100 * total;
 		}
 
-		percent = percent / 100;
+		let additionalPhpDiscount = 0;
+		if (additionalPhp) {
+			additionalPhpDiscount = additionalPhp;
+		}
 
-		let discount = total * percent;
+		let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
 
 		$('#room-subtract').val(discount.toFixed(2));
 	} else {
@@ -296,15 +399,13 @@ function computeBalance () {
 
 		let balance = payment;
 		if (payment) {
-			balance = payment - net
+			balance =  net - payment;
 		}
 
 		$('#room-balance').val(balance.toFixed(2));
 	} else {
 		$('#room-balance').val(0.00);
 	}
-
-
 }
 
 function checkAvailability () {
@@ -428,6 +529,47 @@ function validateEntry () {
 		isValid = false;
 	} else {
 		$('#birthdate-error').text('');
+	}
+
+	if ($('#room-pax').val() == '' || $('#room-pax').val().trim().length == 0) {
+		$('#room-pax-error').text('Number of Guest cannot be empty');
+		isValid = false;
+	} else {
+		$('#room-pax-error').text('');
+	}
+
+	if ($('#room-payment').val() == '' || $('#room-payment').val().trim().length == 0) {
+		$('#room-payment-error').text('Customer Payment cannot be empty');
+		isValid = false;
+	} else {
+		$('#room-payment-error').text('');
+	}
+
+	if ($('#room-pax').val() == '') {
+		$('#room-pax-error').text('Number of Guest cannot be empty');
+		isValid = false;
+	} else {
+		$('#room-pax-error').text('');
+	}
+
+	if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-pwd-error').text('Number of PWD and Senior cannot exceed the Number of Guests');
+		isValid  = false;
+	} else if ( $('#room-pax').val() != '' && $('#room-pwd').val() != '' && parseInt($('#room-pwd').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-pwd-error').text('Number of PWD cannot exceed the Number of Guests');
+		isValid  = false;
+	} else {
+		$('#room-pwd-error').text('');
+	}
+
+	if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-senior-error').text('Number of PWD and Senior cannot exceed the Number of Guests');
+		isValid  = false;
+	} else if ( $('#room-pax').val() != '' && $('#room-senior').val() != '' && parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		$('#room-senior-error').text('Number of Senior cannot exceed the Number of Guests');
+		isValid  = false;
+	} else {
+		$('#room-senior-error').text('');
 	}
 
 	return isValid;

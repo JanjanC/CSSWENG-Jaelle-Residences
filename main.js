@@ -19,9 +19,14 @@ app.on('ready', function() {
     mainWindow = new BrowserWindow({
         title: "Jaelle Residences",
         // icon: "",
-        autoHideMenuBar: true,
-        show: false
+        show: false,
+        webPreferences: {
+            devTools: false
+        }
     });
+
+    //remove menu bar
+    mainWindow.setMenuBarVisibility(false);
 
     //maximize and show the window
     mainWindow.maximize();
