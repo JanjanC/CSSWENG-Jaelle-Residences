@@ -538,8 +538,11 @@ function validateEntry () {
 		$('#room-pax-error').text('');
 	}
 
-	if ($('#room-payment').val() == '' || $('#room-payment').val().trim().length == 0) {
+	if ($('#room-payment').val() == '') {
 		$('#room-payment-error').text('Customer Payment cannot be empty');
+		isValid = false;
+	} else if ($('#room-net-cost').val() != '' && parseFloat($('#room-net-cost').val()) - parseFloat($('#room-payment').val()) > 0) {
+		$('#room-payment-error').text('Customer Payment cannot be less than the Total Cost');
 		isValid = false;
 	} else {
 		$('#room-payment-error').text('');

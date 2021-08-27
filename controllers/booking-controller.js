@@ -78,7 +78,8 @@ const bookingController = {
 							}
 						}
 
-						values = {
+						let values = {
+							username: req.session.username,
 							list: list,
 							date: dateString,
 							time: timeString
@@ -115,6 +116,7 @@ const bookingController = {
 				//find all the reservations such that the current date is between the start and end date of the reservation
 				db.findMany(Booking, reservation, function (reservationResult) {
 					let values = {
+						username: req.session.username,
 	                    room: roomResult,
 						reservations: reservationResult,
 	                    date:date
