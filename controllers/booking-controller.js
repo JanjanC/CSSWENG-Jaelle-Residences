@@ -77,8 +77,9 @@ const bookingController = {
 								}
 							}
 						}
-
-						values = {
+						
+						let values = {
+							username: req.session.username,
 							list: list,
 							date: dateString,
 							time: timeString
@@ -102,6 +103,7 @@ const bookingController = {
 			if (result) {
 				//stores the room information and the current date into an object
 				let values = {
+					username: req.session.username,
                     room: result,
                     date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
                 }

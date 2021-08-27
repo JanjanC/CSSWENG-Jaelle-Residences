@@ -41,7 +41,14 @@ const reservationController = {
                         previous.reservations.push(result[i]);
                     }
                 }
-                res.render('reservation-main', {list: list, date: date});
+
+                let values = {
+                    username: req.session.username,
+                    date: date,
+                    list: list
+                }
+
+                res.render('reservation-main', values);
             } else {
                 res.redirect('/error');
             }
@@ -53,6 +60,7 @@ const reservationController = {
         db.findDistinct(Room, 'room_type', function(result) {
             if (result) {
                 let values = {
+                    username: req.session.username,
                     room_types: result,
                     date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
                 }
@@ -129,6 +137,7 @@ const reservationController = {
 
                     if (reservationResult) {
                         let values = {
+                            username: req.session.username,
                             room_types: roomResult,
                             reservation: reservationResult
                         }
