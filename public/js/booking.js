@@ -156,8 +156,11 @@ function enableSenior () {
 	$('#room-senior').prop('disabled', !senior);
 
 	if (senior) {
+		$('#is-discount-php').prop('checked', !senior);
 		$('#room-discount-reason-php').prop('disabled', senior);
 		$('#room-discount-php').prop('disabled', senior);
+
+		$('#is-discount-percent').prop('checked', !senior);
 		$('#room-discount-reason-percent').prop('disabled', senior);
 		$('#room-discount-percent').prop('disabled', senior);
 	}
@@ -168,8 +171,11 @@ function enablePWD () {
 	$('#room-pwd').prop('disabled', !pwd);
 
 	if (pwd) {
+		$('#is-discount-php').prop('checked', !pwd);
 		$('#room-discount-reason-php').prop('disabled', pwd);
 		$('#room-discount-php').prop('disabled', pwd);
+
+		$('#is-discount-percent').prop('checked', !pwd);
 		$('#room-discount-reason-percent').prop('disabled', pwd);
 		$('#room-discount-percent').prop('disabled', pwd);
 	}
@@ -181,8 +187,13 @@ function enableDiscountPhp () {
 	$('#room-discount-php').prop('disabled', !discountPhp);
 
 	if (discountPhp) {
+		$('#is-senior').prop('checked', !discountPhp);
 		$('#room-senior').prop('disabled', discountPhp);
+
+		$('#is-pwd').prop('checked', !discountPhp);
 		$('#room-pwd').prop('disabled', discountPhp);
+
+		$('#is-discount-percent').prop('checked', !discountPhp);
 		$('#room-discount-reason-percent').prop('disabled', discountPhp);
 		$('#room-discount-percent').prop('disabled', discountPhp);
 	}
@@ -195,8 +206,13 @@ function enableDiscountPercent () {
 	$('#room-discount-percent').prop('disabled', !discountPercent);
 
 	if (discountPercent) {
+		$('#is-senior').prop('checked', !discountPercent);
 		$('#room-senior').prop('disabled', discountPercent);
+
+		$('#is-pwd').prop('checked', !discountPercent);
 		$('#room-pwd').prop('disabled', discountPercent);
+
+		$('#is-discount-php').prop('checked', !discountPercent);
 		$('#room-discount-reason-php').prop('disabled', discountPercent);
 		$('#room-discount-php').prop('disabled', discountPercent);
 	}
