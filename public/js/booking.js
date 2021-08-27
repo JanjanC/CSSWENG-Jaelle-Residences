@@ -353,5 +353,19 @@ function validateEntry () {
 		$('#birthdate-error').text('');
 	}
 
+	if ($('#room-pax').val() == '' || $('#room-pax').val().trim().length == 0) {
+		$('#room-pax-error').text('Number of Pax/Guest cannot be empty');
+		isValid = false;
+	} else {
+		$('#room-pax-error').text('');
+	}
+
+	if ($('#room-payment').val() == '' || $('#room-payment').val().trim().length == 0) {
+		$('#room-payment-error').text('Customer Payment cannot be empty');
+		isValid = false;
+	} else {
+		$('#room-payment-error').text('');
+	}
+
 	return isValid;
 }
