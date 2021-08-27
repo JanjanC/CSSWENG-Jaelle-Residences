@@ -4,7 +4,7 @@ const request = require('supertest');
 const express = require('express');
 const app = require('../server.js');
 
-describe('Unit testing the /:year-:month-:day/reservation route', function() {
+describe('Unit testing the GET /:year-:month-:day/reservation route', function() {
     it('should extract the correct date from the route', function() {
         testDate = 'AUG. 02, 2021';
         return request(app)
@@ -25,7 +25,7 @@ describe('Unit testing the /:year-:month-:day/reservation route', function() {
     });
 });
 
-describe('Unit testing the /:year-:month-:day/reservation/create route', function() {
+describe('Unit testing the GET /:year-:month-:day/reservation/create route', function() {
     it('should retrieve all the room types', function() {
         types = ['Bridal Family Room', 'Combined Studio Type', 'One Bedroom', 'Studio Type', 'Studio Type with Balcony',
                     'Triplex with Balcony', 'Twin Bed', 'Twin Bed with Balcony', 'Two Bedroom'];
@@ -43,6 +43,98 @@ describe('Unit testing the /:year-:month-:day/reservation/create route', functio
             .get('/2021-08-02/reservation/create')
             .then(function(response){
                 expect(response.text).to.contain(testDate);
+            })
+    });
+});
+
+describe('Unit testing the GET /reservation/:bookingID/edit route', function() {
+    it('should retrieve the correct room', function() {
+        type = 'Studio Type';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(type);
+            })
+    });
+
+    it('should retrive the correct start date', function() {
+        testDate = '2021-08-02';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(testDate);
+            })
+    });
+
+    it('should retrive the correct end date', function() {
+        testDate = '2021-08-04';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(testDate);
+            })
+    });
+
+    it('should retrive the correct first name', function() {
+        fn = 'Batt';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(fn);
+            })
+    });
+
+    it('should retrive the correct last name', function() {
+        ln = 'Man';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(ln);
+            })
+    });
+
+    it('should retrive the correct birthdate', function() {
+        test = '2021-08-15';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(test);
+            })
+    });
+
+    it('should retrive the correct address', function() {
+        test = 'Home';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(test);
+            })
+    });
+
+    it('should retrive the correct contact number', function() {
+        test = '911';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(test);
+            })
+    });
+    
+    it('should retrive the correct company name', function() {
+        test = 'Bat Companyy';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(test);
+            })
+    });
+
+    it('should retrive the correct occupation', function() {
+        test = 'Clown';
+        return request(app)
+            .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
+            .then(function(response){
+                expect(response.text).to.contain(test);
             })
     });
 });
