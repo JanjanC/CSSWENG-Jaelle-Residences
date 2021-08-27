@@ -37,6 +37,6 @@ app.get('/room/availability', bookingController.checkAvailability)
 app.get('/room', bookingController.getRoom)
 
 app.get(`/error`, controller.getError);
-app.get(`*`, controller.getError);
-app.post(`*`, controller.getError);
+app.get(`/*`, controller.getError);
+app.post(`/*`, controller.getError);
 module.exports = app;
