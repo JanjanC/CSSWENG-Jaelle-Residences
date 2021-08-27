@@ -181,6 +181,7 @@
                             <div class="form-group mb-3">
                                 <label class="h5">Number of Pax/Guests<span class="text-danger">*</span></label>
                                 <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
+                                <em><p class="error text-danger" id="room-pax-error"></p></em>
                             </div>
 
                             <div class="form-group mb-3">
@@ -265,6 +266,7 @@
                                 <div class="input-group mb-3 w-75 ms-auto">
                                     <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                     <span class="input-group-text">Php</span>
+                                    <em><p class="error text-danger" id="room-payment-error"></p></em>
                                 </div>
                             </div>
 
