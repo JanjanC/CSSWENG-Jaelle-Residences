@@ -26,6 +26,6 @@ app.post('/reservation/:bookingID/edit', reservationController.postEditReservati
 app.post('/reservation/:bookingID/delete', reservationController.postDeleteReservation);
 
 app.get(`/error`, controller.getError);
-app.get(`*`, controller.getError);
-app.post(`*`, controller.getError);
+app.get(`/*`, controller.getError);
+app.post(`/*`, controller.getError);
 module.exports = app;
