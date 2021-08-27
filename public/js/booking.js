@@ -58,6 +58,18 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	$('#room-discount-percent').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-discount-php').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
 	$('#room-discount').keyup(function () {
 		computeDiscount();
 		computeTotal();
@@ -236,23 +248,27 @@ function computeDiscount () {
 			count = count + pwd;
 		}
 
-		if (count > pax) {
-			count = pax;
-		}
-
-		let percent = 0;
-
+		let seniorPwdDiscount = 0;
 		if (pax) {
-			percent = percent + count / pax * 20;
+			if (count > pax) {
+				count = pax;
+			}
+
+			let seniorPwdPercent =  count / pax * 20;
+			seniorPwdDiscount = seniorPwdPercent / 100 * total;
 		}
 
-		if (additional) {
-			percent = percent + additional;
+		let additionalPercentDiscount = 0;
+		if (additionalPercent) {
+			additionalPercentDiscount = additionalPercent / 100 * total;
 		}
 
-		percent = percent / 100;
+		let additionalPhpDiscount = 0;
+		if (additionalPhp) {
+			additionalPhpDiscount = additionalPhp;
+		}
 
-		let discount = total * percent;
+		let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
 
 		$('#room-subtract').val(discount.toFixed(2));
 	} else {
