@@ -41,6 +41,7 @@ $(document).ready(function () {
 	});
 
 	$('#room-pax').change(function () {
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -116,15 +117,16 @@ function computeInitialCost () {
 
 				let remaining = duration;
 				let pax = parseInt($('#room-pax').val());
-				console.log(result);
+
 				if (result.room_rate.monthly) {
-					if (Number.isNaN(pax)) {
+					if (Number.isNaN(pax) || pax <= 0) {
 						pax = 1;
 					}
 
 					if (pax > result.room_rate.monthly.length) {
 						pax = result.room_rate.monthly.length;
 					}
+
 					monthlyRate = result.room_rate.monthly[pax - 1];
 					months = Math.floor(remaining / 30);
 					remaining = remaining % 30;
@@ -143,6 +145,11 @@ function computeInitialCost () {
 
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
+
+				pax = parseInt($('#room-pax').val());
+				if (!Number.isNaN(pax) && pax > result.max_pax) {
+					total = total + (pax - result.max_pax) * 400;
+				}
 
 				let extra = parseInt($('#room-extra').val());
 				if (extra) {
