@@ -170,11 +170,15 @@ function enableSenior () {
 	if (senior) {
 		$('#is-discount-php').prop('checked', !senior);
 		$('#room-discount-reason-php').prop('disabled', senior);
+		$('#room-discount-reason-php').val('');
 		$('#room-discount-php').prop('disabled', senior);
+		$('#room-discount-php').val('');
 
 		$('#is-discount-percent').prop('checked', !senior);
 		$('#room-discount-reason-percent').prop('disabled', senior);
+		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').prop('disabled', senior);
+		$('#room-discount-percent').val('');
 	}
 }
 
@@ -185,11 +189,15 @@ function enablePWD () {
 	if (pwd) {
 		$('#is-discount-php').prop('checked', !pwd);
 		$('#room-discount-reason-php').prop('disabled', pwd);
+		$('#room-discount-reason-php').val('');
 		$('#room-discount-php').prop('disabled', pwd);
+		$('#room-discount-php').val('');
 
 		$('#is-discount-percent').prop('checked', !pwd);
 		$('#room-discount-reason-percent').prop('disabled', pwd);
+		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').prop('disabled', pwd);
+		$('#room-discount-percent').val('');
 	}
 }
 
@@ -201,13 +209,17 @@ function enableDiscountPhp () {
 	if (discountPhp) {
 		$('#is-senior').prop('checked', !discountPhp);
 		$('#room-senior').prop('disabled', discountPhp);
+		$('#room-senior').val('');
 
 		$('#is-pwd').prop('checked', !discountPhp);
 		$('#room-pwd').prop('disabled', discountPhp);
+		$('#room-pwd').val('');
 
 		$('#is-discount-percent').prop('checked', !discountPhp);
 		$('#room-discount-reason-percent').prop('disabled', discountPhp);
+		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').prop('disabled', discountPhp);
+		$('#room-discount-percent').val('');
 	}
 
 }
@@ -220,13 +232,17 @@ function enableDiscountPercent () {
 	if (discountPercent) {
 		$('#is-senior').prop('checked', !discountPercent);
 		$('#room-senior').prop('disabled', discountPercent);
+		$('#room-senior').val('');
 
 		$('#is-pwd').prop('checked', !discountPercent);
 		$('#room-pwd').prop('disabled', discountPercent);
+		$('#room-pwd').val('');
 
 		$('#is-discount-php').prop('checked', !discountPercent);
 		$('#room-discount-reason-php').prop('disabled', discountPercent);
+		$('#room-discount-reason-php').val('');
 		$('#room-discount-php').prop('disabled', discountPercent);
+		$('#room-discount-php').val('');
 	}
 }
 
