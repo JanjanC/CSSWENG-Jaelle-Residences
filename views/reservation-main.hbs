@@ -33,9 +33,9 @@
                 <div class="d-flex pt-2 ps-2 m-0 align-items-center">
                     <h1 class="m-0">RESERVATION</h1>
                     {{#isNotPastDate date}}
-                        <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill align-middle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
-                            <h5 class="p-2 m-0"><span class="material-icons-outlined">queue</span> Create Reservation</h5>
-                        </a>
+                    <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill align-middle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
+                        <h5 class="p-2 m-0"><span class="material-icons-outlined">queue</span> Create Reservation</h5>
+                    </a>
                     {{/isNotPastDate}}
                     <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservations are created, edited, and managed corresponding the current date chosen.</p>
                     <div id="chosen-date" class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" onclick="window.location='/calendar/{{getMonthYear date}}'">
@@ -97,10 +97,37 @@
                                                 {{/if}}
                                             </div>
                                             <div class="modal-footer">
+                                                <!-- Delete modal -->
+                                                <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                    Delete
+                                                </button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 {{#isNotPastDate end_date}}
                                                 <a href="/reservation/{{_id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
                                                 {{/isNotPastDate}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Delete Reservation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-danger">WARNING: Changes cannot be undone once the <strong>DELETE</strong> button has been pressed.</p>
+                                                <p>Are you sure you want to <strong>permanently delete</strong> this reservation with the following information?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <!--Delete Form-->
+                                                <form id="form-delete" action="/reservation/{{_id}}/delete" method="post">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

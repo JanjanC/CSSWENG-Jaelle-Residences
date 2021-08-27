@@ -4,7 +4,8 @@ const request = require('supertest');
 const express = require('express');
 const app = require('../server.js');
 
-describe('Unit testing the GET /:year-:month-:day/reservation route', function() {
+
+describe('Unit testing the /:year-:month-:day/reservation route', function() {
     it('should extract the correct date from the route', function() {
         testDate = 'AUG. 02, 2021';
         return request(app)
@@ -26,6 +27,7 @@ describe('Unit testing the GET /:year-:month-:day/reservation route', function()
 });
 
 describe('Unit testing the GET /:year-:month-:day/reservation/create route', function() {
+
     it('should retrieve all the room types', function() {
         types = ['Bridal Family Room', 'Combined Studio Type', 'One Bedroom', 'Studio Type', 'Studio Type with Balcony',
                     'Triplex with Balcony', 'Twin Bed', 'Twin Bed with Balcony', 'Two Bedroom'];

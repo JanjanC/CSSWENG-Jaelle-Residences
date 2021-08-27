@@ -23,6 +23,8 @@ app.post('/reservation/create', reservationController.postCreateReservation);
 app.get('/reservation/:bookingID/edit', reservationController.getEditReservation);
 app.post('/reservation/:bookingID/edit', reservationController.postEditReservation);
 
+app.post('/reservation/:bookingID/delete', reservationController.postDeleteReservation);
+
 app.get(`/error`, controller.getError);
 app.get(`/*`, controller.getError);
 app.post(`/*`, controller.getError);
