@@ -179,6 +179,8 @@ function enableSenior () {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').prop('disabled', senior);
 		$('#room-discount-percent').val('');
+	} else {
+		$('#room-senior').val('');
 	}
 }
 
@@ -198,6 +200,8 @@ function enablePWD () {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').prop('disabled', pwd);
 		$('#room-discount-percent').val('');
+	} else {
+		$('#room-pwd').val('');
 	}
 }
 
@@ -220,6 +224,9 @@ function enableDiscountPhp () {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').prop('disabled', discountPhp);
 		$('#room-discount-percent').val('');
+	} else {
+		$('#room-discount-reason-php').val('');
+		$('#room-discount-php').val('');
 	}
 
 }
@@ -243,6 +250,9 @@ function enableDiscountPercent () {
 		$('#room-discount-reason-php').val('');
 		$('#room-discount-php').prop('disabled', discountPercent);
 		$('#room-discount-php').val('');
+	} else {
+		$('#room-discount-reason-percent').val('');
+		$('#room-discount-percent').val('');
 	}
 }
 
