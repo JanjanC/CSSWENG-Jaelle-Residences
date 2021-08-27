@@ -531,8 +531,15 @@ function validateEntry () {
 		$('#birthdate-error').text('');
 	}
 
-	if ($('#room-pax').val() == '' || $('#room-pax').val().trim().length == 0) {
+	 if (parseInt($('#room-pax').val()) == 0)  {
+		 console.log('HI');
+	 }
+
+	if ($('#room-pax').val() == '') {
 		$('#room-pax-error').text('Number of Guest cannot be empty');
+		isValid = false;
+	} else if (parseInt($('#room-pax').val()) <= 0) {
+		$('#room-pax-error').text('Number of Guest must be at least 1');
 		isValid = false;
 	} else {
 		$('#room-pax-error').text('');
@@ -546,13 +553,6 @@ function validateEntry () {
 		isValid = false;
 	} else {
 		$('#room-payment-error').text('');
-	}
-
-	if ($('#room-pax').val() == '') {
-		$('#room-pax-error').text('Number of Guest cannot be empty');
-		isValid = false;
-	} else {
-		$('#room-pax-error').text('');
 	}
 
 	if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
