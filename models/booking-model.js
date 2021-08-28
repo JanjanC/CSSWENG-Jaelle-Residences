@@ -55,6 +55,10 @@ var BookingSchema = new mongoose.Schema({
     // signifies whether the guest has checked in or not
     checked_in: {
         type: Boolean
+    },
+
+    is_cancelled: {
+        type: Boolean
     }
 
 });

@@ -9,5 +9,5 @@ $(document).ready(function(){
       return new bootstrap.Popover(popoverTriggerEl)
     });
 
-    $('[data-toggle="popover"]').popover({html:true});
+    $('[data-bs-toggle="popover"]').popover({html:true});
 });

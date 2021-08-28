@@ -16,7 +16,8 @@ const reservationController = {
             start_date: {$lte: date},
             end_date: {$gte: date},
             //it is considered to be a reservation when the confirmed_reservation exists in the database
-            confirmed_reservation: {$exists: true}
+            confirmed_reservation: {$exists: true},
+            is_cancelled: false
         };
 
         db.findMany(Booking, reservation, function(result){
@@ -85,7 +86,8 @@ const reservationController = {
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
-                    confirmed_reservation: false
+                    confirmed_reservation: false,
+                    is_cancelled: false
                 }
 
                 // create a new reservation in the database
@@ -186,6 +188,43 @@ const reservationController = {
                                 res.redirect('/error');
                             }
                         });
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
+    },
+
+    postDeleteReservation: function (req, res) {
+
+        let reservation = {
+            $set: {
+                is_cancelled: true
+            }
+        }
+
+        //cancel the booking by setting is_cancelled to true
+        db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(reservationResult) {
+
+            if (reservationResult) {
+                let activity = {
+                    employee: req.session.employeeID,
+                    booking: reservationResult._id,
+                    activity_type: 'Cancel Reservation',
+                    timestamp: new Date()
+                }
+
+                //saves the action of the employee to an activity log
+                db.insertOne(Activity, activity, function(activityResult) {
+                    if (activityResult) {
+                        // redirects to home screen after deleting a record
+                        let today = new Date();
+                    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+                        res.redirect(`/${todayString}/reservation/`);
                     } else {
                         res.redirect('/error');
                     }
