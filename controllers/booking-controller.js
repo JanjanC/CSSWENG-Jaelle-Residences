@@ -317,8 +317,8 @@ const bookingController = {
 	postEditBooking: function(req, res) {
 		let booking = {
             $set: {
-				start_date: req.body.start_date,
-                end_date: req.body.end_date
+				start_date: new Date (`${req.body.start_date} 14:00:00`),
+                end_date: new Date(`${req.body.end_date} 12:00:00`)
             }
         }
 
