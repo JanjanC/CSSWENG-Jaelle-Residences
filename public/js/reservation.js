@@ -97,7 +97,7 @@ function validateEntry () {
 		$('#lastname-error').text('');
 	}
 
-	let numberPattern = new RegExp('^(09)\\d{9}');
+	let numberPattern = new RegExp('^(09)\\d{9}$');
 	if ($('#contact').val() != '' && !numberPattern.test($('#contact').val())) {
 		$('#contact-error').text('Contact Number is invalid');
 		isValid = false;
