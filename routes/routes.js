@@ -42,6 +42,10 @@ app.get('/room', bookingController.getRoom)
 
 app.post('/booking/:roomID/confirm', bookingController.confirmReservation);
 
+app.get('/booking/:bookingID/edit', bookingController.getEditBooking);
+
+app.post('/booking/:bookingID/edit', bookingController.postEditBooking);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);

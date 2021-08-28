@@ -411,6 +411,7 @@ function computeBalance () {
 function checkAvailability () {
 	let startDate = $('#start-date').val();
 	let endDate = $('#end-date').val();
+	let bookingid = $('#booking-id').text();
 
 	if (startDate && endDate && endDate >= startDate) {
 		let rooms = [];
@@ -424,7 +425,8 @@ function checkAvailability () {
 		let information = {
 			start_date: startDate,
 			end_date: endDate,
-			rooms: rooms
+			rooms: rooms,
+			bookingid: bookingid
 		}
 
 		$.get('/room/availability', information, function(result) {
