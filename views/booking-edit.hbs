@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    <link rel="stylesheet" type="text/css" href="/css/booking-edit.css">
+    <link rel="stylesheet" type="text/css" href="/css/material.css">
+
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/js/booking.js"></script>
+    <script type="text/javascript" src="/js/help.js"></script>
+
+    <title>Edit Booking</title>
+</head>
+<body>
+
+    {{>navbar}}
+
+    <div class="row w-100 m-0 h-100">
+
+        <div id="main-screen" class="col-10 mx-auto">
+            <div id="container-screen" class="container shadow-lg bg-light p-4">
+                <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
+                    <h1 class="m-0">Edit Booking</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where parts of existing booking forms for booked rooms are modified.</p>
+                </div>
+
+                <br>
+
+                <form id="form-submit" class="" action="/booking/{{_id}}/edit" method="post">
+                    <!--ROW-->
+                    <div class="row justify-content-center py-2">
+                        <!-- COLUMN 1: Room Details -->
+                        <div class="col-5 me-3 border p-4 pt-2 rounded">
+
+                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
+
+                            <div hidden>
+                                <span id="booking-id">{{_id}}</span>
+                                <span id="room-id">{{room._id}}</span>
+                                {{#each room.connected_rooms}}
+                                <span class="connected-rooms">{{this}}</span>
+                                {{/each}}
+                            </div>
+
+                            <!--Room Type-->
+                            <div class="form-group mb-3">
+                                <label class="h5">Room Type</label>
+                                <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}" disabled>
+                            </div>
+
+                            <!--Room Number-->
+                            <div class="form-group mb-3">
+                                <label class="h5">Room Number</label>
+                                <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}" disabled>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="form-group">
+                                <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
+                                <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate start_date}}">
+                                <em><p class="error text-danger" id="start-date-error"></p></em>
+                            </div>
+
+                            <!--NOTE:
+                            THE ONLY ONES THAT WILL BE ACCEPTED ARE THOSE THAT HAVE ENDDATES THAT ARE VALID
+                            MEANING... END DATES WITH NO CONFLICT WITH OTHER BOOKINGS/OCCUPIED IN THE DATABASE
+
+                            For example: If reserved customer (A) have Aug 1 - Aug 5... But in the database, another customer (B) is already booked for Aug 4.
+                            The enddate field will complain that there is a conflict.
+                            -->
+                            <!-- End Date -->
+                            <div class="form-group">
+                                <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
+                                <input class="form-control w-75" type="date" id="end-date" name="end_date" value="{{formatDate end_date}}">
+                                <em><p class="error text-danger" id="end-date-error"></p></em>
+                            </div>
+                        </div>
+
+                        <!--COLUMN 2: Customer Details-->
+                        <div class="col-6 border p-4 pt-2 rounded">
+
+                            <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
+                            <!--CUSTOMER INFO-->
+                            <div id="customer-info" class="mb-4">
+                                <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
+
+                                <!--First Name-->
+                                <div class="form-group">
+                                    <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
+                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{guest.first_name}}">
+                                    <em><p class="error text-danger" id="firstname-error"></p></em>
+                                </div>
+
+                                <!--Last Name-->
+                                <div class="form-group">
+                                    <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
+                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{guest.last_name}}">
+                                    <em><p class="error text-danger" id="lastname-error"></p></em>
+                                </div>
+
+                                <!--OPTIONAL FIELDS BELOW-->
+                                <hr>
+
+                                <!--Birthday-->
+                                <div class="form-group">
+                                    <label class="h5 d-block">Birthdate</label>
+                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{birthdate}}">
+                                    <em><p class="error text-danger" id="birthdate-error"></p></em>
+                                </div>
+
+                                <!--Address-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Address</label>
+                                    <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3">{{guest.address}}</textarea>
+                                </div>
+
+                                <!--Contact No.-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Contact No.</label>
+                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{guest.contact_number}}">
+                                </div>
+
+                                <!--Company's Name-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Company Name</label>
+                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{guest.company_name}}">
+                                </div>
+
+                                <!--Occupation-->
+                                <div class="form-group mb-3">
+                                    <label class="h5 d-block">Occupation</label>
+                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value="{{guest.occupation}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--TRANSACTION-->
+                        <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
+                            <!--TRANSACTION INFO-->
+                            <div id="transaction-info" class="row mb-4 justify-content-between">
+                                <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
+
+
+                                <!--TRANSACTION 1st COL-->
+                                <div class="col-5">
+                                    <!--Number of days-->
+                                    <!--NOTE: Automatic set in date set-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Number of Days</label>
+                                        <input class="form-control w-50" type="number" readonly="true" id="duration" name="duration" disabled>
+                                    </div>
+
+                                    <!--Room Rate-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Avg. Room Rate Per Day (Php)</label>
+                                        <div class="input-group mb-3 w-50">
+                                            <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control" disabled>
+                                            <span class="input-group-text">Php/Day</span>
+                                        </div>
+                                    </div>
+
+                                    <!--TODO: Number of Pax-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Number of Pax/Guests<span class="text-danger">*</span></label>
+                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
+                                    </div>
+
+                                    <!--TODO: Number of Pwd-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Number of PWD</label>
+                                        <div class="input-group mb-3 w-50">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-pwd" type="checkbox" value="">
+                                            </div>
+                                            <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd" disabled>
+                                        </div>
+                                    </div>
+
+                                    <!--TODO: Number of Seniors-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Number of Senior Citizens</label>
+                                        <div class="input-group mb-3 w-50">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-senior" type="checkbox" value="">
+                                            </div>
+                                            <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior" disabled>
+                                        </div>
+                                    </div>
+
+                                    <!--Discount-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Other Discounts</label>
+                                        <div class="input-group mb-2 w-auto">
+                                            <input type="text" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-auto" placeholder="Reason" value="">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                        <div class="input-group mb-3 w-auto">
+                                            <input type="text" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-auto" placeholder="Reason" value="">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Extras-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Extra Charges</label>
+                                        <div class="input-group mb-3 w-75">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-extra" name="room_extra" class="form-control" enabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--TRANSACTION 2nd COL-->
+                                <div class="col-5">
+                                    <!--Initial Cost-->
+                                    <div class="form-group mb-3">
+                                        <label class="h5">Initial Cost</label>
+                                        <div class="input-group mb-3 w-75">
+                                            <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Subtracted-->
+                                    <div class="form-group mb-4">
+                                        <label class="h5 text-danger">Subtracted Amount</label>
+                                        <div class="input-group mb-3 w-75">
+                                            <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <!--Total Cost-->
+                                    <div class="form-group mb-3 mt-4 text-end text-primary">
+                                        <label class="h5">Total Cost</label>
+                                        <div class="input-group mb-3 w-75 ms-auto">
+                                            <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Customer Payment-->
+                                    <div class="form-group mb-3 text-end text-primary">
+                                        <label class="h5"><span class="text-danger">*</span>Customer Payment</label>
+                                        <div class="input-group mb-3 w-75 ms-auto">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+
+                                    <!--Remaining Balance-->
+                                    <div class="form-group mb-3 text-end text-primary">
+                                        <label class="h5">Remaining Balance</label>
+                                        <div class="input-group mb-3 w-75 ms-auto">
+                                            <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control" disabled>
+                                            <span class="input-group-text">Php</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--MODAL-->
+                    <div class="d-flex flex-row-reverse mt-3">
+                        <!-- RESERVE-->
+                        <!-- Button trigger modal -->
+                        <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
+                            Edit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="bookModalLabel">Edit Booking</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to edit the existing booking form with the following information?</p>
+                                        <div id="inputted-info">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RETURN -->
+                        <!-- Button trigger modal -->
+                        <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                            Return
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: You will lose data inputs in the fields and <strong>would not be saved</strong> when the <strong>Return</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to return to the previous page?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
