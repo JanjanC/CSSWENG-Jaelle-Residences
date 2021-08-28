@@ -62,7 +62,7 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate start_date}}">
+                                <input class="form-control w-75" type="date" {{#isPastDate start_date}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate start_date}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -168,6 +168,7 @@
                                     <div class="form-group mb-3">
                                         <label class="h5">Number of Pax/Guests<span class="text-danger">*</span></label>
                                         <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
+                                        <em><p class="error text-danger" id="room-pax-error"></p></em>
                                     </div>
 
                                     <!--TODO: Number of Pwd-->
@@ -179,6 +180,7 @@
                                             </div>
                                             <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd" disabled>
                                         </div>
+                                        <em><p class="error text-danger" id="room-pwd-error"></p></em>
                                     </div>
 
                                     <!--TODO: Number of Seniors-->
@@ -190,19 +192,26 @@
                                             </div>
                                             <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior" disabled>
                                         </div>
+                                        <em><p class="error text-danger" id="room-senior-error"></p></em>
                                     </div>
 
                                     <!--Discount-->
                                     <div class="form-group mb-3">
                                         <label class="h5">Other Discounts</label>
                                         <div class="input-group mb-2 w-auto">
-                                            <input type="text" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-auto" placeholder="Reason" value="">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-discount-php" type="checkbox" value="">
+                                            </div>
+                                            <input type="text" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-auto" placeholder="Reason" value="" disabled>
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control" disabled>
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <div class="input-group mb-3 w-auto">
-                                            <input type="text" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-auto" placeholder="Reason" value="">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" id="is-discount-percent" type="checkbox" value="">
+                                            </div>
+                                            <input type="text" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-auto" placeholder="Reason" value="" disabled>
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control" disabled>
                                             <span class="input-group-text">%</span>
                                         </div>
                                     </div>
@@ -255,6 +264,7 @@
                                             <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
+                                        <em><p class="error text-danger" id="room-payment-error"></p></em>
                                     </div>
 
                                     <!--Remaining Balance-->

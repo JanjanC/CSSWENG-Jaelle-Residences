@@ -78,7 +78,8 @@ const bookingController = {
 							}
 						}
 
-						values = {
+						let values = {
+							username: req.session.username,
 							list: list,
 							date: dateString,
 							time: timeString
@@ -115,6 +116,7 @@ const bookingController = {
 				//find all the reservations such that the current date is between the start and end date of the reservation
 				db.findMany(Booking, reservation, function (reservationResult) {
 					let values = {
+						username: req.session.username,
 	                    room: roomResult,
 						reservations: reservationResult,
 	                    date:date
@@ -251,8 +253,8 @@ const bookingController = {
             $set: {
 				//assign the guest to a room
 				room: req.params.roomID,
-				start_date: req.body.start_date,
-                end_date: req.body.end_date,
+				start_date: new Date (`${req.body.start_date} 14:00:00`),
+                end_date: new Date(`${req.body.end_date} 12:00:00`),
 				//confirm the reservation
 				confirmed_reservation: true
             }
@@ -315,8 +317,8 @@ const bookingController = {
 	postEditBooking: function(req, res) {
 		let booking = {
             $set: {
-				start_date: req.body.start_date,
-                end_date: req.body.end_date
+				start_date: new Date (`${req.body.start_date} 14:00:00`),
+                end_date: new Date(`${req.body.end_date} 12:00:00`)
             }
         }
 

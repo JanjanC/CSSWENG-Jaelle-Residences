@@ -138,6 +138,7 @@
                         <div class="form-group mb-3">
                             <label class="h5 d-block">Contact No.</label>
                             <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact">
+                            <em><p class="error text-danger" id="contact-error"></p></em>
                         </div>
 
                         <!--Company's Name-->
@@ -192,8 +193,8 @@
                                         <input class="form-check-input mt-0" id="is-pwd" type="checkbox" value="">
                                     </div>
                                     <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd" disabled>
-                                    <em><p class="error text-danger" id="room-pwd-error"></p></em>
                                 </div>
+                                <em><p class="error text-danger" id="room-pwd-error"></p></em>
                             </div>
 
                             <div class="form-group mb-3">
@@ -203,8 +204,8 @@
                                         <input class="form-check-input mt-0" id="is-senior" type="checkbox" value="">
                                     </div>
                                     <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior" disabled>
-                                    <em><p class="error text-danger" id="room-senior-error"></p></em>
                                 </div>
+                                <em><p class="error text-danger" id="room-senior-error"></p></em>
                             </div>
 
                             <!--Discount-->
@@ -275,8 +276,8 @@
                                 <div class="input-group mb-3 w-75 ms-auto">
                                     <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                     <span class="input-group-text">Php</span>
-                                    <em><p class="error text-danger" id="room-payment-error"></p></em>
                                 </div>
+                                <em><p class="error text-danger" id="room-payment-error"></p></em>
                             </div>
 
                             <!--Remaining Balance-->
