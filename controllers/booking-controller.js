@@ -196,36 +196,31 @@ const bookingController = {
         lower_bound.setFullYear(lower_bound.getFullYear() - 5);
         upper_bound.setFullYear(upper_bound.getFullYear() + 5);
         // set the conditions for the queries
-		booking_query = {
-			$and: [
-				{room: {$in : rooms}},
-				// reservation dates only within 5 years
-				{$and: [
+        booking_query = {
+            $and: [
+                {room: {$in : rooms}},
+                // reservation dates only within 5 years
+                {$and: [
 					{start_date: {$gte: lower_bound}},
 					{end_date: {$lte: upper_bound}}
 				]},
-				// must be an active booking
-				{$and:[
-					{$or: [
-						{confirmed_reservation: {$exists: false}},
-						{confirmed_reservation: true}
+                // must be an active booking
+                {$and:[
+                    {$or: [
+                        {confirmed_reservation: {$exists: false}},
+                        {confirmed_reservation: true}
 					]},
-					{is_cancelled: false}
-				]},
-				// cases to check for existing bookings
-				{$or: [
-					{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-					{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
-					{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
-					{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
-				]}
-			]
-		};
-
-		// when checking availability while editing booking, do not include itself as a conflicting booking
-		if(req.query.bookingid != ''){
-			booking_query.$and.push({_id: {$ne: req.query.bookingid}});
-		}
+                    {is_cancelled: false}
+                ]},
+                // cases to check for existing bookings
+                {$or: [
+                    {$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
+                    {$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
+                    {$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
+                    {$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
+                ]}
+            ]
+        };
 
         // find atleast one booking for a specified room between the start and end date inclusive
         db.findOne(Booking, booking_query, function(result){
@@ -253,8 +248,8 @@ const bookingController = {
             $set: {
 				//assign the guest to a room
 				room: req.params.roomID,
-				start_date: req.body.start_date,
-                end_date: req.body.end_date,
+				start_date: new Date (`${req.body.start_date} 14:00:00`),
+                end_date: new Date(`${req.body.end_date} 12:00:00`),
 				//confirm the reservation
 				confirmed_reservation: true
             }
@@ -300,72 +295,6 @@ const bookingController = {
 			}
 
 		});
-	},
-
-	getEditBooking: function(req, res) {
-		//get the booking information given the bookingID
-		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
-			if (result) {
-				//render the edit booking screen
-				res.render('booking-edit', result);
-			} else {
-				res.redirect('/error');
-			}
-		}, 'room guest');
-	},
-
-	postEditBooking: function(req, res) {
-		let booking = {
-            $set: {
-				start_date: req.body.start_date,
-                end_date: req.body.end_date
-            }
-        }
-
-        //update the booking details in the database
-        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
-
-            let guest = {
-                $set: {
-                    first_name: req.body.firstname,
-                    last_name: req.body.lastname,
-                    birthdate: req.body.birthdate,
-                    address: req.body.address,
-                    contact_number: req.body.contact,
-                    company_name: req.body.company,
-                    occupation: req.body.occupation
-                }
-            }
-
-            if (bookingResult) {
-                //update the customer details in the database
-                db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
-                    if (guestResult) {
-
-                        let activity = {
-                            employee: req.session.employeeID,
-                            booking: bookingResult._id,
-                            activity_type: 'Modify Booking',
-                            timestamp: new Date()
-                        }
-
-                        //saves the action of the employee to an activity log
-                        db.insertOne(Activity, activity, function(activityResult) {
-                            if (activityResult) {
-                                // redirects to home screen after updating the booking
-                                res.redirect(`/${req.body.start_date}/booking/`);
-                            } else {
-                                res.redirect('/error');
-                            }
-                        });
-                    } else {
-                        res.redirect('/error');
-                    }
-                });
-            } else {
-                res.redirect('/error');
-            }
-        });
 	}
 
 }
