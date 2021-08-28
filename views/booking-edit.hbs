@@ -180,6 +180,7 @@
                                             </div>
                                             <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd" disabled>
                                         </div>
+                                        <em><p class="error text-danger" id="room-pwd-error"></p></em>
                                     </div>
 
                                     <!--TODO: Number of Seniors-->
@@ -191,6 +192,7 @@
                                             </div>
                                             <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior" disabled>
                                         </div>
+                                        <em><p class="error text-danger" id="room-senior-error"></p></em>
                                     </div>
 
                                     <!--Discount-->
