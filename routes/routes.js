@@ -47,4 +47,5 @@ app.get(`/error`, errorController.getError);
 app.get(`/*`, errorController.getError);
 
 app.post(`/*`, errorController.getError);
+
 module.exports = app;

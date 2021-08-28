@@ -101,6 +101,14 @@ function validateEntry () {
 		$('#lastname-error').text('');
 	}
 
+	let numberPattern = new RegExp('^(09)\\d{9}$');
+	if ($('#contact').val() != '' && !numberPattern.test($('#contact').val())) {
+		$('#contact-error').text('Contact Number is invalid');
+		isValid = false;
+	} else {
+		$('#contact-error').text('');
+	}
+
 	if (new Date($('#birthdate').val()) > new Date(todayString)) {
 		$('#birthdate-error').text('Birthdate cannot be later than Today');
 		isValid = false;

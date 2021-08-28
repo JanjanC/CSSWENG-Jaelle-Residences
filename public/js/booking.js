@@ -531,9 +531,13 @@ function validateEntry () {
 		$('#birthdate-error').text('');
 	}
 
-	 if (parseInt($('#room-pax').val()) == 0)  {
-		 console.log('HI');
-	 }
+	let numberPattern = new RegExp('^(09)\\d{9}$');
+	if ($('#contact').val() != '' && !numberPattern.test($('#contact').val())) {
+		$('#contact-error').text('Contact Number is invalid');
+		isValid = false;
+	} else {
+		$('#contact-error').text('');
+	}
 
 	if ($('#room-pax').val() == '') {
 		$('#room-pax-error').text('Number of Guest cannot be empty');
