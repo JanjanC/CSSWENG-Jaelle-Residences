@@ -4,6 +4,7 @@ const signInController = require('../controllers/sign-in-controller.js');
 const calendarController = require('../controllers/calendar-controller.js');
 const reservationController = require('../controllers/reservation-controller.js');
 const bookingController = require('../controllers/booking-controller.js');
+const roomManagementController = require('../controllers/room-management-controller.js');
 
 const app = express.Router();
 
@@ -47,6 +48,8 @@ app.get('/booking/:bookingID/edit', bookingController.getEditBooking);
 app.post('/booking/:bookingID/edit', bookingController.postEditBooking);
 
 app.post('/booking/:bookingID/delete', bookingController.postDeleteBooking);
+
+app.get('/management', roomManagementController.getRoomManagement);
 
 app.get(`/error`, errorController.getError);
 
