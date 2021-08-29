@@ -41,8 +41,7 @@
                     <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
                     <div class="form-group ms-4 mb-3">
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
-                            <option value="" hidden selected>(Optional) Select a reservation</option>
-                            <option value="">None</option>
+                            <option value="" selected>(Optional) Select a reservation</option>
                             {{#each reservations}}
                             <option value="{{_id}}">{{guest.first_name}} {{guest.last_name}} | {{formatDate start_date}} - {{formatDate end_date}}</option>
                             {{/each}}
