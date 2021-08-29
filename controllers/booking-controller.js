@@ -42,12 +42,7 @@ const bookingController = {
 					//the current date is between the start date and end date of the booking, inclusive
 		            start_date: {$lte: date},
 		            end_date: {$gte: date},
-					//it is considered to be a reservation when the confirmed_reservation does not exists in the database (i.e., it was a direct booking)
-					//or the reservation has been confirmed
-		            $or: [
-						{confirmed_reservation: {$exists: false}},
-		            	{confirmed_reservation: true}
-					],
+					booked: true,
 					is_cancelled: false
 		        };
 
@@ -109,8 +104,7 @@ const bookingController = {
 					start_date: {$lte: date},
  	               	end_date: {$gte: date},
 					booked_type: roomResult.room_type,
-		            //it is considered to be a reservation when the confirmed_reservation exists in the database
-		            confirmed_reservation: false,
+		            reserved: true,
 		            is_cancelled: false
 		        };
 				//find all the reservations such that the current date is between the start and end date of the reservation
@@ -153,6 +147,8 @@ const bookingController = {
                     employee: req.session.employeeID,
                     start_date: new Date (`${req.body.start_date} 14:00:00`),
                     end_date: new Date(`${req.body.end_date} 12:00:00`),
+					reserved: false,
+					booked: true,
 					checked_in: false,
                     is_cancelled: false
                 }
@@ -207,8 +203,8 @@ const bookingController = {
 				// must be an active booking
 				{$and:[
 					{$or: [
-						{confirmed_reservation: {$exists: false}},
-						{confirmed_reservation: true}
+						{booked: true},
+						{checked_in: true}
 					]},
 					{is_cancelled: false}
 				]},
@@ -233,7 +229,7 @@ const bookingController = {
             if(result){
                 res.send(false);
             // no booking is found
-            } else{
+        	} else {
                 res.send(true);
             }
         });
@@ -256,7 +252,7 @@ const bookingController = {
 				start_date: new Date (`${req.body.start_date} 14:00:00`),
                 end_date: new Date(`${req.body.end_date} 12:00:00`),
 				//confirm the reservation
-				confirmed_reservation: true
+				booked: true
             }
         }
 		//confirm the reservation, assign the guest to a room, and update the booking dates

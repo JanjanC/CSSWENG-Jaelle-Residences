@@ -15,8 +15,9 @@ const reservationController = {
             //the current date is between the start date and end date of the reservation, inclusive
             start_date: {$lte: date},
             end_date: {$gte: date},
-            //it is considered to be a reservation when the confirmed_reservation exists in the database
-            confirmed_reservation: false,
+            reserved: true,
+            booked: false,
+            checked_in: false,
             is_cancelled: false
         };
 
@@ -94,7 +95,9 @@ const reservationController = {
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
-                    confirmed_reservation: false,
+                    reserved: true,
+                    booked: false,
+                    checked_in: false,
                     is_cancelled: false
                 }
 
