@@ -18,6 +18,10 @@
     transition: 0.3s;
 }
 
+.modal-header {
+    background-color: #DFECF6;
+}
+
 #chosen-date:hover {
     background-color: #DFECF6;
     transition: 0.3s;
