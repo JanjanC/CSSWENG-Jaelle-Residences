@@ -92,8 +92,11 @@ const roomManagementController = {
 				res.redirect('/error')
 			}
 		}, undefined, {room_number: 'asc'});
-    }
+    },
 
+    getCheckInVacant: function (req, res) {
+        res.render('check-in-vacant');
+    }
 }
 
 module.exports = roomManagementController;

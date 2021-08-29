@@ -51,6 +51,8 @@ app.post('/booking/:bookingID/delete', bookingController.postDeleteBooking);
 
 app.get('/management', roomManagementController.getRoomManagement);
 
+app.get('/management/:roomID/checkin/vacant', roomManagementController.getCheckInVacant);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);
