@@ -11,6 +11,7 @@ const calendarController = {
         let cal = new Calendar();
 
         let calendar = {
+            username: req.session.username,
             currMonthNum: current.getMonth()+1,
             currMonthName: monthNames[current.getMonth()],
             daysInMonth: cal.monthDays(current.getFullYear(), current.getMonth()),

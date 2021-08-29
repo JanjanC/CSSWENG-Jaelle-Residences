@@ -91,8 +91,7 @@ $(document).ready(function () {
 	$('#reservation_select').change(function () {
 		updateForm();
 		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -154,7 +153,7 @@ function updateForm () {
 	jQuery.ajaxSetup({async: true});
 }
 
-function computeRoomPrice () {
+function computeInitialCost () {
 	let roomID = $('#room-id').text();
 
 	jQuery.ajaxSetup({async: false});
@@ -480,11 +479,11 @@ function validateEntry () {
 	if ($('#start-date').val() == '') {
 		$('#start-date-error').text('Start Date cannot be empty');
 		isValid = false;
-	// the start date is earlier than today
-	} else if (new Date($('#start-date').val()) < new Date(todayString)) {
+		// the start date is earlier than today
+	} else if (new Date($('#start-date').val()) < new Date(todayString) && !$('#start-date').is('[readonly]')) {
 		$('#start-date-error').text('Start Date cannot be earlier than Today');
 		isValid = false;
-	} else if (new Date($('#start-date').val()) > new Date(fiveYearString)) {
+	} else if (new Date($('#start-date').val()) > new Date(fiveYearString) && !$('#start-date').is('[readonly]')) {
 		$('#start-date-error').text('Start Date may only be 5 Years from Today');
 		isValid = false;
 	} else {
@@ -533,25 +532,32 @@ function validateEntry () {
 		$('#birthdate-error').text('');
 	}
 
-	if ($('#room-pax').val() == '' || $('#room-pax').val().trim().length == 0) {
-		$('#room-pax-error').text('Number of Guest cannot be empty');
+	let numberPattern = new RegExp('^(09)\\d{9}$');
+	if ($('#contact').val() != '' && !numberPattern.test($('#contact').val())) {
+		$('#contact-error').text('Contact Number is invalid');
 		isValid = false;
 	} else {
-		$('#room-pax-error').text('');
-	}
-
-	if ($('#room-payment').val() == '' || $('#room-payment').val().trim().length == 0) {
-		$('#room-payment-error').text('Customer Payment cannot be empty');
-		isValid = false;
-	} else {
-		$('#room-payment-error').text('');
+		$('#contact-error').text('');
 	}
 
 	if ($('#room-pax').val() == '') {
 		$('#room-pax-error').text('Number of Guest cannot be empty');
 		isValid = false;
+	} else if (parseInt($('#room-pax').val()) <= 0) {
+		$('#room-pax-error').text('Number of Guest must be at least 1');
+		isValid = false;
 	} else {
 		$('#room-pax-error').text('');
+	}
+
+	if ($('#room-payment').val() == '') {
+		$('#room-payment-error').text('Customer Payment cannot be empty');
+		isValid = false;
+	} else if ($('#room-net-cost').val() != '' && parseFloat($('#room-net-cost').val()) - parseFloat($('#room-payment').val()) > 0) {
+		$('#room-payment-error').text('Customer Payment cannot be less than the Total Cost');
+		isValid = false;
+	} else {
+		$('#room-payment-error').text('');
 	}
 
 	if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
