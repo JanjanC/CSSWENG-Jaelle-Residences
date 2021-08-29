@@ -89,13 +89,15 @@ $(document).ready(function () {
 	});
 
 	$('#reservation_select').change(function () {
-		updateForm();
-		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
-		computeDiscount();
-		computeTotal();
-		computeBalance();
+		if($('#reservation_select').val() != "") {
+			updateForm();
+			checkAvailability();
+			computeRoomPrice();
+			computeCharges();
+			computeDiscount();
+			computeTotal();
+			computeBalance();
+		}
 	});
 
 	$('#form-submit').submit(function () {
