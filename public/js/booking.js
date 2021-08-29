@@ -116,41 +116,52 @@ function submitForm () {
 function updateForm () {
 	let reservationID = $('#reservation_select').val();
 
-	jQuery.ajaxSetup({async: false});
+	if (reservationID) {
+		jQuery.ajaxSetup({async: false});
 
-	$.get('/reservation', {reservationID: reservationID}, function(result) {
-		if (result) {
-			let startDate = '';
-			if (result.start_date) {
-				startDate = new Date(result.start_date);
-				startDate = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
+		$.get('/reservation', {reservationID: reservationID}, function(result) {
+			if (result) {
+				let startDate = '';
+				if (result.start_date) {
+					startDate = new Date(result.start_date);
+					startDate = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
+				}
+
+				let endDate = '';
+				if (result.end_date) {
+					endDate = new Date(result.end_date);
+					endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
+				}
+
+				let birthdate = '';
+				if (result.guest.birthdate) {
+					birthdate = new Date(result.guest.birthdate);
+					birthdate = `${birthdate.getFullYear().toString()}-${(birthdate.getMonth() + 1).toString().padStart(2, 0)}-${birthdate.getDate().toString().padStart(2, 0)}`;
+				}
+
+				$('#start-date').val(startDate);
+				$('#end-date').val(endDate);
+				$('#firstname').val(result.guest.first_name);
+				$('#lastname').val(result.guest.last_name);
+				$('#birthdate').val(birthdate);
+				$('#address').val(result.guest.address);
+				$('#contact').val(result.guest.contact_number);
+				$('#company').val(result.guest.company_name);
+				$('#occupation').val(result.guest.occupation);
 			}
+		});
 
-			let endDate = '';
-			if (result.end_date) {
-				endDate = new Date(result.end_date);
-				endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
-			}
-
-			let birthdate = '';
-			if (result.guest.birthdate) {
-				birthdate = new Date(result.guest.birthdate);
-				birthdate = `${birthdate.getFullYear().toString()}-${(birthdate.getMonth() + 1).toString().padStart(2, 0)}-${birthdate.getDate().toString().padStart(2, 0)}`;
-			}
-
-			$('#start-date').val(startDate);
-			$('#end-date').val(endDate);
-			$('#firstname').val(result.guest.first_name);
-			$('#lastname').val(result.guest.last_name);
-			$('#birthdate').val(birthdate);
-			$('#address').val(result.guest.address);
-			$('#contact').val(result.guest.contact_number);
-			$('#company').val(result.guest.company_name);
-			$('#occupation').val(result.guest.occupation);
-		}
-	});
-
-	jQuery.ajaxSetup({async: true});
+		jQuery.ajaxSetup({async: true});
+	} else {
+		$('#end-date').val('');
+		$('#firstname').val('');
+		$('#lastname').val('');
+		$('#birthdate').val('');
+		$('#address').val('');
+		$('#contact').val('');
+		$('#company').val('');
+		$('#occupation').val('');
+	}
 }
 
 function computeInitialCost () {
