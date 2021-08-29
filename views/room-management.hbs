@@ -59,7 +59,7 @@
 				<div id="" class="row m-3">
 					{{#each list}}
 
-					{{#if booking}}
+					{{#if booking.booked}}
 					<!--BOOKED-->
 					<div class="room-container col-2 p-0 m-0 border booked">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
