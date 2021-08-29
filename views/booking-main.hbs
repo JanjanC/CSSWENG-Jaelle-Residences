@@ -64,6 +64,7 @@
 					<div class="room-container col-2 p-0 m-0 border booked">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
+							{{room.room_type}}
 						</button>
 
 						<!-- Modal -->
@@ -148,6 +149,7 @@
 					<div class="room-container col-2 p-0 m-0 border occupied">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
+							{{room.room_type}}
 						</button>
 
 						<!-- Modal -->
@@ -203,6 +205,7 @@
 					<div class="room-container col-2 p-0 m-0 border vacant">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
+							{{room.room_type}}
 						</button>
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
