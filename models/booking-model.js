@@ -46,15 +46,22 @@ var BookingSchema = new mongoose.Schema({
         required: true
     },
 
-    // signifies whether or not a reservation has been confirmed (i.e., the reservation has beem paid for)
-    // this field is absent when the a booking is made without prior reservation
-    confirmed_reservation: {
-        type: Boolean
+    // signifies whether it is a reservation or not
+    reserved: {
+        type: Boolean,
+        required: true
+    },
+
+    // signifies whether it is a booking or not
+    booked: {
+        type: Boolean,
+        required: true
     },
 
     // signifies whether the guest has checked in or not
     checked_in: {
-        type: Boolean
+        type: Boolean,
+        required: true
     },
 
     is_cancelled: {
