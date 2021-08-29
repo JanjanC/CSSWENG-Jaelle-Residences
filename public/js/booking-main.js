@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 function chooseTime() {
 	let time = $('#chosen-time').val();
-	let href = location.protocol + '//' + location.host + location.pathname;
-	console.log(href);
-	window.location.href = `${href}?time=${time}`;
+	let href = `${location.protocol}//${location.host}${location.pathname}`;
+	
+	window.location.replace(`${href}?time=${time}`);
 }
