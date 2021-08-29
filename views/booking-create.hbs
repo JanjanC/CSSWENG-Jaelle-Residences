@@ -251,7 +251,7 @@
 
                             <!--Total Discount-->
                             <div class="form-group mb-4">
-                                <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Total amount to be subtracted to the total cost">Total Discount</label>
+                                <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Total amount to be subtracted from the total cost">Total Discount</label>
                                 <div class="input-group mb-3 w-75">
                                     <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control">
                                     <span class="input-group-text">Php</span>
@@ -271,7 +271,7 @@
 
                             <!--Customer Payment-->
                             <div class="form-group mb-3 text-end text-primary">
-                                <label class="h5"><span class="text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid">*</span>Customer Payment</label>
+                                <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid"><span class="text-danger">*</span>Customer Payment</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
                                     <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                     <span class="input-group-text">Php</span>
