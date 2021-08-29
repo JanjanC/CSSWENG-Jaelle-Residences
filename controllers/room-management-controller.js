@@ -40,8 +40,7 @@ const roomManagementController = {
 		            end_date: {$gte: date},
 		            $or: [
                         //booked
-						{confirmed_reservation: {$exists: false}},
-		            	{confirmed_reservation: true},
+		            	{booked: true},
                         //checked in
                         {checked_in: true}
 					],
@@ -82,7 +81,7 @@ const roomManagementController = {
 							time: timeString
 						}
 
-						//loads the main booking page
+						//loads the room-management page
 						res.render('room-management', values);
 		        	} else {
 						res.redirect('/error');
@@ -95,8 +94,83 @@ const roomManagementController = {
     },
 
     getCheckInVacant: function (req, res) {
-        res.render('check-in-vacant');
-    }
+        let today = new Date();
+    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+        //find the information of the room given a roomID
+		db.findOne(Room, {_id: req.params.roomID}, function(result) {
+			if (result) {
+				//stores the room information and the current date into an object
+				let values = {
+					username: req.session.username,
+                    room: result,
+                    date: today
+                }
+				//loads the create booking page
+				res.render('check-in-vacant', values);
+			} else {
+				res.redirect('/error');
+			}
+		});
+    },
+
+    postCheckInVacant: function (req, res) {
+        // collect the guest information from post request
+        let guest = {
+            first_name: req.body.firstname,
+            last_name: req.body.lastname,
+            birthdate: req.body.birthdate,
+            address: req.body.address,
+            contact_number: req.body.contact,
+            company_name: req.body.company,
+            occupation: req.body.occupation
+        }
+
+        //create a new guest document in the database
+        db.insertOne(Guest, guest, function(guestResult){
+            if(guestResult) {
+				//collect the booking information from post request and set default values
+                let booking = {
+                    room: req.params.roomID,
+                    booked_type: req.body.room_type,
+                    guest: guestResult._id,
+                    employee: req.session.employeeID,
+                    start_date: new Date (),
+                    end_date: new Date(`${req.body.end_date} 12:00:00`),
+					reserved: false,
+					booked: false,
+					checked_in: true,
+                    is_cancelled: false
+                }
+
+                // create a new booking in the database
+                db.insertOne(Booking, booking, function(bookingResult){
+                    if(bookingResult) {
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activity_type: 'Check-In Without Reservation',
+                            timestamp: new Date()
+                        }
+
+                        //saves the action of the employee to an activity log
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after adding a record
+                                res.redirect(`/management/`);
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
+    },
 }
 
 module.exports = roomManagementController;
