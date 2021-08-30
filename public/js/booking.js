@@ -11,6 +11,7 @@ $(document).ready(function () {
 	$('#start-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -19,6 +20,7 @@ $(document).ready(function () {
 	$('#end-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -42,6 +44,7 @@ $(document).ready(function () {
 
 	$('#room-pax').change(function () {
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -78,7 +81,7 @@ $(document).ready(function () {
 	});
 
 	$('#room-extra').keyup(function () {
-		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -146,16 +149,6 @@ function computeInitialCost () {
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
 
-				pax = parseInt($('#room-pax').val());
-				if (!Number.isNaN(pax) && pax > result.max_pax) {
-					total = total + (pax - result.max_pax) * 400;
-				}
-
-				let extra = parseInt($('#room-extra').val());
-				if (extra) {
-					total = total + extra;
-				}
-
 				$('#duration').val(duration);
 				$('#room-initial-cost').val(total.toFixed(2));
 				$('#room-rate').val(rate.toFixed(2));
@@ -163,6 +156,38 @@ function computeInitialCost () {
 				$('#duration').val(0);
 				$('#room-initial-cost').val(0.00);
 				$('#room-rate').val(0.00);
+			}
+		}
+	});
+
+	jQuery.ajaxSetup({async: true});
+}
+
+function computeCharges () {
+
+	let roomID = $('#room-id').text();
+
+	jQuery.ajaxSetup({async: false});
+
+	$.get('/room', {roomID: roomID}, function(result) {
+		if (result) {
+			let total = parseInt($('#room-initial-cost').val());
+			let pax = parseInt($('#room-pax').val());
+			let extra = parseInt($('#room-extra').val());
+
+			if (total) {
+				let charges = 0;
+				if (!Number.isNaN(pax) && pax > result.max_pax) {
+					charges = charges + (pax - result.max_pax) * 400;
+				}
+
+				if (extra) {
+					charges = charges + extra;
+				}
+
+				$('#room-total-extra').val(charges);
+			} else {
+				$('#room-total-extra').val(0.00);
 			}
 		}
 	});
@@ -321,14 +346,20 @@ function computeDiscount () {
 
 function computeTotal () {
 	let total = parseInt($('#room-initial-cost').val());
+	let charges = parseInt($('#room-total-extra').val());
 	let discount = parseInt($('#room-subtract').val());
 
 	if (total) {
 		let net = total;
-		if (discount) {
-			net = total - discount;
+
+		if (charges) {
+			net = net + charges;
 		}
 
+		if (discount) {
+			net = net - discount;
+		}
+		
 		$('#room-net-cost').val(net.toFixed(2));
 	} else {
 		$('#room-net-cost').val(0.00);
@@ -526,6 +557,6 @@ function validateEntry () {
 	if(!isValid){
 		$('html, body').animate({ scrollTop: 0 }, 'slow');
 	}
-	
+
 	return isValid;
 }
