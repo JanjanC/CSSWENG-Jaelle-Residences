@@ -2,6 +2,10 @@ textarea {
     resize: none;
 }
 
+.text-discount {
+    color: #2DB766;
+}
+
 input[readonly=true]:hover {
     cursor: default;
 }
