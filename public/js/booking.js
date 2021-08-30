@@ -11,6 +11,7 @@ $(document).ready(function () {
 	$('#start-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -19,6 +20,7 @@ $(document).ready(function () {
 	$('#end-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -42,6 +44,7 @@ $(document).ready(function () {
 
 	$('#room-pax').change(function () {
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -78,7 +81,7 @@ $(document).ready(function () {
 	});
 
 	$('#room-extra').keyup(function () {
-		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -92,6 +95,7 @@ $(document).ready(function () {
 		updateForm();
 		checkAvailability();
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -221,16 +225,6 @@ function computeInitialCost () {
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
 
-				pax = parseInt($('#room-pax').val());
-				if (!Number.isNaN(pax) && pax > result.max_pax) {
-					total = total + (pax - result.max_pax) * 400;
-				}
-
-				let extra = parseInt($('#room-extra').val());
-				if (extra) {
-					total = total + extra;
-				}
-
 				$('#duration').val(duration);
 				$('#room-initial-cost').val(total.toFixed(2));
 				$('#room-rate').val(rate.toFixed(2));
@@ -245,23 +239,43 @@ function computeInitialCost () {
 	jQuery.ajaxSetup({async: true});
 }
 
+function computeCharges () {
+
+	let roomID = $('#room-id').text();
+
+	jQuery.ajaxSetup({async: false});
+
+	$.get('/room', {roomID: roomID}, function(result) {
+		if (result) {
+			let total = parseInt($('#room-initial-cost').val());
+			let pax = parseInt($('#room-pax').val());
+			let extra = parseInt($('#room-extra').val());
+
+			if (total) {
+				let charges = 0;
+				if (!Number.isNaN(pax) && pax > result.max_pax) {
+					charges = charges + (pax - result.max_pax) * 400;
+				}
+
+				if (extra) {
+					charges = charges + extra;
+				}
+
+				$('#room-total-extra').val(charges);
+			} else {
+				$('#room-total-extra').val(0.00);
+			}
+		}
+	});
+
+	jQuery.ajaxSetup({async: true});
+}
+
 function enableSenior () {
 	let senior = $('#is-senior').is(':checked');
 	$('#room-senior').prop('disabled', !senior);
 
-	if (senior) {
-		$('#is-discount-php').prop('checked', !senior);
-		$('#room-discount-reason-php').prop('disabled', senior);
-		$('#room-discount-reason-php').val('');
-		$('#room-discount-php').prop('disabled', senior);
-		$('#room-discount-php').val('');
-
-		$('#is-discount-percent').prop('checked', !senior);
-		$('#room-discount-reason-percent').prop('disabled', senior);
-		$('#room-discount-reason-percent').val('');
-		$('#room-discount-percent').prop('disabled', senior);
-		$('#room-discount-percent').val('');
-	} else {
+	if (!senior) {
 		$('#room-senior').val('');
 	}
 }
@@ -270,19 +284,7 @@ function enablePWD () {
 	let pwd = $('#is-pwd').is(':checked');
 	$('#room-pwd').prop('disabled', !pwd);
 
-	if (pwd) {
-		$('#is-discount-php').prop('checked', !pwd);
-		$('#room-discount-reason-php').prop('disabled', pwd);
-		$('#room-discount-reason-php').val('');
-		$('#room-discount-php').prop('disabled', pwd);
-		$('#room-discount-php').val('');
-
-		$('#is-discount-percent').prop('checked', !pwd);
-		$('#room-discount-reason-percent').prop('disabled', pwd);
-		$('#room-discount-reason-percent').val('');
-		$('#room-discount-percent').prop('disabled', pwd);
-		$('#room-discount-percent').val('');
-	} else {
+	if (!pwd) {
 		$('#room-pwd').val('');
 	}
 }
@@ -292,21 +294,7 @@ function enableDiscountPhp () {
 	$('#room-discount-reason-php').prop('disabled', !discountPhp);
 	$('#room-discount-php').prop('disabled', !discountPhp);
 
-	if (discountPhp) {
-		$('#is-senior').prop('checked', !discountPhp);
-		$('#room-senior').prop('disabled', discountPhp);
-		$('#room-senior').val('');
-
-		$('#is-pwd').prop('checked', !discountPhp);
-		$('#room-pwd').prop('disabled', discountPhp);
-		$('#room-pwd').val('');
-
-		$('#is-discount-percent').prop('checked', !discountPhp);
-		$('#room-discount-reason-percent').prop('disabled', discountPhp);
-		$('#room-discount-reason-percent').val('');
-		$('#room-discount-percent').prop('disabled', discountPhp);
-		$('#room-discount-percent').val('');
-	} else {
+	if (!discountPhp) {
 		$('#room-discount-reason-php').val('');
 		$('#room-discount-php').val('');
 	}
@@ -318,80 +306,83 @@ function enableDiscountPercent () {
 	$('#room-discount-reason-percent').prop('disabled', !discountPercent);
 	$('#room-discount-percent').prop('disabled', !discountPercent);
 
-	if (discountPercent) {
-		$('#is-senior').prop('checked', !discountPercent);
-		$('#room-senior').prop('disabled', discountPercent);
-		$('#room-senior').val('');
-
-		$('#is-pwd').prop('checked', !discountPercent);
-		$('#room-pwd').prop('disabled', discountPercent);
-		$('#room-pwd').val('');
-
-		$('#is-discount-php').prop('checked', !discountPercent);
-		$('#room-discount-reason-php').prop('disabled', discountPercent);
-		$('#room-discount-reason-php').val('');
-		$('#room-discount-php').prop('disabled', discountPercent);
-		$('#room-discount-php').val('');
-	} else {
+	if (!discountPercent) {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').val('');
 	}
 }
 
 function computeDiscount () {
-	let total = parseInt($('#room-initial-cost').val());
-	let senior = parseInt($('#room-senior').val());
-	let pwd = parseInt($('#room-pwd').val());
-	let additionalPhp = parseInt($('#room-discount-php').val());
-	let additionalPercent = parseInt($('#room-discount-percent').val())
-	let pax = parseInt($('#room-pax').val());
 
-	if (total) {
-		let count = 0
-		if (senior) {
-			count = count + senior;
-		}
+	let roomID = $('#room-id').text();
 
-		if (pwd) {
-			count = count + pwd;
-		}
+	jQuery.ajaxSetup({async: false});
 
-		let seniorPwdDiscount = 0;
-		if (pax) {
-			if (count > pax) {
-				count = pax;
+	$.get('/room', {roomID: roomID}, function(result) {
+		if (result) {
+			let total = parseInt($('#room-initial-cost').val());
+			let senior = parseInt($('#room-senior').val());
+			let pwd = parseInt($('#room-pwd').val());
+			let additionalPhp = parseInt($('#room-discount-php').val());
+			let additionalPercent = parseInt($('#room-discount-percent').val())
+			let pax = parseInt($('#room-pax').val());
+
+			if (total) {
+				let count = 0
+				if (senior) {
+					count = count + senior;
+				}
+
+				if (pwd) {
+					count = count + pwd;
+				}
+
+				let seniorPwdDiscount = 0;
+				if (count > result.max_pax) {
+					let seniorPwdPercent =  20;
+					seniorPwdDiscount = seniorPwdPercent / 100 * total;
+					seniorPwdDiscount = seniorPwdDiscount + (count - result.max_pax) * 0.20 * 400;
+				} else {
+					let seniorPwdPercent =  count / result.max_pax * 20;
+					seniorPwdDiscount = seniorPwdPercent / 100 * total;
+				}
+
+				let additionalPercentDiscount = 0;
+				if (additionalPercent) {
+					additionalPercentDiscount = additionalPercent / 100 * total;
+				}
+
+				let additionalPhpDiscount = 0;
+				if (additionalPhp) {
+					additionalPhpDiscount = additionalPhp;
+				}
+
+				let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
+
+				$('#room-subtract').val(discount.toFixed(2));
+			} else {
+				$('#room-subtract').val(0.00);
 			}
-
-			let seniorPwdPercent =  count / pax * 20;
-			seniorPwdDiscount = seniorPwdPercent / 100 * total;
 		}
+	});
 
-		let additionalPercentDiscount = 0;
-		if (additionalPercent) {
-			additionalPercentDiscount = additionalPercent / 100 * total;
-		}
-
-		let additionalPhpDiscount = 0;
-		if (additionalPhp) {
-			additionalPhpDiscount = additionalPhp;
-		}
-
-		let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
-
-		$('#room-subtract').val(discount.toFixed(2));
-	} else {
-		$('#room-subtract').val(0.00);
-	}
+	jQuery.ajaxSetup({async: true});
 }
 
 function computeTotal () {
 	let total = parseInt($('#room-initial-cost').val());
+	let charges = parseInt($('#room-total-extra').val());
 	let discount = parseInt($('#room-subtract').val());
 
 	if (total) {
 		let net = total;
+
+		if (charges) {
+			net = net + charges;
+		}
+
 		if (discount) {
-			net = total - discount;
+			net = net - discount;
 		}
 
 		$('#room-net-cost').val(net.toFixed(2));
@@ -478,7 +469,6 @@ function pushToArray(array, field, value){
 }
 
 function validateEntry () {
-
 	let isValid = true;
 
 	//get the date today in the format of YYYY-MM-DD
@@ -589,6 +579,10 @@ function validateEntry () {
 		isValid  = false;
 	} else {
 		$('#room-senior-error').text('');
+	}
+
+	if(!isValid){
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
 	}
 
 	return isValid;
