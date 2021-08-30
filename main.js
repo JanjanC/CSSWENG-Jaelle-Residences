@@ -21,7 +21,7 @@ app.on('ready', function() {
         // icon: "",
         show: false,
         webPreferences: {
-            devTools: false
+            devTools: true
         }
     });
 

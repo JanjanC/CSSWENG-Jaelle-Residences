@@ -101,7 +101,7 @@ const bookingController = {
 
 				let reservation = {
 		            //the current date is between the start date and end date of the reservation, inclusive
-					start_date: {$lte: date},
+					start_date: date,
  	               	end_date: {$gte: date},
 					booked_type: roomResult.room_type,
 		            reserved: true,

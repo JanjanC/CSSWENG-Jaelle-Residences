@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mocha Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <input type="text"  hidden id="reserve_type_select">
+    <input type="text"  hidden id="reserve-type-error">
+    <input type="text"  hidden id="start-date">
+    <input type="text"  hidden id="start-date-error">
+    <input type="text"  hidden id="end-date">
+    <input type="text"  hidden id="end-date-error">
+    <input type="text"  hidden id="firstname">
+    <input type="text"  hidden id="firstname-error">
+    <input type="text"  hidden id="lastname">
+    <input type="text"  hidden id="lastname-error">
+    <input type="text"  hidden id="birthdate">
+    <input type="text"  hidden id="birthdate-error">
+
+    <input type="text"  hidden id="room-id">
+    <input type="text"  hidden id="room-pax">
+    <input type="text"  hidden id="duration">
+    <input type="text"  hidden id="room-rate">
+    <input type="text"  hidden id="room-initial-cost">
+    <input type="text"  hidden id="room-senior">
+    <input type="text"  hidden id="room-pwd">
+    <input type="text"  hidden id="room-discount-php">
+    <input type="text"  hidden id="room-discount-percent">
+    <input type="text"  hidden id="room-subtract">
+    <input type="text"  hidden id="room-net-cost">
+    <input type="text"  hidden id="room-balance">
+    <input type="text"  hidden id="room-payment">
+
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+    <script class="mocha-init">
+      mocha.setup('bdd');
+      mocha.checkLeaks();
+      assert = chai.assert;
+    </script>
+    <script src="../public/js/jquery-3.4.1.min.js"></script>
+    <script src="../public/js/booking.js"></script>
+    <script src="book-script.test.js"></script>
+    
+    <script class="mocha-exec">
+      mocha.run();
+    </script>
+  </body>
+</html>
