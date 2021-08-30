@@ -91,8 +91,7 @@ $(document).ready(function () {
 	$('#reservation_select').change(function () {
 		updateForm();
 		checkAvailability();
-		computeRoomPrice();
-		computeCharges();
+		computeInitialCost();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
@@ -165,7 +164,7 @@ function updateForm () {
 	}
 }
 
-function computeRoomPrice () {
+function computeInitialCost () {
 	let roomID = $('#room-id').text();
 
 	jQuery.ajaxSetup({async: false});
@@ -602,6 +601,6 @@ function validateEntry () {
 	if(!isValid){
 		$('html, body').animate({ scrollTop: 0 }, 'slow');
 	}
-	
+
 	return isValid;
 }
