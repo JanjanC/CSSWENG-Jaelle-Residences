@@ -2,6 +2,10 @@ textarea {
     resize: none;
 }
 
+.text-discount {
+    color: #2DB766;
+}
+
 /*For removing the number arrows*/
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
