@@ -401,6 +401,7 @@ function pushToArray(array, field, value){
 }
 
 function validateEntry () {
+	$('html, body').animate({ scrollTop: 0 }, 'slow');
 
 	let isValid = true;
 
