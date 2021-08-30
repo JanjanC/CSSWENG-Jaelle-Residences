@@ -401,8 +401,6 @@ function pushToArray(array, field, value){
 }
 
 function validateEntry () {
-	$('html, body').animate({ scrollTop: 0 }, 'slow');
-
 	let isValid = true;
 
 	//get the date today in the format of YYYY-MM-DD
@@ -515,5 +513,9 @@ function validateEntry () {
 		$('#room-senior-error').text('');
 	}
 
+	if(!isValid){
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
+	}
+	
 	return isValid;
 }
