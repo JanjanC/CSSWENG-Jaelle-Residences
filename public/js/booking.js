@@ -95,6 +95,7 @@ $(document).ready(function () {
 		updateForm();
 		checkAvailability();
 		computeInitialCost();
+		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
