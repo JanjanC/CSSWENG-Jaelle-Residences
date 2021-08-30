@@ -264,49 +264,59 @@ function enableDiscountPercent () {
 }
 
 function computeDiscount () {
-	let total = parseInt($('#room-initial-cost').val());
-	let senior = parseInt($('#room-senior').val());
-	let pwd = parseInt($('#room-pwd').val());
-	let additionalPhp = parseInt($('#room-discount-php').val());
-	let additionalPercent = parseInt($('#room-discount-percent').val())
-	let pax = parseInt($('#room-pax').val());
 
-	if (total) {
-		let count = 0
-		if (senior) {
-			count = count + senior;
-		}
+	let roomID = $('#room-id').text();
 
-		if (pwd) {
-			count = count + pwd;
-		}
+	jQuery.ajaxSetup({async: false});
 
-		let seniorPwdDiscount = 0;
-		if (pax) {
-			if (count > pax) {
-				count = pax;
+	$.get('/room', {roomID: roomID}, function(result) {
+
+		let total = parseInt($('#room-initial-cost').val());
+		let senior = parseInt($('#room-senior').val());
+		let pwd = parseInt($('#room-pwd').val());
+		let additionalPhp = parseInt($('#room-discount-php').val());
+		let additionalPercent = parseInt($('#room-discount-percent').val())
+		let pax = parseInt($('#room-pax').val());
+
+		if (total) {
+			let count = 0
+			if (senior) {
+				count = count + senior;
 			}
 
-			let seniorPwdPercent =  count / pax * 20;
-			seniorPwdDiscount = seniorPwdPercent / 100 * total;
+			if (pwd) {
+				count = count + pwd;
+			}
+
+			let seniorPwdDiscount = 0;
+			if (count > result.max_pax) {
+				let seniorPwdPercent =  20;
+				seniorPwdDiscount = seniorPwdPercent / 100 * total;
+				seniorPwdDiscount = seniorPwdDiscount + (count - result.max_pax) * 0.20 * 400;
+			} else {
+				let seniorPwdPercent =  count / result.max_pax * 20;
+				seniorPwdDiscount = seniorPwdPercent / 100 * total;
+			}
+
+			let additionalPercentDiscount = 0;
+			if (additionalPercent) {
+				additionalPercentDiscount = additionalPercent / 100 * total;
+			}
+
+			let additionalPhpDiscount = 0;
+			if (additionalPhp) {
+				additionalPhpDiscount = additionalPhp;
+			}
+
+			let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
+
+			$('#room-subtract').val(discount.toFixed(2));
+		} else {
+			$('#room-subtract').val(0.00);
 		}
+	});
 
-		let additionalPercentDiscount = 0;
-		if (additionalPercent) {
-			additionalPercentDiscount = additionalPercent / 100 * total;
-		}
-
-		let additionalPhpDiscount = 0;
-		if (additionalPhp) {
-			additionalPhpDiscount = additionalPhp;
-		}
-
-		let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
-
-		$('#room-subtract').val(discount.toFixed(2));
-	} else {
-		$('#room-subtract').val(0.00);
-	}
+	jQuery.ajaxSetup({async: true});
 }
 
 function computeTotal () {
