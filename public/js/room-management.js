@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$('#booking-sidebar').addClass('active');
+	$('#nav-room').addClass('active');
 
 	$('#chosen-time').change(function (){
 		chooseTime();
