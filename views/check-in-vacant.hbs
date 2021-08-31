@@ -30,7 +30,16 @@
 
                 <br>
 
-            <form id="form-submit" class="" action="/management/{{room._id}}/checkin/vacant/reservation" method="post">
+            <form id="form-submit" class="" action="/management/{{room._id}}/checkin/vacant/reservation" submit = () method="post">
+
+                <script>
+                function submitForm () {
+                	if ($('#reservation_select').val()) {
+                		$('#form-submit').attr('action', `/management/${$('#room-id').text()}/checkin/vacant/booking`);
+                	}
+                	return true;
+                }
+                </script>
 
                 <div class="ps-2">
                     <h2 class="ms-3 text-primary">Reservation</h2>

@@ -55,6 +55,8 @@ app.get('/management/:roomID/checkin/vacant', roomManagementController.getCheckI
 
 app.post('/management/:roomID/checkin/vacant/reservation', roomManagementController.postCheckWithoutReservation);
 
+app.post('/management/:roomID/checkin/vacant/booking', roomManagementController.postCheckInWithoutBooking);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);
