@@ -94,20 +94,38 @@ const roomManagementController = {
     },
 
     getCheckInVacant: function (req, res) {
-        let today = new Date();
-    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 
         //find the information of the room given a roomID
-		db.findOne(Room, {_id: req.params.roomID}, function(result) {
-			if (result) {
-				//stores the room information and the current date into an object
-				let values = {
-					username: req.session.username,
-                    room: result,
-                    date: today
-                }
-				//loads the create booking page
-				res.render('check-in-vacant', values);
+		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+			if (roomResult) {
+                console.log(roomResult);
+                let today = new Date();
+            	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+                let reservation = {
+		            //the current date is between the start date and end date of the reservation, inclusive
+					start_date: todayString,
+ 	               	end_date: {$gte: todayString},
+					booked_type: roomResult.room_type,
+		            reserved: true,
+		            is_cancelled: false
+		        };
+
+                //find all the reservations such that the current date is between the start and end date of the reservation
+                db.findMany(Booking, reservation, function (reservationResult) {
+                    if (reservationResult) {
+                        let values = {
+    						username: req.session.username,
+    	                    room: roomResult,
+    						reservations: reservationResult,
+    	                    date: todayString
+    	                }
+                        //loads the create check in page
+        				res.render('check-in-vacant', values);
+                    } else {
+                        res.redirect('/error');
+                    }
+				}, 'guest');
 			} else {
 				res.redirect('/error');
 			}
