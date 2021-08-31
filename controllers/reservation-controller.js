@@ -135,6 +135,7 @@ const reservationController = {
 
                     if (reservationResult) {
                         let values = {
+                            username: req.session.username,
                             room_types: roomResult,
                             reservation: reservationResult
                         }
