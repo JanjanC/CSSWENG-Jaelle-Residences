@@ -114,7 +114,7 @@ const roomManagementController = {
 		});
     },
 
-    postCheckInVacant: function (req, res) {
+    postCheckWithoutReservation: function (req, res) {
         // collect the guest information from post request
         let guest = {
             first_name: req.body.firstname,
