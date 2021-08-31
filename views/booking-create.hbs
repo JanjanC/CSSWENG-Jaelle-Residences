@@ -30,8 +30,17 @@
 
                 <br>
 
-            <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
+            <form id="form-submit" class="" action="/booking/{{room._id}}/create" submit=submitForm() method="post">
 
+                <script>
+                function submitForm () {
+                	if ($('#reservation_select').val()) {
+                		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
+                	}
+                	return true;
+                }
+                </script>
+                
                 <div class="ps-2">
                         <!--NOTE:
                         THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
