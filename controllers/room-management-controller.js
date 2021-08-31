@@ -189,6 +189,60 @@ const roomManagementController = {
             }
         });
     },
+
+    postCheckInWithoutBooking: function (req, res) {
+        let reservation = {
+            $set: {
+				//assign the guest to a room
+				room: req.params.roomID,
+				start_date: new Date (),
+                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				//check in the guest
+				checked_in: true
+            }
+        }
+		//confirm the reservation, assign the guest to a room, and update the booking dates
+		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+
+			if (bookingResult) {
+				let guest = {
+		            first_name: req.body.firstname,
+		            last_name: req.body.lastname,
+		            birthdate: req.body.birthdate,
+		            address: req.body.address,
+		            contact_number: req.body.contact,
+		            company_name: req.body.company,
+		            occupation: req.body.occupation
+		        }
+				//update the information of the guest
+				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+					if (guestResult) {
+
+						let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activity_type: 'Check-In Without Booking',
+                            timestamp: new Date()
+                        }
+						//saves the action of the employee to an activity log
+						db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to booking screen after adding a record
+                                res.redirect(`/management`);
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+					} else {
+						res.redirect('/error');
+					}
+				});
+			} else {
+				res.redirect('/error');
+			}
+
+		});
+    }
 }
 
 module.exports = roomManagementController;
