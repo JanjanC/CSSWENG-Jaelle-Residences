@@ -41,7 +41,7 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-.deleteModalItem {
+.deleteModalItem, .checkinModalItem {
     z-index: 1060;
 }
 
