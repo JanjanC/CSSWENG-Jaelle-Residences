@@ -121,7 +121,7 @@ function computeInitialCost () {
 				let remaining = duration;
 				let pax = parseInt($('#room-pax').val());
 
-				if (result.room_rate.monthly) {
+				if (result.room_rate.monthly[0]) {
 					if (Number.isNaN(pax) || pax <= 0) {
 						pax = 1;
 					}
