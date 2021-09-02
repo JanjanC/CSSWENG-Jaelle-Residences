@@ -516,6 +516,9 @@ function validateEntry () {
 		else if($('#birthdate-error').text() != ''){
 			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
 		}
+		else if($('#contact-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
+		}
 		else if($('#end-date-error').text() != ''){
 			$('html, body').animate({scrollTop: $('#end-date').offset().top - 118}, 'slow');
 		}
