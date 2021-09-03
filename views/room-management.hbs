@@ -211,12 +211,12 @@
 									<div class="modal-footer">
 										<!-- Delete Form -->
 										<!-- Button trigger modal -->
-										<button id="delete" name="delete" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
+										<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
 											<span class="material-icons-outlined me-1">delete</span>Delete
 										</button>
 
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-										<button id="checkin" name="checkin" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkin-{{room._id}}-Modal">
+										<button id="checkin-{{booking._id}}" name="checkin_{{booking._id}}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkin-{{room._id}}-Modal">
 											<span class="material-icons-outlined me-1">library_add_check</span>Check-in
 										</button>
 
@@ -238,7 +238,7 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Return</button>
-										<form id="form-delete" class="m-0 p-1" action="/booking/{{booking._id}}/delete" method="post">
+										<form id="form-delete-{{booking._id}}" class="m-0 p-1" action="/booking/{{booking._id}}/delete" method="post">
 											<button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
 										</form>
 									</div>
