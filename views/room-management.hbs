@@ -113,7 +113,36 @@
 										</div>
 									</div>
 									<div class="modal-footer">
+										<!-- Delete Form -->
+										<!-- Button trigger modal -->
+										<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
+											<span class="material-icons-outlined me-1">delete</span>Delete
+										</button>
+
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<a href="/booking/{{booking._id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+						<div class="modal fade deleteModalItem" id="delete-{{room._id}}-Modal" tabindex="-1" aria-labelledby="delete-{{room._id}}-ModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h3 class="modal-title" id="delete-{{room._id}}-ModalLabel">Delete Booking</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body p-4">
+										<p class="text-danger">WARNING: Changes cannot be undone once the <strong>Delete</strong> button has been pressed.</p>
+										<p>Are you sure you want to <strong>permanently delete</strong> this booking with the following information?</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Return</button>
+										<form id="form-delete-{{booking._id}}" class="m-0 p-1" action="/booking/{{booking._id}}/delete" method="post">
+											<button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -240,7 +269,7 @@
 						</div>
 					</div>
 					<!--BOOKED END-->
-					
+
 					{{else}}
 					<!--VACANT-->
 					<div class="room-container col-2 p-0 m-0 border vacant">
