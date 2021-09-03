@@ -23,11 +23,15 @@ var RoomSchema = new mongoose.Schema({
         },
 
         weekly: {
-            type: Number
+            type: Number,
+            required: true,
+            default: 0
         },
 
         monthly: {
             type: [Number],
+            required: true,
+            default: [0]
         }
     },
 

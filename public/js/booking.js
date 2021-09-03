@@ -197,7 +197,7 @@ function computeInitialCost () {
 				let remaining = duration;
 				let pax = parseInt($('#room-pax').val());
 
-				if (result.room_rate.monthly) {
+				if (result.room_rate.monthly[0]) {
 					if (Number.isNaN(pax) || pax <= 0) {
 						pax = 1;
 					}
@@ -582,7 +582,24 @@ function validateEntry () {
 	}
 
 	if(!isValid){
-		$('html, body').animate({ scrollTop: 0 }, 'slow');
+		if($('#firstname-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#firstname').offset().top - 118}, 'slow');
+		}
+		else if($('#lastname-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#lastname').offset().top - 118}, 'slow');
+		}
+		else if($('#start-date-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#start-date').offset().top - 118}, 'slow');
+		}
+		else if($('#birthdate-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
+		}
+		else if($('#contact-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
+		}
+		else if($('#end-date-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#end-date').offset().top - 118}, 'slow');
+		}
 	}
 
 	return isValid;
