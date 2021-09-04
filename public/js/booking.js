@@ -121,7 +121,7 @@ function computeInitialCost () {
 				let remaining = duration;
 				let pax = parseInt($('#room-pax').val());
 
-				if (result.room_rate.monthly[0]) {
+				if (remaining >= 30 && result.room_rate.monthly[0]) {
 					if (Number.isNaN(pax) || pax <= 0) {
 						pax = 1;
 					}
@@ -135,17 +135,24 @@ function computeInitialCost () {
 					remaining = remaining % 30;
 				}
 
-				if (result.room_rate.weekly) {
+				if (remaining >= 7 && result.room_rate.weekly) {
 					weeklyRate = result.room_rate.weekly;
-					weeks = remaining;
+					weeks = remaining / 7;
 					remaining = remaining - remaining;
 				}
 
-				if (result.room_rate.daily) {
+				if (remaining >= 1 && result.room_rate.daily) {
 					dailyRate = result.room_rate.daily;
 					days = remaining;
 					remaining = remaining - remaining;
 				}
+
+				console.log(monthlyRate);
+				console.log(months);
+				console.log(weeklyRate);
+				console.log(weeks);
+				console.log(dailyRate);
+				console.log(days);
 
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
