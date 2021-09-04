@@ -1,4 +1,10 @@
 $(document).ready(function () {
+	computeInitialCost();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
+
 	//onclick event of the button with an id of 'submit'
 	$('#submit').click(function() {
 		return validateEntry();
@@ -28,18 +34,30 @@ $(document).ready(function () {
 
 	$('#is-pwd').change(function () {
 		enablePWD();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#is-senior').change(function () {
 		enableSenior();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#is-discount-php').change(function () {
 		enableDiscountPhp();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#is-discount-percent').change(function () {
 		enableDiscountPercent();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#room-pax').change(function () {
@@ -179,7 +197,7 @@ function computeInitialCost () {
 			let startDate = new Date($('#start-date').val()).getTime();
 			let endDate = new Date($('#end-date').val()).getTime();
 
-			if (startDate && endDate && endDate - startDate >= 0) {
+			if (startDate && endDate && endDate - startDate > 0) {
 
 				let duration = Math.round(Math.abs((endDate - startDate) / time));
 				let months = 0;
@@ -197,7 +215,7 @@ function computeInitialCost () {
 				let remaining = duration;
 				let pax = parseInt($('#room-pax').val());
 
-				if (result.room_rate.monthly[0]) {
+				if (remaining >= 30 && result.room_rate.monthly[0]) {
 					if (Number.isNaN(pax) || pax <= 0) {
 						pax = 1;
 					}
@@ -211,15 +229,16 @@ function computeInitialCost () {
 					remaining = remaining % 30;
 				}
 
-				if (result.room_rate.weekly) {
+				if (remaining >= 7 && result.room_rate.weekly) {
 					weeklyRate = result.room_rate.weekly;
-					weeks = Math.floor(remaining / 7);
-					remaining = remaining % 7;
+					weeks = remaining / 7;
+					remaining = remaining - remaining;
 				}
 
-				if (result.room_rate.daily) {
+				if (remaining >= 1 && result.room_rate.daily) {
 					dailyRate = result.room_rate.daily;
 					days = remaining;
+					remaining = remaining - remaining;
 				}
 
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
@@ -502,6 +521,9 @@ function validateEntry () {
 	// the end date is earlier than the start date
 	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 		$('#end-date-error').text('End Date cannot be earlier than Start Date');
+		isValid = false;
+	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
+		$('#end-date-error').text('End Date cannot the same as Start Date');
 		isValid = false;
 	} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
 		$('#end-date-error').text('End Date may only be 5 Years from Today');
