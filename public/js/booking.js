@@ -28,18 +28,30 @@ $(document).ready(function () {
 
 	$('#is-pwd').change(function () {
 		enablePWD();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#is-senior').change(function () {
 		enableSenior();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#is-discount-php').change(function () {
 		enableDiscountPhp();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#is-discount-percent').change(function () {
 		enableDiscountPercent();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	});
 
 	$('#room-pax').change(function () {
@@ -146,13 +158,6 @@ function computeInitialCost () {
 					days = remaining;
 					remaining = remaining - remaining;
 				}
-
-				console.log(monthlyRate);
-				console.log(months);
-				console.log(weeklyRate);
-				console.log(weeks);
-				console.log(dailyRate);
-				console.log(days);
 
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 				let rate = total / duration;
