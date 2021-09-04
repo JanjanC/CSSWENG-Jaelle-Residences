@@ -1,4 +1,10 @@
 $(document).ready(function () {
+	computeInitialCost();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
+
 	//onclick event of the button with an id of 'submit'
 	$('#submit').click(function() {
 		return validateEntry();
