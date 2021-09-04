@@ -41,13 +41,11 @@ const reservationController = {
                         previous.reservations.push(result[i]);
                     }
                 }
-
-                let values = {
+                values = {
                     username: req.session.username,
-                    date: date,
-                    list: list
+                    list: list,
+                    date: date
                 }
-
                 res.render('reservation-main', values);
             } else {
                 res.redirect('/error');
@@ -229,11 +227,10 @@ const reservationController = {
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-                        // redirects to home screen after deleting a record
-                        let today = new Date();
-                    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+                        let startDate = new Date(reservationResult.start_date);
+                        let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
-                        res.redirect(`/${todayString}/reservation/`);
+                        res.redirect(`/${startDateString}/reservation/`);
                     } else {
                         res.redirect('/error');
                     }
