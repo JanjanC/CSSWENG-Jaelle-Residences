@@ -10,11 +10,11 @@ const roomManagementController = {
 
         let today = new Date();
 		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
-		let timeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
+		let timeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`;
 
 		//there is a given time
 		if (req.query.time !== undefined) {
-			timeString = `${req.query.time}:00`;
+			timeString = `${req.query.time}:59`;
 		}
 
         let date = new Date(`${dateString} ${timeString}`);
