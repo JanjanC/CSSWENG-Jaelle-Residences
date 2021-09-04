@@ -137,13 +137,14 @@ function computeInitialCost () {
 
 				if (result.room_rate.weekly) {
 					weeklyRate = result.room_rate.weekly;
-					weeks = Math.floor(remaining / 7);
-					remaining = remaining % 7;
+					weeks = remaining;
+					remaining = remaining - remaining;
 				}
 
 				if (result.room_rate.daily) {
 					dailyRate = result.room_rate.daily;
 					days = remaining;
+					remaining = remaining - remaining;
 				}
 
 				let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
