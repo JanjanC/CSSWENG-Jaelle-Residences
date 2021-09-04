@@ -62,7 +62,7 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" {{#isPastDate start_date}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate start_date}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate start_date}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate start_date}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -76,7 +76,7 @@
                             <!-- End Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" id="end-date" name="end_date" value="{{formatDate end_date}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date" value="{{formatDate end_date}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                 <!--Birthday-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Birthdate</label>
-                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{birthdate}}">
+                                    <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{birthdate}}">
                                     <em><p class="error text-danger" id="birthdate-error"></p></em>
                                 </div>
 
@@ -123,6 +123,7 @@
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Contact No.</label>
                                     <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{guest.contact_number}}">
+                                    <em><p class="error text-danger" id="contact-error"></p></em>
                                 </div>
 
                                 <!--Company's Name-->
