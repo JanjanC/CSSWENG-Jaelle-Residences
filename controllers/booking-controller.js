@@ -42,7 +42,13 @@ const bookingController = {
 					//the current date is between the start date and end date of the booking, inclusive
 		            start_date: {$lte: date},
 		            end_date: {$gte: date},
-					booked: true,
+					$or: [
+                        //booked
+		            	{booked: true},
+                        //checked in
+                        {checked_in: true}
+					],
+					checked_out: false,
 					is_cancelled: false
 		        };
 
@@ -105,6 +111,9 @@ const bookingController = {
  	               	end_date: {$gte: date},
 					booked_type: roomResult.room_type,
 		            reserved: true,
+					booked: false,
+					checked_in: false,
+					checked_out: false,
 		            is_cancelled: false
 		        };
 				//find all the reservations such that the current date is between the start and end date of the reservation
@@ -147,10 +156,7 @@ const bookingController = {
                     employee: req.session.employeeID,
                     start_date: new Date (`${req.body.start_date} 14:00:00`),
                     end_date: new Date(`${req.body.end_date} 12:00:00`),
-					reserved: false,
-					booked: true,
-					checked_in: false,
-                    is_cancelled: false
+					booked: true
                 }
 
                 // create a new booking in the database
@@ -206,6 +212,7 @@ const bookingController = {
 						{booked: true},
 						{checked_in: true}
 					]},
+					{checked_out: false},
 					{is_cancelled: false}
 				]},
 				// cases to check for existing bookings
