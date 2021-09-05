@@ -44,6 +44,7 @@ const roomManagementController = {
                         //checked in
                         {checked_in: true}
 					],
+                    checked_out: false,
 					is_cancelled: false,
 		        };
 
