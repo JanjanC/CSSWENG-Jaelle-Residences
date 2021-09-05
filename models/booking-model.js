@@ -49,24 +49,36 @@ var BookingSchema = new mongoose.Schema({
     // signifies whether it is a reservation or not
     reserved: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
 
     // signifies whether it is a booking or not
     booked: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
 
     // signifies whether the guest has checked in or not
     checked_in: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
 
+    // signifies whether the guest has checked out or not
+    checked_out: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+
+    // signifies whether the booking has been cancelled or not
     is_cancelled: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     }
 
 });

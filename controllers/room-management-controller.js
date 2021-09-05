@@ -44,6 +44,7 @@ const roomManagementController = {
                         //checked in
                         {checked_in: true}
 					],
+                    checked_out: false,
 					is_cancelled: false,
 		        };
 
@@ -132,7 +133,7 @@ const roomManagementController = {
 		});
     },
 
-    postCheckWithoutReservation: function (req, res) {
+    postCheckInWithoutReservation: function (req, res) {
         // collect the guest information from post request
         let guest = {
             first_name: req.body.firstname,
@@ -155,10 +156,7 @@ const roomManagementController = {
                     employee: req.session.employeeID,
                     start_date: new Date (),
                     end_date: new Date(`${req.body.end_date} 12:00:00`),
-					reserved: false,
-					booked: false,
-					checked_in: true,
-                    is_cancelled: false
+					checked_in: true
                 }
 
                 // create a new booking in the database

@@ -18,6 +18,7 @@ const reservationController = {
             reserved: true,
             booked: false,
             checked_in: false,
+            checked_out: false,
             is_cancelled: false
         };
 
@@ -93,10 +94,7 @@ const reservationController = {
                     employee: req.session.employeeID,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
-                    reserved: true,
-                    booked: false,
-                    checked_in: false,
-                    is_cancelled: false
+                    reserved: true
                 }
 
                 // create a new reservation in the database
