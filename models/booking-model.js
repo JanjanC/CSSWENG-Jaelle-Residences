@@ -67,12 +67,14 @@ var BookingSchema = new mongoose.Schema({
         default: false
     },
 
+    // signifies whether the guest has checked out or not
     checked_out: {
         type: Boolean,
         required: true,
         default: false
     },
 
+    // signifies whether the booking has been cancelled or not
     is_cancelled: {
         type: Boolean,
         required: true,
