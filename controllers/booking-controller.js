@@ -389,10 +389,10 @@ const bookingController = {
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-                        let today = new Date();
-                    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+						let startDate = new Date(bookingResult.start_date);
+                        let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
-                        res.redirect(`/${todayString}/booking/`);
+                        res.redirect(`/${startDateString}/booking/`);
                     } else {
                         res.redirect('/error');
                     }
