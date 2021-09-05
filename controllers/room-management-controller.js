@@ -108,7 +108,10 @@ const roomManagementController = {
 					start_date: todayString,
  	               	end_date: {$gte: todayString},
 					booked_type: roomResult.room_type,
-		            reserved: true,
+                    reserved: true,
+					booked: false,
+					checked_in: false,
+					checked_out: false,
 		            is_cancelled: false
 		        };
 
