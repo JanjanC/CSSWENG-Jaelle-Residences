@@ -60,6 +60,14 @@ var BookingSchema = new mongoose.Schema({
     is_cancelled: {
         type: Boolean,
         required: true
+    },
+
+    pax: {
+        type: Number
+    },
+
+    payment: {
+        type: Number
     }
 
 });

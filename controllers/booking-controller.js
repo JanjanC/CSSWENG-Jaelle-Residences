@@ -154,7 +154,9 @@ const bookingController = {
                     start_date: new Date (`${req.body.start_date} 14:00:00`),
                     end_date: new Date(`${req.body.end_date} 12:00:00`),
 					checked_in: false,
-                    is_cancelled: false
+                    is_cancelled: false,
+					pax: req.body.room_pax,
+					payment: req.body.room_payment
                 }
 
                 // create a new booking in the database
@@ -256,7 +258,9 @@ const bookingController = {
 				start_date: new Date (`${req.body.start_date} 14:00:00`),
                 end_date: new Date(`${req.body.end_date} 12:00:00`),
 				//confirm the reservation
-				confirmed_reservation: true
+				confirmed_reservation: true,
+				pax: req.body.room_pax,
+				payment: req.body.room_payment
             }
         }
 		//confirm the reservation, assign the guest to a room, and update the booking dates
