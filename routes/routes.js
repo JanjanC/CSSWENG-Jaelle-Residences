@@ -8,7 +8,8 @@ const roomManagementController = require('../controllers/room-management-control
 
 const app = express.Router();
 
-app.get('/', signInController.getSignIn);
+// app.get('/', signInController.getSignIn);
+app.get('/', signInController.getIndex);
 
 app.post('/sign-in', signInController.postSignIn);
 
@@ -60,6 +61,9 @@ app.post('/management/:roomID/checkin/vacant/booking', roomManagementController.
 app.post('/management/:bookingID/checkin', roomManagementController.postCheckIn);
 
 app.post('/management/:bookingID/checkout', roomManagementController.postCheckOut);
+
+// TODO: make this POST when basic functionality is working
+app.get('/booking/:bookingID/print', bookingController.postPrintReceipt);
 
 app.get(`/error`, errorController.getError);
 
