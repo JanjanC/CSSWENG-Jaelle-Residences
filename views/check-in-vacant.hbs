@@ -25,7 +25,7 @@
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">Check-in Guest</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where booking forms for vacant rooms are to be accomplished.</p>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where forms for checking-in guests are to be accomplished.</p>
                 </div>
 
                 <br>
@@ -42,7 +42,7 @@
                 </script>
 
                 <div class="ps-2">
-                    <h2 class="ms-3 text-primary">Reservation</h2>
+                    <h2 class="ms-3 text-primary">Add From Reservation</h2>
                     <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
                     <div class="form-group ms-4 mb-3">
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
@@ -255,7 +255,7 @@
 
                             <!--Extras-->
                             <div class="form-group mb-3 text-end">
-                                <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Total additional charges that would be added to the cost">Extra Charges</label>
+                                <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Extra additional charges that would be added to the cost">Extra Charges</label>
                                 <div class="input-group w-75 ms-auto">
                                     <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-extra" name="room_extra" class="form-control" enabled>
                                     <span class="input-group-text">Php</span>
@@ -264,7 +264,7 @@
 
                             <!--Total Charges-->
                             <div class="form-group mb-3 text-end text-primary">
-                                <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Total cost after the extra charges and discounts were applied">Total Extra Charges</label>
+                                <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Total extra additional charges that would be added to the cost">Total Extra Charges</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
                                     <input type="number" readonly="true" id="room-total-extra" name="room_total_extra" class="form-control" disabled>
                                     <span class="input-group-text">Php</span>
