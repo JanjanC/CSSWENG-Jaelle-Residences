@@ -179,7 +179,7 @@
                                     <!--Number of Guests-->
                                     <div class="form-group mb-3">
                                         <label class="h5 text-discount" data-bs-toggle="tooltip" data-bs-placement="right" title="(Required) the total intended number of guest/s staying in the room">Number of Pax/Guests <span class="text-danger">*</span></label>
-                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
+                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax" value="{{pax}}">
                                         <em><p class="error text-danger" id="room-pax-error"></p></em>
                                     </div>
 
@@ -273,7 +273,7 @@
                                     <div class="form-group mb-3 text-end text-primary mt-5">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid"><span class="text-danger">* </span>Customer Payment</label>
                                         <div class="input-group mb-3 w-75 ms-auto">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control" value="{{payment}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <em><p class="error text-danger" id="room-payment-error"></p></em>

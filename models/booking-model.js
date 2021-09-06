@@ -79,6 +79,16 @@ var BookingSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+
+    // the number of guest in the booking
+    pax: {
+        type: Number
+    },
+
+    // the amount by the customer for the booking
+    payment: {
+        type: Number
     }
 
 });
