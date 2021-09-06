@@ -24,8 +24,8 @@
         <div id="main-screen" class="col-10 mx-auto">
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
-                    <h1 class="m-0">Booking Vacant</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where booking forms for vacant rooms are to be accomplished.</p>
+                    <h1 class="m-0">Create Booking</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where booking forms for vacant rooms are accomplished and created.</p>
                 </div>
 
                 <br>
@@ -35,9 +35,9 @@
                     THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
                     CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
                 -->
-                <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Reservation</h2>
+                <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Add From Reservation</h2>
                 <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
-                <div class="form-group ms-4 mb-3">
+                <div class="form-group ms-4 mb-5">
                     <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
                         <option value="" disabled selected>(Optional) Select a reservation</option>
                         <option value="">
@@ -45,6 +45,7 @@
                         </option>
                     </select>
                 </div>
+                <h2 class="ms-3 mt-5 mb-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Create New Booking</h2>
             </div>
 
             <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
