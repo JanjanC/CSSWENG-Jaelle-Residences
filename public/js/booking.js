@@ -459,6 +459,9 @@ function checkAvailability () {
 				$('#book').prop('disabled', true);
 			}
 		});
+	} else {
+		$('#end-date-error').text('');
+		$('#book').prop('disabled', false);
 	}
 }
 
