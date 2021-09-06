@@ -3,6 +3,7 @@ const Activity = require('../models/activity-model.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
+const Receipt = require('../models/receipt-model');
 const mongoose = require('mongoose');
 
 const bookingController = {
@@ -404,6 +405,20 @@ const bookingController = {
                 res.redirect('/error');
             }
         });
+	},
+
+	postPrintReceipt: function(req, res){
+		console.log("IN CONTROLLER " + req.params.bookingID);
+		db.findOne(Receipt, {booking_id: req.params.bookingID}, function(result){
+			console.log("IN FIND");
+			if(result){
+				console.log("RESULT FOUND");
+				renderObj = {
+					renderDetails: JSON.stringify(result.breakdown)
+				}
+				res.render('print', renderObj);
+			}
+		})
 	}
 
 }
