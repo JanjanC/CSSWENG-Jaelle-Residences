@@ -496,6 +496,7 @@ function validateEntry () {
 				isValid = false;
 			} else if ($('#duration').val() != '' && parseInt($('#duration').val()) >= 30 && result.room_rate.monthly[0] && parseInt($('#room-pax').val()) > result.max_pax) {
 				$('#room-pax-error').text(`Number of Guests cannot exeeed ${result.max_pax} for Monthly Bookings`);
+				isValid = false;
 			} else {
 				$('#room-pax-error').text('');
 			}
