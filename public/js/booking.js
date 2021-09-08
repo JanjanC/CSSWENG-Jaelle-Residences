@@ -322,6 +322,10 @@ function computeTotal () {
 			net = net - discount;
 		}
 
+		if (net < 0) {
+			net = 0;
+		}
+		
 		$('#room-net-cost').val(net.toFixed(2));
 	} else {
 		$('#room-net-cost').val(0.00);
