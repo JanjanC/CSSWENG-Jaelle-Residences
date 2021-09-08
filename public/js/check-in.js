@@ -527,7 +527,7 @@ function validateEntry () {
 			} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 				$('#end-date-error').text('End Date cannot be earlier than Start Date');
 				isValid = false;
-			} else if ($('#start-date').val() != '' && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
+			} else if ($('#start-date').val() != '' && new Date().getHours() >= 4 && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
 				$('#end-date-error').text('End Date cannot the same as Start Date');
 				isValid = false;
 			} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
