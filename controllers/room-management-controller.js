@@ -10,14 +10,15 @@ const roomManagementController = {
 
         let today = new Date();
 		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
-		let timeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`;
-
+		let hourMinuteString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
+        let fullTimeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`
 		//there is a given time
 		if (req.query.time !== undefined) {
-			timeString = `${req.query.time}:59`;
+            hourMinuteString = `${req.query.time}:00`
+			fullTimeString = `${req.query.time}:59`;
 		}
 
-        let date = new Date(`${dateString} ${timeString}`);
+        let date = new Date(`${dateString} ${fullTimeString}`);
 
         //find all the rooms in the database
 		db.findMany(Room, {}, function (roomResult) {
@@ -79,7 +80,7 @@ const roomManagementController = {
 							username: req.session.username,
 							list: list,
 							date: dateString,
-							time: timeString
+							time: hourMinuteString
 						}
 
 						//loads the room-management page
