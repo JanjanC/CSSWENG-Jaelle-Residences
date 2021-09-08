@@ -30,16 +30,7 @@
 
                 <br>
 
-            <form id="form-submit" class="" action="/booking/{{room._id}}/create" submit=submitForm() method="post">
-
-                <script>
-                function submitForm () {
-                	if ($('#reservation_select').val()) {
-                		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
-                	}
-                	return true;
-                }
-                </script>
+            <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
                 
                 <div class="ps-2">
                         <!--NOTE:

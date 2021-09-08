@@ -118,7 +118,18 @@ $(document).ready(function () {
 		computeTotal();
 		computeBalance();
 	});
+
+	$('#form-submit').submit(function () {
+		submitForm();
+	});
 });
+
+function submitForm () {
+	if ($('#reservation_select').val()) {
+		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
+	}
+	return true;
+}
 
 function updateForm () {
 	let reservationID = $('#reservation_select').val();
