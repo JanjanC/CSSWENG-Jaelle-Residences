@@ -339,75 +339,75 @@ function computeDiscount () {
 	getRoomInfo();
 
 	if (roomInfo) {
-	    let total = parseInt($('#room-initial-cost').val());
-	    let senior = parseInt($('#room-senior').val());
-	    let pwd = parseInt($('#room-pwd').val());
-	    let additionalPhp = parseInt($('#room-discount-php').val());
-	    let additionalPercent = parseInt($('#room-discount-percent').val());
-	    let duration = parseInt($('#duration').val());
-	    let pax = parseInt($('#room-pax').val());
+		let total = parseInt($('#room-initial-cost').val());
+		let senior = parseInt($('#room-senior').val());
+		let pwd = parseInt($('#room-pwd').val());
+		let additionalPhp = parseInt($('#room-discount-php').val());
+		let additionalPercent = parseInt($('#room-discount-percent').val());
+		let duration = parseInt($('#duration').val());
+		let pax = parseInt($('#room-pax').val());
 
-	    if (total) {
-	        let count = 0
-	        if (senior) {
-	            count = count + senior;
-	        }
+		if (total) {
+			let count = 0
+			if (senior) {
+				count = count + senior;
+			}
 
-	        if (pwd) {
-	            count = count + pwd;
-	        }
+			if (pwd) {
+				count = count + pwd;
+			}
 
-	        let seniorPwdDiscount = 0;
-	        //the max pax is set to the room max pax by default
-	        let roomMaxPax = roomInfo.max_pax;
+			let seniorPwdDiscount = 0;
+			//the max pax is set to the room max pax by default
+			let roomMaxPax = roomInfo.max_pax;
 
-	        //determine if monthly max pax is applicable
-	        if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
-	            if (pax > roomInfo.room_rate.monthly.length) {
-	                roomMaxPax = roomInfo.room_rate.monthly.length;
-	            } else {
-	                let rate = roomInfo.room_rate.monthly[pax - 1];
-	                for (let i = pax; i <= roomInfo.room_rate.monthly.length; i++) {
-	                    if (roomInfo.room_rate.monthly[i - 1] == rate) {
-	                        roomMaxPax = i;
-	                    } else {
-	                        break;
-	                    }
-	                }
-	            }
-	        }
+			//determine if monthly max pax is applicable
+			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
+				if (pax > roomInfo.room_rate.monthly.length) {
+					roomMaxPax = roomInfo.room_rate.monthly.length;
+				} else {
+					let rate = roomInfo.room_rate.monthly[pax - 1];
+					for (let i = pax; i <= roomInfo.room_rate.monthly.length; i++) {
+						if (roomInfo.room_rate.monthly[i - 1] == rate) {
+							roomMaxPax = i;
+						} else {
+							break;
+						}
+					}
+				}
+			}
 
-	        //number of senior and pwd is greater than max pax for the room
-	        if (count > roomMaxPax) {
-	            let seniorPwdPercent =  20;
-	            seniorPwdDiscount = seniorPwdPercent / 100 * total;
-	            seniorPwdDiscount = seniorPwdDiscount + (count - roomMaxPax) * 0.20 * 400;
-	        } else {
-	            let minDenominator = roomMaxPax;
-	            if (!Number.isNaN(pax)) {
-	                minDenominator = Math.min(roomMaxPax, pax);
-	            }
+			//number of senior and pwd is greater than max pax for the room
+			if (count > roomMaxPax) {
+				let seniorPwdPercent =  20;
+				seniorPwdDiscount = seniorPwdPercent / 100 * total;
+				seniorPwdDiscount = seniorPwdDiscount + (count - roomMaxPax) * 0.20 * 400;
+			} else {
+				let minDenominator = roomMaxPax;
+				if (!Number.isNaN(pax)) {
+					minDenominator = Math.min(roomMaxPax, pax);
+				}
 
-	            let seniorPwdPercent =  count / minDenominator * 20;
-	            seniorPwdDiscount = seniorPwdPercent / 100 * total;
-	        }
+				let seniorPwdPercent =  count / minDenominator * 20;
+				seniorPwdDiscount = seniorPwdPercent / 100 * total;
+			}
 
-	        let additionalPercentDiscount = 0;
-	        if (additionalPercent) {
-	            additionalPercentDiscount = additionalPercent / 100 * total;
-	        }
+			let additionalPercentDiscount = 0;
+			if (additionalPercent) {
+				additionalPercentDiscount = additionalPercent / 100 * total;
+			}
 
-	        let additionalPhpDiscount = 0;
-	        if (additionalPhp) {
-	            additionalPhpDiscount = additionalPhp;
-	        }
+			let additionalPhpDiscount = 0;
+			if (additionalPhp) {
+				additionalPhpDiscount = additionalPhp;
+			}
 
-	        let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
+			let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
 
-	        $('#room-subtract').val(discount.toFixed(2));
-	    } else {
-	        $('#room-subtract').val(0.00);
-	    }
+			$('#room-subtract').val(discount.toFixed(2));
+		} else {
+			$('#room-subtract').val(0.00);
+		}
 	}
 }
 
@@ -527,13 +527,6 @@ function validateEntry () {
 		//the start date input field is empty
 		if ($('#start-date').val() == '') {
 			$('#start-date-error').text('Start Date cannot be empty');
-			isValid = false;
-		// the start date is earlier than today
-		} else if (new Date($('#start-date').val()) < new Date(todayString)) {
-			$('#start-date-error').text('Start Date cannot be earlier than Today');
-			isValid = false;
-		} else if (new Date($('#start-date').val()) > new Date(fiveYearString)) {
-			$('#start-date-error').text('Start Date may only be 5 Years from Today');
 			isValid = false;
 		} else {
 			$('#start-date-error').text('');

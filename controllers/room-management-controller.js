@@ -160,7 +160,9 @@ const roomManagementController = {
                     employee: req.session.employeeID,
                     startDate: new Date (),
                     endDate: new Date(`${req.body.endDate} 12:00:00`),
-					checkedIn: true
+					checkedIn: true,
+                    pax: req.body.room_pax,
+					payment: req.body.room_payment
                 }
 
                 // create a new booking in the database
