@@ -532,13 +532,6 @@ function validateEntry () {
 		if ($('#start-date').val() == '') {
 			$('#start-date-error').text('Start Date cannot be empty');
 			isValid = false;
-		// the start date is earlier than today
-		} else if (new Date($('#start-date').val()) < new Date(todayString)) {
-			$('#start-date-error').text('Start Date cannot be earlier than Today');
-			isValid = false;
-		} else if (new Date($('#start-date').val()) > new Date(fiveYearString)) {
-			$('#start-date-error').text('Start Date may only be 5 Years from Today');
-			isValid = false;
 		} else {
 			$('#start-date-error').text('');
 		}
