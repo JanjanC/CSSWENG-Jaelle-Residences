@@ -10,14 +10,15 @@ const roomManagementController = {
 
         let today = new Date();
 		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
-		let timeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`;
-
+		let hourMinuteString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
+        let fullTimeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`
 		//there is a given time
 		if (req.query.time !== undefined) {
-			timeString = `${req.query.time}:59`;
+            hourMinuteString = `${req.query.time}:00`
+			fullTimeString = `${req.query.time}:59`;
 		}
 
-        let date = new Date(`${dateString} ${timeString}`);
+        let date = new Date(`${dateString} ${fullTimeString}`);
 
         //find all the rooms in the database
 		db.findMany(Room, {}, function (roomResult) {
@@ -36,16 +37,16 @@ const roomManagementController = {
 
                 let booking = {
 					//the current date is between the start date and end date of the booking, inclusive
-		            start_date: {$lte: date},
-		            end_date: {$gte: date},
+		            startDate: {$lte: date},
+		            endDate: {$gte: date},
 		            $or: [
                         //booked
 		            	{booked: true},
                         //checked in
-                        {checked_in: true}
+                        {checkedIn: true}
 					],
-                    checked_out: false,
-					is_cancelled: false,
+                    checkedOut: false,
+					isCancelled: false,
 		        };
 
 				db.findMany(Booking, booking, function (bookingResult) {
@@ -79,7 +80,7 @@ const roomManagementController = {
 							username: req.session.username,
 							list: list,
 							date: dateString,
-							time: timeString
+							time: hourMinuteString
 						}
 
 						//loads the room-management page
@@ -105,14 +106,14 @@ const roomManagementController = {
 
                 let reservation = {
 		            //the current date is between the start date and end date of the reservation, inclusive
-					start_date: todayString,
- 	               	end_date: {$gte: todayString},
-					booked_type: roomResult.room_type,
+					startDate: todayString,
+ 	               	endDate: {$gte: todayString},
+					bookedType: roomResult.room_type,
                     reserved: true,
 					booked: false,
-					checked_in: false,
-					checked_out: false,
-		            is_cancelled: false
+					checkedIn: false,
+					checkedOut: false,
+		            isCancelled: false
 		        };
 
                 //find all the reservations such that the current date is between the start and end date of the reservation
@@ -125,7 +126,7 @@ const roomManagementController = {
     	                    date: todayString
     	                }
                         //loads the create check in page
-        				res.render('check-in-vacant', values);
+        				res.render('check-in', values);
                     } else {
                         res.redirect('/error');
                     }
@@ -139,12 +140,12 @@ const roomManagementController = {
     postCheckInWithoutReservation: function (req, res) {
         // collect the guest information from post request
         let guest = {
-            first_name: req.body.firstname,
-            last_name: req.body.lastname,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
             birthdate: req.body.birthdate,
             address: req.body.address,
-            contact_number: req.body.contact,
-            company_name: req.body.company,
+            contact: req.body.contact,
+            company: req.body.company,
             occupation: req.body.occupation
         }
 
@@ -154,12 +155,12 @@ const roomManagementController = {
 				//collect the booking information from post request and set default values
                 let booking = {
                     room: req.params.roomID,
-                    booked_type: req.body.room_type,
+                    bookedType: req.body.room_type,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
-                    start_date: new Date (),
-                    end_date: new Date(`${req.body.end_date} 12:00:00`),
-					checked_in: true
+                    startDate: new Date (),
+                    endDate: new Date(`${req.body.endDate} 12:00:00`),
+					checkedIn: true
                 }
 
                 // create a new booking in the database
@@ -168,7 +169,7 @@ const roomManagementController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Check-In Without Reservation',
+                            activityType: 'Check-In Without Reservation',
                             timestamp: new Date()
                         }
 
@@ -196,10 +197,10 @@ const roomManagementController = {
             $set: {
 				//assign the guest to a room
 				room: req.params.roomID,
-				start_date: new Date (),
-                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				startDate: new Date (),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				//check in the guest
-				checked_in: true
+				checkedIn: true
             }
         }
 		//confirm the reservation, assign the guest to a room, and update the booking dates
@@ -207,12 +208,12 @@ const roomManagementController = {
 
 			if (bookingResult) {
 				let guest = {
-		            first_name: req.body.firstname,
-		            last_name: req.body.lastname,
+		            firstName: req.body.firstname,
+		            lastName: req.body.lastname,
 		            birthdate: req.body.birthdate,
 		            address: req.body.address,
-		            contact_number: req.body.contact,
-		            company_name: req.body.company,
+		            contact: req.body.contact,
+		            company: req.body.company,
 		            occupation: req.body.occupation
 		        }
 				//update the information of the guest
@@ -222,7 +223,7 @@ const roomManagementController = {
 						let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Check-In Without Booking',
+                            activityType: 'Check-In Without Booking',
                             timestamp: new Date()
                         }
 						//saves the action of the employee to an activity log
@@ -248,8 +249,8 @@ const roomManagementController = {
     postCheckIn: function (req, res) {
         let booking = {
             $set: {
-                start_date: new Date(),
-                checked_in: true
+                startDate: new Date(),
+                checkedIn: true
             }
         }
 
@@ -260,7 +261,7 @@ const roomManagementController = {
                 let activity = {
                     employee: req.session.employeeID,
                     booking: bookingResult._id,
-                    activity_type: 'Check-In',
+                    activityType: 'Check-In',
                     timestamp: new Date()
                 }
 
