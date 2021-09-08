@@ -105,14 +105,14 @@ const roomManagementController = {
 
                 let reservation = {
 		            //the current date is between the start date and end date of the reservation, inclusive
-					start_date: todayString,
- 	               	end_date: {$gte: todayString},
-					booked_type: roomResult.room_type,
+					startDate: todayString,
+ 	               	endDate: {$gte: todayString},
+					bookedType: roomResult.room_type,
                     reserved: true,
 					booked: false,
-					checked_in: false,
-					checked_out: false,
-		            is_cancelled: false
+					checkedIn: false,
+					checkedOut: false,
+		            isCancelled: false
 		        };
 
                 //find all the reservations such that the current date is between the start and end date of the reservation
@@ -196,10 +196,10 @@ const roomManagementController = {
             $set: {
 				//assign the guest to a room
 				room: req.params.roomID,
-				start_date: new Date (),
-                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				startDate: new Date (),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				//check in the guest
-				checked_in: true
+				checkedIn: true
             }
         }
 		//confirm the reservation, assign the guest to a room, and update the booking dates
@@ -207,12 +207,12 @@ const roomManagementController = {
 
 			if (bookingResult) {
 				let guest = {
-		            first_name: req.body.firstname,
-		            last_name: req.body.lastname,
+		            firstName: req.body.firstname,
+		            lastName: req.body.lastname,
 		            birthdate: req.body.birthdate,
 		            address: req.body.address,
-		            contact_number: req.body.contact,
-		            company_name: req.body.company,
+		            contact: req.body.contact,
+		            company: req.body.company,
 		            occupation: req.body.occupation
 		        }
 				//update the information of the guest
