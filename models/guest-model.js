@@ -2,14 +2,14 @@ var mongoose = require('mongoose');
 
 var GuestSchema = new mongoose.Schema ({
     // the guest's first name
-    first_name: {
+    firstName: {
         type: String,
         trim: true,
         required: true
     },
 
     // the guest's last name
-    last_name: {
+    lastName: {
         type: String,
         trim: true,
         required: true
@@ -27,13 +27,13 @@ var GuestSchema = new mongoose.Schema ({
     },
 
     // the guest's contact number
-    contact_number: {
+    contact: {
         type: String,
         trim: true
     },
 
     // the guest's company name
-    company_name: {
+    company: {
         type: String,
         trim: true
     },
