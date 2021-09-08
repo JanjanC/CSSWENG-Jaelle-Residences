@@ -147,7 +147,7 @@ const roomManagementController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Check-In Without Reservation',
+                            activityType: 'Check-In Without Reservation',
                             timestamp: new Date()
                         }
 

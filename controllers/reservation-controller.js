@@ -103,7 +103,7 @@ const reservationController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: reservationResult._id,
-                            activity_type: 'Create Reservation',
+                            activityType: 'Create Reservation',
                             timestamp: new Date()
                         }
 
@@ -183,7 +183,7 @@ const reservationController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: reservationResult._id,
-                            activity_type: 'Modify Reservation',
+                            activityType: 'Modify Reservation',
                             timestamp: new Date()
                         }
 
@@ -221,7 +221,7 @@ const reservationController = {
                 let activity = {
                     employee: req.session.employeeID,
                     booking: reservationResult._id,
-                    activity_type: 'Cancel Reservation',
+                    activityType: 'Cancel Reservation',
                     timestamp: new Date()
                 }
 

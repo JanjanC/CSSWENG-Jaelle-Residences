@@ -16,7 +16,7 @@ var ActivitySchema = new mongoose.Schema({
     },
 
     // the type of action taken
-    activity_type: {
+    activityType: {
         type: String,
         trim: true,
         required: true

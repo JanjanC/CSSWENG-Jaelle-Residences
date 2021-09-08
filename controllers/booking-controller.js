@@ -167,7 +167,7 @@ const bookingController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Create Booking',
+                            activityType: 'Create Booking',
                             timestamp: new Date()
                         }
 
@@ -286,7 +286,7 @@ const bookingController = {
 						let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Confirm Reservation',
+                            activityType: 'Confirm Reservation',
                             timestamp: new Date()
                         }
 						//saves the action of the employee to an activity log
@@ -354,7 +354,7 @@ const bookingController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Modify Booking',
+                            activityType: 'Modify Booking',
                             timestamp: new Date()
                         }
 
@@ -391,7 +391,7 @@ const bookingController = {
                 let activity = {
                     employee: req.session.employeeID,
                     booking: bookingResult._id,
-                    activity_type: 'Cancel Booking',
+                    activityType: 'Cancel Booking',
                     timestamp: new Date()
                 }
 
