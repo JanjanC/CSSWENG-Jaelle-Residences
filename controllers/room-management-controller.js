@@ -109,7 +109,7 @@ const roomManagementController = {
                     date: today
                 }
 				//loads the create booking page
-				res.render('check-in-vacant', values);
+				res.render('check-in', values);
 			} else {
 				res.redirect('/error');
 			}
