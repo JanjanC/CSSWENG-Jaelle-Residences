@@ -223,7 +223,7 @@ const roomManagementController = {
 						let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Check-In Without Booking',
+                            activityType: 'Check-In Without Booking',
                             timestamp: new Date()
                         }
 						//saves the action of the employee to an activity log
