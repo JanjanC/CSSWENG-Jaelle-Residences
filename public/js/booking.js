@@ -261,7 +261,8 @@ function computeDiscount () {
 			let senior = parseInt($('#room-senior').val());
 			let pwd = parseInt($('#room-pwd').val());
 			let additionalPhp = parseInt($('#room-discount-php').val());
-			let additionalPercent = parseInt($('#room-discount-percent').val())
+			let additionalPercent = parseInt($('#room-discount-percent').val());
+			let duration = parseInt($('#duration').val());
 			let pax = parseInt($('#room-pax').val());
 
 			if (total) {
@@ -275,12 +276,37 @@ function computeDiscount () {
 				}
 
 				let seniorPwdDiscount = 0;
-				if (count > result.max_pax) {
+				//the max pax is set to the room max pax by default
+				let roomMaxPax = result.max_pax;
+
+				//determine if monthly max pax is applicable
+				if (!Number.isNaN(duration) && duration >= 30 && result.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
+					if (pax > result.room_rate.monthly.length) {
+						roomMaxPax = result.room_rate.monthly.length;
+					} else {
+						let rate = result.room_rate.monthly[pax - 1];
+						for (let i = pax; i <= result.room_rate.monthly.length; i++) {
+							if (result.room_rate.monthly[i - 1] == rate) {
+								roomMaxPax = i;
+							} else {
+								break;
+							}
+						}
+					}
+				}
+
+				//number of senior and pwd is greater than max pax for the room
+				if (count > roomMaxPax) {
 					let seniorPwdPercent =  20;
 					seniorPwdDiscount = seniorPwdPercent / 100 * total;
-					seniorPwdDiscount = seniorPwdDiscount + (count - result.max_pax) * 0.20 * 400;
+					seniorPwdDiscount = seniorPwdDiscount + (count - roomMaxPax) * 0.20 * 400;
 				} else {
-					let seniorPwdPercent =  count / result.max_pax * 20;
+					let minDenominator = roomMaxPax;
+					if (!Number.isNaN(pax)) {
+						minDenominator = Math.min(roomMaxPax, pax);
+					}
+
+					let seniorPwdPercent =  count / minDenominator * 20;
 					seniorPwdDiscount = seniorPwdPercent / 100 * total;
 				}
 
@@ -325,7 +351,7 @@ function computeTotal () {
 		if (net < 0) {
 			net = 0;
 		}
-		
+
 		$('#room-net-cost').val(net.toFixed(2));
 	} else {
 		$('#room-net-cost').val(0.00);
@@ -498,8 +524,8 @@ function validateEntry () {
 			} else if (parseInt($('#room-pax').val()) <= 0) {
 				$('#room-pax-error').text('Number of Guests must be at least 1');
 				isValid = false;
-			} else if ($('#duration').val() != '' && parseInt($('#duration').val()) >= 30 && result.room_rate.monthly[0] && parseInt($('#room-pax').val()) > result.max_pax) {
-				$('#room-pax-error').text(`Number of Guests cannot exeeed ${result.max_pax} for Monthly Bookings`);
+			} else if ($('#duration').val() != '' && parseInt($('#duration').val()) >= 30 && result.room_rate.monthly[0] && parseInt($('#room-pax').val()) > result.room_rate.monthly.length) {
+				$('#room-pax-error').text(`Number of Guests cannot exeeed ${result.room_rate.monthly.length} for Monthly Bookings`);
 				isValid = false;
 			} else {
 				$('#room-pax-error').text('');
