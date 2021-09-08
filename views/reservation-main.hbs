@@ -56,7 +56,7 @@
                                 <!-- Button trigger modal -->
                                 {{#each reservations}}
                                 <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
-                                    <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.first_name}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.last_name}}</span></h5>
+                                    <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.firstName}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.lastName}}</span></h5>
                                     <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate startDate}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate endDate}}</span></h6>
                                 </button>
                                 <!-- Modal -->
@@ -79,7 +79,7 @@
                                                     <!--Guest information-->
                                                     <div class="col ps-4">
                                                         <h4>Guest Name:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-firstname" class="text-break">{{guest.first_name}}</span> <span id="reservation-lastname-id">{{guest.last_name}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-firstname" class="text-break">{{guest.firstName}}</span> <span id="reservation-lastname-id">{{guest.lastName}}</span></h5>
                                                         <!-- Optional Fields -->
                                                         {{#if guest.birthdate}}
                                                         <h4>Birthdate:</h4>
@@ -89,13 +89,13 @@
                                                         <h4>Address:</h4>
                                                         <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
                                                         {{/if}}
-                                                        {{#if guest.contact_number}}
+                                                        {{#if guest.contact}}
                                                         <h4>Contact Number:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-contact">{{guest.contact_number}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-contact">{{guest.contact}}</span></h5>
                                                         {{/if}}
-                                                        {{#if guest.company_name}}
+                                                        {{#if guest.company}}
                                                         <h4>Company Name:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-company" class="text-break">{{guest.company_name}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-company" class="text-break">{{guest.company}}</span></h5>
                                                         {{/if}}
                                                         {{#if guest.occupation}}
                                                         <h4>Occupation:</h4>

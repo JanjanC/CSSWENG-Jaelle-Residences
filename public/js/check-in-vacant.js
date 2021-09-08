@@ -141,12 +141,12 @@ function updateForm () {
 
 				$('#start-date').val(startDate);
 				$('#end-date').val(endDate);
-				$('#firstname').val(result.guest.first_name);
-				$('#lastname').val(result.guest.last_name);
+				$('#firstname').val(result.guest.firstName);
+				$('#lastname').val(result.guest.lastName);
 				$('#birthdate').val(birthdate);
 				$('#address').val(result.guest.address);
-				$('#contact').val(result.guest.contact_number);
-				$('#company').val(result.guest.company_name);
+				$('#contact').val(result.guest.contact);
+				$('#company').val(result.guest.company);
 				$('#occupation').val(result.guest.occupation);
 			}
 		});

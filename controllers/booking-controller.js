@@ -136,12 +136,12 @@ const bookingController = {
 	postCreateBooking: function(req, res) {
 		// collect the guest information from post request
         let guest = {
-            first_name: req.body.firstname,
-            last_name: req.body.lastname,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
             birthdate: req.body.birthdate,
             address: req.body.address,
-            contact_number: req.body.contact,
-            company_name: req.body.company,
+            contact: req.body.contact,
+            company: req.body.company,
             occupation: req.body.occupation
         }
 
@@ -271,12 +271,12 @@ const bookingController = {
 
 			if (bookingResult) {
 				let guest = {
-		            first_name: req.body.firstname,
-		            last_name: req.body.lastname,
+		            firstName: req.body.firstname,
+		            lastName: req.body.lastname,
 		            birthdate: req.body.birthdate,
 		            address: req.body.address,
-		            contact_number: req.body.contact,
-		            company_name: req.body.company,
+		            contact: req.body.contact,
+		            company: req.body.company,
 		            occupation: req.body.occupation
 		        }
 				//upda the information of the guest
@@ -336,12 +336,12 @@ const bookingController = {
 
             let guest = {
                 $set: {
-                    first_name: req.body.firstname,
-                    last_name: req.body.lastname,
+                    firstName: req.body.firstname,
+                    lastName: req.body.lastname,
                     birthdate: req.body.birthdate,
                     address: req.body.address,
-                    contact_number: req.body.contact,
-                    company_name: req.body.company,
+                    contact: req.body.contact,
+                    company: req.body.company,
                     occupation: req.body.occupation
                 }
             }

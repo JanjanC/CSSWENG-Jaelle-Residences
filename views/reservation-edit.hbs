@@ -70,14 +70,14 @@
                             <!--First Name-->
                             <div class="form-group">
                                 <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
-                                <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{reservation.guest.first_name}}">
+                                <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{reservation.guest.firstName}}">
                                 <em><p class="error text-danger" id="firstname-error"></p></em>
                             </div>
 
                             <!--Last Name-->
                             <div class="form-group">
                                 <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
-                                <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{reservation.guest.last_name}}">
+                                <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{reservation.guest.lastName}}">
                                 <em><p class="error text-danger" id="lastname-error"></p></em>
                             </div>
 
@@ -100,14 +100,14 @@
                             <!--Contact No.-->
                             <div class="form-group mb-3">
                                 <label class="h5 d-block">Mobile No.</label>
-                                <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Mobile Number - 09XXXXXXXXX" id="contact" name="contact" value="{{reservation.guest.contact_number}}">
+                                <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Mobile Number - 09XXXXXXXXX" id="contact" name="contact" value="{{reservation.guest.contact}}">
                                 <em><p class="error text-danger" id="contact-error"></p></em>
                             </div>
 
                             <!--Company's Name-->
                             <div class="form-group mb-3">
                                 <label class="h5 d-block">Company Name</label>
-                                <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{reservation.guest.company_name}}">
+                                <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{reservation.guest.company}}">
                             </div>
 
                             <!--Occupation-->
