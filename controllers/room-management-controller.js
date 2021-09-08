@@ -36,16 +36,16 @@ const roomManagementController = {
 
                 let booking = {
 					//the current date is between the start date and end date of the booking, inclusive
-		            start_date: {$lte: date},
-		            end_date: {$gte: date},
+		            startDate: {$lte: date},
+		            endDate: {$gte: date},
 		            $or: [
                         //booked
 		            	{booked: true},
                         //checked in
-                        {checked_in: true}
+                        {checkedIn: true}
 					],
-                    checked_out: false,
-					is_cancelled: false,
+                    checkedOut: false,
+					isCancelled: false,
 		        };
 
 				db.findMany(Booking, booking, function (bookingResult) {
@@ -139,12 +139,12 @@ const roomManagementController = {
     postCheckInWithoutReservation: function (req, res) {
         // collect the guest information from post request
         let guest = {
-            first_name: req.body.firstname,
-            last_name: req.body.lastname,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
             birthdate: req.body.birthdate,
             address: req.body.address,
-            contact_number: req.body.contact,
-            company_name: req.body.company,
+            contact: req.body.contact,
+            company: req.body.company,
             occupation: req.body.occupation
         }
 
@@ -154,12 +154,12 @@ const roomManagementController = {
 				//collect the booking information from post request and set default values
                 let booking = {
                     room: req.params.roomID,
-                    booked_type: req.body.room_type,
+                    bookedType: req.body.room_type,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
-                    start_date: new Date (),
-                    end_date: new Date(`${req.body.end_date} 12:00:00`),
-					checked_in: true
+                    startDate: new Date (),
+                    endDate: new Date(`${req.body.endDate} 12:00:00`),
+					checkedIn: true
                 }
 
                 // create a new booking in the database
@@ -168,7 +168,7 @@ const roomManagementController = {
                         let activity = {
                             employee: req.session.employeeID,
                             booking: bookingResult._id,
-                            activity_type: 'Check-In Without Reservation',
+                            activityType: 'Check-In Without Reservation',
                             timestamp: new Date()
                         }
 
