@@ -30,16 +30,7 @@
 
                 <br>
 
-            <form id="form-submit" class="" action="/booking/{{room._id}}/create" submit=submitForm() method="post">
-
-                <script>
-                function submitForm () {
-                	if ($('#reservation_select').val()) {
-                		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
-                	}
-                	return true;
-                }
-                </script>
+            <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
                 
                 <div class="ps-2">
                         <!--NOTE:
@@ -52,7 +43,7 @@
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
                             <option value="" selected>(Optional) Select a reservation</option>
                             {{#each reservations}}
-                            <option value="{{_id}}">{{guest.first_name}} {{guest.last_name}} | {{formatDate start_date}} - {{formatDate end_date}}</option>
+                            <option value="{{_id}}">{{guest.firstName}} {{guest.lastName}} | {{formatDate startDate}} - {{formatDate endDate}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -102,7 +93,7 @@
                     <!-- End Date -->
                     <div class="form-group">
                         <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                        <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date">
+                        <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate">
                         <em><p class="error text-danger" id="end-date-error"></p></em>
                     </div>
                 </div>

@@ -126,7 +126,7 @@ $(document).ready(function () {
 
 function submitForm () {
 	if ($('#reservation_select').val()) {
-		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
+		$('#form-submit').attr('action', `/management/${$('#room-id').text()}/checkin/vacant/booking`);
 	}
 	return true;
 }

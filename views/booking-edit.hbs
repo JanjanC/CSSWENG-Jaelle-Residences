@@ -62,7 +62,7 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate start_date}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate start_date}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate startDate}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -76,7 +76,7 @@
                             <!-- End Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date" value="{{formatDate end_date}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate endDate}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
                         </div>
@@ -92,14 +92,14 @@
                                 <!--First Name-->
                                 <div class="form-group">
                                     <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
-                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{guest.first_name}}">
+                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{guest.firstName}}">
                                     <em><p class="error text-danger" id="firstname-error"></p></em>
                                 </div>
 
                                 <!--Last Name-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
-                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{guest.last_name}}">
+                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{guest.lastName}}">
                                     <em><p class="error text-danger" id="lastname-error"></p></em>
                                 </div>
 
@@ -109,7 +109,7 @@
                                 <!--Birthday-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Birthdate</label>
-                                    <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{birthdate}}">
+                                    <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate guest.birthdate}}">
                                     <em><p class="error text-danger" id="birthdate-error"></p></em>
                                 </div>
 
@@ -122,14 +122,14 @@
                                 <!--Contact No.-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Contact No.</label>
-                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{guest.contact_number}}">
+                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{guest.contact}}">
                                     <em><p class="error text-danger" id="contact-error"></p></em>
                                 </div>
 
                                 <!--Company's Name-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Company Name</label>
-                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{guest.company_name}}">
+                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{guest.company}}">
                                 </div>
 
                                 <!--Occupation-->
@@ -179,7 +179,7 @@
                                     <!--Number of Guests-->
                                     <div class="form-group mb-3">
                                         <label class="h5 text-discount" data-bs-toggle="tooltip" data-bs-placement="right" title="(Required) the total intended number of guest/s staying in the room">Number of Pax/Guests <span class="text-danger">*</span></label>
-                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax">
+                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax" value="{{pax}}">
                                         <em><p class="error text-danger" id="room-pax-error"></p></em>
                                     </div>
 
@@ -273,7 +273,7 @@
                                     <div class="form-group mb-3 text-end text-primary mt-5">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid"><span class="text-danger">* </span>Customer Payment</label>
                                         <div class="input-group mb-3 w-75 ms-auto">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control" value="{{payment}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <em><p class="error text-danger" id="room-payment-error"></p></em>
