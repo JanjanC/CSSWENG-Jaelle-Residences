@@ -40,15 +40,15 @@ const bookingController = {
 
 				let booking = {
 					//the current date is between the start date and end date of the booking, inclusive
-		            start_date: {$lte: date},
-		            end_date: {$gte: date},
+		            startDate: {$lte: date},
+		            endDate: {$gte: date},
 					$or: [
                         //booked
 		            	{booked: true},
                         //checked in
-                        {checked_in: true}
+                        {checkedIn: true}
 					],
-					checked_out: false,
+					checkedOut: false,
 					is_cancelled: false
 		        };
 
@@ -107,13 +107,13 @@ const bookingController = {
 
 				let reservation = {
 		            //the current date is between the start date and end date of the reservation, inclusive
-					start_date: date,
- 	               	end_date: {$gte: date},
-					booked_type: roomResult.room_type,
+					startDate: date,
+ 	               	endDate: {$gte: date},
+					bookedType: roomResult.room_type,
 		            reserved: true,
 					booked: false,
-					checked_in: false,
-					checked_out: false,
+					checkedIn: false,
+					checkedOut: false,
 		            is_cancelled: false
 		        };
 				//find all the reservations such that the current date is between the start and end date of the reservation
@@ -151,11 +151,11 @@ const bookingController = {
 				//collect the booking information from post request and set default values
                 let booking = {
                     room: req.params.roomID,
-                    booked_type: req.body.room_type,
+                    bookedType: req.body.room_type,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
-                    start_date: new Date (`${req.body.start_date} 14:00:00`),
-                    end_date: new Date(`${req.body.end_date} 12:00:00`),
+                    startDate: new Date (`${req.body.start_date} 14:00:00`),
+                    endDate: new Date(`${req.body.endDate} 12:00:00`),
 					booked: true,
 					pax: req.body.room_pax,
 					payment: req.body.room_payment
@@ -192,11 +192,11 @@ const bookingController = {
 
     checkAvailability: function(req, res) {
         // extract dates and room numbers
-        let start = new Date(`${req.query.start_date} 14:00:00`);
-        let end = new Date(`${req.query.end_date} 12:00:00`);
+        let start = new Date(`${req.query.startDate} 14:00:00`);
+        let end = new Date(`${req.query.endDate} 12:00:00`);
 		let rooms = req.query.rooms;
-        let lower_bound = new Date(req.query.start_date);
-        let upper_bound = new Date(req.query.end_date);
+        let lower_bound = new Date(req.query.startDate);
+        let upper_bound = new Date(req.query.endDate);
         lower_bound.setFullYear(lower_bound.getFullYear() - 5);
         upper_bound.setFullYear(upper_bound.getFullYear() + 5);
         // set the conditions for the queries
@@ -205,24 +205,24 @@ const bookingController = {
 				{room: {$in : rooms}},
 				// reservation dates only within 5 years
 				{$and: [
-					{start_date: {$gte: lower_bound}},
-					{end_date: {$lte: upper_bound}}
+					{startDate: {$gte: lower_bound}},
+					{endDate: {$lte: upper_bound}}
 				]},
 				// must be an active booking
 				{$and:[
 					{$or: [
 						{booked: true},
-						{checked_in: true}
+						{checkedIn: true}
 					]},
-					{checked_out: false},
+					{checkedOut: false},
 					{is_cancelled: false}
 				]},
 				// cases to check for existing bookings
 				{$or: [
-					{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-					{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
-					{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
-					{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
+					{$and: [{startDate: {$gte: start}}, {endDate: {$lte: end}}]},
+					{$and: [{startDate: {$lte: end}}, {startDate: {$gte: start}}]},
+					{$and: [{endDate: {$gte: start}}, {endDate: {$lte: end}}]},
+					{$and: [{startDate: {$lte: start}}, {endDate: {$gte: end}}]}
 				]}
 			]
 		};
@@ -258,8 +258,8 @@ const bookingController = {
             $set: {
 				//assign the guest to a room
 				room: req.params.roomID,
-				start_date: new Date (`${req.body.start_date} 14:00:00`),
-                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				startDate: new Date (`${req.body.start_date} 14:00:00`),
+                endDate: new Date(`${req.body.endDate} 12:00:00`),
 				//confirm the reservation
 				booked: true,
 				pax: req.body.room_pax,
@@ -324,8 +324,8 @@ const bookingController = {
 	postEditBooking: function(req, res) {
 		let booking = {
             $set: {
-				start_date: new Date (`${req.body.start_date} 14:00:00`),
-                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				startDate: new Date (`${req.body.start_date} 14:00:00`),
+                endDate: new Date(`${req.body.endDate} 12:00:00`),
 				pax: req.body.room_pax,
 				payment: req.body.room_payment
             }
@@ -398,7 +398,7 @@ const bookingController = {
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-						let startDate = new Date(bookingResult.start_date);
+						let startDate = new Date(bookingResult.startDate);
                         let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
                         res.redirect(`/${startDateString}/booking/`);

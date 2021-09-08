@@ -13,12 +13,12 @@ const reservationController = {
 
         let reservation = {
             //the current date is between the start date and end date of the reservation, inclusive
-            start_date: {$lte: date},
-            end_date: {$gte: date},
+            startDate: {$lte: date},
+            endDate: {$gte: date},
             reserved: true,
             booked: false,
-            checked_in: false,
-            checked_out: false,
+            checkedIn: false,
+            checkedOut: false,
             is_cancelled: false
         };
 
@@ -30,10 +30,10 @@ const reservationController = {
                 //categorize each room type into its own sub-array
                 for (let i = 0; i < result.length; i++) {
                     //current booked type is differet from the previous booked type
-                    if (previous == undefined || result[i].booked_type != previous.booked_type) {
+                    if (previous == undefined || result[i].bookedType != previous.bookedType) {
                         //initialize 'previous' variable to keep track of previous reservation
                         previous = {
-                            booked_type: result[i].booked_type,
+                            bookedType: result[i].bookedType,
                             reservations: [result[i]]
                         }
                         //add to the list of reservation
@@ -52,7 +52,7 @@ const reservationController = {
             } else {
                 res.redirect('/error');
             }
-        }, 'guest', {booked_type: 'asc'});
+        }, 'guest', {bookedType: 'asc'});
     },
 
     getCreateReservation: function (req, res) {
@@ -89,11 +89,11 @@ const reservationController = {
                 // create an object to be inserted into the database
                 let reservation = {
                     // // booked_rate: ,
-                    booked_type: req.body.reserve_type_select,
+                    bookedType: req.body.reserve_type_select,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
-                    start_date: req.body.start_date,
-                    end_date: req.body.end_date,
+                    startDate: req.body.start_date,
+                    endDate: req.body.endDate,
                     reserved: true
                 }
 
@@ -154,9 +154,9 @@ const reservationController = {
     postEditReservation: function (req, res) {
         let reservation = {
             $set: {
-                booked_type: req.body.reserve_type_select,
-                start_date: req.body.start_date,
-                end_date: req.body.end_date
+                bookedType: req.body.reserve_type_select,
+                startDate: req.body.start_date,
+                endDate: req.body.endDate
             }
         }
 
@@ -228,7 +228,7 @@ const reservationController = {
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-                        let startDate = new Date(reservationResult.start_date);
+                        let startDate = new Date(reservationResult.startDate);
                         let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
                         res.redirect(`/${startDateString}/reservation/`);

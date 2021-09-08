@@ -144,14 +144,14 @@ function updateForm () {
 		$.get('/reservation', {reservationID: reservationID}, function(result) {
 			if (result) {
 				let startDate = '';
-				if (result.start_date) {
-					startDate = new Date(result.start_date);
+				if (result.startDate) {
+					startDate = new Date(result.startDate);
 					startDate = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 				}
 
 				let endDate = '';
-				if (result.end_date) {
-					endDate = new Date(result.end_date);
+				if (result.endDate) {
+					endDate = new Date(result.endDate);
 					endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
 				}
 
@@ -443,8 +443,8 @@ function checkAvailability () {
 		});
 
 		let information = {
-			start_date: startDate,
-			end_date: endDate,
+			startDate: startDate,
+			endDate: endDate,
 			rooms: rooms,
 			bookingid: bookingid
 		}

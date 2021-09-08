@@ -49,7 +49,7 @@
                 <div class="row px-4 py-3 d-flex justify-content-center">
                     {{#each list}}
                     <div class="col-3 border mx-3 px-0 pb-2 mb-5 rounded reservation-list shadow-sm">
-                        <h4 id="{{booked_type}}" class="p-3 m-0 text-center text-break room-type-label">{{booked_type}}</h4>
+                        <h4 id="{{bookedType}}" class="p-3 m-0 text-center text-break room-type-label">{{bookedType}}</h4>
                         <!-- Room Item -->
                         <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
                             <div class="flex-grow-1 px-3 pb-3">
@@ -57,7 +57,7 @@
                                 {{#each reservations}}
                                 <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
                                     <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.first_name}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.last_name}}</span></h5>
-                                    <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate start_date}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate end_date}}</span></h6>
+                                    <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate startDate}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate endDate}}</span></h6>
                                 </button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
@@ -72,9 +72,9 @@
                                                     <!--Room information-->
                                                     <div class="col pe-0 border-end">
                                                         <h4>Room Type:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-type">{{booked_type}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-type">{{bookedType}}</span></h5>
                                                         <h4>Reservation Date:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-startdate">{{beautifyDate start_date}}</span> to <span id="reservation-enddate-id">{{beautifyDate end_date}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-startdate">{{beautifyDate startDate}}</span> to <span id="reservation-enddate-id">{{beautifyDate endDate}}</span></h5>
                                                     </div>
                                                     <!--Guest information-->
                                                     <div class="col ps-4">
@@ -110,7 +110,7 @@
                                                     <span class="material-icons-outlined me-1">delete</span>Delete
                                                 </button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                {{#isNotPastDate end_date}}
+                                                {{#isNotPastDate endDate}}
                                                 <a href="/reservation/{{_id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
                                                 {{/isNotPastDate}}
                                             </div>

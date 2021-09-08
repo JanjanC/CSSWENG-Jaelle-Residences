@@ -83,7 +83,7 @@
 												<h4>Room Rate:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 												<h4>Duration of Stay:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-startdate">{{beautifyDate booking.start_date}}</span> to <span id="room-enddate-id">{{beautifyDate booking.end_date}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-startdate">{{beautifyDate booking.startDate}}</span> to <span id="room-enddate-id">{{beautifyDate booking.endDate}}</span></h5>
 											</div>
 
 											<!--Guest information-->
@@ -151,7 +151,7 @@
 						</div>
 					</div>
 					<!--BOOKED END-->
-					{{else if booking.checked_in}}
+					{{else if booking.checkedIn}}
 					<!--OCCUPIED-->
 					<div class="room-container col-2 p-0 m-0 border occupied">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
@@ -178,7 +178,7 @@
 												<h4>Room Rate:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 												<h4>Duration of Stay:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-startdate">{{beautifyDate booking.start_date}}</span> to <span id="room-enddate-id">{{beautifyDate booking.end_date}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-startdate">{{beautifyDate booking.startDate}}</span> to <span id="room-enddate-id">{{beautifyDate booking.endDate}}</span></h5>
 											</div>
 											<!--Guest information-->
 											<div class="col ps-4">
