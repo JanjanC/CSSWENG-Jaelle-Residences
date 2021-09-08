@@ -19,7 +19,7 @@ const reservationController = {
             booked: false,
             checkedIn: false,
             checkedOut: false,
-            is_cancelled: false
+            isCancelled: false
         };
 
         db.findMany(Booking, reservation, function(result){
@@ -210,11 +210,11 @@ const reservationController = {
 
         let reservation = {
             $set: {
-                is_cancelled: true
+                isCancelled: true
             }
         }
 
-        //cancel the booking by setting is_cancelled to true
+        //cancel the booking by setting isCancelled to true
         db.updateOne(Booking, {_id: req.params.bookingID}, reservation, function(reservationResult) {
 
             if (reservationResult) {

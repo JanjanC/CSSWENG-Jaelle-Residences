@@ -49,7 +49,7 @@ const bookingController = {
                         {checkedIn: true}
 					],
 					checkedOut: false,
-					is_cancelled: false
+					isCancelled: false
 		        };
 
 				db.findMany(Booking, booking, function (bookingResult) {
@@ -114,7 +114,7 @@ const bookingController = {
 					booked: false,
 					checkedIn: false,
 					checkedOut: false,
-		            is_cancelled: false
+		            isCancelled: false
 		        };
 				//find all the reservations such that the current date is between the start and end date of the reservation
 				db.findMany(Booking, reservation, function (reservationResult) {
@@ -215,7 +215,7 @@ const bookingController = {
 						{checkedIn: true}
 					]},
 					{checkedOut: false},
-					{is_cancelled: false}
+					{isCancelled: false}
 				]},
 				// cases to check for existing bookings
 				{$or: [
@@ -380,11 +380,11 @@ const bookingController = {
 	postDeleteBooking: function(req, res) {
 		let booking = {
             $set: {
-                is_cancelled: true
+                isCancelled: true
             }
         }
 
-        //cancel the booking by setting is_cancelled to true
+        //cancel the booking by setting isCancelled to true
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
 
             if (bookingResult) {

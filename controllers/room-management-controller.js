@@ -45,7 +45,7 @@ const roomManagementController = {
                         {checkedIn: true}
 					],
                     checkedOut: false,
-					is_cancelled: false,
+					isCancelled: false,
 		        };
 
 				db.findMany(Booking, booking, function (bookingResult) {

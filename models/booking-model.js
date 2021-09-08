@@ -70,7 +70,7 @@ var BookingSchema = new mongoose.Schema({
     },
 
     // signifies whether the booking has been cancelled or not
-    is_cancelled: {
+    isCancelled: {
         type: Boolean,
         required: true,
         default: false
