@@ -74,14 +74,14 @@
                         <!-- Start Date -->
                         <div class="form-group">
                             <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                            <input class="form-control w-75" type="date" id="start-date" name="start_date" value="{{formatDate date}}" disabled>
+                            <input class="form-control w-75" type="date" onkeydown="return false" id="start-date" name="start_date" value="{{formatDate date}}" disabled>
                             <em><p class="error text-danger" id="start-date-error"></p></em>
                         </div>
 
                         <!-- End Date -->
                         <div class="form-group">
                             <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                            <input class="form-control w-75" type="date" id="end-date" name="endDate">
+                            <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate">
                             <em><p class="error text-danger" id="end-date-error"></p></em>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         <!--Birthday-->
                         <div class="form-group">
                             <label class="h5 d-block">Birthdate</label>
-                            <input class="form-control w-50" type="text" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
+                            <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
                             <em><p class="error text-danger" id="birthdate-error"></p></em>
                         </div>
 
