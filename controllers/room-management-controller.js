@@ -310,7 +310,74 @@ const roomManagementController = {
                 res.redirect('/error');
             }
         });
-    }
+    },
+
+    getEditCheckIn: function(req, res) {
+		//get the booking information given the bookingID
+		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
+			if (result) {
+				//render the edit booking screen
+				res.render('check-in-edit', result);
+			} else {
+				res.redirect('/error');
+			}
+		}, 'room guest');
+	},
+
+	postEditCheckIn: function(req, res) {
+		let booking = {
+            $set: {
+                endDate: new Date(`${req.body.endDate} 12:00:00`),
+				pax: req.body.room_pax,
+				payment: req.body.room_payment
+            }
+        }
+
+        //update the booking details in the database
+        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
+
+            let guest = {
+                $set: {
+                    firstName: req.body.firstname,
+                    lastName: req.body.lastname,
+                    birthdate: req.body.birthdate,
+                    address: req.body.address,
+                    contact: req.body.contact,
+                    company: req.body.company,
+                    occupation: req.body.occupation
+                }
+            }
+
+            if (bookingResult) {
+                //update the customer details in the database
+                db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
+                    if (guestResult) {
+
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activityType: 'Modify Check-In',
+                            timestamp: new Date()
+                        }
+
+                        //saves the action of the employee to an activity log
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after updating the booking
+                                res.redirect(`/management`);
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
+	},
 }
 
 module.exports = roomManagementController;
