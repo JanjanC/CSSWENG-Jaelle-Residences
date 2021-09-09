@@ -318,9 +318,9 @@ const roomManagementController = {
 
     getEditCheckIn: function(req, res) {
 
-        db.findDistinct(Room, 'room_type', function(roomResult) {
+        db.findDistinct(Room, 'room_number', function(roomResult) {
             if (roomResult) {
-                
+
                 //get the booking information given the bookingID
                 db.findOne(Booking, {_id: req.params.bookingID}, function(bookingResult) {
         			if (bookingResult) {
