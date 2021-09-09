@@ -45,18 +45,6 @@
     z-index: 1060;
 }
 
-.booked {
-	background-color: #FCF1D9;
-}
-
-.occupied {
-	background-color: #FFD6E6;
-}
-
-.vacant {
-	background-color: #E6FFF3;
-}
-
 .legend:hover {
 	cursor: default;
 }
@@ -73,6 +61,11 @@
 
 .room-container.vacant:hover, .legend.vacant:hover {
     background-color: #D1FFE3;
+    transition: 0.3s;
+}
+
+.room-container.unavailable:hover, .legend.unavailable:hover {
+    background-color: #CDC9CF;
     transition: 0.3s;
 }
 /*
@@ -132,6 +125,10 @@
 
 .vacant {
 	background-color: #E6FFF3;
+}
+
+.unavailable {
+	background-color: #E1DFE2;
 }
 
 .legend:hover {
