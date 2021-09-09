@@ -155,7 +155,7 @@ const bookingController = {
                     guest: guestResult._id,
                     employee: req.session.employeeID,
                     startDate: new Date (`${req.body.start_date} 14:00:00`),
-                    endDate: new Date(`${req.body.endDate} 12:00:00`),
+                    endDate: new Date(`${req.body.end_date} 12:00:00`),
 					booked: true,
 					pax: req.body.room_pax,
 					payment: req.body.room_payment
@@ -193,7 +193,7 @@ const bookingController = {
     checkAvailability: function(req, res) {
         // extract dates and room numbers
         let start = new Date(`${req.query.startDate} 14:00:00`);
-        let end = new Date(`${req.query.endDate} 12:00:00`);
+        let end = new Date(`${req.query.end_date} 12:00:00`);
 		let rooms = req.query.rooms;
         let lower_bound = new Date(req.query.startDate);
         let upper_bound = new Date(req.query.endDate);
@@ -259,7 +259,7 @@ const bookingController = {
 				//assign the guest to a room
 				room: req.params.roomID,
 				startDate: new Date (`${req.body.start_date} 14:00:00`),
-                endDate: new Date(`${req.body.endDate} 12:00:00`),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				//confirm the reservation
 				booked: true,
 				pax: req.body.room_pax,
@@ -325,7 +325,7 @@ const bookingController = {
 		let booking = {
             $set: {
 				startDate: new Date (`${req.body.start_date} 14:00:00`),
-                endDate: new Date(`${req.body.endDate} 12:00:00`),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				pax: req.body.room_pax,
 				payment: req.body.room_payment
             }
