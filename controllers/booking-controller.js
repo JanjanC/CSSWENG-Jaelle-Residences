@@ -33,7 +33,7 @@ const bookingController = {
 				for (let i = 0; i < roomResult.length; i++) {
 					let room = {
 						room: roomResult[i],
-						booking: null
+						booking: {}
 					}
 					list.push(room);
 				}
@@ -71,8 +71,8 @@ const bookingController = {
 								for (let j = 0; j < list.length; j++) {
 									//check if the room id of the connected rooms in the booking matches the id of the room
 									if (list[j].room._id.toString() == bookingResult[i].room.connected_rooms[k].toString()) {
-										//links the room to a booking
-										list[j].booking = bookingResult[i];
+										//make the room unavailable
+										list[j].booking.unavailable = true;
 										break;
 									}
 								}
