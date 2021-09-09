@@ -317,19 +317,29 @@ const roomManagementController = {
     },
 
     getEditCheckIn: function(req, res) {
-		//get the booking information given the bookingID
-		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
-			if (result) {
-                let values = {
-                    username: req.session.username,
-                    booking: result
-                }
-				//render the edit booking screen
-				res.render('check-in-edit', values);
-			} else {
-				res.redirect('/error');
-			}
-		}, 'room guest');
+
+        db.findDistinct(Room, 'room_type', function(roomResult) {
+            if (roomResult) {
+                
+                //get the booking information given the bookingID
+                db.findOne(Booking, {_id: req.params.bookingID}, function(bookingResult) {
+        			if (bookingResult) {
+                        let values = {
+                            username: req.session.username,
+                            rooms: roomResult,
+                            booking: bookingResult,
+                        }
+        				//render the edit booking screen
+        				res.render('check-in-edit', values);
+        			} else {
+        				res.redirect('/error');
+        			}
+        		}, 'room guest');
+
+            } else {
+                res.redirect('/error');
+            }
+        });
 	},
 
 	postEditCheckIn: function(req, res) {
