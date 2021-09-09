@@ -45,22 +45,6 @@
     z-index: 1060;
 }
 
-.booked {
-	background-color: #FCF1D9;
-}
-
-.occupied {
-	background-color: #FFD6E6;
-}
-
-.vacant {
-	background-color: #E6FFF3;
-}
-
-.unavailable {
-	background-color: #E1DFE2;
-}
-
 .legend:hover {
 	cursor: default;
 }
@@ -141,6 +125,10 @@
 
 .vacant {
 	background-color: #E6FFF3;
+}
+
+.unavailable {
+	background-color: #E1DFE2;
 }
 
 .legend:hover {
