@@ -67,7 +67,7 @@
 
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
 								<div class="modal-content">
 									<div class="modal-header occupied">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
@@ -87,7 +87,7 @@
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-startdate">{{beautifyDate booking.startDate}}</span> to <span id="room-enddate-id">{{beautifyDate booking.endDate}}</span></h5>
 											</div>
 											<!--Guest information-->
-											<div class="col ps-4">
+											<div class="col ps-4 border-end">
 												<h4>Guest Name:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-firstname" class="text-break">{{booking.guest.firstName}}</span> <span id="room-lastname-id">{{booking.guest.lastName}}</span></h5>
 												<!-- Optional Fields -->
@@ -111,6 +111,24 @@
 												<h4>Occupation:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-occupation">{{booking.guest.occupation}}</span></h5>
 												{{/if}}
+											</div>
+
+											<!--Transaction information-->
+											<div class="col ps-4">
+												<h4>Number of Guests:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{#if booking.guest.discount}}
+												<h4>Discount:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												{{#if booking.guest.charges}}
+												<h4>Extra Charges:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												<h4>Total Cost:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h4>Customer Payment:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.guest.first_name}}</span></h5>
 											</div>
 										</div>
 									</div>
@@ -132,7 +150,7 @@
 
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
 								<div class="modal-content">
 									<div class="modal-header booked">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
@@ -153,7 +171,7 @@
 											</div>
 
 											<!--Guest information-->
-											<div class="col ps-4">
+											<div class="col ps-4 border-end">
 												<h4>Guest Name:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-firstname" class="text-break">{{booking.guest.firstName}}</span> <span id="room-lastname-id">{{booking.guest.lastName}}</span></h5>
 												<!-- Optional Fields -->
@@ -177,6 +195,24 @@
 												<h4>Occupation:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-occupation">{{booking.guest.occupation}}</span></h5>
 												{{/if}}
+											</div>
+
+											<!--Transaction information-->
+											<div class="col ps-4">
+												<h4>Number of Guests:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{#if booking.guest.discount}}
+												<h4>Discount:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												{{#if booking.guest.charges}}
+												<h4>Extra Charges:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												<h4>Total Cost:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h4>Customer Payment:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.guest.first_name}}</span></h5>
 											</div>
 										</div>
 									</div>
