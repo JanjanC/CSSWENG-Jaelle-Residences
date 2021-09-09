@@ -50,7 +50,8 @@ ipcMain.on('print:goto', () => {
 });
 
 ipcMain.on('print:execute', (event) => {
-  print(event.sender);
+  // print(event.sender);
+  event.sender.print();
 });
 
 function createAddWindow(){
