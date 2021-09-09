@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/js/check-in.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Check-in Guest</title>
+    <title>Edit Check-in Guest</title>
 </head>
 <body>
 
@@ -25,8 +25,8 @@
         <div id="main-screen" class="col-10 mx-auto">
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
-                    <h1 class="m-0">Edit Booking</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where parts of existing booking forms for booked rooms are edited.</p>
+                    <h1 class="m-0">Edit Check-in</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where parts of existing occupied rooms are edited (Transferring of rooms and shortening of stays make changes to transaction costs).</p>
                 </div>
 
                 <br>
@@ -75,7 +75,7 @@
                             -->
                             <!-- End Date -->
                             <div class="form-group">
-                                <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
+                                <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="NOTE: making changes to the duration of the stay may yield transactional changes to the cost of the stay.">End Date<span class="text-danger">*</span></label>
                                 <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate endDate}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
@@ -310,7 +310,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                        <p>Are you sure you want to edit the existing booking form with the following information?</p>
+                                        <p>Are you sure you want to edit the existing check-in form with the following information?</p>
                                         <div id="inputted-info">
                                         </div>
                                     </div>
