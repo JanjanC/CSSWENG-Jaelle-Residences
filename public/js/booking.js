@@ -489,27 +489,46 @@ function checkAvailability () {
 }
 
 function showInput () {
-	let details = [];
-	pushToArray(details, 'Room Type', $('#room_type').val());
-	pushToArray(details, 'Room Number', $('#room-number').val());
-	pushToArray(details, 'Start Date', $('#start-date').val());
-	pushToArray(details, 'End Date', $('#end-date').val());
-	pushToArray(details, 'First Name', $('#firstname').val());
-	pushToArray(details, 'Last Name', $('#lastname').val());
-	pushToArray(details, 'Birthdate', $('#birthdate').val());
-	pushToArray(details, 'Address', $('#address').val());
-	pushToArray(details, 'Contact No.', $('#contact').val());
-	pushToArray(details, 'Company Name', $('#company').val());
-	pushToArray(details, 'Occupation', $('#occupation').val());
-	let message = details.join('<br>')
+	let detailsLeft = [];
+	let detailsMiddle = [];
+	let detailsRight = [];
+	pushToArray(detailsLeft, 'Room Type', $('#room_type').val());
+	pushToArray(detailsLeft, 'Room Number', $('#room-number').val());
+	pushToArray(detailsLeft, 'Start Date', $('#start-date').val());
+	pushToArray(detailsMiddle, 'End Date', $('#end-date').val());
+	pushToArray(detailsMiddle, 'First Name', $('#firstname').val());
+	pushToArray(detailsMiddle, 'Last Name', $('#lastname').val());
+	pushToArray(detailsMiddle, 'Birthdate', $('#birthdate').val());
+	pushToArray(detailsMiddle, 'Address', $('#address').val());
+	pushToArray(detailsMiddle, 'Contact No.', $('#contact').val());
+	pushToArray(detailsMiddle, 'Company Name', $('#company').val());
+	pushToArray(detailsMiddle, 'Occupation', $('#occupation').val());
+	pushToArray(detailsRight, 'Number of Guests', $('#room-pax').val());
+	pushToArray(detailsRight, 'Number of PWD', $('#room-pwd').val());
+	pushToArray(detailsRight, 'Number of Senior Citizens', $('#room-senior').val());
+	pushToArray(detailsRight, 'Other Discounts (Flat)', $('#room-discount-php').val());
+	pushToArray(detailsRight, 'Other Discounts (%)', $('#room-discount-percent').val());
+	pushToArray(detailsRight, 'Total Discount', $('#room-subtract').val());
+	pushToArray(detailsRight, 'Extra Charges', $('#room-total-extra').val());
+	pushToArray(detailsRight, 'Total Cost', $('#room-net-cost').val());
+	pushToArray(detailsRight, 'Customer Payment', $('#room-payment').val());
+	pushToArray(detailsRight, 'Customer Balance', $('#room-balance').val());
+	let messageLeft = detailsLeft.join('');
+	let messageMiddle = detailsMiddle.join('');
+	let messageRight = detailsRight.join('');
 
-	$('#inputted-info').html(message);
+	$('#input-col-1').html(messageLeft);
+	$('#input-col-2').html(messageMiddle);
+	$('#input-col-3').html(messageRight);
 	$('#bookModal').modal('show');
 }
 
 function pushToArray(array, field, value){
 	if(value.trim() != ''){
-		array.push(`${field}: ${value}`);
+		array.push(`
+		<h4>${field}:</h4>
+		<h5 class="ms-4 text-secondary reservation-field">${value}</h5>
+		`);
 	}
 }
 
