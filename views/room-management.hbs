@@ -114,6 +114,8 @@
 										</div>
 									</div>
 									<div class="modal-footer">
+										<a href="#" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+
 										<!-- Button trigger modal-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										<a href="/management/{{booking._id}}/checkin/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
@@ -206,6 +208,8 @@
 										</div>
 									</div>
 									<div class="modal-footer">
+										<a href="#" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+
 										<!-- Delete Form -->
 										<!-- Button trigger modal -->
 										<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
@@ -291,6 +295,8 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<a href="#" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										{{#isNotPastDate ../date}}
 											<a href="{{room._id}}/checkin/vacant" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add</span>Check-in</a>
