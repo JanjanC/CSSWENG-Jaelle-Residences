@@ -52,7 +52,8 @@
 					<span class="text-secondary h5 me-2">LEGEND:</span>
 					<span class="legend occupied h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently being occupied by a customer">Occupied</span>
 					<span class="legend booked h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room has already been booked by a customer">Booked</span>
-					<span class="legend vacant h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently available for booking">Vacant</span>
+					<span class="legend vacant h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently available for booking">Vacant</span>
+					<span class="legend unavailable h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently unavailable for booking">Unavailable</span>
 				</div>
 
 				<!--ROOM ARRAY HERE-->
@@ -68,7 +69,7 @@
 
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
 								<div class="modal-content">
 									<div class="modal-header occupied">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
@@ -88,7 +89,7 @@
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-startdate">{{beautifyDate booking.startDate}}</span> to <span id="room-enddate-id">{{beautifyDate booking.endDate}}</span></h5>
 											</div>
 											<!--Guest information-->
-											<div class="col ps-4">
+											<div class="col ps-4 border-end">
 												<h4>Guest Name:</h4>
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-firstname" class="text-break">{{booking.guest.firstName}}John</span> <span id="room-lastname-id">{{booking.guest.lastName}}Doe</span></h5>
 												<!-- Optional Fields -->
@@ -113,6 +114,24 @@
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-occupation">{{booking.guest.occupation}}</span></h5>
 												{{/if}}
 											</div>
+
+											<!--Transaction information-->
+											<div class="col ps-4">
+												<h4>Number of Guests:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{#if booking.guest.discount}}
+												<h4>Discount:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												{{#if booking.guest.charges}}
+												<h4>Extra Charges:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												<h4>Total Cost:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h4>Customer Payment:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.guest.first_name}}</span></h5>
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -134,7 +153,7 @@
 
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-dialog modal-dialog-centered modal-xl">
 								<div class="modal-content">
 									<div class="modal-header booked">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
@@ -180,6 +199,24 @@
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-occupation">{{booking.guest.occupation}}</span></h5>
 												{{/if}}
 											</div>
+
+											<!--Transaction information-->
+											<div class="col ps-4">
+												<h4>Number of Guests:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{#if booking.guest.discount}}
+												<h4>Discount:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												{{#if booking.guest.charges}}
+												<h4>Extra Charges:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.guest.first_name}}</span></h5>
+												{{/if}}
+												<h4>Total Cost:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h4>Customer Payment:</h4>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.guest.first_name}}</span></h5>
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -221,7 +258,7 @@
 					<!--BOOKED END-->
 					{{else if booking.unavailable}}
 					<!--UNAVAILABLE-->
-					<div class="room-container col-2 p-0 m-0 border vacant">
+					<div class="room-container col-2 p-0 m-0 border unavailable">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
@@ -230,7 +267,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header vacant">
+									<div class="modal-header unavailable">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>

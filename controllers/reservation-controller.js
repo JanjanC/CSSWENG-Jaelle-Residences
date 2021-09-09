@@ -93,7 +93,7 @@ const reservationController = {
                     guest: guestResult._id,
                     employee: req.session.employeeID,
                     startDate: req.body.start_date,
-                    endDate: req.body.endDate,
+                    endDate: req.body.end_date,
                     reserved: true
                 }
 
@@ -156,7 +156,7 @@ const reservationController = {
             $set: {
                 bookedType: req.body.reserve_type_select,
                 startDate: req.body.start_date,
-                endDate: req.body.endDate
+                endDate: req.body.end_date
             }
         }
 
