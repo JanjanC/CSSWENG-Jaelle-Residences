@@ -59,7 +59,7 @@
 				<div id="" class="row m-3">
 					{{#each list}}
 
-					{{#if booking}}
+					{{#if booking.booked}}
 					<!--BOOKED-->
 					<div class="room-container col-2 p-0 m-0 border booked">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
@@ -219,6 +219,37 @@
 						</div>
 					</div>
 					<!--OCCUPIED END-->
+					{{else if booking.unavailable}}
+					<!--UNAVAILABLE-->
+					<div class="room-container col-2 p-0 m-0 border vacant">
+						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
+							<h3 class="text-center">{{room.room_number}}</h3>
+							{{room.room_type}}
+						</button>
+						<!-- Modal -->
+						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header vacant">
+										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body px-4 pt-3 pb-4">
+										<h4>Room Status:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-status">Unavailable</span></h5>
+										<h4>Room Type:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-type">{{room.room_type}}</span></h5>
+										<h4>Room Rate:</h4>
+										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--UNAVAILABLE END-->
 					{{else}}
 					<!--VACANT-->
 					<div class="room-container col-2 p-0 m-0 border vacant">
