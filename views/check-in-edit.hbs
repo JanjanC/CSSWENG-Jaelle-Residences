@@ -31,7 +31,7 @@
 
                 <br>
 
-                <form id="form-submit" class="" action="/management/{{_id}}/checkin/edit" method="post">
+                <form id="form-submit" class="" action="/management/{{booking._id}}/checkin/edit" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
                         <!-- COLUMN 1: Room Details -->
@@ -40,9 +40,9 @@
                             <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
 
                             <div hidden>
-                                <span id="booking-id">{{_id}}</span>
-                                <span id="room-id">{{room._id}}</span>
-                                {{#each room.connected_rooms}}
+                                <span id="booking-id">{{booking._id}}</span>
+                                <span id="room-id">{{booking.room._id}}</span>
+                                {{#each booking.room.connected_rooms}}
                                 <span class="connected-rooms">{{this}}</span>
                                 {{/each}}
                             </div>
@@ -50,19 +50,19 @@
                             <!--Room Type-->
                             <div class="form-group mb-3">
                                 <label class="h5">Room Type</label>
-                                <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{room.room_type}}">
+                                <input class="form-control w-75" type="text" readonly="true" id="room_type" name="room_type" value="{{booking.room.room_type}}">
                             </div>
 
                             <!--Room Number-->
                             <div class="form-group mb-3">
                                 <label class="h5">Room Number</label>
-                                <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{room.room_number}}">
+                                <input class="form-control w-75" type="number" readonly="true" id="room-number" name="room_number" value="{{booking.room.room_number}}">
                             </div>
 
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate startDate}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate booking.startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate booking.startDate}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -76,7 +76,7 @@
                             <!-- End Date -->
                             <div class="form-group">
                                 <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="NOTE: making changes to the duration of the stay may yield transactional changes to the cost of the stay.">End Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate endDate}}">
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate booking.endDate}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
                             </div>
                         </div>
@@ -92,14 +92,14 @@
                                 <!--First Name-->
                                 <div class="form-group">
                                     <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
-                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{guest.firstName}}">
+                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{booking.guest.firstName}}">
                                     <em><p class="error text-danger" id="firstname-error"></p></em>
                                 </div>
 
                                 <!--Last Name-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
-                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{guest.lastName}}">
+                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{booking.guest.lastName}}">
                                     <em><p class="error text-danger" id="lastname-error"></p></em>
                                 </div>
 
@@ -109,33 +109,33 @@
                                 <!--Birthday-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Birthdate</label>
-                                    <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate guest.birthdate}}">
+                                    <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate booking.guest.birthdate}}">
                                     <em><p class="error text-danger" id="birthdate-error"></p></em>
                                 </div>
 
                                 <!--Address-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Address</label>
-                                    <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3">{{guest.address}}</textarea>
+                                    <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3">{{booking.guest.address}}</textarea>
                                 </div>
 
                                 <!--Contact No.-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Contact No.</label>
-                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{guest.contact}}">
+                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{booking.guest.contact}}">
                                     <em><p class="error text-danger" id="contact-error"></p></em>
                                 </div>
 
                                 <!--Company's Name-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Company Name</label>
-                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{guest.company}}">
+                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{booking.guest.company}}">
                                 </div>
 
                                 <!--Occupation-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Occupation</label>
-                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value="{{guest.occupation}}">
+                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value="{{booking.guest.occupation}}">
                                 </div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                                     <!--Number of Guests-->
                                     <div class="form-group mb-3">
                                         <label class="h5 text-discount" data-bs-toggle="tooltip" data-bs-placement="right" title="(Required) the total intended number of guest/s staying in the room">Number of Pax/Guests <span class="text-danger">*</span></label>
-                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax" value="{{pax}}">
+                                        <input class="form-control w-50" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pax" name="room_pax" value="{{booking.pax}}">
                                         <em><p class="error text-danger" id="room-pax-error"></p></em>
                                     </div>
 
