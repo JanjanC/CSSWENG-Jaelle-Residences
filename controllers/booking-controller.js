@@ -155,7 +155,7 @@ const bookingController = {
                     guest: guestResult._id,
                     employee: req.session.employeeID,
                     startDate: new Date (`${req.body.start_date} 14:00:00`),
-                    endDate: new Date(`${req.body.endDate} 12:00:00`),
+                    endDate: new Date(`${req.body.end_date} 12:00:00`),
 					booked: true,
 					pax: req.body.room_pax,
 					payment: req.body.room_payment
@@ -195,18 +195,18 @@ const bookingController = {
         let start = new Date(`${req.query.startDate} 14:00:00`);
         let end = new Date(`${req.query.endDate} 12:00:00`);
 		let rooms = req.query.rooms;
-        let lower_bound = new Date(req.query.startDate);
-        let upper_bound = new Date(req.query.endDate);
-        lower_bound.setFullYear(lower_bound.getFullYear() - 5);
-        upper_bound.setFullYear(upper_bound.getFullYear() + 5);
+        let lowerBound = new Date(req.query.startDate);
+        let upperBound = new Date(req.query.endDate);
+        lowerBound.setFullYear(lowerBound.getFullYear() - 5);
+        upperBound.setFullYear(upperBound.getFullYear() + 5);
         // set the conditions for the queries
-		booking_query = {
+		query = {
 			$and: [
 				{room: {$in : rooms}},
 				// reservation dates only within 5 years
 				{$and: [
-					{startDate: {$gte: lower_bound}},
-					{endDate: {$lte: upper_bound}}
+					{startDate: {$gte: lowerBound}},
+					{endDate: {$lte: upperBound}}
 				]},
 				// must be an active booking
 				{$and:[
@@ -228,12 +228,12 @@ const bookingController = {
 		};
 
 		// when checking availability while editing booking, do not include itself as a conflicting booking
-		if(req.query.bookingid != ''){
-			booking_query.$and.push({_id: {$ne: req.query.bookingid}});
+		if(req.query.bookingID != ''){
+			query.$and.push({_id: {$ne: req.query.bookingID}});
 		}
 
         // find atleast one booking for a specified room between the start and end date inclusive
-        db.findOne(Booking, booking_query, function(result){
+        db.findOne(Booking, query, function(result){
             // a booking is found
             if(result){
                 res.send(false);
@@ -259,7 +259,7 @@ const bookingController = {
 				//assign the guest to a room
 				room: req.params.roomID,
 				startDate: new Date (`${req.body.start_date} 14:00:00`),
-                endDate: new Date(`${req.body.endDate} 12:00:00`),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				//confirm the reservation
 				booked: true,
 				pax: req.body.room_pax,
@@ -325,7 +325,7 @@ const bookingController = {
 		let booking = {
             $set: {
 				startDate: new Date (`${req.body.start_date} 14:00:00`),
-                endDate: new Date(`${req.body.endDate} 12:00:00`),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				pax: req.body.room_pax,
 				payment: req.body.room_payment
             }
