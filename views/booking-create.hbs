@@ -298,7 +298,7 @@
                             <div class="form-group mb-3 text-end text-primary">
                                 <label class="h5">Remaining Balance</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control">
+                                    <input type="number" readonly="true" id="room-balance" name="room_balance" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -325,8 +325,25 @@
                             <div class="modal-body">
                                 <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                 <p>Are you sure you want to <strong>book guest</strong> with the following information?</p>
-                                <div id="inputted-info">
-                                </div>
+                                {{!-- <div id="inputted-info">
+
+                                </div> --}}
+                                <div class="template">
+                                            <div class="row mt-4">
+                                                <!--Room information-->
+                                                <div class="col pe-0 border-end" id="input-col-1">
+
+                                                </div>
+                                                <!--Guest information-->
+                                                <div class="col ps-4 border-end" id="input-col-2">
+
+                                                </div>
+                                                <!--Transaction information-->
+                                                <div class="col ps-4" id="input-col-3">
+
+                                                </div>
+                                            </div>
+                                        </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
