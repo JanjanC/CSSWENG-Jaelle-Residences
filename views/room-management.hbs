@@ -50,6 +50,7 @@
 					<span class="legend occupied h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently being occupied by a customer">Occupied</span>
 					<span class="legend booked h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room has already been booked by a customer">Booked</span>
 					<span class="legend vacant h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently available for booking">Vacant</span>
+					<span class="legend unavailable h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently unavailable for booking">Unavailable</span>
 				</div>
 
 				<!--ROOM ARRAY HERE-->
@@ -218,7 +219,7 @@
 					<!--BOOKED END-->
 					{{else if booking.unavailable}}
 					<!--UNAVAILABLE-->
-					<div class="room-container col-2 p-0 m-0 border vacant">
+					<div class="room-container col-2 p-0 m-0 border unavailable">
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
@@ -227,7 +228,7 @@
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
-									<div class="modal-header vacant">
+									<div class="modal-header unavailable">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
