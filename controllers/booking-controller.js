@@ -4,6 +4,7 @@ const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
 const Receipt = require('../models/receipt-model');
+const Employee = require('../models/employee-model');
 const mongoose = require('mongoose');
 
 const bookingController = {
@@ -408,16 +409,23 @@ const bookingController = {
 	},
 
 	postPrintReceipt: function(req, res){
-		console.log("IN CONTROLLER " + req.params.bookingID);
-		db.findOne(Receipt, {booking_id: req.params.bookingID}, function(result){
-			console.log("IN FIND");
-			if(result){
-				console.log("RESULT FOUND");
-				renderObj = {
-					renderDetails: JSON.stringify(result.breakdown)
-				}
-				res.render('print', renderObj);
-			}
+		db.findOne(Booking, {_id: req.params.bookingID}, function(booking_result){
+			db.findOne(Guest, {_id: booking_result.guest}, function(guest_result){
+				db.findOne(Receipt, {booking_id: req.params.bookingID}, function(receipt_result){
+					db.findOne(Employee, {username: "myname"}, function(employee_result){
+						if(guest_result && booking_result){
+							renderObj = {
+								guest: guest_result.first_name + " " + guest_result.last_name,
+								checkin: booking_result.startDate,
+								checkout: booking_result.endDate,
+								receptionist: employee_result.first_name + " " + employee_result.last_name,
+								receiptDetails: JSON.stringify(receipt_result.breakdown)
+							}
+							res.render('print', renderObj);
+						}
+					})
+				})
+			})
 		})
 	}
 
