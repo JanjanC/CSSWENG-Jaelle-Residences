@@ -35,13 +35,13 @@ var BookingSchema = new mongoose.Schema({
     },
 
     // the day the booking starts
-    start_date: {
+    startDate: {
         type: Date,
         required: true
     },
 
     // the day the booking ends
-    end_date: {
+    endDate: {
         type: Date,
         required: true
     },
