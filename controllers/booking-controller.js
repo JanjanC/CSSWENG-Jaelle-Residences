@@ -62,7 +62,6 @@ const bookingController = {
 								if (list[j].room._id.toString() == bookingResult[i].room._id.toString()) {
 									//links the room to a booking
 									list[j].booking = bookingResult[i];
-									list[j].booking.booked = true;
 									break;
 								}
 							}
