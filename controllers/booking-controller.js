@@ -372,8 +372,14 @@ const bookingController = {
 		//get the booking information given the bookingID
 		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
 			if (result) {
+
+				let values = {
+					username: req.session.username,
+					booking: result
+				}
+
 				//render the edit booking screen
-				res.render('booking-edit', result);
+				res.render('booking-edit', values);
 			} else {
 				res.redirect('/error');
 			}
