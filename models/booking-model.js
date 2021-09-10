@@ -76,14 +76,9 @@ var BookingSchema = new mongoose.Schema({
         default: false
     },
 
-    // the number of guest in the booking
-    pax: {
-        type: Number
-    },
-
-    // the amount by the customer for the booking
-    payment: {
-        type: Number
+    transaction: {
+        type: mongoose.ObjectId,
+        ref: 'Transaction'
     }
 
 });
