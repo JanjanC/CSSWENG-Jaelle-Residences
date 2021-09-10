@@ -222,7 +222,7 @@ const bookingController = {
         });
 	},
 
-    checkAvailability: function(req, res) {
+    checkBookingAvailability: function(req, res) {
         // extract dates and room numbers
         let start = new Date(`${req.query.startDate} 14:00:00`);
         let end = new Date(`${req.query.endDate} 12:00:00`);

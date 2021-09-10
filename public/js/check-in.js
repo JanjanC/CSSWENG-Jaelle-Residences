@@ -476,7 +476,7 @@ function checkAvailability () {
 			bookingID: bookingID
 		}
 
-		$.get('/room/availability', information, function(result) {
+		$.get('/checkin/room/availability', information, function(result) {
 			//is available
 			if(result) {
 				$('#end-date-error').text('');

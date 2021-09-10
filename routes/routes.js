@@ -37,7 +37,7 @@ app.get('/:year-:month-:day/booking/:roomID/create', bookingController.getCreate
 
 app.post('/booking/:roomID/create', bookingController.postCreateBooking);
 
-app.get('/room/availability', bookingController.checkAvailability)
+app.get('/booking/room/availability', bookingController.checkBookingAvailability);
 
 app.get('/room', bookingController.getRoom)
 
@@ -54,6 +54,8 @@ app.get('/management', roomManagementController.getRoomManagement);
 app.get('/management/:roomID/checkin/vacant', roomManagementController.getCheckInVacant);
 
 app.post('/management/:roomID/checkin/vacant/reservation', roomManagementController.postCheckInWithoutReservation);
+
+app.get('/checkin/room/availability', roomManagementController.checkCheckInAvailability);
 
 app.get(`/error`, errorController.getError);
 
