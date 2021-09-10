@@ -6,6 +6,11 @@ const Room = require('../models/room-model.js');
 
 const roomManagementController = {
 
+    getRoomMaintenance: function (req, res) {
+        //find all unique room types in the database
+        res.render(`room-maintenance.hbs`)
+    },
+
     getRoomManagement: function (req, res) {
 
         let today = new Date();

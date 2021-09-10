@@ -63,6 +63,8 @@ app.post('/management/:bookingID/checkout', roomManagementController.postCheckOu
 
 app.get('/management/:bookingID/checkin/edit', roomManagementController.getEditCheckIn);
 
+app.get('/management/maintenance', roomManagementController.getRoomMaintenance);
+
 app.post('/management/:bookingID/checkin/edit', roomManagementController.postEditCheckIn);
 
 app.get(`/error`, errorController.getError);
