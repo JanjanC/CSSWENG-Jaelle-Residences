@@ -61,7 +61,7 @@ const reservationController = {
             if (result) {
                 let values = {
                     username: req.session.username,
-                    room_types: result,
+                    rooms: result,
                     date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
                 }
                 res.render('reservation-create', values);
@@ -137,7 +137,7 @@ const reservationController = {
                     if (reservationResult) {
                         let values = {
                             username: req.session.username,
-                            room_types: roomResult,
+                            rooms: roomResult,
                             reservation: reservationResult
                         }
                         res.render('reservation-edit', values);
