@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var TransactionSchema = new mongoose.Schema({
 
-    days: {
+    duration: {
         type: Number,
         required: true
     },
@@ -66,7 +66,7 @@ var TransactionSchema = new mongoose.Schema({
         required: true
     },
 
-    totalCost: {
+    netCost: {
         type: Number,
         required: true
     },
