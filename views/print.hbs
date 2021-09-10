@@ -36,7 +36,10 @@
     <p>2 {{checkin}}</p>
     <p>3 {{checkout}}</p>
     <p>4 {{receptionist}}</p>
-    <p>5 {{receiptDetails}}</p>
+    {{#each items}}
+      <p>5 {{this.detail}} - {{this.price}}</p>
+    {{/each}}
+    <p>4 {{subtotal}}</p>
     <button id="print-test">new window</button>
     <button id="print-it">print</button>
   </body>

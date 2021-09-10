@@ -50,8 +50,7 @@ ipcMain.on('print:goto', () => {
 });
 
 ipcMain.on('print:execute', (event) => {
-  // print(event.sender);
-  event.sender.print();
+  print(event.sender);
 });
 
 function createAddWindow(){
@@ -107,6 +106,6 @@ function print(window, copies = 3, delay = 1500) {
 
 function _print(window) {
   window.print({
-    silent: true,
+    silent: false,
   });
 }

@@ -3,6 +3,22 @@ const expect = require('chai').expect
 const request = require('supertest');
 const express = require('express');
 const app = require('../server.js');
+const chai = require('chai');
+// const createDatabase = require('../test/createDatabase.ts');
+const db = require('../models/db.js');
+const Booking = require('../models/booking-model.js');
+
+let booking = {
+    room: "333",
+    bookedType: "Test Suite",
+    guest: "612da74f6458672a14d59397",
+    employee: "612da74f6458672a14d59398",
+    startDate: new Date (`2021-08-05 14:00:00`),
+    endDate: new Date(`2021-08-07 12:00:00`),
+    booked: true,
+    pax: 2,
+    payment: 5000
+}
 
 describe('Unit testing the GET /:year-:month-:day/booking', function() {
     it('should extract the correct date from the route', function() {
@@ -138,4 +154,14 @@ describe('Unit testing the GET /booking/:bookingID/edit route', function() {
                 expect(response.text).to.contain('Jenkins');
             })
     });
+});
+
+describe('Unit testing the GET /booking/:roomID/confirm route', function() {
+    it('checks in a booking', function(done){
+        db.insertOne(Booking, booking, function(){})
+        .then(function(){
+            assert(booking.isNew == false);
+            done();
+        })
+    })
 });

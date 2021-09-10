@@ -414,12 +414,17 @@ const bookingController = {
 				db.findOne(Receipt, {booking_id: req.params.bookingID}, function(receipt_result){
 					db.findOne(Employee, {username: "myname"}, function(employee_result){
 						if(guest_result && booking_result){
+							let subtotal = 0;
+							for(i = 0; i < receipt_result.breakdown.length; i++)
+								subtotal += receipt_result.breakdown[i].price;
+								
 							renderObj = {
 								guest: guest_result.first_name + " " + guest_result.last_name,
-								checkin: booking_result.startDate,
-								checkout: booking_result.endDate,
+								checkin: booking_result.startDate.toLocaleString(),
+								checkout: booking_result.endDate.toLocaleString(),
 								receptionist: employee_result.first_name + " " + employee_result.last_name,
-								receiptDetails: JSON.stringify(receipt_result.breakdown)
+								items: receipt_result.breakdown,
+								subtotal: subtotal
 							}
 							res.render('print', renderObj);
 						}
