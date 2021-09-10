@@ -3,6 +3,7 @@ const Activity = require('../models/activity-model.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
+const Transaction = require('../models/transaction-model.js');
 const mongoose = require('mongoose');
 
 const bookingController = {
@@ -146,43 +147,72 @@ const bookingController = {
         //create a new guest document in the database
         db.insertOne(Guest, guest, function(guestResult){
             if(guestResult) {
-				//collect the booking information from post request and set default values
-                let booking = {
-                    room: req.params.roomID,
-                    booked_type: req.body.room_type,
-                    guest: guestResult._id,
-                    employee: req.session.employeeID,
-                    start_date: new Date (`${req.body.start_date} 14:00:00`),
-                    end_date: new Date(`${req.body.end_date} 12:00:00`),
-					checked_in: false,
-                    is_cancelled: false,
-					pax: req.body.room_pax,
-					payment: req.body.room_payment
-                }
 
-                // create a new booking in the database
-                db.insertOne(Booking, booking, function(bookingResult){
-                    if(bookingResult) {
-                        let activity = {
-                            employee: req.session.employeeID,
-                            booking: bookingResult._id,
-                            activity_type: 'Create Booking',
-                            timestamp: new Date()
-                        }
+				let transaction = {
+					duration: req.body.duration,
+				    averageRate: req.body.room_rate,
+				    roomCost: req.body.room_initial_cost,
+				    pax: req.body.room_pax,
+				    pwdCount: req.body.room_pwd,
+				    seniorCitizenCount: req.body.room_senior,
+				    additionalPhpDiscount: {
+						reason: req.body.room_discount_reason_php,
+						amount: req.body.room_discount_php
+					},
+				    additionalPercentDiscount: {
+						reason: req.body.room_discount_reason_php,
+					    amount: req.body.room_discount_percent
+					},
+				    totalDiscount: req.body.room_subtract,
+				    extraCharges: req.body.room_extra,
+				    totalCharges: req.body.room_total_extra,
+				    netCost: req.body.room_net_cost,
+				    payment: req.body.room_payment,
+				    balance: req.body.room_balance
+				}
 
-                        //saves the action of the employee to an activity log
-                        db.insertOne(Activity, activity, function(activityResult) {
-                            if (activityResult) {
-                                // redirects to home screen after adding a record
-                                res.redirect(`/${req.body.start_date}/booking/`);
-                            } else {
-                                res.redirect('/error');
-                            }
-                        });
-                    } else {
-                        res.redirect('/error');
-                    }
-                });
+				db.insertOne(Transaction, transaction, function(transactionResult) {
+					if (transactionResult) {
+						//collect the booking information from post request and set default values
+		                let booking = {
+		                    room: req.params.roomID,
+		                    booked_type: req.body.room_type,
+		                    guest: guestResult._id,
+		                    employee: req.session.employeeID,
+		                    start_date: new Date (`${req.body.start_date} 14:00:00`),
+		                    end_date: new Date(`${req.body.end_date} 12:00:00`),
+							checked_in: false,
+		                    is_cancelled: false,
+							transaction: transactionResult._id
+		                }
+
+		                // create a new booking in the database
+		                db.insertOne(Booking, booking, function(bookingResult){
+		                    if(bookingResult) {
+		                        let activity = {
+		                            employee: req.session.employeeID,
+		                            booking: bookingResult._id,
+		                            activity_type: 'Create Booking',
+		                            timestamp: new Date()
+		                        }
+
+		                        //saves the action of the employee to an activity log
+		                        db.insertOne(Activity, activity, function(activityResult) {
+		                            if (activityResult) {
+		                                // redirects to home screen after adding a record
+		                                res.redirect(`/${req.body.start_date}/booking/`);
+		                            } else {
+		                                res.redirect('/error');
+		                            }
+		                        });
+		                    } else {
+		                        res.redirect('/error');
+		                    }
+		                });
+					} else {
+						res.redirect('/error');
+					}
+				});
             } else {
                 res.redirect('/error');
             }
@@ -252,58 +282,90 @@ const bookingController = {
 
 	confirmReservation: function(req, res) {
 
-		let reservation = {
-            $set: {
-				//assign the guest to a room
-				room: req.params.roomID,
-				start_date: new Date (`${req.body.start_date} 14:00:00`),
-                end_date: new Date(`${req.body.end_date} 12:00:00`),
-				//confirm the reservation
-				confirmed_reservation: true,
-				pax: req.body.room_pax,
-				payment: req.body.room_payment
-            }
-        }
-		//confirm the reservation, assign the guest to a room, and update the booking dates
-		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+		let transaction = {
+			duration: req.body.duration,
+			averageRate: req.body.room_rate,
+			roomCost: req.body.room_initial_cost,
+			pax: req.body.room_pax,
+			pwdCount: req.body.room_pwd,
+			seniorCitizenCount: req.body.room_senior,
+			additionalPhpDiscount: {
+				reason: req.body.room_discount_reason_php,
+				amount: req.body.room_discount_php
+			},
+			additionalPercentDiscount: {
+				reason: req.body.room_discount_reason_php,
+				amount: req.body.room_discount_percent
+			},
+			totalDiscount: req.body.room_subtract,
+			extraCharges: req.body.room_extra,
+			totalCharges: req.body.room_total_extra,
+			netCost: req.body.room_net_cost,
+			payment: req.body.room_payment,
+			balance: req.body.room_balance
+		}
 
-			if (bookingResult) {
-				let guest = {
-		            first_name: req.body.firstname,
-		            last_name: req.body.lastname,
-		            birthdate: req.body.birthdate,
-		            address: req.body.address,
-		            contact_number: req.body.contact,
-		            company_name: req.body.company,
-		            occupation: req.body.occupation
+		db.insertOne(Transaction, transaction, function(transactionResult) {
+		    if (transactionResult) {
+
+				let reservation = {
+		            $set: {
+						//assign the guest to a room
+						room: req.params.roomID,
+						start_date: new Date (`${req.body.start_date} 14:00:00`),
+		                end_date: new Date(`${req.body.end_date} 12:00:00`),
+						//confirm the reservation
+						confirmed_reservation: true,
+						pax: req.body.room_pax,
+						payment: req.body.room_payment
+		            }
 		        }
-				//upda the information of the guest
-				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
-					if (guestResult) {
+				//confirm the reservation, assign the guest to a room, and update the booking dates
+				db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
-						let activity = {
-                            employee: req.session.employeeID,
-                            booking: bookingResult._id,
-                            activity_type: 'Confirm Reservation',
-                            timestamp: new Date()
-                        }
-						//saves the action of the employee to an activity log
-						db.insertOne(Activity, activity, function(activityResult) {
-                            if (activityResult) {
-                                // redirects to booking screen after adding a record
-                                res.redirect(`/${req.body.start_date}/booking/`);
-                            } else {
-                                res.redirect('/error');
-                            }
-                        });
+					if (bookingResult) {
+						let guest = {
+				            first_name: req.body.firstname,
+				            last_name: req.body.lastname,
+				            birthdate: req.body.birthdate,
+				            address: req.body.address,
+				            contact_number: req.body.contact,
+				            company_name: req.body.company,
+				            occupation: req.body.occupation,
+							transaction: transactionResult._id
+				        }
+						//upda the information of the guest
+						db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+							if (guestResult) {
+
+								let activity = {
+		                            employee: req.session.employeeID,
+		                            booking: bookingResult._id,
+		                            activity_type: 'Confirm Reservation',
+		                            timestamp: new Date()
+		                        }
+								//saves the action of the employee to an activity log
+								db.insertOne(Activity, activity, function(activityResult) {
+		                            if (activityResult) {
+		                                // redirects to booking screen after adding a record
+		                                res.redirect(`/${req.body.start_date}/booking/`);
+		                            } else {
+		                                res.redirect('/error');
+		                            }
+		                        });
+							} else {
+								res.redirect('/error');
+							}
+						});
 					} else {
 						res.redirect('/error');
 					}
-				});
-			} else {
-				res.redirect('/error');
-			}
 
+				});
+
+		    } else {
+		        res.redirect('/error');
+		    }
 		});
 	},
 

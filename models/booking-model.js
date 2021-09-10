@@ -62,12 +62,9 @@ var BookingSchema = new mongoose.Schema({
         required: true
     },
 
-    pax: {
-        type: Number
-    },
-
-    payment: {
-        type: Number
+    transaction: {
+        type: mongoose.ObjectId,
+        ref: 'Transaction'
     }
 
 });
