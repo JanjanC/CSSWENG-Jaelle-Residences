@@ -101,16 +101,31 @@ const bookingController = {
 
 	getCreateBooking: function(req, res) {
 		//find the information of the room given a roomID
-		db.findOne(Room, {_id: req.params.roomID}, function(result) {
-			if (result) {
-				//stores the room information and the current date into an object
-				let values = {
-					username: req.session.username,
-                    room: result,
-                    date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
-                }
-				//loads the create booking page
-				res.render('booking-create', values);
+		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+			if (roomResult) {
+
+				let date = new Date(`${req.params.year}-${req.params.month}-${req.params.day}`);
+
+				let reservation = {
+		            //the current date is between the start date and end date of the reservation, inclusive
+					start_date: date,
+ 	               	end_date: {$gte: date},
+					booked_type: roomResult.room_type,
+		            //it is considered to be a reservation when the confirmed_reservation exists in the database
+		            confirmed_reservation: false,
+		            is_cancelled: false
+		        };
+				//find all the reservations such that the current date is between the start and end date of the reservation
+				db.findMany(Booking, reservation, function (reservationResult) {
+					let values = {
+						username: req.session.username,
+	                    room: roomResult,
+						reservations: reservationResult,
+	                    date:date
+	                }
+					//reender to create booking page
+					res.render('booking-create', values);
+				}, 'guest');
 			} else {
 				res.redirect('/error');
 			}
@@ -171,8 +186,6 @@ const bookingController = {
 							transaction: transactionResult._id
 		                }
 
-						console.log(req.body);
-
 		                // create a new booking in the database
 		                db.insertOne(Booking, booking, function(bookingResult){
 		                    if(bookingResult) {
@@ -206,15 +219,6 @@ const bookingController = {
         });
 	},
 
-	getRoom: function(req, res) {
-		let roomID = req.query.roomID;
-		//find the information of the room given a roomID
-		db.findOne(Room, {_id: roomID}, function(result) {
-			//send the room information
-			res.send(result);
-		});
-	},
-
     checkAvailability: function(req, res) {
         // extract dates and room numbers
         let start = new Date(`${req.query.start_date} 14:00:00`);
@@ -225,31 +229,36 @@ const bookingController = {
         lower_bound.setFullYear(lower_bound.getFullYear() - 5);
         upper_bound.setFullYear(upper_bound.getFullYear() + 5);
         // set the conditions for the queries
-        booking_query = {
-            $and: [
-                {room: {$in : rooms}},
-                // reservation dates only within 5 years
-                {$and: [
+		booking_query = {
+			$and: [
+				{room: {$in : rooms}},
+				// reservation dates only within 5 years
+				{$and: [
 					{start_date: {$gte: lower_bound}},
 					{end_date: {$lte: upper_bound}}
 				]},
-                // must be an active booking
-                {$and:[
-                    {$or: [
-                        {confirmed_reservation: {$exists: false}},
-                        {confirmed_reservation: true}
+				// must be an active booking
+				{$and:[
+					{$or: [
+						{confirmed_reservation: {$exists: false}},
+						{confirmed_reservation: true}
 					]},
-                    {is_cancelled: false}
-                ]},
-                // cases to check for existing bookings
-                {$or: [
-                    {$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-                    {$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
-                    {$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
-                    {$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
-                ]}
-            ]
-        };
+					{is_cancelled: false}
+				]},
+				// cases to check for existing bookings
+				{$or: [
+					{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
+					{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
+					{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
+					{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
+				]}
+			]
+		};
+
+		// when checking availability while editing booking, do not include itself as a conflicting booking
+		if(req.query.bookingid != ''){
+			booking_query.$and.push({_id: {$ne: req.query.bookingid}});
+		}
 
         // find atleast one booking for a specified room between the start and end date inclusive
         db.findOne(Booking, booking_query, function(result){
@@ -261,7 +270,207 @@ const bookingController = {
                 res.send(true);
             }
         });
-    }
+    },
+
+	getRoom: function(req, res) {
+		let roomID = req.query.roomID;
+
+		db.findOne(Room, {_id: roomID}, function(result) {
+			res.send(result);
+		});
+	},
+
+	confirmReservation: function(req, res) {
+
+		let transaction = {
+			duration: req.body.duration,
+			averageRate: req.body.room_rate,
+			roomCost: req.body.room_initial_cost,
+			pax: req.body.room_pax,
+			pwdCount: req.body.room_pwd,
+			seniorCitizenCount: req.body.room_senior,
+			additionalPhpDiscount: {
+				reason: req.body.room_discount_reason_php,
+				amount: req.body.room_discount_php
+			},
+			additionalPercentDiscount: {
+				reason: req.body.room_discount_reason_php,
+				amount: req.body.room_discount_percent
+			},
+			totalDiscount: req.body.room_subtract,
+			extraCharges: req.body.room_extra,
+			totalCharges: req.body.room_total_extra,
+			netCost: req.body.room_net_cost,
+			payment: req.body.room_payment,
+			balance: req.body.room_balance
+		}
+
+		db.insertOne(Transaction, transaction, function(transactionResult) {
+		    if (transactionResult) {
+
+				let reservation = {
+		            $set: {
+						//assign the guest to a room
+						room: req.params.roomID,
+						start_date: new Date (`${req.body.start_date} 14:00:00`),
+		                end_date: new Date(`${req.body.end_date} 12:00:00`),
+						//confirm the reservation
+						confirmed_reservation: true,
+						pax: req.body.room_pax,
+						payment: req.body.room_payment
+		            }
+		        }
+				//confirm the reservation, assign the guest to a room, and update the booking dates
+				db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+
+					if (bookingResult) {
+						let guest = {
+				            first_name: req.body.firstname,
+				            last_name: req.body.lastname,
+				            birthdate: req.body.birthdate,
+				            address: req.body.address,
+				            contact_number: req.body.contact,
+				            company_name: req.body.company,
+				            occupation: req.body.occupation,
+							transaction: transactionResult._id
+				        }
+						//upda the information of the guest
+						db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+							if (guestResult) {
+
+								let activity = {
+		                            employee: req.session.employeeID,
+		                            booking: bookingResult._id,
+		                            activity_type: 'Confirm Reservation',
+		                            timestamp: new Date()
+		                        }
+								//saves the action of the employee to an activity log
+								db.insertOne(Activity, activity, function(activityResult) {
+		                            if (activityResult) {
+		                                // redirects to booking screen after adding a record
+		                                res.redirect(`/${req.body.start_date}/booking/`);
+		                            } else {
+		                                res.redirect('/error');
+		                            }
+		                        });
+							} else {
+								res.redirect('/error');
+							}
+						});
+					} else {
+						res.redirect('/error');
+					}
+
+				});
+
+		    } else {
+		        res.redirect('/error');
+		    }
+		});
+	},
+
+	getEditBooking: function(req, res) {
+		//get the booking information given the bookingID
+		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
+			if (result) {
+				console.log(result);
+				//render the edit booking screen
+				res.render('booking-edit', result);
+			} else {
+				res.redirect('/error');
+			}
+		}, 'room guest transaction');
+	},
+
+	postEditBooking: function(req, res) {
+		let booking = {
+            $set: {
+				start_date: new Date (`${req.body.start_date} 14:00:00`),
+                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				pax: req.body.room_pax,
+				payment: req.body.room_payment
+            }
+        }
+
+        //update the booking details in the database
+        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
+
+            let guest = {
+                $set: {
+                    first_name: req.body.firstname,
+                    last_name: req.body.lastname,
+                    birthdate: req.body.birthdate,
+                    address: req.body.address,
+                    contact_number: req.body.contact,
+                    company_name: req.body.company,
+                    occupation: req.body.occupation
+                }
+            }
+
+            if (bookingResult) {
+                //update the customer details in the database
+                db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
+                    if (guestResult) {
+
+						let transaction = {
+							$set: {
+								duration: req.body.duration,
+								averageRate: req.body.room_rate,
+								roomCost: req.body.room_initial_cost,
+								pax: req.body.room_pax,
+								pwdCount: req.body.room_pwd,
+								seniorCitizenCount: req.body.room_senior,
+								additionalPhpDiscount: {
+									reason: req.body.room_discount_reason_php,
+									amount: req.body.room_discount_php
+								},
+								additionalPercentDiscount: {
+									reason: req.body.room_discount_reason_php,
+									amount: req.body.room_discount_percent
+								},
+								totalDiscount: req.body.room_subtract,
+								extraCharges: req.body.room_extra,
+								totalCharges: req.body.room_total_extra,
+								netCost: req.body.room_net_cost,
+								payment: req.body.room_payment,
+								balance: req.body.room_balance
+							}
+						}
+
+						db.updateOne(Transaction, {_id: bookingResult.transaction}, transaction, function(transactionResult) {
+						    if (transactionResult) {
+
+								let activity = {
+									employee: req.session.employeeID,
+									booking: bookingResult._id,
+									activity_type: 'Modify Booking',
+									timestamp: new Date()
+								}
+
+								//saves the action of the employee to an activity log
+								db.insertOne(Activity, activity, function(activityResult) {
+									if (activityResult) {
+										// redirects to home screen after updating the booking
+										res.redirect(`/${req.body.start_date}/booking/`);
+									} else {
+										res.redirect('/error');
+									}
+								});
+
+						    } else {
+						        res.redirect('/error');
+						    }
+						});
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
+	}
+
 }
 
 module.exports =  bookingController;

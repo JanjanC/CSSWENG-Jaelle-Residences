@@ -1,4 +1,10 @@
 $(document).ready(function () {
+	computeInitialCost();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
+
 	//onclick event of the button with an id of 'submit'
 	$('#submit').click(function() {
 		return validateEntry();
@@ -102,7 +108,83 @@ $(document).ready(function () {
 	$('#room-payment').keyup(function () {
 		computeBalance();
 	});
+
+	$('#reservation_select').change(function () {
+		updateForm();
+		checkAvailability();
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#form-submit').submit(function () {
+		submitForm();
+	});
 });
+
+function submitForm () {
+	let reservation = $('#reservation_select').val();
+	let roomID = $('#room-id').text();
+
+	if (reservation) {
+		$('#form-submit').attr('action', `/booking/${roomID}/confirm`);
+	}
+
+	return true;
+}
+
+function updateForm () {
+	let reservationID = $('#reservation_select').val();
+
+	if (reservationID) {
+		jQuery.ajaxSetup({async: false});
+
+		$.get('/reservation', {reservationID: reservationID}, function(result) {
+			if (result) {
+				let startDate = '';
+				if (result.start_date) {
+					startDate = new Date(result.start_date);
+					startDate = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
+				}
+
+				let endDate = '';
+				if (result.end_date) {
+					endDate = new Date(result.end_date);
+					endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
+				}
+
+				let birthdate = '';
+				if (result.guest.birthdate) {
+					birthdate = new Date(result.guest.birthdate);
+					birthdate = `${birthdate.getFullYear().toString()}-${(birthdate.getMonth() + 1).toString().padStart(2, 0)}-${birthdate.getDate().toString().padStart(2, 0)}`;
+				}
+
+				$('#start-date').val(startDate);
+				$('#end-date').val(endDate);
+				$('#firstname').val(result.guest.first_name);
+				$('#lastname').val(result.guest.last_name);
+				$('#birthdate').val(birthdate);
+				$('#address').val(result.guest.address);
+				$('#contact').val(result.guest.contact_number);
+				$('#company').val(result.guest.company_name);
+				$('#occupation').val(result.guest.occupation);
+			}
+		});
+
+		jQuery.ajaxSetup({async: true});
+	} else {
+		$('#end-date').val('');
+		$('#firstname').val('');
+		$('#lastname').val('');
+		$('#birthdate').val('');
+		$('#address').val('');
+		$('#contact').val('');
+		$('#company').val('');
+		$('#occupation').val('');
+	}
+}
 
 function computeInitialCost () {
 	let roomID = $('#room-id').text();
@@ -379,6 +461,7 @@ function computeBalance () {
 function checkAvailability () {
 	let startDate = $('#start-date').val();
 	let endDate = $('#end-date').val();
+	let bookingid = $('#booking-id').text();
 
 	if (startDate && endDate && endDate >= startDate) {
 		let rooms = [];
@@ -392,7 +475,8 @@ function checkAvailability () {
 		let information = {
 			start_date: startDate,
 			end_date: endDate,
-			rooms: rooms
+			rooms: rooms,
+			bookingid: bookingid
 		}
 
 		$.get('/room/availability', information, function(result) {

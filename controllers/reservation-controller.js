@@ -16,7 +16,7 @@ const reservationController = {
             start_date: {$lte: date},
             end_date: {$gte: date},
             //it is considered to be a reservation when the confirmed_reservation exists in the database
-            confirmed_reservation: {$exists: true},
+            confirmed_reservation: false,
             is_cancelled: false
         };
 
@@ -239,6 +239,17 @@ const reservationController = {
                 res.redirect('/error');
             }
         });
+    },
+
+    getReservation: function (req, res) {
+        let reservationID = req.query.reservationID;
+        //get the reservation information given a reservationID
+        db.findOne(Booking, {_id: reservationID}, function (result) {
+            if (result) {
+                //send the result
+                res.send(result);
+            }
+        }, 'guest');
     }
 }
 
