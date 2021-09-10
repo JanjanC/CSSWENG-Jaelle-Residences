@@ -3,6 +3,7 @@ const Activity = require('../models/activity-model.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
+const Transaction = require('../models/transaction-model.js');
 
 const roomManagementController = {
 
@@ -88,7 +89,7 @@ const roomManagementController = {
 		        	} else {
 						res.redirect('/error');
 					}
-		        }, 'room guest');
+		        }, 'room guest transaction');
 			} else {
 				res.redirect('/error')
 			}
@@ -152,34 +153,63 @@ const roomManagementController = {
         //create a new guest document in the database
         db.insertOne(Guest, guest, function(guestResult){
             if(guestResult) {
-				//collect the booking information from post request and set default values
-                let booking = {
-                    room: req.params.roomID,
-                    bookedType: req.body.room_type,
-                    guest: guestResult._id,
-                    employee: req.session.employeeID,
-                    startDate: new Date (),
-                    endDate: new Date(`${req.body.end_date} 12:00:00`),
-					checkedIn: true,
+
+                let transaction = {
+                    duration: req.body.duration,
+                    averageRate: req.body.room_rate,
+                    roomCost: req.body.room_initial_cost,
                     pax: req.body.room_pax,
-					payment: req.body.room_payment
+                    pwdCount: req.body.room_pwd,
+                    seniorCitizenCount: req.body.room_senior,
+                    additionalPhpDiscount: {
+                        reason: req.body.room_discount_reason_php,
+                        amount: req.body.room_discount_php
+                    },
+                    additionalPercentDiscount: {
+                        reason: req.body.room_discount_reason_php,
+                        amount: req.body.room_discount_percent
+                    },
+                    totalDiscount: req.body.room_subtract,
+                    extraCharges: req.body.room_extra,
+                    totalCharges: req.body.room_total_extra,
+                    netCost: req.body.room_net_cost,
+                    payment: req.body.room_payment,
+                    balance: req.body.room_balance
                 }
 
-                // create a new booking in the database
-                db.insertOne(Booking, booking, function(bookingResult){
-                    if(bookingResult) {
-                        let activity = {
+                db.insertOne(Transaction, transaction, function(transactionResult) {
+                    if (transactionResult) {
+                        //collect the booking information from post request and set default values
+                        let booking = {
+                            room: req.params.roomID,
+                            bookedType: req.body.room_type,
+                            guest: guestResult._id,
                             employee: req.session.employeeID,
-                            booking: bookingResult._id,
-                            activityType: 'Check-In Without Reservation',
-                            timestamp: new Date()
+                            startDate: new Date (),
+                            endDate: new Date(`${req.body.end_date} 12:00:00`),
+        					checkedIn: true,
+                            transaction: transactionResult._id
                         }
 
-                        //saves the action of the employee to an activity log
-                        db.insertOne(Activity, activity, function(activityResult) {
-                            if (activityResult) {
-                                // redirects to home screen after adding a record
-                                res.redirect(`/management/`);
+                        // create a new booking in the database
+                        db.insertOne(Booking, booking, function(bookingResult){
+                            if(bookingResult) {
+                                let activity = {
+                                    employee: req.session.employeeID,
+                                    booking: bookingResult._id,
+                                    activityType: 'Check-In Without Reservation',
+                                    timestamp: new Date()
+                                }
+
+                                //saves the action of the employee to an activity log
+                                db.insertOne(Activity, activity, function(activityResult) {
+                                    if (activityResult) {
+                                        // redirects to home screen after adding a record
+                                        res.redirect(`/management/`);
+                                    } else {
+                                        res.redirect('/error');
+                                    }
+                                });
                             } else {
                                 res.redirect('/error');
                             }
@@ -194,60 +224,142 @@ const roomManagementController = {
         });
     },
 
-    postCheckInWithoutBooking: function (req, res) {
-        let reservation = {
-            $set: {
-				//assign the guest to a room
-				room: req.params.roomID,
-				startDate: new Date (),
-                endDate: new Date(`${req.body.end_date} 12:00:00`),
-				//check in the guest
-				checkedIn: true,
-                pax: req.body.room_pax,
-                payment: req.body.room_payment
+    checkCheckInAvailability: function(req, res) {
+        // extract dates and room numbers
+        let start = new Date();
+        let end = new Date(`${req.query.endDate} 12:00:00`);
+		let rooms = req.query.rooms;
+        let lowerBound = new Date(req.query.startDate);
+        let upperBound = new Date(req.query.endDate);
+        lowerBound.setFullYear(lowerBound.getFullYear() - 5);
+        upperBound.setFullYear(upperBound.getFullYear() + 5);
+        // set the conditions for the queries
+		query = {
+			$and: [
+				{room: {$in : rooms}},
+				// reservation dates only within 5 years
+				{$and: [
+					{startDate: {$gte: lowerBound}},
+					{endDate: {$lte: upperBound}}
+				]},
+				// must be an active booking
+				{$and:[
+					{$or: [
+						{booked: true},
+						{checkedIn: true}
+					]},
+					{checkedOut: false},
+					{isCancelled: false}
+				]},
+				// cases to check for existing bookings
+				{$or: [
+					{$and: [{startDate: {$gte: start}}, {endDate: {$lte: end}}]},
+					{$and: [{startDate: {$lte: end}}, {startDate: {$gte: start}}]},
+					{$and: [{endDate: {$gte: start}}, {endDate: {$lte: end}}]},
+					{$and: [{startDate: {$lte: start}}, {endDate: {$gte: end}}]}
+				]}
+			]
+		};
+
+		// when checking availability while editing booking, do not include itself as a conflicting booking
+		if(req.query.bookingID != ''){
+			query.$and.push({_id: {$ne: req.query.bookingID}});
+		}
+
+        // find atleast one booking for a specified room between the start and end date inclusive
+        db.findOne(Booking, query, function(result){
+            // a booking is found
+            if(result){
+                res.send(false);
+            // no booking is found
+        	} else {
+                res.send(true);
             }
+        });
+    },
+
+    postCheckInWithoutBooking: function (req, res) {
+
+        let transaction = {
+            duration: req.body.duration,
+            averageRate: req.body.room_rate,
+            roomCost: req.body.room_initial_cost,
+            pax: req.body.room_pax,
+            pwdCount: req.body.room_pwd,
+            seniorCitizenCount: req.body.room_senior,
+            additionalPhpDiscount: {
+                reason: req.body.room_discount_reason_php,
+                amount: req.body.room_discount_php
+            },
+            additionalPercentDiscount: {
+                reason: req.body.room_discount_reason_php,
+                amount: req.body.room_discount_percent
+            },
+            totalDiscount: req.body.room_subtract,
+            extraCharges: req.body.room_extra,
+            totalCharges: req.body.room_total_extra,
+            netCost: req.body.room_net_cost,
+            payment: req.body.room_payment,
+            balance: req.body.room_balance
         }
-		//confirm the reservation, assign the guest to a room, and update the booking dates
-		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
-			if (bookingResult) {
-				let guest = {
-		            firstName: req.body.firstname,
-		            lastName: req.body.lastname,
-		            birthdate: req.body.birthdate,
-		            address: req.body.address,
-		            contact: req.body.contact,
-		            company: req.body.company,
-		            occupation: req.body.occupation
-		        }
-				//update the information of the guest
-				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
-					if (guestResult) {
+        db.insertOne(Transaction, transaction, function(transactionResult) {
+            if (transactionResult) {
+                let reservation = {
+                    $set: {
+        				//assign the guest to a room
+        				room: req.params.roomID,
+        				startDate: new Date (),
+                        endDate: new Date(`${req.body.end_date} 12:00:00`),
+        				//check in the guest
+        				checkedIn: true,
+                        transaction: transactionResult._id
+                    }
+                }
+        		//confirm the reservation, assign the guest to a room, and update the booking dates
+        		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
-						let activity = {
-                            employee: req.session.employeeID,
-                            booking: bookingResult._id,
-                            activityType: 'Check-In Without Booking',
-                            timestamp: new Date()
-                        }
-						//saves the action of the employee to an activity log
-						db.insertOne(Activity, activity, function(activityResult) {
-                            if (activityResult) {
-                                // redirects to booking screen after adding a record
-                                res.redirect(`/management`);
-                            } else {
-                                res.redirect('/error');
-                            }
-                        });
-					} else {
-						res.redirect('/error');
-					}
-				});
-			} else {
-				res.redirect('/error');
-			}
+        			if (bookingResult) {
+        				let guest = {
+        		            firstName: req.body.firstname,
+        		            lastName: req.body.lastname,
+        		            birthdate: req.body.birthdate,
+        		            address: req.body.address,
+        		            contact: req.body.contact,
+        		            company: req.body.company,
+        		            occupation: req.body.occupation
+        		        }
+        				//update the information of the guest
+        				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+        					if (guestResult) {
 
-		});
+        						let activity = {
+                                    employee: req.session.employeeID,
+                                    booking: bookingResult._id,
+                                    activityType: 'Check-In Without Booking',
+                                    timestamp: new Date()
+                                }
+        						//saves the action of the employee to an activity log
+        						db.insertOne(Activity, activity, function(activityResult) {
+                                    if (activityResult) {
+                                        // redirects to booking screen after adding a record
+                                        res.redirect(`/management`);
+                                    } else {
+                                        res.redirect('/error');
+                                    }
+                                });
+        					} else {
+        						res.redirect('/error');
+        					}
+        				});
+        			} else {
+        				res.redirect('/error');
+        			}
+        		});
+            } else {
+                res.redirect('/error');
+            }
+        });
     },
 
     postCheckIn: function (req, res) {
