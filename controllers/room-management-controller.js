@@ -88,7 +88,7 @@ const roomManagementController = {
 		        	} else {
 						res.redirect('/error');
 					}
-		        }, 'room guest');
+		        }, 'room guest transaction');
 			} else {
 				res.redirect('/error')
 			}
