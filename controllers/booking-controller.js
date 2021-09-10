@@ -164,7 +164,7 @@ const bookingController = {
 				        amount: req.body.room_discount_php
 				    },
 				    additionalPercentDiscount: {
-				        reason: req.body.room_discount_reason_php,
+				        reason: req.body.room_discount_reason_percent,
 				        amount: req.body.room_discount_percent
 				    },
 				    totalDiscount: req.body.room_subtract,
@@ -298,7 +298,7 @@ const bookingController = {
 		        amount: req.body.room_discount_php
 		    },
 		    additionalPercentDiscount: {
-		        reason: req.body.room_discount_reason_php,
+		        reason: req.body.room_discount_reason_percent,
 		        amount: req.body.room_discount_percent
 		    },
 		    totalDiscount: req.body.room_subtract,
@@ -372,8 +372,14 @@ const bookingController = {
 		//get the booking information given the bookingID
 		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
 			if (result) {
+
+				let values = {
+					username: req.session.username,
+					booking: result
+				}
+
 				//render the edit booking screen
-				res.render('booking-edit', result);
+				res.render('booking-edit', values);
 			} else {
 				res.redirect('/error');
 			}
@@ -423,7 +429,7 @@ const bookingController = {
 							        amount: req.body.room_discount_php
 							    },
 							    additionalPercentDiscount: {
-							        reason: req.body.room_discount_reason_php,
+							        reason: req.body.room_discount_reason_percent,
 							        amount: req.body.room_discount_percent
 							    },
 							    totalDiscount: req.body.room_subtract,
