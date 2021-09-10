@@ -41,7 +41,7 @@
                                 <label class="h5">Room Type<span class="text-danger">*</span></label>
                                 <select class="form-select form-control w-75" id="reserve_type_select" name="reserve_type_select">
                                     <option value="" hidden>Select the room type</option>
-                                    {{#each room_types}}
+                                    {{#each rooms}}
                                     <option value="{{this}}" {{select ../reservation.bookedType this}}>{{this}}</option>
                                     {{/each}}
                                 </select>
