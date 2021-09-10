@@ -326,7 +326,8 @@ const bookingController = {
 				            address: req.body.address,
 				            contact_number: req.body.contact,
 				            company_name: req.body.company,
-				            occupation: req.body.occupation
+				            occupation: req.body.occupation,
+							transaction: transactionResult._id
 				        }
 						//upda the information of the guest
 						db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
