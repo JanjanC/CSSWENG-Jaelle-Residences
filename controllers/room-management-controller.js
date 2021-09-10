@@ -436,12 +436,13 @@ const roomManagementController = {
                     username: req.session.username,
                     booking: result
                 }
+                console.log(result);
 				//render the edit booking screen
 				res.render('check-in-edit', values);
 			} else {
 				res.redirect('/error');
 			}
-		}, 'room guest');
+		}, 'room guest transaction');
 	},
 
 	postEditCheckIn: function(req, res) {
