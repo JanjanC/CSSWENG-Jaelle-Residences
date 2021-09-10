@@ -373,12 +373,13 @@ const bookingController = {
 		//get the booking information given the bookingID
 		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
 			if (result) {
+				console.log(result);
 				//render the edit booking screen
 				res.render('booking-edit', result);
 			} else {
 				res.redirect('/error');
 			}
-		}, 'room guest');
+		}, 'room guest transaction');
 	},
 
 	postEditBooking: function(req, res) {
