@@ -58,7 +58,13 @@ var BookingSchema = new mongoose.Schema({
     },
 
     is_cancelled: {
-        type: Boolean
+        type: Boolean,
+        required: true
+    },
+
+    transaction: {
+        type: mongoose.ObjectId,
+        ref: 'Transaction'
     }
 
 });

@@ -6,27 +6,37 @@ $(document).ready(function () {
 	});
 
 	$('#reserve').click(function(){
-		let details = [];
-		pushToArray(details, 'Room Type', $('#reserve_type_select').val());
-		pushToArray(details, 'Start Date', $('#start-date').val());
-		pushToArray(details, 'End Date', $('#end-date').val());
-		pushToArray(details, 'First Name', $('#firstname').val());
-		pushToArray(details, 'Last Name', $('#lastname').val());
-		pushToArray(details, 'Birthdate', $('#birthdate').val());
-		pushToArray(details, 'Address', $('#address').val());
-		pushToArray(details, 'Contact No.', $('#contact').val());
-		pushToArray(details, 'Company Name', $('#company').val());
-		pushToArray(details, 'Occupation', $('#occupation').val());
-		let message = details.join('<br>')
-
-		$('#inputted-info').html(message);
-		$('#reserveModal').modal('show');
+		showInput();
 	});
 });
 
+function showInput () {
+	let detailsLeft = [];
+	let detailsRight = [];
+	pushToArray(detailsLeft, 'Room Type', $('#reserve_type_select').val());
+	pushToArray(detailsLeft, 'Start Date', $('#start-date').val());
+	pushToArray(detailsRight, 'End Date', $('#end-date').val());
+	pushToArray(detailsRight, 'First Name', $('#firstname').val());
+	pushToArray(detailsRight, 'Last Name', $('#lastname').val());
+	pushToArray(detailsRight, 'Birthdate', $('#birthdate').val());
+	pushToArray(detailsRight, 'Address', $('#address').val());
+	pushToArray(detailsRight, 'Contact No.', $('#contact').val());
+	pushToArray(detailsRight, 'Company Name', $('#company').val());
+	pushToArray(detailsRight, 'Occupation', $('#occupation').val());
+	let messageLeft = detailsLeft.join('');
+	let messageRight = detailsRight.join('');
+
+	$('#input-col-1').html(messageLeft);
+	$('#input-col-2').html(messageRight);
+	$('#reserveModal').modal('show');
+}
+
 function pushToArray(array, field, value){
 	if(value.trim() != ''){
-		array.push(`${field}: ${value}`);
+		array.push(`
+		<h4>${field}:</h4>
+		<h5 class="ms-4 text-secondary reservation-field">${value}</h5>
+		`);
 	}
 }
 
@@ -73,6 +83,9 @@ function validateEntry () {
 	// the end date is earlier than the start date
 	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 		$('#end-date-error').text('End Date cannot be earlier than Start Date');
+		isValid = false;
+	} else if ($('#start-date').val() != '' && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
+		$('#end-date-error').text('End Date cannot the same as Start Date');
 		isValid = false;
 	} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
 		$('#end-date-error').text('End Date may only be 5 Years from Today');

@@ -1,0 +1,86 @@
+/*
+#grid-container {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto auto auto auto;
+	grid-gap: 10px;
+ 	padding: 10px;
+}
+*/
+
+.link {
+	display: block;
+	text-decoration: none;
+	color: black;
+}
+
+.room-field {
+    font-family: "Bahnschrift";
+    text-transform: initial;
+}
+
+.room-container {
+	background-color: rgba(255, 255, 255, 0.8);
+	height: 10em;
+}
+
+.room-number {
+	font-size: 30px;
+}
+
+#chosen-date:hover {
+    background-color: #DFECF6;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.modal-backdrop {
+  display: none;
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.deleteModalItem {
+    z-index: 1060;
+}
+
+.booked {
+	background-color: #FCF1D9;
+}
+
+.occupied {
+	background-color: #FFD6E6;
+}
+
+.vacant {
+	background-color: #E6FFF3;
+}
+
+.unavailable {
+	background-color: #E1DFE2;
+}
+
+.legend:hover {
+	cursor: default;
+}
+
+.room-container.booked:hover, .legend.booked:hover {
+    background-color: #FFECC2;
+    transition: 0.3s;
+}
+
+.room-container.occupied:hover, .legend.occupied:hover {
+    background-color: #FFC9D7;
+    transition: 0.3s;
+}
+
+.room-container.vacant:hover, .legend.vacant:hover {
+    background-color: #D1FFE3;
+    transition: 0.3s;
+}
+
+.room-container.unavailable:hover, .legend.unavailable:hover {
+    background-color: #CDC9CF;
+    transition: 0.3s;
+}

@@ -26,7 +26,7 @@
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">CREATE RESERVATION</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">This is the screen where reservation forms are accomplished and created.</p>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where reservation forms are accomplished and created.</p>
                 </div>
 
                 <form id="form-submit" class="" action="/reservation/create" method="post">
@@ -128,16 +128,31 @@
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="reserveModalLabel">Confirm Reservation</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                    <div class="modal-body px-4 pt-3 pb-4">
+                                        <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                         <p>Are you sure you want to reserve guest with the following information?</p>
+
+                                        <!--
                                         <div id="inputted-info">
+                                        </div>
+                                        -->
+                                        <div class="template">
+                                            <div class="row mt-4">
+                                                <!--Room information-->
+                                                <div class="col pe-0 border-end" id="input-col-1">
+
+                                                </div>
+                                                <!--Guest information-->
+                                                <div class="col ps-4" id="input-col-2">
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
