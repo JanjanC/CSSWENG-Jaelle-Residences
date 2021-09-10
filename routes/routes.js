@@ -46,6 +46,8 @@ app.get('/booking/:bookingID/edit', bookingController.getEditBooking);
 
 app.post('/booking/:bookingID/edit', bookingController.postEditBooking);
 
+app.post('/booking/:bookingID/delete', bookingController.postDeleteBooking);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);

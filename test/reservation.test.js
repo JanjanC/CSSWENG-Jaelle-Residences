@@ -4,7 +4,6 @@ const request = require('supertest');
 const express = require('express');
 const app = require('../server.js');
 
-
 describe('Unit testing the GET /:year-:month-:day/reservation route', function() {
     it('should extract the correct date from the route', function() {
         testDate = 'AUG. 02, 2021';
@@ -16,12 +15,12 @@ describe('Unit testing the GET /:year-:month-:day/reservation route', function()
     });
 
     it('should display the correct reservations for the specified date', function() {
-        list = ["6125bd0ba9256232e45f9e0c", "6125bd0ba9256232e45f9e0c"];
-        list2 = ['id="reservation-6125bd0ba9256232e45f9e0c', 'id="reservation-6125bd0ba9256232e45f9e0c'];
+        // list = ["6125bd0ba9256232e45f9e0c", "6125bd0ba9256232e45f9e0c"];
+        // list2 = ['id="reservation-6125bd0ba9256232e45f9e0c', 'id="reservation-6125bd0ba9256232e45f9e0c'];
         return request(app)
-            .get('/2021-08-02/reservation')
+            .get('/2021-08-30/reservation')
             .then(function(response){
-                expect(response.text).to.contain('id="reservation-' + list[0]).and.contain('id="reservation-' + list[1]);
+                expect(response.text).to.contain('id="reservation-612563d626660c0f8c5d1141');
             })
     });
 });
@@ -136,6 +135,18 @@ describe('Unit testing the GET /reservation/:bookingID/edit route', function() {
             .get('/reservation/6125bd3ba9256232e45f9e0d/edit')
             .then(function(response){
                 expect(response.text).to.contain(test);
+            })
+    });
+});
+
+describe('Unit testing the GET /reservation route', function() {
+    it('should return the correct reservation', function() {
+        testDate = 'AUG. 02, 2021';
+        return request(app)
+            .get('/reservation/')
+            .query({reservationID: '6125bd0ba9256232e45f9e0c'})
+            .then(function(response){
+                expect(response.body).to.deep.include({_id:"6125bd0ba9256232e45f9e0c",booked_type:"Studio Type"});
             })
     });
 });
