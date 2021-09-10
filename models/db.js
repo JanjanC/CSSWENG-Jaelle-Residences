@@ -9,8 +9,8 @@ const Activity = require('./activity-model.js');
 const Booking = require('./booking-model.js');
 const Employee = require('./employee-model.js');
 const Guest = require('./guest-model.js');
-const Receipt = require('./receipt-model.js');
 const Room = require('./room-model.js');
+const Transaction = require('./transaction-model.js');
 
 // additional connection options
 const options = {
