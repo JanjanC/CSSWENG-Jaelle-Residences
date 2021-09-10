@@ -265,8 +265,8 @@ function computeInitialCost () {
 			$('#room-rate').val(rate.toFixed(2));
 		} else {
 			$('#duration').val(0);
-			$('#room-initial-cost').val(0.00);
-			$('#room-rate').val(0.00);
+			$('#room-initial-cost').val((0).toFixed(2));
+			$('#room-rate').val((0).toFixed(2));
 		}
 	}
 }
@@ -292,7 +292,7 @@ function computeCharges () {
 
 			$('#room-total-extra').val(charges);
 		} else {
-			$('#room-total-extra').val(0.00);
+			$('#room-total-extra').val((0).toFixed(2));
 		}
 	}
 }
@@ -410,7 +410,7 @@ function computeDiscount () {
 
 			$('#room-subtract').val(discount.toFixed(2));
 		} else {
-			$('#room-subtract').val(0.00);
+			$('#room-subtract').val((0).toFixed(2));
 		}
 	}
 }
@@ -433,7 +433,7 @@ function computeTotal () {
 
 		$('#room-net-cost').val(net.toFixed(2));
 	} else {
-		$('#room-net-cost').val(0.00);
+		$('#room-net-cost').val((0).toFixed(2));
 	}
 
 }
@@ -451,7 +451,7 @@ function computeBalance () {
 
 		$('#room-balance').val(balance.toFixed(2));
 	} else {
-		$('#room-balance').val(0.00);
+		$('#room-balance').val((0).toFixed(2));
 	}
 }
 
