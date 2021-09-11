@@ -484,14 +484,19 @@ function checkAvailability () {
 		$.get('/checkin/room/availability', query, function(result) {
 			//is available
 			if(result) {
+				$('#transfer-select-error').text('');
 				$('#end-date-error').text('');
 				$('#book').prop('disabled', false);
 			} else {
 				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
+				if ($('#transfer-select').val() != '') {
+					$('#transfer-select-error').text('Room Unavailable for Transfer');
+				}
 				$('#book').prop('disabled', true);
 			}
 		});
 	} else {
+		$('#transfer-select-error').text('');
 		$('#end-date-error').text('');
 		$('#book').prop('disabled', false);
 	}
