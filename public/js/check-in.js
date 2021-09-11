@@ -660,6 +660,13 @@ function validateEntry () {
 		} else {
 			$('#room-senior-error').text('');
 		}
+
+		if ($('#transfer-select').val() == $('#room-id').text()) {
+			$('#transfer-select-error').text('New Room cannot be the same as the Current Room');
+			isValid = false;
+		} else {
+			$('#transfer-select-error').text('');
+		}
 	}
 
 	if(!isValid){
@@ -680,6 +687,9 @@ function validateEntry () {
 		}
 		else if($('#end-date-error').text() != ''){
 			$('html, body').animate({scrollTop: $('#end-date').offset().top - 118}, 'slow');
+		}
+		else if($('#transfer-select-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#transfer-select-error').offset().top - 118}, 'slow');
 		}
 	}
 
