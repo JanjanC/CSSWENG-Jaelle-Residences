@@ -251,23 +251,35 @@ const bookingController = {
 				]},
 				// cases to check for existing bookings
 				{$or: [
-					{$and: [{startDate: {$gte: start}}, {endDate: {$lte: end}}]},
-					{$and: [{startDate: {$lte: end}}, {startDate: {$gte: start}}]},
-					{$and: [{endDate: {$gte: start}}, {endDate: {$lte: end}}]},
-					{$and: [{startDate: {$lte: start}}, {endDate: {$gte: end}}]}
+					{$and: [
+						{startDate: {$gte: start}},
+						{startDate: {$lte: end}}
+					]},
+					{$and: [
+						{endDate: {$gte: start}},
+						{endDate: {$lte: end}}
+					]},
+					{$and: [
+						{startDate: {$lte: start}},
+						{endDate: {$gte: end}}
+					]},
+					{$and: [
+						{startDate: {$gte: start}},
+						{endDate: {$lte: end}}
+					]}
 				]}
 			]
 		};
 
 		// when checking availability while editing booking, do not include itself as a conflicting booking
-		if(req.query.bookingID != ''){
+		if(req.query.bookingID != '') {
 			query.$and.push({_id: {$ne: req.query.bookingID}});
 		}
 
         // find atleast one booking for a specified room between the start and end date inclusive
-        db.findOne(Booking, query, function(result){
+        db.findOne(Booking, query, function(result) {
             // a booking is found
-            if(result){
+            if(result) {
                 res.send(false);
             // no booking is found
         	} else {
