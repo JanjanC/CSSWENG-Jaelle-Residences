@@ -482,7 +482,7 @@ function checkAvailability () {
 		});
 	} else {
 		$('#end-date-error').text('');
-		$('#book').prop('readonly', false);
+		$('#book').prop('disabled', false);
 	}
 }
 
