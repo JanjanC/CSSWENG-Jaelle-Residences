@@ -223,69 +223,81 @@ const bookingController = {
 	},
 
     checkBookingAvailability: function(req, res) {
-        // extract dates and room numbers
-        let start = new Date(`${req.query.startDate} 14:00:00`);
-        let end = new Date(`${req.query.endDate} 12:00:00`);
-		let rooms = req.query.rooms;
-        let lowerBound = new Date(req.query.startDate);
-        let upperBound = new Date(req.query.endDate);
-        lowerBound.setFullYear(lowerBound.getFullYear() - 5);
-        upperBound.setFullYear(upperBound.getFullYear() + 5);
-        // set the conditions for the queries
-		query = {
-			$and: [
-				{room: {$in : rooms}},
-				// reservation dates only within 5 years
-				{$and: [
-					{startDate: {$gte: lowerBound}},
-					{endDate: {$lte: upperBound}}
-				]},
-				// must be an active booking
-				{$and:[
+		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
+			let rooms = [];
+			rooms.push(req.query.roomID);
+			if (roomResult.connected_rooms) {
+				for (let i = 0; i < roomResult.connected_rooms.length; i++) {
+					rooms.push(roomResult.connected_rooms[i]);
+				}
+			}
+
+			// extract dates and room numbers
+	        let start = new Date(`${req.query.startDate} 14:00:00`);
+	        let end = new Date(`${req.query.endDate} 12:00:00`);
+	        let lowerBound = new Date(req.query.startDate);
+	        let upperBound = new Date(req.query.endDate);
+
+	        lowerBound.setFullYear(lowerBound.getFullYear() - 5);
+	        upperBound.setFullYear(upperBound.getFullYear() + 5);
+
+	        // set the conditions for the queries
+			query = {
+				$and: [
+					{room: {$in : rooms}},
+					// reservation dates only within 5 years
+					{$and: [
+						{startDate: {$gte: lowerBound}},
+						{endDate: {$lte: upperBound}}
+					]},
+					// must be an active booking
+					{$and:[
+						{$or: [
+							{booked: true},
+							{checkedIn: true}
+						]},
+						{checkedOut: false},
+						{isCancelled: false}
+					]},
+					// cases to check for existing bookings
 					{$or: [
-						{booked: true},
-						{checkedIn: true}
-					]},
-					{checkedOut: false},
-					{isCancelled: false}
-				]},
-				// cases to check for existing bookings
-				{$or: [
-					{$and: [
-						{startDate: {$gte: start}},
-						{startDate: {$lte: end}}
-					]},
-					{$and: [
-						{endDate: {$gte: start}},
-						{endDate: {$lte: end}}
-					]},
-					{$and: [
-						{startDate: {$lte: start}},
-						{endDate: {$gte: end}}
-					]},
-					{$and: [
-						{startDate: {$gte: start}},
-						{endDate: {$lte: end}}
+						{$and: [
+							{startDate: {$gte: start}},
+							{startDate: {$lte: end}}
+						]},
+						{$and: [
+							{endDate: {$gte: start}},
+							{endDate: {$lte: end}}
+						]},
+						{$and: [
+							{startDate: {$lte: start}},
+							{endDate: {$gte: end}}
+						]},
+						{$and: [
+							{startDate: {$gte: start}},
+							{endDate: {$lte: end}}
+						]}
 					]}
-				]}
-			]
-		};
+				]
+			};
 
-		// when checking availability while editing booking, do not include itself as a conflicting booking
-		if(req.query.bookingID != '') {
-			query.$and.push({_id: {$ne: req.query.bookingID}});
-		}
+			// when checking availability while editing booking, do not include itself as a conflicting booking
+			if(req.query.bookingID != '') {
+				query.$and.push({_id: {$ne: req.query.bookingID}});
+			}
 
-        // find atleast one booking for a specified room between the start and end date inclusive
-        db.findOne(Booking, query, function(result) {
-            // a booking is found
-            if(result) {
-                res.send(false);
-            // no booking is found
-        	} else {
-                res.send(true);
-            }
-        });
+	        // find atleast one booking for a specified room between the start and end date inclusive
+	        db.findOne(Booking, query, function(result) {
+	            // a booking is found
+	            if(result) {
+	                res.send(false);
+	            // no booking is found
+	        	} else {
+	                res.send(true);
+	            }
+	        });
+
+		});
     },
 
 	getRoom: function(req, res) {

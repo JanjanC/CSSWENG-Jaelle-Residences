@@ -459,31 +459,25 @@ function checkAvailability () {
 	let startDate = $('#start-date').val();
 	let endDate = $('#end-date').val();
 	let bookingID = $('#booking-id').text();
+	let roomID = $('#room-id').text();
 
 	if (startDate && endDate && endDate >= startDate) {
-		let rooms = [];
 
-		rooms.push($('#room-id').text());
-
-		$('.connected-rooms').each(function () {
-			rooms.push($(this).text());
-		});
-
-		let information = {
+		let query = {
 			startDate: startDate,
 			endDate: endDate,
-			rooms: rooms,
+			roomID: roomID,
 			bookingID: bookingID
 		}
 
-		$.get('/booking/room/availability', information, function(result) {
+		$.get('/booking/room/availability', query, function(result) {
 			//is available
 			if(result) {
 				$('#end-date-error').text('');
-				$('#book').prop('readonly', false);
+				$('#book').prop('disabled', false);
 			} else {
 				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-				$('#book').prop('readonly', true);
+				$('#book').prop('disabled', true);
 			}
 		});
 	} else {
