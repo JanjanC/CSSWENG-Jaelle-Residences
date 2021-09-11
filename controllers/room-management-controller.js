@@ -481,11 +481,14 @@ const roomManagementController = {
 	postEditCheckIn: function(req, res) {
 		let booking = {
             $set: {
-                endDate: new Date(`${req.body.endDate} 12:00:00`),
-				pax: req.body.room_pax,
-				payment: req.body.room_payment
+                endDate: new Date(`${req.body.endDate} 12:00:00`)
             }
         }
+        
+        if (req.body.transfer_select != '') {
+            booking.$set.room = req.body.transfer_select;
+        }
+
 
         //update the booking details in the database
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
