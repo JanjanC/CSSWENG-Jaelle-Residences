@@ -32,13 +32,13 @@
 					<!--FOR TIME INPUT-->
 					<div class="ms-auto d-flex flex-column align-items-end w-25">
 						<form class="d-flex flex-column form-group justify-content-center align-items-center w-50" action="" method="get">
-							<h5>Current Time</h5>
-							<input type="time" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Shows the current status of rooms at this specified time given the date" disabled>
+							<h5>Chosen Time</h5>
+							<input type="time" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Sets the time of the day where the status of rooms are relative to">
 						</form>
 					</div>
 
 
-					<div id="chosen-date" class="d-flex flex-column ms-4 me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" onclick="window.location='/calendar/{{getMonthYear date}}'">
+					<div id="chosen-date" class="d-flex flex-column ms-4 me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm">
                         <span class="material-icons-two-tone md-36 mb-2">today</span>
                         <h5 class="m-0">Today</h5>
                         <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
@@ -116,19 +116,19 @@
 											<!--Transaction information-->
 											<div class="col ps-4">
 												<h4>Number of Guests:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.guest.first_name}}</span></h5>
-												{{#if booking.guest.discount}}
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.transaction.pax}}</span></h5>
+												{{#if booking.transaction.totalDiscount}}
 												<h4>Discount:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.transaction.totalDiscount}}</span></h5>
 												{{/if}}
-												{{#if booking.guest.charges}}
+												{{#if booking.transaction.totalCharges}}
 												<h4>Extra Charges:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.transaction.totalCharges}}</span></h5>
 												{{/if}}
 												<h4>Total Cost:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.transaction.netCost}}</span></h5>
 												<h4>Customer Payment:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.transaction.payment}}</span></h5>
 											</div>
 										</div>
 									</div>
@@ -228,19 +228,19 @@
 											<!--Transaction information-->
 											<div class="col ps-4">
 												<h4>Number of Guests:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.guest.first_name}}</span></h5>
-												{{#if booking.guest.discount}}
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.transaction.pax}}</span></h5>
+												{{#if booking.transaction.totalDiscount}}
 												<h4>Discount:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.transaction.totalDiscount}}</span></h5>
 												{{/if}}
-												{{#if booking.guest.charges}}
+												{{#if booking.transaction.totalCharges}}
 												<h4>Extra Charges:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.transaction.totalCharges}}</span></h5>
 												{{/if}}
 												<h4>Total Cost:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.transaction.netCost}}</span></h5>
 												<h4>Customer Payment:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.guest.first_name}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.transaction.payment}}</span></h5>
 											</div>
 										</div>
 									</div>

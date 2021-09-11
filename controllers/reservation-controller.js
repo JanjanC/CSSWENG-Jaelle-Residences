@@ -61,7 +61,7 @@ const reservationController = {
             if (result) {
                 let values = {
                     username: req.session.username,
-                    room_types: result,
+                    rooms: result,
                     date: new Date(`${req.params.year}-${req.params.month}-${req.params.day}`)
                 }
                 res.render('reservation-create', values);
@@ -93,7 +93,7 @@ const reservationController = {
                     guest: guestResult._id,
                     employee: req.session.employeeID,
                     startDate: req.body.start_date,
-                    endDate: req.body.endDate,
+                    endDate: req.body.end_date,
                     reserved: true
                 }
 
@@ -137,7 +137,7 @@ const reservationController = {
                     if (reservationResult) {
                         let values = {
                             username: req.session.username,
-                            room_types: roomResult,
+                            rooms: roomResult,
                             reservation: reservationResult
                         }
                         res.render('reservation-edit', values);
@@ -156,7 +156,7 @@ const reservationController = {
             $set: {
                 bookedType: req.body.reserve_type_select,
                 startDate: req.body.start_date,
-                endDate: req.body.endDate
+                endDate: req.body.end_date
             }
         }
 
