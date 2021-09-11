@@ -288,7 +288,7 @@ function computeCharges () {
 				charges = charges + extra;
 			}
 
-			$('#room-total-extra').val(charges);
+			$('#room-total-extra').val(charges.toFixed(2));
 		} else {
 			$('#room-total-extra').val((0).toFixed(2));
 		}
