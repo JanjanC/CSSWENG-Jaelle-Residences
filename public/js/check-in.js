@@ -5,13 +5,10 @@ $(document).ready(function () {
 	computeTotal();
 	computeBalance();
 
-	//onclick event of the button with an id of 'submit'
-	$('#submit').click(function() {
-		return validateEntry();
-	});
-
 	$('#book').click(function(){
-		showInput();
+		if (validateEntry()) {
+			showInput();
+		}
 	});
 
 	$('#start-date').change(function () {
@@ -122,6 +119,16 @@ $(document).ready(function () {
 	$('#form-submit').submit(function () {
 		submitForm();
 	});
+
+	$('#transfer-select').change(function () {
+		roomInfo = null;
+		checkAvailability();
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
 });
 
 let roomInfo = null;
@@ -131,6 +138,10 @@ function getRoomInfo () {
 	if (!roomInfo) {
 
 		let roomID = $('#room-id').text();
+
+		if ($('#transfer-select').val() != '') {
+			roomID = $('#transfer-select').val();
+		}
 
 		jQuery.ajaxSetup({async: false});
 
@@ -209,7 +220,7 @@ function computeInitialCost () {
 		let startDate = new Date($('#start-date').val()).getTime();
 		let endDate = new Date($('#end-date').val()).getTime();
 
-		if (startDate && endDate && endDate - startDate > 0) {
+		if (startDate && endDate && endDate - startDate >= 0) {
 
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
 			let months = 0;
@@ -455,36 +466,39 @@ function checkAvailability () {
 	let startDate = $('#start-date').val();
 	let endDate = $('#end-date').val();
 	let bookingID = $('#booking-id').text();
+	let roomID = $('#room-id').text();
+
+	if ($('#transfer-select').val() != '') {
+		roomID = $('#transfer-select').val();
+	}
 
 	if (startDate && endDate && endDate >= startDate) {
-		let rooms = [];
 
-		rooms.push($('#room-id').text());
-
-		$('.connected-rooms').each(function () {
-			rooms.push($(this).text());
-		});
-
-		let information = {
+		let query = {
 			startDate: startDate,
 			endDate: endDate,
-			rooms: rooms,
+			roomID: roomID,
 			bookingID: bookingID
 		}
 
-		$.get('/checkin/room/availability', information, function(result) {
+		$.get('/checkin/room/availability', query, function(result) {
 			//is available
 			if(result) {
+				$('#transfer-select-error').text('');
 				$('#end-date-error').text('');
-				$('#book').prop('readonly', false);
+				$('#book').prop('disabled', false);
 			} else {
 				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-				$('#book').prop('readonly', true);
+				if ($('#transfer-select').val() != '') {
+					$('#transfer-select-error').text('Room Unavailable for Transfer');
+				}
+				$('#book').prop('disabled', true);
 			}
 		});
 	} else {
+		$('#transfer-select-error').text('');
 		$('#end-date-error').text('');
-		$('#book').prop('readonly', false);
+		$('#book').prop('disabled', false);
 	}
 }
 

@@ -1,12 +1,8 @@
 $(document).ready(function () {
-	$('#reservation-sidebar').addClass('active');
-	//onclick event of the button with an id of 'submit'
-	$('#submit').click(function() {
-		return validateEntry();
-	});
-
 	$('#reserve').click(function(){
-		showInput();
+		if (validateEntry()) {
+			showInput();
+		}
 	});
 });
 
@@ -15,7 +11,7 @@ function showInput () {
 	let detailsRight = [];
 	pushToArray(detailsLeft, 'Room Type', $('#reserve_type_select').val());
 	pushToArray(detailsLeft, 'Start Date', $('#start-date').val());
-	pushToArray(detailsRight, 'End Date', $('#end-date').val());
+	pushToArray(detailsLeft, 'End Date', $('#end-date').val());
 	pushToArray(detailsRight, 'First Name', $('#firstname').val());
 	pushToArray(detailsRight, 'Last Name', $('#lastname').val());
 	pushToArray(detailsRight, 'Birthdate', $('#birthdate').val());
