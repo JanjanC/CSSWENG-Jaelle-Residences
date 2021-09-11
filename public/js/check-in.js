@@ -283,7 +283,7 @@ function computeCharges () {
 				charges = charges + extra;
 			}
 
-			$('#room-total-extra').val(charges);
+			$('#room-total-extra').val(charges.toFixed(2));
 		} else {
 			$('#room-total-extra').val((0).toFixed(2));
 		}
@@ -642,21 +642,16 @@ function validateEntry () {
 	if(!isValid){
 		if($('#firstname-error').text() != ''){
 			$('html, body').animate({scrollTop: $('#firstname').offset().top - 118}, 'slow');
-		}
-		else if($('#lastname-error').text() != ''){
+		} else if($('#lastname-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#lastname').offset().top - 118}, 'slow');
-		}
-		else if($('#start-date-error').text() != ''){
+		} else if($('#start-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#start-date').offset().top - 118}, 'slow');
-		}
-		else if($('#birthdate-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
-		}
-		else if($('#contact-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
-		}
-		else if($('#end-date-error').text() != ''){
+		} else if($('#end-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#end-date').offset().top - 118}, 'slow');
+		} else if($('#birthdate-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
+		} else if($('#contact-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
 		}
 	}
 
