@@ -1,6 +1,4 @@
 $(document).ready(function () {
-	$('#reservation-sidebar').addClass('active');
-
 	$('#reserve').click(function(){
 		if (validateEntry()) {
 			showInput();
