@@ -6,12 +6,10 @@ $(document).ready(function () {
 	computeBalance();
 
 	//onclick event of the button with an id of 'submit'
-	$('#submit').click(function() {
-		return validateEntry();
-	});
-
 	$('#book').click(function(){
-		showInput();
+		if (validateEntry()) {
+			showInput();
+		}
 	});
 
 	$('#start-date').change(function () {
