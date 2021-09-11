@@ -119,6 +119,16 @@ $(document).ready(function () {
 	$('#form-submit').submit(function () {
 		submitForm();
 	});
+
+	$('#transfer-select').change(function () {
+		roomInfo = null;
+		checkAvailability();
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
 });
 
 let roomInfo = null;
@@ -128,6 +138,10 @@ function getRoomInfo () {
 	if (!roomInfo) {
 
 		let roomID = $('#room-id').text();
+
+		if ($('#transfer-select').val() != '') {
+			roomID = $('#transfer-select').val();
+		}
 
 		jQuery.ajaxSetup({async: false});
 
@@ -453,6 +467,10 @@ function checkAvailability () {
 	let endDate = $('#end-date').val();
 	let bookingID = $('#booking-id').text();
 	let roomID = $('#room-id').text();
+
+	if ($('#transfer-select').val() != '') {
+		roomID = $('#transfer-select').val();
+	}
 
 	if (startDate && endDate && endDate >= startDate) {
 
