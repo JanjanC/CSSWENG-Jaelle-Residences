@@ -430,7 +430,7 @@ const roomManagementController = {
 
     getEditCheckIn: function(req, res) {
 
-        db.findDistinct(Room, 'room_number', function(roomResult) {
+        db.findMany(Room, {}, function(roomResult) {
             if (roomResult) {
 
                 //get the booking information given the bookingID
@@ -451,7 +451,7 @@ const roomManagementController = {
             } else {
                 res.redirect('/error');
             }
-        });
+        }, undefined, {room_number: 'asc'});
 	},
 
 	postEditCheckIn: function(req, res) {
