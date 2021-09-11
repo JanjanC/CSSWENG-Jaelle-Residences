@@ -206,7 +206,7 @@ function computeInitialCost () {
 		let startDate = new Date($('#start-date').val()).getTime();
 		let endDate = new Date($('#end-date').val()).getTime();
 
-		if (startDate && endDate && endDate - startDate > 0) {
+		if (startDate && endDate && endDate - startDate >= 0) {
 
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
 			let months = 0;
