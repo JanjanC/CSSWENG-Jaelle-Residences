@@ -7,11 +7,6 @@ const Transaction = require('../models/transaction-model.js');
 
 const roomManagementController = {
 
-    getRoomMaintenance: function (req, res) {
-        //find all unique room types in the database
-        res.render(`room-maintenance.hbs`)
-    },
-
     getRoomManagement: function (req, res) {
 
         let today = new Date();
@@ -489,7 +484,7 @@ const roomManagementController = {
                 endDate: new Date(`${req.body.endDate} 12:00:00`)
             }
         }
-        
+
         if (req.body.transfer_select != '') {
             booking.$set.room = req.body.transfer_select;
         }
@@ -569,7 +564,12 @@ const roomManagementController = {
                 res.redirect('/error');
             }
         });
-	},
+    },
+
+    getRoomMaintenance: function (req, res) {
+        //find all unique room types in the database
+        res.render('room-maintenance');
+    },
 }
 
 module.exports = roomManagementController;
