@@ -275,13 +275,23 @@ function computeCharges () {
 
 	if (roomInfo) {
 		let total = parseInt($('#room-initial-cost').val());
+		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
 		let extra = parseInt($('#room-extra').val());
 
 		if (total) {
 			let charges = 0;
-			if (!Number.isNaN(pax) && pax > roomInfo.max_pax) {
-				charges = charges + (pax - roomInfo.max_pax) * 400;
+
+			//the max pax is set to the room max pax by default
+			let roomMaxPax = roomInfo.max_pax;
+			
+			//determine if monthly max pax is applicable
+			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
+				roomMaxPax = roomInfo.room_rate.monthly.length;
+			}
+
+			if (!Number.isNaN(pax) && pax > roomMaxPax) {
+				charges = charges + (pax - roomMaxPax) * 400;
 			}
 
 			if (extra) {
