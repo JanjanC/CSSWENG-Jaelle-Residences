@@ -119,16 +119,16 @@
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.transaction.pax}}</span></h5>
 												{{#if booking.transaction.totalDiscount}}
 												<h4>Discount:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.transaction.totalDiscount}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{roundNumber booking.transaction.totalDiscount}}</span></h5>
 												{{/if}}
 												{{#if booking.transaction.totalCharges}}
 												<h4>Extra Charges:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.transaction.totalCharges}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{roundNumber booking.transaction.totalCharges}}</span></h5>
 												{{/if}}
 												<h4>Total Cost:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.transaction.netCost}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{roundNumber booking.transaction.netCost}}</span></h5>
 												<h4>Customer Payment:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.transaction.payment}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{roundNumber booking.transaction.payment}}</span></h5>
 											</div>
 										</div>
 									</div>
@@ -203,16 +203,16 @@
 												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.transaction.pax}}</span></h5>
 												{{#if booking.transaction.totalDiscount}}
 												<h4>Discount:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{booking.transaction.totalDiscount}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{roundNumber booking.transaction.totalDiscount}}</span></h5>
 												{{/if}}
 												{{#if booking.transaction.totalCharges}}
 												<h4>Extra Charges:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{booking.transaction.totalCharges}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{roundNumber booking.transaction.totalCharges}}</span></h5>
 												{{/if}}
 												<h4>Total Cost:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{booking.transaction.netCost}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{roundNumber booking.transaction.netCost}}</span></h5>
 												<h4>Customer Payment:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{booking.transaction.payment}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{roundNumber booking.transaction.payment}}</span></h5>
 											</div>
 										</div>
 									</div>
