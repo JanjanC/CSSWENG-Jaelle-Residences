@@ -40,31 +40,26 @@ var RoomSchema = new mongoose.Schema({
         required: true
     },
 
-    // signifies whether the room needs housekeeping or not
-    need_housekeeping: {
-        type: Boolean,
-        required: true
-    },
-
-    // signifies whether the room needs repair or not
-    need_repair: {
-        type: Boolean,
-        required: true
-    },
-
-    // signifies whether the room is vacant or occupied
-    availability_status: {
-        type: String,
-        trim: true,
-        required: true
-    },
-
     connected_rooms: {
         type: [{
             type: mongoose.ObjectId,
             ref: 'Room'
         }]
-    }
+    },
+
+    // signifies whether the room needs housekeeping or not
+    housekeeping: {
+        type: String,
+        required: true,
+        default: 'Okay'
+    },
+
+    // signifies whether the room needs repair or not
+    repair: {
+        type: String,
+        required: true,
+        default: 'Okay'
+    },
 });
 
 module.exports = mongoose.model('Room', RoomSchema);
