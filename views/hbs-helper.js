@@ -103,3 +103,13 @@ hbs.registerHelper('isPastDate', function(date, options) {
         return options.inverse(this);
     }
 });
+
+//Round the number to 2 decimal places
+hbs.registerHelper('roundNumber', function(value) {
+    if (!isNaN(value)) {
+        return value.toFixed(2);
+    } else {
+        return value;
+    }
+
+});
