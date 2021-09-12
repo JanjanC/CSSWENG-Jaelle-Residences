@@ -1,0 +1,41 @@
+td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    height: 6em;
+    width: 33%;
+    border: 1px #EAEAEC solid;
+}
+
+.dropdown {
+    float: none !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.table-header td {
+    height: 2.5em;
+    background-color: #DFECF6;
+}
+
+.maintenance-field {
+    font-family: "Secondary";
+    text-transform: initial;
+}
+
+#chosen-room:hover {
+    background-color: #DFECF6;
+    transition: 0.3s;
+    cursor: default;
+}
+
+.okay {
+    background-color: #E6FFF3 !important;
+}
+
+.inprogress {
+    background-color: #FCF1D9 !important;
+}
+
+.inneed {
+    background-color: #FFD6E6 !important;
+}
