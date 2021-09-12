@@ -422,8 +422,8 @@ const roomManagementController = {
     postCheckOut: function (req, res) {
         let booking = {
             $set: {
-                end_date: new Date(),
-                checked_out: true
+                endDate: new Date(),
+                checkedOut: true
             }
         }
 
@@ -434,7 +434,7 @@ const roomManagementController = {
                 let activity = {
                     employee: req.session.employeeID,
                     booking: bookingResult._id,
-                    activity_type: 'Check-Out',
+                    activityType: 'Check-Out',
                     timestamp: new Date()
                 }
 
