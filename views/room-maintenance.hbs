@@ -27,11 +27,11 @@
                     <div id="chosen-room" class="d-flex flex-column ms-auto me-4 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm">
                         <span class="material-icons-two-tone md-36 mb-2">sensor_door</span>
                         <h4 class="m-0">Room Number</h4>
-                        <h3 class="text-primary m-0">123</h3>
+                        <h3 class="text-primary m-0">{{room.room_number}}</h3>
                     </div>
                 </div>
 
-                <form id="form-submit" class="" action="#" method="post">
+                <form id="form-submit" class="" action="/management/{{room._id}}/maintenance" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center pt-2 mt-4">
                         <div class="col p-3 px-5">
@@ -61,9 +61,9 @@
                                         <td  class="okay">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="housekeeping-select" name="housekeeping_select">
-                                                    <option value="" selected>Okay</option>
-                                                    <option value="">In Progress</option>
-                                                    <option value="">In Need</option>
+                                                    <option value="Okay" {{select room.housekeeping "Okay"}}>Okay</option>
+                                                    <option value="In Progress" {{select room.housekeeping "In Progress"}} >In Progress</option>
+                                                    <option value="In Need" {{select room.housekeeping "In Need"}} >In Need</option>
                                                 </select>
                                             </div>
                                         </td>
@@ -80,9 +80,9 @@
                                         <td class="inprogress">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="repair-select" name="repair_select">
-                                                    <option value="">Okay</option>
-                                                    <option value="" selected>In Progress</option>
-                                                    <option value="">In Need</option>
+                                                    <option value="Okay" {{select room.repair "Okay"}}>Okay</option>
+                                                    <option value="In Progress" {{select room.repair "In Progress"}} >In Progress</option>
+                                                    <option value="In Need" {{select room.repair "In Need"}} >In Need</option>
                                                 </select>
                                             </div>
                                         </td>

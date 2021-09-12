@@ -568,8 +568,38 @@ const roomManagementController = {
 
     getRoomMaintenance: function (req, res) {
         //find all unique room types in the database
-        res.render('room-maintenance');
+        db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+            if (roomResult) {
+                let values = {
+                    username: req.session.username,
+                    room: roomResult,
+                }
+                //render the edit booking screen
+                res.render('room-maintenance', values);
+            } else {
+                res.redirect('/error');
+            }
+        });
     },
+
+    postRoomMaintenance: function (req, res)  {
+
+        let room = {
+            $set: {
+                housekeeping: req.body.housekeeping_select,
+                repair: req.body.repair_select
+            }
+        }
+
+        db.updateOne(Room, {_id: req.params.roomID}, room, function(roomResult) {
+            if (roomResult) {
+                res.redirect('/management/');
+            } else {
+                res.redirect('/error');
+            }
+        });
+    }
+
 }
 
 module.exports = roomManagementController;

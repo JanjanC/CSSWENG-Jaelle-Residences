@@ -69,6 +69,8 @@ app.post('/management/:bookingID/checkin/edit', roomManagementController.postEdi
 
 app.get('/management/:roomID/maintenance', roomManagementController.getRoomMaintenance);
 
+app.post('/management/:roomID/maintenance', roomManagementController.postRoomMaintenance);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);
