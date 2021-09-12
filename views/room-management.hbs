@@ -75,6 +75,11 @@
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<div class="row">
+											<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+				            					<span class="text-secondary h5 me-2">Maintenance need:</span>
+				            					<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+				            					<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+				            				</div>
 											<!--Room information-->
 											<div class="col pe-0 border-end">
 												<h4>Room Status:</h4>
@@ -186,6 +191,11 @@
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<div class="row">
+											<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+				            					<span class="text-secondary h5 me-2">Maintenance need:</span>
+				            					<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+				            					<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+				            				</div>
 											<!--Room information-->
 											<div class="col pe-0 border-end">
 												<h4>Room Status:</h4>
@@ -245,13 +255,16 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<a href="/management/{{room._id}}/maintenance" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+										<div class="me-auto ms-2">
+											<a href="/management/{{room._id}}/maintenance" class="btn btn-primary rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
 
-										<!-- Delete Form -->
-										<!-- Button trigger modal -->
-										<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
-											<span class="material-icons-outlined me-1">delete</span>Delete
-										</button>
+											<!-- Delete Form -->
+											<!-- Button trigger modal -->
+											<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded ms-1" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
+												<span class="material-icons-outlined me-1">delete</span>Delete
+											</button>
+										</div>
+
 
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										<button id="checkin-{{booking._id}}" name="checkin_{{booking._id}}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkin-{{room._id}}-Modal">
@@ -323,6 +336,11 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
+										<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+											<span class="text-secondary h5 me-2">Maintenance need:</span>
+											<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+											<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+										</div>
 										<h4>Room Status:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-status">Unavailable</span></h5>
 										<h4>Room Type:</h4>
@@ -355,6 +373,11 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
+										<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+											<span class="text-secondary h5 me-2">Maintenance need:</span>
+											<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+											<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+										</div>
 										<h4>Room Status:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-status">Vacant</span></h5>
 										<h4>Room Type:</h4>
