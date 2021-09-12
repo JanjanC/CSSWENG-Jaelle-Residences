@@ -33,9 +33,15 @@
 
                 <form id="form-submit" class="" action="#" method="post">
                     <!--ROW-->
-                    <div class="row justify-content-center py-2">
+                    <div class="row justify-content-center pt-2 mt-4">
                         <div class="col p-3 px-5">
-                            <table class="table p-3 mt-4">
+                            <div class="d-flex justify-content-end align-items-center me-3">
+            					<span class="text-secondary h5 me-2">LEGEND:</span>
+            					<span class="legend inneed h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is in need of action">In Need</span>
+            					<span class="legend inprogress h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is currently in progress">In Progress</span>
+            					<span class="legend okay h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is fine">Okay</span>
+            				</div>
+                            <table class="table p-3 mt-2">
                                 <tbody>
                                     <!--Label-->
                                     <tr class="table-header h4 p-0 border">
