@@ -205,7 +205,7 @@ const roomManagementController = {
                                 db.insertOne(Activity, activity, function(activityResult) {
                                     if (activityResult) {
                                         // redirects to home screen after adding a record
-                                        res.redirect(`/management/`);
+                                        res.redirect('/management/');
                                     } else {
                                         res.redirect('/error');
                                     }
@@ -367,7 +367,7 @@ const roomManagementController = {
         						db.insertOne(Activity, activity, function(activityResult) {
                                     if (activityResult) {
                                         // redirects to booking screen after adding a record
-                                        res.redirect(`/management`);
+                                        res.redirect('/management/');
                                     } else {
                                         res.redirect('/error');
                                     }
