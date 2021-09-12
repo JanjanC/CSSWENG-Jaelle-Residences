@@ -534,7 +534,7 @@ const roomManagementController = {
                                 db.insertOne(Activity, activity, function(activityResult) {
                                     if (activityResult) {
                                         // redirects to home screen after updating the booking
-                                        res.redirect(`/management`);
+                                        res.redirect('/management/');
                                     } else {
                                         res.redirect('/error');
                                     }
