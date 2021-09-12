@@ -408,7 +408,7 @@ const roomManagementController = {
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-                        res.redirect(`/management`);
+                        res.redirect('/management/');
                     } else {
                         res.redirect('/error');
                     }
