@@ -3,7 +3,13 @@
     <head>
 
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+        <script type="text/javascript" src="/js/index.js"></script>
+        <script>if (window.module) module = window.module;</script>
+        
 
         <title>Placeholder</title>
     </head>
@@ -17,7 +23,8 @@
         <a href="/{{formatDate today}}/reservation/">Reservation</a>
         <a href="/calendar/{{getCurrentMonthYear}}">Calendar</a>
         <a href="/{{formatDate today}}/booking/">Booking</a>
-        <a href="/booking/613f1c4f1f3b0e4ddc0cbcd3/print">Print</a>
+        {{!-- <a href="/booking/613f1c4f1f3b0e4ddc0cbcd3/print">Print</a> --}}
+        <button type="button" id="testbtn">Print</button>
 
     </body>
 </html>
