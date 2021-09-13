@@ -23,7 +23,7 @@ app.on('ready', function() {
         show: false,
         webPreferences: {
             devTools: true,
-            nodeIntegration: true,
+            nodeIntegration: false,
             contextIsolation: false
         }
     });
