@@ -3,7 +3,7 @@ const Activity = require('../models/activity-model.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
-const Receipt = require('../models/receipt-model');
+const Transaction = require('../models/transaction-model');
 const Employee = require('../models/employee-model');
 const mongoose = require('mongoose');
 
@@ -411,21 +411,21 @@ const bookingController = {
 	postPrintReceipt: function(req, res){
 		db.findOne(Booking, {_id: req.params.bookingID}, function(booking_result){
 			db.findOne(Guest, {_id: booking_result.guest}, function(guest_result){
-				db.findOne(Receipt, {booking_id: req.params.bookingID}, function(receipt_result){
+				db.findOne(Transaction, {_id: booking_result.transaction}, function(transaction_result){
 					db.findOne(Employee, {username: "myname"}, function(employee_result){
-						if(guest_result && booking_result){
-							let subtotal = 0;
-							for(i = 0; i < receipt_result.breakdown.length; i++)
-								subtotal += receipt_result.breakdown[i].price;
-								
+						if(transaction_result){
 							renderObj = {
-								guest: guest_result.first_name + " " + guest_result.last_name,
+								guest: guest_result.firstName + " " + guest_result.lastName,
 								checkin: booking_result.startDate.toLocaleString(),
 								checkout: booking_result.endDate.toLocaleString(),
 								receptionist: employee_result.first_name + " " + employee_result.last_name,
-								items: receipt_result.breakdown,
-								subtotal: subtotal
+								roomCost: transaction_result.roomCost,
+								subtotal: transaction_result.totalCharges,
+								totalDiscount: transaction_result.totalDiscount,
+								total: transaction_result.netCost
 							}
+							if(transaction_result.extraCharges)
+								renderObj.$and.push({extraCharges: transaction_result.extraCharges});
 							res.render('print', renderObj);
 						}
 					})
