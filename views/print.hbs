@@ -32,15 +32,22 @@
   <body>
     <p class="center">Welcome to Jaelle Residences</p>
     <p>We hope to serve you well</p>
-    <p>1 {{guest}}</p>
-    <p>2 {{checkin}}</p>
-    <p>3 {{checkout}}</p>
-    <p>4 {{receptionist}}</p>
-    <p>5 {{roomCost}}</p>
-    <p>6 {{extraCharges}}</p>
-    <p>7 {{subtotal}}</p>
-    <p>8 {{totalDiscount}}</p>
-    <p>9 {{total}}</p>
+    <p>{{guest}}</p>
+    <p>{{checkin}}</p>
+    <p>{{checkout}}</p>
+    <p>{{receptionist}}</p>
+    <p>{{roomCost}}</p>
+    <p>{{extraCharges}}</p>
+    <p>{{subtotal}}</p>
+    <p>DISCOUNTS APPLIED</p>
+    {{#if pwdSeniorDiscount}}
+    <p>Senior/PWD Discount</p>
+    {{/if}}
+    <p>{{addtlFlatDiscReason}}</p>
+    <p>{{addtlPercentDiscReason}}</p>
+    <p>DISCOUNT END</p>
+    <p>{{totalDiscount}}</p>
+    <p>{{total}}</p>
     <button id="print-test">new window</button>
     <button id="print-it">print</button>
   </body>
