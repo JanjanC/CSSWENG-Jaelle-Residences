@@ -8,8 +8,7 @@ const roomManagementController = require('../controllers/room-management-control
 
 const app = express.Router();
 
-// app.get('/', signInController.getSignIn);
-app.get('/', signInController.getIndex);
+app.get('/', signInController.getSignIn);
 
 app.post('/sign-in', signInController.postSignIn);
 
