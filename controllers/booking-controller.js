@@ -3,18 +3,20 @@ const Activity = require('../models/activity-model.js');
 const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
-const Transaction = require('../models/transaction-model.js');
+const Transaction = require('../models/transaction-model.js')
 const mongoose = require('mongoose');
 
 const bookingController = {
 	getBookingScreen: function (req, res) {
 		let today = new Date();
 		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
-		let timeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
+		let hourMinuteString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
+        let fullTimeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`
 
 		//there is a given time
 		if (req.query.time !== undefined) {
-			timeString = `${req.query.time}:00`;
+			hourMinuteString = `${req.query.time}:00`
+			fullTimeString = `${req.query.time}:59`;
 		}
 
 		//there is a given date
@@ -22,7 +24,7 @@ const bookingController = {
 			dateString = `${req.params.year}-${req.params.month}-${req.params.day}`;
 		}
 
-		let date = new Date(`${dateString} ${timeString}`);
+		let date = new Date(`${dateString} ${fullTimeString}`);
 
 		//find all the rooms in the database
 		db.findMany(Room, {}, function (roomResult) {
@@ -41,15 +43,16 @@ const bookingController = {
 
 				let booking = {
 					//the current date is between the start date and end date of the booking, inclusive
-		            start_date: {$lte: date},
-		            end_date: {$gte: date},
-					//it is considered to be a reservation when the confirmed_reservation does not exists in the database (i.e., it was a direct booking)
-					//or the reservation has been confirmed
-		            $or: [
-						{confirmed_reservation: {$exists: false}},
-		            	{confirmed_reservation: true}
+		            startDate: {$lte: date},
+		            endDate: {$gte: date},
+					$or: [
+                        //booked
+		            	{booked: true},
+                        //checked in
+                        {checkedIn: true}
 					],
-					is_cancelled: false
+					checkedOut: false,
+					isCancelled: false
 		        };
 
 				db.findMany(Booking, booking, function (bookingResult) {
@@ -62,7 +65,6 @@ const bookingController = {
 								if (list[j].room._id.toString() == bookingResult[i].room._id.toString()) {
 									//links the room to a booking
 									list[j].booking = bookingResult[i];
-									list[j].booking.booked = true;
 									break;
 								}
 							}
@@ -84,7 +86,7 @@ const bookingController = {
 							username: req.session.username,
 							list: list,
 							date: dateString,
-							time: timeString
+							time: hourMinuteString
 						}
 
 						//loads the main booking page
@@ -108,12 +110,14 @@ const bookingController = {
 
 				let reservation = {
 		            //the current date is between the start date and end date of the reservation, inclusive
-					start_date: date,
- 	               	end_date: {$gte: date},
-					booked_type: roomResult.room_type,
-		            //it is considered to be a reservation when the confirmed_reservation exists in the database
-		            confirmed_reservation: false,
-		            is_cancelled: false
+					startDate: date,
+ 	               	endDate: {$gte: date},
+					bookedType: roomResult.room_type,
+		            reserved: true,
+					booked: false,
+					checkedIn: false,
+					checkedOut: false,
+		            isCancelled: false
 		        };
 				//find all the reservations such that the current date is between the start and end date of the reservation
 				db.findMany(Booking, reservation, function (reservationResult) {
@@ -135,12 +139,12 @@ const bookingController = {
 	postCreateBooking: function(req, res) {
 		// collect the guest information from post request
         let guest = {
-            first_name: req.body.firstname,
-            last_name: req.body.lastname,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
             birthdate: req.body.birthdate,
             address: req.body.address,
-            contact_number: req.body.contact,
-            company_name: req.body.company,
+            contact: req.body.contact,
+            company: req.body.company,
             occupation: req.body.occupation
         }
 
@@ -149,20 +153,20 @@ const bookingController = {
             if(guestResult) {
 
 				let transaction = {
-					duration: req.body.duration,
+				    duration: req.body.duration,
 				    averageRate: req.body.room_rate,
 				    roomCost: req.body.room_initial_cost,
 				    pax: req.body.room_pax,
 				    pwdCount: req.body.room_pwd,
 				    seniorCitizenCount: req.body.room_senior,
 				    additionalPhpDiscount: {
-						reason: req.body.room_discount_reason_php,
-						amount: req.body.room_discount_php
-					},
+				        reason: req.body.room_discount_reason_php,
+				        amount: req.body.room_discount_php
+				    },
 				    additionalPercentDiscount: {
-						reason: req.body.room_discount_reason_php,
-					    amount: req.body.room_discount_percent
-					},
+				        reason: req.body.room_discount_reason_percent,
+				        amount: req.body.room_discount_percent
+				    },
 				    totalDiscount: req.body.room_subtract,
 				    extraCharges: req.body.room_extra,
 				    totalCharges: req.body.room_total_extra,
@@ -172,46 +176,45 @@ const bookingController = {
 				}
 
 				db.insertOne(Transaction, transaction, function(transactionResult) {
-					if (transactionResult) {
+				    if (transactionResult) {
 						//collect the booking information from post request and set default values
-		                let booking = {
-		                    room: req.params.roomID,
-		                    booked_type: req.body.room_type,
-		                    guest: guestResult._id,
-		                    employee: req.session.employeeID,
-		                    start_date: new Date (`${req.body.start_date} 14:00:00`),
-		                    end_date: new Date(`${req.body.end_date} 12:00:00`),
-							checked_in: false,
-		                    is_cancelled: false,
+						let booking = {
+							room: req.params.roomID,
+							bookedType: req.body.room_type,
+							guest: guestResult._id,
+							employee: req.session.employeeID,
+							startDate: new Date (`${req.body.start_date} 14:00:00`),
+							endDate: new Date(`${req.body.end_date} 12:00:00`),
+							booked: true,
 							transaction: transactionResult._id
-		                }
+						}
 
-		                // create a new booking in the database
-		                db.insertOne(Booking, booking, function(bookingResult){
-		                    if(bookingResult) {
-		                        let activity = {
-		                            employee: req.session.employeeID,
-		                            booking: bookingResult._id,
-		                            activity_type: 'Create Booking',
-		                            timestamp: new Date()
-		                        }
+						// create a new booking in the database
+						db.insertOne(Booking, booking, function(bookingResult){
+							if(bookingResult) {
+								let activity = {
+									employee: req.session.employeeID,
+									booking: bookingResult._id,
+									activityType: 'Create Booking',
+									timestamp: new Date()
+								}
 
-		                        //saves the action of the employee to an activity log
-		                        db.insertOne(Activity, activity, function(activityResult) {
-		                            if (activityResult) {
-		                                // redirects to home screen after adding a record
-		                                res.redirect(`/${req.body.start_date}/booking/`);
-		                            } else {
-		                                res.redirect('/error');
-		                            }
-		                        });
-		                    } else {
-		                        res.redirect('/error');
-		                    }
-		                });
-					} else {
-						res.redirect('/error');
-					}
+								//saves the action of the employee to an activity log
+								db.insertOne(Activity, activity, function(activityResult) {
+									if (activityResult) {
+										// redirects to home screen after adding a record
+										res.redirect(`/${req.body.start_date}/booking/`);
+									} else {
+										res.redirect('/error');
+									}
+								});
+							} else {
+								res.redirect('/error');
+							}
+						});
+				    } else {
+				        res.redirect('/error');
+				    }
 				});
             } else {
                 res.redirect('/error');
@@ -219,57 +222,82 @@ const bookingController = {
         });
 	},
 
-    checkAvailability: function(req, res) {
-        // extract dates and room numbers
-        let start = new Date(`${req.query.start_date} 14:00:00`);
-        let end = new Date(`${req.query.end_date} 12:00:00`);
-		let rooms = req.query.rooms;
-        let lower_bound = new Date(req.query.start_date);
-        let upper_bound = new Date(req.query.end_date);
-        lower_bound.setFullYear(lower_bound.getFullYear() - 5);
-        upper_bound.setFullYear(upper_bound.getFullYear() + 5);
-        // set the conditions for the queries
-		booking_query = {
-			$and: [
-				{room: {$in : rooms}},
-				// reservation dates only within 5 years
-				{$and: [
-					{start_date: {$gte: lower_bound}},
-					{end_date: {$lte: upper_bound}}
-				]},
-				// must be an active booking
-				{$and:[
-					{$or: [
-						{confirmed_reservation: {$exists: false}},
-						{confirmed_reservation: true}
+    checkBookingAvailability: function(req, res) {
+		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
+			let rooms = [];
+			rooms.push(req.query.roomID);
+			if (roomResult.connected_rooms) {
+				for (let i = 0; i < roomResult.connected_rooms.length; i++) {
+					rooms.push(roomResult.connected_rooms[i]);
+				}
+			}
+
+			// extract dates and room numbers
+	        let start = new Date(`${req.query.startDate} 14:00:00`);
+	        let end = new Date(`${req.query.endDate} 12:00:00`);
+	        let lowerBound = new Date(req.query.startDate);
+	        let upperBound = new Date(req.query.endDate);
+
+	        lowerBound.setFullYear(lowerBound.getFullYear() - 5);
+	        upperBound.setFullYear(upperBound.getFullYear() + 5);
+
+	        // set the conditions for the queries
+			query = {
+				$and: [
+					{room: {$in : rooms}},
+					// reservation dates only within 5 years
+					{$and: [
+						{startDate: {$gte: lowerBound}},
+						{endDate: {$lte: upperBound}}
 					]},
-					{is_cancelled: false}
-				]},
-				// cases to check for existing bookings
-				{$or: [
-					{$and: [{start_date: {$gte: start}}, {end_date: {$lte: end}}]},
-					{$and: [{start_date: {$lte: end}}, {start_date: {$gte: start}}]},
-					{$and: [{end_date: {$gte: start}}, {end_date: {$lte: end}}]},
-					{$and: [{start_date: {$lte: start}}, {end_date: {$gte: end}}]}
-				]}
-			]
-		};
+					// must be an active booking
+					{$and:[
+						{$or: [
+							{booked: true},
+							{checkedIn: true}
+						]},
+						{checkedOut: false},
+						{isCancelled: false}
+					]},
+					// cases to check for existing bookings
+					{$or: [
+						{$and: [
+							{startDate: {$gte: start}},
+							{startDate: {$lte: end}}
+						]},
+						{$and: [
+							{endDate: {$gte: start}},
+							{endDate: {$lte: end}}
+						]},
+						{$and: [
+							{startDate: {$lte: start}},
+							{endDate: {$gte: end}}
+						]},
+						{$and: [
+							{startDate: {$gte: start}},
+							{endDate: {$lte: end}}
+						]}
+					]}
+				]
+			};
 
-		// when checking availability while editing booking, do not include itself as a conflicting booking
-		if(req.query.bookingid != ''){
-			booking_query.$and.push({_id: {$ne: req.query.bookingid}});
-		}
+			// when checking availability while editing booking, do not include itself as a conflicting booking
+			if(req.query.bookingID != '') {
+				query.$and.push({_id: {$ne: req.query.bookingID}});
+			}
 
-        // find atleast one booking for a specified room between the start and end date inclusive
-        db.findOne(Booking, booking_query, function(result){
-            // a booking is found
-            if(result){
-                res.send(false);
-            // no booking is found
-            } else{
-                res.send(true);
-            }
-        });
+	        // find atleast one booking for a specified room between the start and end date inclusive
+	        db.findOne(Booking, query, function(result) {
+	            // a booking is found
+	            if(result) {
+	                res.send(false);
+	            // no booking is found
+	        	} else {
+	                res.send(true);
+	            }
+	        });
+
+		});
     },
 
 	getRoom: function(req, res) {
@@ -283,41 +311,39 @@ const bookingController = {
 	confirmReservation: function(req, res) {
 
 		let transaction = {
-			duration: req.body.duration,
-			averageRate: req.body.room_rate,
-			roomCost: req.body.room_initial_cost,
-			pax: req.body.room_pax,
-			pwdCount: req.body.room_pwd,
-			seniorCitizenCount: req.body.room_senior,
-			additionalPhpDiscount: {
-				reason: req.body.room_discount_reason_php,
-				amount: req.body.room_discount_php
-			},
-			additionalPercentDiscount: {
-				reason: req.body.room_discount_reason_php,
-				amount: req.body.room_discount_percent
-			},
-			totalDiscount: req.body.room_subtract,
-			extraCharges: req.body.room_extra,
-			totalCharges: req.body.room_total_extra,
-			netCost: req.body.room_net_cost,
-			payment: req.body.room_payment,
-			balance: req.body.room_balance
+		    duration: req.body.duration,
+		    averageRate: req.body.room_rate,
+		    roomCost: req.body.room_initial_cost,
+		    pax: req.body.room_pax,
+		    pwdCount: req.body.room_pwd,
+		    seniorCitizenCount: req.body.room_senior,
+		    additionalPhpDiscount: {
+		        reason: req.body.room_discount_reason_php,
+		        amount: req.body.room_discount_php
+		    },
+		    additionalPercentDiscount: {
+		        reason: req.body.room_discount_reason_percent,
+		        amount: req.body.room_discount_percent
+		    },
+		    totalDiscount: req.body.room_subtract,
+		    extraCharges: req.body.room_extra,
+		    totalCharges: req.body.room_total_extra,
+		    netCost: req.body.room_net_cost,
+		    payment: req.body.room_payment,
+		    balance: req.body.room_balance
 		}
 
 		db.insertOne(Transaction, transaction, function(transactionResult) {
 		    if (transactionResult) {
-
 				let reservation = {
 		            $set: {
 						//assign the guest to a room
 						room: req.params.roomID,
-						start_date: new Date (`${req.body.start_date} 14:00:00`),
-		                end_date: new Date(`${req.body.end_date} 12:00:00`),
+						startDate: new Date (`${req.body.start_date} 14:00:00`),
+		                endDate: new Date(`${req.body.end_date} 12:00:00`),
 						//confirm the reservation
-						confirmed_reservation: true,
-						pax: req.body.room_pax,
-						payment: req.body.room_payment
+						booked: true,
+						transaction: transactionResult._id
 		            }
 		        }
 				//confirm the reservation, assign the guest to a room, and update the booking dates
@@ -325,14 +351,13 @@ const bookingController = {
 
 					if (bookingResult) {
 						let guest = {
-				            first_name: req.body.firstname,
-				            last_name: req.body.lastname,
+				            firstName: req.body.firstname,
+				            lastName: req.body.lastname,
 				            birthdate: req.body.birthdate,
 				            address: req.body.address,
-				            contact_number: req.body.contact,
-				            company_name: req.body.company,
-				            occupation: req.body.occupation,
-							transaction: transactionResult._id
+				            contact: req.body.contact,
+				            company: req.body.company,
+				            occupation: req.body.occupation
 				        }
 						//upda the information of the guest
 						db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
@@ -341,7 +366,7 @@ const bookingController = {
 								let activity = {
 		                            employee: req.session.employeeID,
 		                            booking: bookingResult._id,
-		                            activity_type: 'Confirm Reservation',
+		                            activityType: 'Confirm Reservation',
 		                            timestamp: new Date()
 		                        }
 								//saves the action of the employee to an activity log
@@ -360,9 +385,7 @@ const bookingController = {
 					} else {
 						res.redirect('/error');
 					}
-
 				});
-
 		    } else {
 		        res.redirect('/error');
 		    }
@@ -373,9 +396,14 @@ const bookingController = {
 		//get the booking information given the bookingID
 		db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
 			if (result) {
-				console.log(result);
+
+				let values = {
+					username: req.session.username,
+					booking: result
+				}
+
 				//render the edit booking screen
-				res.render('booking-edit', result);
+				res.render('booking-edit', values);
 			} else {
 				res.redirect('/error');
 			}
@@ -385,8 +413,8 @@ const bookingController = {
 	postEditBooking: function(req, res) {
 		let booking = {
             $set: {
-				start_date: new Date (`${req.body.start_date} 14:00:00`),
-                end_date: new Date(`${req.body.end_date} 12:00:00`),
+				startDate: new Date (`${req.body.start_date} 14:00:00`),
+                endDate: new Date(`${req.body.end_date} 12:00:00`),
 				pax: req.body.room_pax,
 				payment: req.body.room_payment
             }
@@ -397,12 +425,12 @@ const bookingController = {
 
             let guest = {
                 $set: {
-                    first_name: req.body.firstname,
-                    last_name: req.body.lastname,
+                    firstName: req.body.firstname,
+                    lastName: req.body.lastname,
                     birthdate: req.body.birthdate,
                     address: req.body.address,
-                    contact_number: req.body.contact,
-                    company_name: req.body.company,
+                    contact: req.body.contact,
+                    company: req.body.company,
                     occupation: req.body.occupation
                 }
             }
@@ -415,25 +443,25 @@ const bookingController = {
 						let transaction = {
 							$set: {
 								duration: req.body.duration,
-								averageRate: req.body.room_rate,
-								roomCost: req.body.room_initial_cost,
-								pax: req.body.room_pax,
-								pwdCount: req.body.room_pwd,
-								seniorCitizenCount: req.body.room_senior,
-								additionalPhpDiscount: {
-									reason: req.body.room_discount_reason_php,
-									amount: req.body.room_discount_php
-								},
-								additionalPercentDiscount: {
-									reason: req.body.room_discount_reason_php,
-									amount: req.body.room_discount_percent
-								},
-								totalDiscount: req.body.room_subtract,
-								extraCharges: req.body.room_extra,
-								totalCharges: req.body.room_total_extra,
-								netCost: req.body.room_net_cost,
-								payment: req.body.room_payment,
-								balance: req.body.room_balance
+							    averageRate: req.body.room_rate,
+							    roomCost: req.body.room_initial_cost,
+							    pax: req.body.room_pax,
+							    pwdCount: req.body.room_pwd,
+							    seniorCitizenCount: req.body.room_senior,
+							    additionalPhpDiscount: {
+							        reason: req.body.room_discount_reason_php,
+							        amount: req.body.room_discount_php
+							    },
+							    additionalPercentDiscount: {
+							        reason: req.body.room_discount_reason_percent,
+							        amount: req.body.room_discount_percent
+							    },
+							    totalDiscount: req.body.room_subtract,
+							    extraCharges: req.body.room_extra,
+							    totalCharges: req.body.room_total_extra,
+							    netCost: req.body.room_net_cost,
+							    payment: req.body.room_payment,
+							    balance: req.body.room_balance
 							}
 						}
 
@@ -443,7 +471,7 @@ const bookingController = {
 								let activity = {
 									employee: req.session.employeeID,
 									booking: bookingResult._id,
-									activity_type: 'Modify Booking',
+									activityType: 'Modify Booking',
 									timestamp: new Date()
 								}
 
@@ -474,25 +502,25 @@ const bookingController = {
 	postDeleteBooking: function(req, res) {
 		let booking = {
             $set: {
-                is_cancelled: true
+                isCancelled: true
             }
         }
 
-        //cancel the booking by setting is_cancelled to true
+        //cancel the booking by setting isCancelled to true
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
 
             if (bookingResult) {
                 let activity = {
                     employee: req.session.employeeID,
                     booking: bookingResult._id,
-                    activity_type: 'Cancel Booking',
+                    activityType: 'Cancel Booking',
                     timestamp: new Date()
                 }
 
                 //saves the action of the employee to an activity log
                 db.insertOne(Activity, activity, function(activityResult) {
                     if (activityResult) {
-						let startDate = new Date(bookingResult.start_date);
+						let startDate = new Date(bookingResult.startDate);
                         let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
                         res.redirect(`/${startDateString}/booking/`);

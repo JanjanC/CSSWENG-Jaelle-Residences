@@ -8,13 +8,8 @@ var BookingSchema = new mongoose.Schema({
         ref: 'Room'
     },
 
-    // the room rate at the time of booking
-    booked_rate: {
-        type: Number,
-    },
-
     // the type of room booked
-    booked_type: {
+    bookedType: {
         type: String,
         trim: true,
         required: true
@@ -35,31 +30,50 @@ var BookingSchema = new mongoose.Schema({
     },
 
     // the day the booking starts
-    start_date: {
+    startDate: {
         type: Date,
         required: true
     },
 
     // the day the booking ends
-    end_date: {
+    endDate: {
         type: Date,
         required: true
     },
 
-    // signifies whether or not a reservation has been confirmed (i.e., the reservation has beem paid for)
-    // this field is absent when the a booking is made without prior reservation
-    confirmed_reservation: {
-        type: Boolean
+    // signifies whether it is a reservation or not
+    reserved: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+
+    // signifies whether it is a booking or not
+    booked: {
+        type: Boolean,
+        required: true,
+        default: false
     },
 
     // signifies whether the guest has checked in or not
-    checked_in: {
-        type: Boolean
+    checkedIn: {
+        type: Boolean,
+        required: true,
+        default: false
     },
 
-    is_cancelled: {
+    // signifies whether the guest has checked out or not
+    checkedOut: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
+    },
+
+    // signifies whether the booking has been cancelled or not
+    isCancelled: {
+        type: Boolean,
+        required: true,
+        default: false
     },
 
     transaction: {

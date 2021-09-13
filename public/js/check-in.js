@@ -5,7 +5,6 @@ $(document).ready(function () {
 	computeTotal();
 	computeBalance();
 
-	//onclick event of the button with an id of 'submit'
 	$('#book').click(function(){
 		if (validateEntry()) {
 			showInput();
@@ -211,7 +210,7 @@ function computeInitialCost () {
 		let startDate = new Date($('#start-date').val()).getTime();
 		let endDate = new Date($('#end-date').val()).getTime();
 
-		if (startDate && endDate && endDate - startDate > 0) {
+		if (startDate && endDate && endDate - startDate >= 0) {
 
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
 			let months = 0;
@@ -284,7 +283,7 @@ function computeCharges () {
 
 			//the max pax is set to the room max pax by default
 			let roomMaxPax = roomInfo.max_pax;
-			
+
 			//determine if monthly max pax is applicable
 			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
 				roomMaxPax = roomInfo.room_rate.monthly.length;
@@ -478,7 +477,7 @@ function checkAvailability () {
 			bookingID: bookingID
 		}
 
-		$.get('/booking/room/availability', query, function(result) {
+		$.get('/checkin/room/availability', query, function(result) {
 			//is available
 			if(result) {
 				$('#end-date-error').text('');
@@ -569,7 +568,7 @@ function validateEntry () {
 		} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 			$('#end-date-error').text('End Date cannot be earlier than Start Date');
 			isValid = false;
-		} else if ($('#start-date').val() != '' && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
+		} else if ($('#start-date').val() != '' && new Date().getHours() >= 4 && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
 			$('#end-date-error').text('End Date cannot the same as Start Date');
 			isValid = false;
 		} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
@@ -657,21 +656,16 @@ function validateEntry () {
 	if(!isValid){
 		if($('#firstname-error').text() != ''){
 			$('html, body').animate({scrollTop: $('#firstname').offset().top - 118}, 'slow');
-		}
-		else if($('#lastname-error').text() != ''){
+		} else if($('#lastname-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#lastname').offset().top - 118}, 'slow');
-		}
-		else if($('#start-date-error').text() != ''){
+		} else if($('#start-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#start-date').offset().top - 118}, 'slow');
-		}
-		else if($('#birthdate-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
-		}
-		else if($('#contact-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
-		}
-		else if($('#end-date-error').text() != ''){
+		} else if($('#end-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#end-date').offset().top - 118}, 'slow');
+		} else if($('#birthdate-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
+		} else if($('#contact-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
 		}
 	}
 

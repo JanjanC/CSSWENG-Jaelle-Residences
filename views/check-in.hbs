@@ -5,15 +5,15 @@
     <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
     <link rel="stylesheet" type="text/css" href="/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
-    <link rel="stylesheet" type="text/css" href="/css/booking-create.css">
+    <link rel="stylesheet" type="text/css" href="/css/check-in.css">
     <link rel="stylesheet" type="text/css" href="/css/material.css">
 
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
-    <script type="text/javascript" src="/js/booking.js"></script>
+    <script type="text/javascript" src="/js/check-in.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Create Booking</title>
+    <title>Check-in Guest</title>
 </head>
 <body>
 
@@ -24,30 +24,25 @@
         <div id="main-screen" class="col-10 mx-auto">
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
-                    <h1 class="m-0">Create Booking</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where booking forms for vacant rooms are accomplished and created.</p>
+                    <h1 class="m-0">Check-in Guest</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where forms for checking-in guests are to be accomplished.</p>
                 </div>
 
                 <br>
 
-            <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
+            <form id="form-submit" class="" action="/management/{{room._id}}/checkin/vacant/reservation" method="post">
 
                 <div class="ps-2">
-                        <!--NOTE:
-                        THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
-                        CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
-                    -->
                     <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">group_add</span>Add From Reservation</h2>
                     <p id="screen-info" class="w-50 text-secondary ms-4">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
                     <div class="form-group ms-4 mb-3">
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
-                            <option value="" selected>(Optional) Select a reservation</option>
+                            <option value="" hidden selected>(Optional) Select a reservation</option>
                             {{#each reservations}}
                             <option value="{{_id}}">{{guest.firstName}} {{guest.lastName}} | {{formatDate startDate}} - {{formatDate endDate}}</option>
                             {{/each}}
                         </select>
                     </div>
-                    <h2 class="ms-3 mt-5 mb-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Create New Booking</h2>
                 </div>
 
                 <!--ROW-->
@@ -76,28 +71,20 @@
                         <!-- Start Date -->
                         <div class="form-group">
                             <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                            <input class="form-control w-75" type="date" onkeydown="return false" id="start-date" name="start_date" value="{{formatDate date}}">
+                            <input class="form-control w-75" type="date" readonly="true" onkeydown="return false" id="start-date" name="start_date" value="{{formatDate date}}">
                             <em><p class="error text-danger" id="start-date-error"></p></em>
                         </div>
 
-                        <!--NOTE:
-                        THE ONLY ONES THAT WILL BE ACCEPTED ARE THOSE THAT HAVE ENDDATES THAT ARE VALID
-                        MEANING... END DATES WITH NO CONFLICT WITH OTHER BOOKINGS/OCCUPIED IN THE DATABASE
-
-                        For example: If reserved customer (A) have Aug 1 - Aug 5... But in the database, another customer (B) is already booked for Aug 4.
-                        The enddate field will complain that there is a conflict.
-                    -->
-                    <!-- End Date -->
-                    <div class="form-group">
-                        <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                        <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date">
-                        <em><p class="error text-danger" id="end-date-error"></p></em>
+                        <!-- End Date -->
+                        <div class="form-group">
+                            <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
+                            <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date">
+                            <em><p class="error text-danger" id="end-date-error"></p></em>
+                        </div>
                     </div>
-                </div>
 
                 <!--COLUMN 2: Customer Details-->
                 <div class="col-6 border p-4 pt-2 rounded">
-
                     <!--CUSTOMER INFO-->
                     <div id="customer-info" class="mb-4">
                         <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
@@ -157,7 +144,8 @@
                 <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
                     <!--TRANSACTION INFO-->
                     <div id="transaction-info" class="row mb-4 justify-content-between">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-4"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
+                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
+
 
                         <!--TRANSACTION 1st COL-->
                         <div class="col">
@@ -296,7 +284,7 @@
                             <div class="form-group mb-3 text-end text-primary">
                                 <label class="h5">Remaining Balance</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" readonly="true" id="room-balance" name="room_balance" class="form-control">
+                                    <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -310,22 +298,19 @@
                 <!-- RESERVE-->
                 <!-- Button trigger modal -->
                 <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
-                    Book
+                    Check-in
                 </button>
                 <!-- Modal -->
                 <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="bookModalLabel">Confirm Booking</h5>
+                                <h5 class="modal-title" id="bookModalLabel">Confirm Check-in</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body px-4 pt-3 pb-4">
-                                <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                <p>Are you sure you want to <strong>book guest</strong> with the following information?</p>
-                                {{!-- <div id="inputted-info">
-
-                                </div> --}}
+                                <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                <p>Are you sure you want to <strong>check-in guest</strong> with the following information?</p>
                                 <div class="template">
                                             <div class="row mt-4">
                                                 <!--Room information-->
