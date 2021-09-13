@@ -23,7 +23,7 @@ app.on('ready', function() {
         show: false,
         webPreferences: {
             devTools: true,
-            nodeIntegration: false,
+            nodeIntegration: true,
             contextIsolation: false
         }
     });
@@ -45,15 +45,15 @@ app.on('ready', function() {
 
 });
 
-ipcMain.on('print:goto', () => {
-    createAddWindow();
+ipcMain.on('print:goto', (event, bookingID) => {
+    createAddWindow(bookingID);
 });
 
 ipcMain.on('print:execute', (event) => {
   print(event.sender);
 });
 
-function createAddWindow(){
+function createAddWindow(bookingID){
   addWindow = new BrowserWindow({
       width: 720,
       height: 480,
@@ -63,7 +63,7 @@ function createAddWindow(){
           contextIsolation: false
       }
   });
-  addWindow.loadURL(`http://localhost:3000/booking/:bookingID/print`);
+  addWindow.loadURL(`http://localhost:3000/booking/${bookingID}/print`);
   addWindow.on('closed', () => addWindow = null);
 }
 
@@ -106,6 +106,6 @@ function print(window, copies = 3, delay = 1500) {
 
 function _print(window) {
   window.print({
-    silent: false,
+    silent: true,
   });
 }
