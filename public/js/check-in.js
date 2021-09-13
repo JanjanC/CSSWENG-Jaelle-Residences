@@ -141,13 +141,9 @@ function getRoomInfo () {
 }
 
 function submitForm () {
-	let reservation = $('#reservation_select').val();
-	let roomID = $('#room-id').text();
-
-	if (reservation) {
-		$('#form-submit').attr('action', `/booking/${roomID}/confirm`);
+	if ($('#reservation_select').val()) {
+		$('#form-submit').attr('action', `/management/${$('#room-id').text()}/checkin/vacant/booking`);
 	}
-
 	return true;
 }
 

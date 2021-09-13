@@ -97,20 +97,41 @@ const roomManagementController = {
     },
 
     getCheckInVacant: function (req, res) {
-        let today = new Date();
-    	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 
         //find the information of the room given a roomID
-		db.findOne(Room, {_id: req.params.roomID}, function(result) {
-			if (result) {
-				//stores the room information and the current date into an object
-				let values = {
-					username: req.session.username,
-                    room: result,
-                    date: today
-                }
-				//loads the create booking page
-				res.render('check-in', values);
+		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+			if (roomResult) {
+                console.log(roomResult);
+                let today = new Date();
+            	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+                let reservation = {
+		            //the current date is between the start date and end date of the reservation, inclusive
+					startDate: todayString,
+ 	               	endDate: {$gte: todayString},
+					bookedType: roomResult.room_type,
+                    reserved: true,
+					booked: false,
+					checkedIn: false,
+					checkedOut: false,
+		            isCancelled: false
+		        };
+
+                //find all the reservations such that the current date is between the start and end date of the reservation
+                db.findMany(Booking, reservation, function (reservationResult) {
+                    if (reservationResult) {
+                        let values = {
+    						username: req.session.username,
+    	                    room: roomResult,
+    						reservations: reservationResult,
+    	                    date: todayString
+    	                }
+                        //loads the create check in page
+        				res.render('check-in', values);
+                    } else {
+                        res.redirect('/error');
+                    }
+				}, 'guest');
 			} else {
 				res.redirect('/error');
 			}
@@ -184,7 +205,7 @@ const roomManagementController = {
                                 db.insertOne(Activity, activity, function(activityResult) {
                                     if (activityResult) {
                                         // redirects to home screen after adding a record
-                                        res.redirect(`/management/`);
+                                        res.redirect('/management/');
                                     } else {
                                         res.redirect('/error');
                                     }
@@ -280,6 +301,90 @@ const roomManagementController = {
 
 		});
     },
+
+    postCheckInWithoutBooking: function (req, res) {
+
+        let transaction = {
+            duration: req.body.duration,
+            averageRate: req.body.room_rate,
+            roomCost: req.body.room_initial_cost,
+            pax: req.body.room_pax,
+            pwdCount: req.body.room_pwd,
+            seniorCitizenCount: req.body.room_senior,
+            additionalPhpDiscount: {
+                reason: req.body.room_discount_reason_php,
+                amount: req.body.room_discount_php
+            },
+            additionalPercentDiscount: {
+                reason: req.body.room_discount_reason_percent,
+                amount: req.body.room_discount_percent
+            },
+            totalDiscount: req.body.room_subtract,
+            extraCharges: req.body.room_extra,
+            totalCharges: req.body.room_total_extra,
+            netCost: req.body.room_net_cost,
+            payment: req.body.room_payment,
+            balance: req.body.room_balance
+        }
+
+        db.insertOne(Transaction, transaction, function(transactionResult) {
+            if (transactionResult) {
+                let reservation = {
+                    $set: {
+        				//assign the guest to a room
+        				room: req.params.roomID,
+        				startDate: new Date (),
+                        endDate: new Date(`${req.body.end_date} 12:00:00`),
+        				//check in the guest
+        				checkedIn: true,
+                        transaction: transactionResult._id
+                    }
+                }
+        		//confirm the reservation, assign the guest to a room, and update the booking dates
+        		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+
+        			if (bookingResult) {
+        				let guest = {
+        		            firstName: req.body.firstname,
+        		            lastName: req.body.lastname,
+        		            birthdate: req.body.birthdate,
+        		            address: req.body.address,
+        		            contact: req.body.contact,
+        		            company: req.body.company,
+        		            occupation: req.body.occupation
+        		        }
+        				//update the information of the guest
+        				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+        					if (guestResult) {
+
+        						let activity = {
+                                    employee: req.session.employeeID,
+                                    booking: bookingResult._id,
+                                    activityType: 'Check-In Without Booking',
+                                    timestamp: new Date()
+                                }
+        						//saves the action of the employee to an activity log
+        						db.insertOne(Activity, activity, function(activityResult) {
+                                    if (activityResult) {
+                                        // redirects to booking screen after adding a record
+                                        res.redirect('/management/');
+                                    } else {
+                                        res.redirect('/error');
+                                    }
+                                });
+        					} else {
+        						res.redirect('/error');
+        					}
+        				});
+        			} else {
+        				res.redirect('/error');
+        			}
+        		});
+            } else {
+                res.redirect('/error');
+            }
+        });
+    }
 }
 
 module.exports = roomManagementController;
