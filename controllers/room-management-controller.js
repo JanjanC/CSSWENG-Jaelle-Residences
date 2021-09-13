@@ -384,6 +384,39 @@ const roomManagementController = {
                 res.redirect('/error');
             }
         });
+    },
+
+    postCheckIn: function (req, res) {
+        let booking = {
+            $set: {
+                startDate: new Date(),
+                checkedIn: true
+            }
+        }
+
+        //check in the guest by setting checked_in to true
+        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
+
+            if (bookingResult) {
+                let activity = {
+                    employee: req.session.employeeID,
+                    booking: bookingResult._id,
+                    activityType: 'Check-In',
+                    timestamp: new Date()
+                }
+
+                //saves the action of the employee to an activity log
+                db.insertOne(Activity, activity, function(activityResult) {
+                    if (activityResult) {
+                        res.redirect('/management/');
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
+            } else {
+                res.redirect('/error');
+            }
+        });
     }
 }
 
