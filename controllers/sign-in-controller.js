@@ -33,7 +33,8 @@ const signInController = {
                     	let year = today.getFullYear().toString();
                         let month = (today.getMonth() + 1).toString().padStart(2, 0)
 
-                        res.redirect(`/calendar/${year}-${month}`);
+                        // res.redirect(`/calendar/${year}-${month}`);
+                        res.render('index');
                     } else {
                         answer.passwordFlag = "";
                         res.render('sign-in', answer);
