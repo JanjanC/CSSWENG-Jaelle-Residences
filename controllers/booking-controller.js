@@ -412,7 +412,7 @@ const bookingController = {
 		db.findOne(Booking, {_id: req.params.bookingID}, function(booking_result){
 			db.findOne(Guest, {_id: booking_result.guest}, function(guest_result){
 				db.findOne(Transaction, {_id: booking_result.transaction}, function(transaction_result){
-					db.findOne(Employee, {username: "myname"}, function(employee_result){
+					db.findOne(Employee, {username: req.session.username}, function(employee_result){
 						if(transaction_result){
 							renderObj = {
 								guest: guest_result.firstName + " " + guest_result.lastName,
@@ -424,8 +424,18 @@ const bookingController = {
 								totalDiscount: transaction_result.totalDiscount,
 								total: transaction_result.netCost
 							}
-							if(transaction_result.extraCharges)
-								renderObj.$and.push({extraCharges: transaction_result.extraCharges});
+							if(transaction_result.pwdCount != null || transaction_result.seniorCitizenCount != null)
+								renderObj["pwdSeniorDiscount"] = true;
+							
+							if(transaction_result.additionalPhpDiscount.amount != null)
+								renderObj["addtlFlatDiscReason"] = transaction_result.additionalPhpDiscount.reason;
+
+							if(transaction_result.additionalPercentDiscount.amount != null)
+							renderObj["addtlPercentDiscReason"] = transaction_result.additionalPercentDiscount.reason;
+
+							if(transaction_result.extraCharges != null)
+								renderObj["extraCharges"] = transaction_result.extraCharges;
+
 							res.render('print', renderObj);
 						}
 					})
