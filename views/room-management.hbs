@@ -135,30 +135,7 @@
 									<div class="modal-footer">
 										<!-- Button trigger modal-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-										<button id="checkout-{{booking._id}}" name="checkout_{{booking._id}}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkout-{{room._id}}-Modal">
-											<span class="material-icons-outlined me-1">library_add_check</span>Check-out
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Modal -->
-						<div class="modal fade checkoutModalItem" id="checkout-{{room._id}}-Modal" tabindex="-1" aria-labelledby="checkout-{{room._id}}-ModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3 class="modal-title" id="checkout-{{room._id}}-ModalLabel">Check-out Booked Guest</h3>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body p-4">
-										<p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-										<p>Are you sure you want to <strong>check-out the booked guest</strong> with the following information?</p>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Return</button>
-										<form id="form-{{booking._id}}-checkout" class="m-0 p-1" action="/management/{{booking._id}}/checkout" method="post">
-											<button type="submit" class="btn btn-primary"><span class="material-icons-outlined me-1">done</span>Confirm</button>
-										</form>
+										<a href="/management/{{booking._id}}/checkout" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add_check</span>Check-out</a>
 									</div>
 								</div>
 							</div>
