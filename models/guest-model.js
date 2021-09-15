@@ -27,13 +27,13 @@ var GuestSchema = new mongoose.Schema ({
     },
 
     // the guest's contact number
-    contact_number: {
+    contact: {
         type: String,
         trim: true
     },
 
     // the guest's company name
-    company_name: {
+    company: {
         type: String,
         trim: true
     },

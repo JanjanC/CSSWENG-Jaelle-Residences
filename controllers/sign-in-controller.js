@@ -29,12 +29,13 @@ const signInController = {
                         req.session.username = result.username;
                         req.session.employeeID = result._id;
 
-                        let today = new Date();
-                    	let year = today.getFullYear().toString();
-                        let month = (today.getMonth() + 1).toString().padStart(2, 0)
+                        // let today = new Date();
+                    	// let year = today.getFullYear().toString();
+                        // let month = (today.getMonth() + 1).toString().padStart(2, 0);
 
                         // res.redirect(`/calendar/${year}-${month}`);
                         res.render('index');
+                        // res.redirect('/management/');
                     } else {
                         answer.passwordFlag = "";
                         res.render('sign-in', answer);

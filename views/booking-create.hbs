@@ -30,16 +30,7 @@
 
                 <br>
 
-            <form id="form-submit" class="" action="/booking/{{room._id}}/create" submit=submitForm() method="post">
-
-                <script>
-                function submitForm () {
-                	if ($('#reservation_select').val()) {
-                		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
-                	}
-                	return true;
-                }
-                </script>
+            <form id="form-submit" class="" action="/booking/{{room._id}}/create" method="post">
                 
                 <div class="ps-2">
                         <!--NOTE:
@@ -52,7 +43,7 @@
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
                             <option value="" selected>(Optional) Select a reservation</option>
                             {{#each reservations}}
-                            <option value="{{_id}}">{{guest.first_name}} {{guest.last_name}} | {{formatDate start_date}} - {{formatDate end_date}}</option>
+                            <option value="{{_id}}">{{guest.firstName}} {{guest.lastName}} | {{formatDate startDate}} - {{formatDate endDate}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -68,9 +59,6 @@
 
                         <div hidden>
                             <span id="room-id">{{room._id}}</span>
-                            {{#each room.connected_rooms}}
-                            <span class="connected-rooms">{{this}}</span>
-                            {{/each}}
                         </div>
 
                         <!--Room Type-->
@@ -146,7 +134,7 @@
 
                         <!--Contact No.-->
                         <div class="form-group mb-3">
-                            <label class="h5 d-block">Contact No.</label>
+                            <label class="h5 d-block">Mobile No.</label>
                             <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact">
                             <em><p class="error text-danger" id="contact-error"></p></em>
                         </div>
@@ -215,7 +203,7 @@
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-pwd" type="checkbox" value="">
                                     </div>
-                                    <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd" disabled>
+                                    <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-pwd" name="room_pwd">
                                 </div>
                                 <em><p class="error text-danger" id="room-pwd-error"></p></em>
                             </div>
@@ -227,7 +215,7 @@
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-senior" type="checkbox" value="">
                                     </div>
-                                    <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior" disabled>
+                                    <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-senior" name="room_senior">
                                 </div>
                                 <em><p class="error text-danger" id="room-senior-error"></p></em>
                             </div>
@@ -239,16 +227,16 @@
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-discount-php" type="checkbox" value="">
                                     </div>
-                                    <input type="text" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-25" placeholder="Reason" value="" disabled>
-                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control" disabled>
+                                    <input type="text" readonly="true" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-25" placeholder="Reason" value="">
+                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                                 <div class="input-group mb-3 w-auto">
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-discount-percent" type="checkbox" value="">
                                     </div>
-                                    <input type="text" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-25" placeholder="Reason" value="" disabled>
-                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control" disabled>
+                                    <input type="text" readonly="true" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-25" placeholder="Reason" value="">
+                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -308,7 +296,7 @@
                             <div class="form-group mb-3 text-end text-primary">
                                 <label class="h5">Remaining Balance</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" readonly="true"id="room-balance" name="room_balance" class="form-control">
+                                    <input type="number" readonly="true" id="room-balance" name="room_balance" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -326,16 +314,33 @@
                 </button>
                 <!-- Modal -->
                 <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="bookModalLabel">Confirm Booking</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                            <div class="modal-body px-4 pt-3 pb-4">
+                                <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                 <p>Are you sure you want to <strong>book guest</strong> with the following information?</p>
-                                <div id="inputted-info">
+                                {{!-- <div id="inputted-info">
+
+                                </div> --}}
+                                <div class="template">
+                                            <div class="row mt-4">
+                                                <!--Room information-->
+                                                <div class="col pe-0 border-end" id="input-col-1">
+
+                                                </div>
+                                                <!--Guest information-->
+                                                <div class="col ps-4 border-end" id="input-col-2">
+
+                                                </div>
+                                                <!--Transaction information-->
+                                                <div class="col ps-4" id="input-col-3">
+
+                                                </div>
+                                            </div>
                                 </div>
                             </div>
                             <div class="modal-footer">

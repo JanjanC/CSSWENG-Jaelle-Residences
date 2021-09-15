@@ -6,15 +6,15 @@
     <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
     <link rel="stylesheet" type="text/css" href="/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
-    <link rel="stylesheet" type="text/css" href="/css/booking-edit.css">
+    <link rel="stylesheet" type="text/css" href="/css/check-in.css">
     <link rel="stylesheet" type="text/css" href="/css/material.css">
 
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
-    <script type="text/javascript" src="/js/booking.js"></script>
+    <script type="text/javascript" src="/js/check-in.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Edit Booking</title>
+    <title>Edit Check-in Guest</title>
 </head>
 <body>
 
@@ -25,13 +25,13 @@
         <div id="main-screen" class="col-10 mx-auto">
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
-                    <h1 class="m-0">Edit Booking</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where parts of existing booking forms for booked rooms are edited.</p>
+                    <h1 class="m-0">Edit Check-in</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where parts of existing occupied rooms are edited (Transferring of rooms and shortening of stays make changes to transaction costs).</p>
                 </div>
 
                 <br>
 
-                <form id="form-submit" class="" action="/booking/{{booking._id}}/edit" method="post">
+                <form id="form-submit" class="" action="/management/{{booking._id}}/checkin/edit" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
                         <!-- COLUMN 1: Room Details -->
@@ -72,9 +72,20 @@
                             -->
                             <!-- End Date -->
                             <div class="form-group">
-                                <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date" value="{{formatDate booking.endDate}}">
+                                <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="NOTE: making changes to the duration of the stay may yield transactional changes to the cost of the stay.">End Date<span class="text-danger">*</span></label>
+                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate booking.endDate}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="NOTE: Transferring of rooms may yield transactional changes to the cost of the stay.">Transfer Room</label>
+                                <select class="form-select form-control w-75" id="transfer-select" name="transfer_select">
+                                    <option value="" selected>(Optional) Select a room to transfer to</option>
+                                    {{#each rooms}}
+                                    <option value="{{_id}}">{{room_number}} [{{room_type}}]</option>
+                                    {{/each}}
+                                </select>
+                                <em><p class="error text-danger" id="transfer-select-error"></p></em>
                             </div>
                         </div>
 
@@ -299,30 +310,16 @@
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="bookModalLabel">Edit Booking</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body px-4 pt-3 pb-4">
-                                        <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                        <p>Are you sure you want to edit the existing booking form with the following information?</p>
-                                        <div class="template">
-                                                    <div class="row mt-4">
-                                                        <!--Room information-->
-                                                        <div class="col pe-0 border-end" id="input-col-1">
-
-                                                        </div>
-                                                        <!--Guest information-->
-                                                        <div class="col ps-4 border-end" id="input-col-2">
-
-                                                        </div>
-                                                        <!--Transaction information-->
-                                                        <div class="col ps-4" id="input-col-3">
-
-                                                        </div>
-                                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to edit the existing check-in form with the following information?</p>
+                                        <div id="inputted-info">
                                         </div>
                                     </div>
                                     <div class="modal-footer">

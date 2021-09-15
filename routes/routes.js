@@ -37,7 +37,7 @@ app.get('/:year-:month-:day/booking/:roomID/create', bookingController.getCreate
 
 app.post('/booking/:roomID/create', bookingController.postCreateBooking);
 
-app.get('/room/availability', bookingController.checkAvailability)
+app.get('/booking/room/availability', bookingController.checkBookingAvailability);
 
 app.get('/room', bookingController.getRoom)
 
@@ -55,11 +55,21 @@ app.get('/management/:roomID/checkin/vacant', roomManagementController.getCheckI
 
 app.post('/management/:roomID/checkin/vacant/reservation', roomManagementController.postCheckInWithoutReservation);
 
+app.get('/checkin/room/availability', roomManagementController.checkCheckInAvailability);
+
 app.post('/management/:roomID/checkin/vacant/booking', roomManagementController.postCheckInWithoutBooking);
 
 app.post('/management/:bookingID/checkin', roomManagementController.postCheckIn);
 
 app.post('/management/:bookingID/checkout', roomManagementController.postCheckOut);
+
+app.get('/management/:bookingID/checkin/edit', roomManagementController.getEditCheckIn);
+
+app.post('/management/:bookingID/checkin/edit', roomManagementController.postEditCheckIn);
+
+app.get('/management/:roomID/maintenance', roomManagementController.getRoomMaintenance);
+
+app.post('/management/:roomID/maintenance', roomManagementController.postRoomMaintenance);
 
 // TODO: make this POST when basic functionality is working
 app.get('/booking/:bookingID/print', bookingController.postPrintReceipt);

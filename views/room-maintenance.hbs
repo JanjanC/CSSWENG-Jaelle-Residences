@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/css/material.css">
+    <link rel="stylesheet" type="text/css" href="/css/room-maintenance.css">
+
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="/js/help.js"></script>
+    <script type="text/javascript" src="/js/room-maintenance.js"></script>
+
+    <title>Maintenance Status</title>
+</head>
+<body>
+
+    {{>navbar}}
+
+    <div class="row w-100 m-0 h-100">
+
+        <div id="main-screen" class="col-10 mx-auto">
+            <div id="container-screen" class="container shadow-lg bg-light p-4">
+                <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
+                    <h1 class="m-0">SET ROOM MAINTENANCE</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where maintenance of rooms are handled with regards to assigning and resolving maintenance status.</p>
+                    <div id="chosen-room" class="d-flex flex-column ms-auto me-4 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm">
+                        <span class="material-icons-two-tone md-36 mb-2">sensor_door</span>
+                        <h4 class="m-0">Room Number</h4>
+                        <h3 class="text-primary m-0">{{room.room_number}}</h3>
+                    </div>
+                </div>
+
+                <form id="form-submit" class="" action="/management/{{room._id}}/maintenance" method="post">
+                    <!--ROW-->
+                    <div class="row justify-content-center pt-2 mt-4">
+                        <div class="col p-3 px-5">
+                            <div class="d-flex justify-content-end align-items-center me-3">
+            					<span class="text-secondary h5 me-2">LEGEND:</span>
+            					<span class="legend inneed h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is in need of action">In Need</span>
+            					<span class="legend inprogress h5 label rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is currently in progress">In Progress</span>
+            					<span class="legend okay h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is fine">Okay</span>
+            				</div>
+                            <table class="table p-3 mt-2">
+                                <tbody>
+                                    <!--Label-->
+                                    <tr class="table-header h4 p-0 border">
+                                        <td>Name</td>
+                                        <td>Description</td>
+                                        <td>Status</td>
+                                    </tr>
+
+                                    <!--Housekeeping-->
+                                    <tr>
+                                        <td>
+                                            <h3 class="m-0"><span class="material-icons-outlined md-24 me-1">cleaning_services</span>Housekeeping</h3>
+                                        </td>
+                                        <td class="text-secondary">
+                                            Housekeeping involves the need for cleaning of the room
+                                        </td>
+                                        <td  class="okay">
+                                            <div class="form-group dropdown">
+                                                <select class="form-select form-control w-50 m-0 d-inline" id="housekeeping-select" name="housekeeping_select">
+                                                    <option value="Okay" {{select room.housekeeping "Okay"}}>Okay</option>
+                                                    <option value="In Progress" {{select room.housekeeping "In Progress"}} >In Progress</option>
+                                                    <option value="In Need" {{select room.housekeeping "In Need"}} >In Need</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!--Repair-->
+                                    <tr>
+                                        <td>
+                                            <h3 class="m-0"><span class="material-icons-outlined md-24 me-1">handyman</span>Repair</h3>
+                                        </td>
+                                        <td class="text-secondary">
+                                            Repair involves the need for reparation or fixing of the room
+                                        </td>
+                                        <td class="inprogress">
+                                            <div class="form-group dropdown">
+                                                <select class="form-select form-control w-50 m-0 d-inline" id="repair-select" name="repair_select">
+                                                    <option value="Okay" {{select room.repair "Okay"}}>Okay</option>
+                                                    <option value="In Progress" {{select room.repair "In Progress"}} >In Progress</option>
+                                                    <option value="In Need" {{select room.repair "In Need"}} >In Need</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row-reverse mt-3">
+                        <!-- RESERVE-->
+                        <!-- Button trigger modal -->
+                        <button id="maintenance" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
+                            Set Maintenance
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="maintenanceModal" tabindex="-1" aria-labelledby="maintenanceModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="reserveModalLabel">Confirm Maintenance</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body px-4 pt-3 pb-2">
+                                        <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to set the room's housekeeping and repair with the following maintenance status?</p>
+                                        <div class="template">
+                                            <div class="row mt-4 mb-3">
+                                                <!--Room information-->
+                                                <h4>Housekeeping:</h4>
+                                                <h5 class="ms-4 text-secondary maintenance-field"><span id="housekeeping-status"></span></h5>
+                                                <h4>Repair:</h4>
+                                                <h5 class="ms-4 text-secondary maintenance-field"><span id="repair-status"></span></h5>
+                                            </div>
+                                        </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- RETURN -->
+                <!-- Button trigger modal -->
+                <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                    Return
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-danger">WARNING: This page contains temporary data. Information that you have entered will <strong>NOT</strong> be <strong>SAVED</strong>. This action cannot be undone once the <strong>RETURN</strong> button has been pressed.</p>
+                                <p>Are you sure you want to return to the previous page?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>
