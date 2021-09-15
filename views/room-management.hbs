@@ -64,8 +64,12 @@
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 							<div class="mt-2">
+								{{#if room.needRepair}}
 								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
 								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
 							</div>
 
 						</button>
@@ -185,8 +189,12 @@
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 							<div class="mt-2">
+								{{#if room.needRepair}}
 								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
 								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
 							</div>
 						</button>
 
@@ -336,8 +344,12 @@
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
 							<div class="mt-2">
+								{{#if room.needRepair}}
 								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
 								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
 							</div>
 						</button>
 						<!-- Modal -->
@@ -377,8 +389,12 @@
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
 							<div class="mt-2">
+								{{#if room.needRepair}}
 								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
 								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
 							</div>
 						</button>
 						<!-- Modal -->
