@@ -420,7 +420,20 @@ const roomManagementController = {
     },
 
     getCheckOut: function (req, res) {
-        res.render('check-out');
+        //get the booking information given the bookingID
+        db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
+            if (result) {
+                let values = {
+                    username: req.session.username,
+                    booking: result,
+                }
+                console.log(result);
+                //render the check out screen
+                res.render('check-out', values);
+            } else {
+                res.redirect('/error');
+            }
+        }, 'room guest transaction');
     },
 
     postCheckOut: function (req, res) {
