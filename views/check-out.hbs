@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/js/check-in.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Edit Check-in Guest</title>
+    <title>Check-out Guest</title>
 </head>
 <body>
 
@@ -25,13 +25,13 @@
         <div id="main-screen" class="col-10 mx-auto">
             <div id="container-screen" class="container shadow-lg bg-light p-4">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
-                    <h1 class="m-0">Edit Check-in</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where parts of existing occupied rooms are edited (Transferring of rooms and shortening of stays make changes to transaction costs).</p>
+                    <h1 class="m-0">Check-out</h1>
+                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where the confirmation and editing of transaction details before the checking out of guests occur.</p>
                 </div>
 
                 <br>
 
-                <form id="form-submit" class="" action="/management/{{booking._id}}/checkin/edit" method="post">
+                <form id="form-submit" class="" action="/management/{{booking._id}}/checkout" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
                         <!-- COLUMN 1: Room Details -->
@@ -59,7 +59,7 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate booking.startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate booking.startDate}}">
+                                <input class="form-control w-75" type="date" readonly="true" onkeydown="return false" {{#isPastDate booking.startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate booking.startDate}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
@@ -73,19 +73,8 @@
                             <!-- End Date -->
                             <div class="form-group">
                                 <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="NOTE: making changes to the duration of the stay may yield transactional changes to the cost of the stay.">End Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate booking.endDate}}">
+                                <input class="form-control w-75" type="date" readonly="true" onkeydown="return false" id="end-date" name="endDate" value="{{formatDate booking.endDate}}">
                                 <em><p class="error text-danger" id="end-date-error"></p></em>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="NOTE: Transferring of rooms may yield transactional changes to the cost of the stay.">Transfer Room</label>
-                                <select class="form-select form-control w-75" id="transfer-select" name="transfer_select">
-                                    <option value="" selected>(Optional) Select a room to transfer to</option>
-                                    {{#each rooms}}
-                                    <option value="{{_id}}">{{room_number}} [{{room_type}}]</option>
-                                    {{/each}}
-                                </select>
-                                <em><p class="error text-danger" id="transfer-select-error"></p></em>
                             </div>
                         </div>
 
@@ -100,14 +89,14 @@
                                 <!--First Name-->
                                 <div class="form-group">
                                     <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
-                                    <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname" value="{{booking.guest.firstName}}">
+                                    <input class="form-control w-50" type="text" readonly="true" placeholder="Enter First Name" id="firstname" name="firstname" value="{{booking.guest.firstName}}">
                                     <em><p class="error text-danger" id="firstname-error"></p></em>
                                 </div>
 
                                 <!--Last Name-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
-                                    <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{booking.guest.lastName}}">
+                                    <input class="form-control w-50" type="text" readonly="true" placeholder="Enter Last Name" id="lastname" name="lastname" value="{{booking.guest.lastName}}">
                                     <em><p class="error text-danger" id="lastname-error"></p></em>
                                 </div>
 
@@ -117,33 +106,33 @@
                                 <!--Birthday-->
                                 <div class="form-group">
                                     <label class="h5 d-block">Birthdate</label>
-                                    <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate booking.guest.birthdate}}">
+                                    <input class="form-control w-50" type="text" readonly="true" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate" value="{{formatDate booking.guest.birthdate}}">
                                     <em><p class="error text-danger" id="birthdate-error"></p></em>
                                 </div>
 
                                 <!--Address-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Address</label>
-                                    <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3">{{booking.guest.address}}</textarea>
+                                    <textarea class="form-control w-75" readonly="true" placeholder="(Optional) Enter Address" id="address" name="address" rows="3">{{booking.guest.address}}</textarea>
                                 </div>
 
                                 <!--Contact No.-->
                                 <div class="form-group mb-3">
-                                    <label class="h5 d-block">Mobile No.</label>
-                                    <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Mobile Number - 09XXXXXXXXX" id="contact" name="contact" value="{{booking.guest.contact}}">
+                                    <label class="h5 d-block">Contact No.</label>
+                                    <input class="form-control w-75" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact" value="{{booking.guest.contact}}">
                                     <em><p class="error text-danger" id="contact-error"></p></em>
                                 </div>
 
                                 <!--Company's Name-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Company Name</label>
-                                    <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{booking.guest.company}}">
+                                    <input class="form-control w-75" type="text" readonly="true" placeholder="(Optional) Enter Company Name" id="company" name="company" value="{{booking.guest.company}}">
                                 </div>
 
                                 <!--Occupation-->
                                 <div class="form-group mb-3">
                                     <label class="h5 d-block">Occupation</label>
-                                    <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value="{{booking.guest.occupation}}">
+                                    <input class="form-control w-50" type="text" readonly="true" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation" value="{{booking.guest.occupation}}">
                                 </div>
                             </div>
                         </div>
@@ -305,21 +294,35 @@
                     <div class="d-flex flex-row-reverse mt-3">
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
-                        <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
-                            Edit
+                        <button id="checkout" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
+                            Check-out
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="bookModalLabel">Edit Booking</h5>
+                                        <h5 class="modal-title" id="checkoutModalLabel">Confirm Check-out</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body px-4 pt-3 pb-4">
                                         <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
-                                        <p>Are you sure you want to edit the existing check-in form with the following information?</p>
-                                        <div id="inputted-info">
+                                        <p>Are you sure you want to <strong>check-out guest</strong> with the following information?</p>
+                                        <div class="template">
+                                                    <div class="row mt-4">
+                                                        <!--Room information-->
+                                                        <div class="col pe-0 border-end" id="input-col-1">
+
+                                                        </div>
+                                                        <!--Guest information-->
+                                                        <div class="col ps-4 border-end" id="input-col-2">
+
+                                                        </div>
+                                                        <!--Transaction information-->
+                                                        <div class="col ps-4" id="input-col-3">
+
+                                                        </div>
+                                                    </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
