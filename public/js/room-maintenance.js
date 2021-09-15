@@ -5,10 +5,8 @@ $(document).ready(function () {
 });
 
 function showInput () {
-    let housekeeping = $('#housekeeping-select').val();
-    let repair = $('#repair-select').val();
-
-    console.log(housekeeping);
+    let housekeeping = $('#housekeeping-select option:selected').text();
+    let repair = $('#repair-select option:selected').text();
 
     $('#housekeeping-status').text(housekeeping);
     $('#repair-status').text(repair);
