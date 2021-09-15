@@ -68,3 +68,8 @@
     background-color: #D1FFE3;
     transition: 0.3s;
 }
+
+.room-container.unavailable:hover, .legend.unavailable:hover {
+    background-color: #CDC9CF;
+    transition: 0.3s;
+}
