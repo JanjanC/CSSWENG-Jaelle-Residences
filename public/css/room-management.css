@@ -19,8 +19,6 @@
 }
 
 #chosen-date:hover {
-    background-color: #DFECF6;
-    transition: 0.3s;
     cursor: default;
 }
 
