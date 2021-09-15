@@ -30,10 +30,6 @@ td {
     background-color: #E6FFF3 !important;
 }
 
-.inprogress {
-    background-color: #FCF1D9 !important;
-}
-
-.inneed {
+.required {
     background-color: #FFD6E6 !important;
 }
