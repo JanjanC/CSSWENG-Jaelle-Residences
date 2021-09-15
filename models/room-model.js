@@ -48,17 +48,17 @@ var RoomSchema = new mongoose.Schema({
     },
 
     // signifies whether the room needs housekeeping or not
-    housekeeping: {
-        type: String,
+    needHousekeeping: {
+        type: Boolean,
         required: true,
-        default: 'Okay'
+        default: false
     },
 
     // signifies whether the room needs repair or not
-    repair: {
-        type: String,
+    needRepair: {
+        type: Boolean,
         required: true,
-        default: 'Okay'
+        default: false
     },
 });
 
