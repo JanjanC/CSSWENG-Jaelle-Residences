@@ -273,10 +273,10 @@ function computeCharges () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseInt($('#room-initial-cost').val());
+		let total = parseFloat($('#room-initial-cost').val());
 		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
-		let extra = parseInt($('#room-extra').val());
+		let extra = parseFloat($('#room-extra').val());
 
 		if (total) {
 			let charges = 0;
@@ -359,11 +359,11 @@ function computeDiscount () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseInt($('#room-initial-cost').val());
+		let total = parseFloat($('#room-initial-cost').val());
 		let senior = parseInt($('#room-senior').val());
 		let pwd = parseInt($('#room-pwd').val());
-		let additionalPhp = parseInt($('#room-discount-php').val());
-		let additionalPercent = parseInt($('#room-discount-percent').val());
+		let additionalPhp = parseFloat($('#room-discount-php').val());
+		let additionalPercent = parseFloat($('#room-discount-percent').val());
 		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
 
@@ -432,9 +432,9 @@ function computeDiscount () {
 }
 
 function computeTotal () {
-	let total = parseInt($('#room-initial-cost').val());
-	let charges = parseInt($('#room-total-extra').val());
-	let discount = parseInt($('#room-subtract').val());
+	let total = parseFloat($('#room-initial-cost').val());
+	let charges = parseFloat($('#room-total-extra').val());
+	let discount = parseFloat($('#room-subtract').val());
 
 	if (total) {
 		let net = total;
@@ -455,8 +455,8 @@ function computeTotal () {
 }
 
 function computeBalance () {
-	let net = parseInt($('#room-net-cost').val());
-	let payment = parseInt($('#room-payment').val());
+	let net = parseFloat($('#room-net-cost').val());
+	let payment = parseFloat($('#room-payment').val());
 
 	if (net) {
 
