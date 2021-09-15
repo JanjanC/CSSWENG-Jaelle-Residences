@@ -22,12 +22,6 @@ td {
     text-transform: initial;
 }
 
-#chosen-room:hover {
-    background-color: #DFECF6;
-    transition: 0.3s;
-    cursor: default;
-}
-
 .okay {
     background-color: #E6FFF3 !important;
 }
