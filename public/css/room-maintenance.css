@@ -17,6 +17,10 @@ td {
     background-color: #DFECF6;
 }
 
+#chosen-date:hover {
+    cursor: default;
+}
+
 .maintenance-field {
     font-family: "Secondary";
     text-transform: initial;
