@@ -284,15 +284,24 @@ function computeCharges () {
 			//the max pax is set to the room max pax by default
 			let roomMaxPax = roomInfo.max_pax;
 
-			//determine if monthly max pax is applicable
+			//determine if monthly max pax is applicable since max pax for monthly bookings is different
 			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
 				roomMaxPax = roomInfo.room_rate.monthly.length;
 			}
 
+			// compute for the charges for extra pax if the inputted max is greater than the specified max pax for the room
 			if (!Number.isNaN(pax) && pax > roomMaxPax) {
 				charges = charges + (pax - roomMaxPax) * 400;
 			}
 
+			//compute early checkin charges
+			let today = new Date();
+			//checkin time is from 4am to 2pm [4am, 2pm)
+			if (today.getHours() >= 4 && today.getHours() < 14) {
+				charges = charges + 0.05 * (14 - today.getHours()) * roomInfo.room_rate.daily;
+			}
+
+			//add the inputted extra charge to the total charges
 			if (extra) {
 				charges = charges + extra;
 			}
