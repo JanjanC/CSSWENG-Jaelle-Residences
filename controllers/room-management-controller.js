@@ -228,7 +228,7 @@ const roomManagementController = {
 		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
 			let rooms = [];
 			rooms.push(req.query.roomID);
-			if (roomResult.connected_rooms) {
+			if (roomResult && roomResult.connected_rooms) {
 				for (let i = 0; i < roomResult.connected_rooms.length; i++) {
 					rooms.push(roomResult.connected_rooms[i]);
 				}
@@ -420,7 +420,20 @@ const roomManagementController = {
     },
 
     getCheckOut: function (req, res) {
-        res.render('check-out');
+        //get the booking information given the bookingID
+        db.findOne(Booking, {_id: req.params.bookingID}, function(result) {
+            if (result) {
+                let values = {
+                    username: req.session.username,
+                    booking: result,
+                }
+                console.log(result);
+                //render the check out screen
+                res.render('check-out', values);
+            } else {
+                res.redirect('/error');
+            }
+        }, 'room guest transaction');
     },
 
     getTransfer: function (req, res) {
