@@ -58,11 +58,11 @@
                                         <td class="text-secondary">
                                             Housekeeping involves the need for cleaning of the room
                                         </td>
-                                        <td  class="">
+                                        <td id="housekeeping-row" class="">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="housekeeping-select" name="housekeeping_select">
-                                                    <option value="Okay" {{select room.housekeeping "Okay"}}>Okay</option>
-                                                    <option value="Required" {{select room.housekeeping "Required"}} >Required</option>
+                                                    <option value="false" {{#unless room.needHousekeeping}} selected {{/unless}}>Okay</option>
+                                                    <option value="true" {{#if room.needHousekeeping}} selected {{/if}}>Required</option>
                                                 </select>
                                             </div>
                                         </td>
@@ -76,11 +76,11 @@
                                         <td class="text-secondary">
                                             Repair involves the need for reparation or fixing of the room
                                         </td>
-                                        <td class="">
+                                        <td id = "repair-row" class="">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="repair-select" name="repair_select">
-                                                    <option value="Okay" {{select room.repair "Okay"}}>Okay</option>
-                                                    <option value="Required" {{select room.repair "Required"}}>Required</option>
+                                                    <option value="false" {{#unless room.needRepair}} selected {{/unless}}>Okay</option>
+                                                    <option value="true" {{#if room.needRepair}} selected {{/if}}>Required</option>
                                                 </select>
                                             </div>
                                         </td>

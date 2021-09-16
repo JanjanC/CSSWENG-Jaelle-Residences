@@ -419,6 +419,14 @@ const roomManagementController = {
         });
     },
 
+    getCheckOut: function (req, res) {
+        res.render('check-out');
+    },
+
+    getTransfer: function (req, res) {
+        res.render('transfer');
+    },
+
     postCheckOut: function (req, res) {
         let booking = {
             $set: {
@@ -586,8 +594,8 @@ const roomManagementController = {
 
         let room = {
             $set: {
-                housekeeping: req.body.housekeeping_select,
-                repair: req.body.repair_select
+                needHousekeeping: req.body.housekeeping_select,
+                needRepair: req.body.repair_select
             }
         }
 
