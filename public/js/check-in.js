@@ -119,16 +119,6 @@ $(document).ready(function () {
 	$('#form-submit').submit(function () {
 		submitForm();
 	});
-
-	$('#transfer-select').change(function () {
-		roomInfo = null;
-		checkAvailability();
-		computeInitialCost();
-		computeCharges();
-		computeDiscount();
-		computeTotal();
-		computeBalance();
-	});
 });
 
 let roomInfo = null;
@@ -138,10 +128,6 @@ function getRoomInfo () {
 	if (!roomInfo) {
 
 		let roomID = $('#room-id').text();
-
-		if ($('#transfer-select').val() != '') {
-			roomID = $('#transfer-select').val();
-		}
 
 		jQuery.ajaxSetup({async: false});
 
@@ -487,10 +473,6 @@ function checkAvailability () {
 	let bookingID = $('#booking-id').text();
 	let roomID = $('#room-id').text();
 
-	if ($('#transfer-select').val() != '') {
-		roomID = $('#transfer-select').val();
-	}
-
 	if (startDate && endDate && endDate >= startDate) {
 
 		let query = {
@@ -503,19 +485,14 @@ function checkAvailability () {
 		$.get('/checkin/room/availability', query, function(result) {
 			//is available
 			if(result) {
-				$('#transfer-select-error').text('');
 				$('#end-date-error').text('');
 				$('#book').prop('disabled', false);
 			} else {
 				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-				if ($('#transfer-select').val() != '') {
-					$('#transfer-select-error').text('Room Unavailable for Transfer');
-				}
 				$('#book').prop('disabled', true);
 			}
 		});
 	} else {
-		$('#transfer-select-error').text('');
 		$('#end-date-error').text('');
 		$('#book').prop('disabled', false);
 	}
@@ -679,13 +656,6 @@ function validateEntry () {
 		} else {
 			$('#room-senior-error').text('');
 		}
-
-		if ($('#transfer-select').val() == $('#room-id').text()) {
-			$('#transfer-select-error').text('New Room cannot be the same as the Current Room');
-			isValid = false;
-		} else {
-			$('#transfer-select-error').text('');
-		}
 	}
 
 	if(!isValid){
@@ -701,8 +671,6 @@ function validateEntry () {
 			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
 		} else if($('#contact-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
-		} else if($('#transfer-select-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#transfer-select-error').offset().top - 118}, 'slow');
 		}
 	}
 
