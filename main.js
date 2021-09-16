@@ -8,6 +8,7 @@ const path = require('path');
 const electron = require('electron');
 const server = require('./server.js');
 const { ipcMain } = require('electron');
+const printEvent = require('./controllers/print-controller');
 
 //retrieves the necessary attributes from electron
 const {app, BrowserWindow} = electron;
@@ -54,6 +55,8 @@ ipcMain.on('print:goto', (event, bookingID) => {
 ipcMain.on('print:execute', (event) => {
   print(event.sender);
 });
+
+printEvent.onPrintEvent(createAddWindow);
 
 function createAddWindow(bookingID){
   addWindow = new BrowserWindow({
