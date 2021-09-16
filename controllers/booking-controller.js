@@ -545,6 +545,42 @@ const bookingController = {
 				db.findOne(Transaction, {_id: booking_result.transaction}, function(transaction_result){
 					db.findOne(Employee, {username: req.session.username}, function(employee_result){
 						if(transaction_result){
+							let flatFlag, percentFlag, seniorPwdFlag;
+							let flatDisc, percentDisc, biggestDisc = 0;
+							let discountDesc;
+
+							flatFlag = transaction_result.additionalPhpDiscount.amount != null;
+							percentFlag = transaction_result.additionalPercentDiscount.amount != null;
+							seniorPwdFlag = transaction_result.pwdCount != null || transaction_result.seniorCitizenCount != null;
+
+							if(flatFlag)
+								flatDisc = transaction_result.additionalPhpDiscount.amount;
+
+							if(percentFlag)
+								percentDisc = (transaction_result.additionalPercentDiscount.amount / 100) * transaction_result.roomCost;
+
+							if(flatDisc > percentDisc && flatFlag && percentFlag){
+								discountDesc = "Flat Discount";
+								biggestDisc = flatDisc;
+							}
+							else if(flatDisc < percentDisc && flatFlag && percentFlag) {
+								discountDesc = "Percent Discount";
+								biggestDisc = percentDisc;
+							}
+							else if(flatFlag && !percentFlag){
+								discountDesc = "Flat Discount";
+								biggestDisc = flatDisc;
+							}
+							else if(!flatFlag && percentFlag){
+								discountDesc = "Percent Discount";
+								biggestDisc = percentDisc;
+							}
+
+							if(transaction_result.totalDiscount > biggestDisc && seniorPwdFlag){
+								discountDesc = 'Senior/PWD Discount';
+								biggestDisc = transaction_result.totalDiscount;
+							}
+
 							renderObj = {
 								guest: guest_result.firstName + " " + guest_result.lastName,
 								checkin: booking_result.startDate.toLocaleString(),
@@ -552,18 +588,15 @@ const bookingController = {
 								receptionist: employee_result.first_name + " " + employee_result.last_name,
 								roomCost: transaction_result.roomCost,
 								subtotal: transaction_result.totalCharges,
-								totalDiscount: transaction_result.totalDiscount,
-								total: transaction_result.netCost
+								totalDiscount: biggestDisc,
+								total: transaction_result.netCost,
+								payment: transaction_result.payment,
+								change: transaction_result.balance
 							}
-							if(transaction_result.pwdCount != null || transaction_result.seniorCitizenCount != null)
-								renderObj["pwdSeniorDiscount"] = true;
 
-							if(transaction_result.additionalPhpDiscount.amount != null)
-								renderObj["addtlFlatDiscReason"] = transaction_result.additionalPhpDiscount.reason;
-
-							if(transaction_result.additionalPercentDiscount.amount != null)
-							renderObj["addtlPercentDiscReason"] = transaction_result.additionalPercentDiscount.reason;
-
+							if(flatFlag || percentFlag || seniorPwdFlag)
+								renderObj["appliedDiscount"] = discountDesc;
+							
 							if(transaction_result.extraCharges != null)
 								renderObj["extraCharges"] = transaction_result.extraCharges;
 
