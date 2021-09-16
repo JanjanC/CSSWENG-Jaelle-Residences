@@ -119,16 +119,6 @@ $(document).ready(function () {
 	$('#form-submit').submit(function () {
 		submitForm();
 	});
-
-	$('#transfer-select').change(function () {
-		roomInfo = null;
-		checkAvailability();
-		computeInitialCost();
-		computeCharges();
-		computeDiscount();
-		computeTotal();
-		computeBalance();
-	});
 });
 
 let roomInfo = null;
@@ -138,10 +128,6 @@ function getRoomInfo () {
 	if (!roomInfo) {
 
 		let roomID = $('#room-id').text();
-
-		if ($('#transfer-select').val() != '') {
-			roomID = $('#transfer-select').val();
-		}
 
 		jQuery.ajaxSetup({async: false});
 
@@ -283,10 +269,10 @@ function computeCharges () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseInt($('#room-initial-cost').val());
+		let total = parseFloat($('#room-initial-cost').val());
 		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
-		let extra = parseInt($('#room-extra').val());
+		let extra = parseFloat($('#room-extra').val());
 
 		if (total) {
 			let charges = 0;
@@ -369,11 +355,11 @@ function computeDiscount () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseInt($('#room-initial-cost').val());
+		let total = parseFloat($('#room-initial-cost').val());
 		let senior = parseInt($('#room-senior').val());
 		let pwd = parseInt($('#room-pwd').val());
-		let additionalPhp = parseInt($('#room-discount-php').val());
-		let additionalPercent = parseInt($('#room-discount-percent').val());
+		let additionalPhp = parseFloat($('#room-discount-php').val());
+		let additionalPercent = parseFloat($('#room-discount-percent').val());
 		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
 
@@ -442,9 +428,9 @@ function computeDiscount () {
 }
 
 function computeTotal () {
-	let total = parseInt($('#room-initial-cost').val());
-	let charges = parseInt($('#room-total-extra').val());
-	let discount = parseInt($('#room-subtract').val());
+	let total = parseFloat($('#room-initial-cost').val());
+	let charges = parseFloat($('#room-total-extra').val());
+	let discount = parseFloat($('#room-subtract').val());
 
 	if (total) {
 		let net = total;
@@ -465,8 +451,8 @@ function computeTotal () {
 }
 
 function computeBalance () {
-	let net = parseInt($('#room-net-cost').val());
-	let payment = parseInt($('#room-payment').val());
+	let net = parseFloat($('#room-net-cost').val());
+	let payment = parseFloat($('#room-payment').val());
 
 	if (net) {
 
@@ -487,10 +473,6 @@ function checkAvailability () {
 	let bookingID = $('#booking-id').text();
 	let roomID = $('#room-id').text();
 
-	if ($('#transfer-select').val() != '') {
-		roomID = $('#transfer-select').val();
-	}
-
 	if (startDate && endDate && endDate >= startDate) {
 
 		let query = {
@@ -503,19 +485,14 @@ function checkAvailability () {
 		$.get('/checkin/room/availability', query, function(result) {
 			//is available
 			if(result) {
-				$('#transfer-select-error').text('');
 				$('#end-date-error').text('');
 				$('#book').prop('disabled', false);
 			} else {
 				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
-				if ($('#transfer-select').val() != '') {
-					$('#transfer-select-error').text('Room Unavailable for Transfer');
-				}
 				$('#book').prop('disabled', true);
 			}
 		});
 	} else {
-		$('#transfer-select-error').text('');
 		$('#end-date-error').text('');
 		$('#book').prop('disabled', false);
 	}
@@ -679,13 +656,6 @@ function validateEntry () {
 		} else {
 			$('#room-senior-error').text('');
 		}
-
-		if ($('#transfer-select').val() == $('#room-id').text()) {
-			$('#transfer-select-error').text('New Room cannot be the same as the Current Room');
-			isValid = false;
-		} else {
-			$('#transfer-select-error').text('');
-		}
 	}
 
 	if(!isValid){
@@ -701,8 +671,6 @@ function validateEntry () {
 			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
 		} else if($('#contact-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
-		} else if($('#transfer-select-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#transfer-select-error').offset().top - 118}, 'slow');
 		}
 	}
 
