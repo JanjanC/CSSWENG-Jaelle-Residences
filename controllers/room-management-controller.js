@@ -423,6 +423,10 @@ const roomManagementController = {
         res.render('check-out');
     },
 
+    getTransfer: function (req, res) {
+        res.render('transfer');
+    },
+
     postCheckOut: function (req, res) {
         let booking = {
             $set: {
@@ -488,7 +492,7 @@ const roomManagementController = {
                 endDate: new Date(`${req.body.endDate} 12:00:00`)
             }
         }
-        
+
         if (req.body.transfer_select != '') {
             booking.$set.room = req.body.transfer_select;
         }
