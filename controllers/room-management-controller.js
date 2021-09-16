@@ -419,6 +419,14 @@ const roomManagementController = {
         });
     },
 
+    getCheckOut: function (req, res) {
+        res.render('check-out');
+    },
+
+    getTransfer: function (req, res) {
+        res.render('transfer');
+    },
+
     postCheckOut: function (req, res) {
         let booking = {
             $set: {
