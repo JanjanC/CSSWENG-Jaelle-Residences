@@ -10,11 +10,6 @@ const signInController = {
         res.render('sign-in', answer);
     },
 
-    getIndex: function (req, res) {
-        // answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
-        res.render('index');
-    },
-
     postSignIn: function(req, res) {
 
         let username = req.body.username;
