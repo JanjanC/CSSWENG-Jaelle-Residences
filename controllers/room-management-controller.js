@@ -228,7 +228,7 @@ const roomManagementController = {
 		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
 			let rooms = [];
 			rooms.push(req.query.roomID);
-			if (roomResult.connected_rooms) {
+			if (roomResult && roomResult.connected_rooms) {
 				for (let i = 0; i < roomResult.connected_rooms.length; i++) {
 					rooms.push(roomResult.connected_rooms[i]);
 				}
