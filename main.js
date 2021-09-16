@@ -13,6 +13,8 @@ const { ipcMain } = require('electron');
 const {app, BrowserWindow} = electron;
 
 let mainWindow;
+let addWindow;
+
 //create new window once electron finishes initialization
 app.on('ready', function() {
 
