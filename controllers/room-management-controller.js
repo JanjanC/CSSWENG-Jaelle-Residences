@@ -452,17 +452,30 @@ const roomManagementController = {
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
 
             if (bookingResult) {
-                let activity = {
-                    employee: req.session.employeeID,
-                    booking: bookingResult._id,
-                    activityType: 'Check-Out',
-                    timestamp: new Date()
+
+                let room = {
+                    $set: {
+                        needHousekeeping: true
+                    }
                 }
 
-                //saves the action of the employee to an activity log
-                db.insertOne(Activity, activity, function(activityResult) {
-                    if (activityResult) {
-                        res.redirect('/management/');
+                db.updateOne(Room, {_id: bookingResult.room}, room, function (roomResult) {
+                    if (roomResult) {
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activityType: 'Check-Out',
+                            timestamp: new Date()
+                        }
+
+                        //saves the action of the employee to an activity log
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                res.redirect('/management/');
+                            } else {
+
+                            }
+                        });
                     } else {
                         res.redirect('/error');
                     }
