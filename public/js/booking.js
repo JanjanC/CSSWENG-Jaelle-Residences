@@ -352,6 +352,7 @@ function computeDiscount () {
 
 	if (roomInfo) {
 		let total = parseFloat($('#room-initial-cost').val());
+		let charges = parseFloat($('#room-total-extra').val());
 		let senior = parseInt($('#room-senior').val());
 		let pwd = parseInt($('#room-pwd').val());
 		let additionalPhp = parseFloat($('#room-discount-php').val());
@@ -370,38 +371,20 @@ function computeDiscount () {
 			}
 
 			let seniorPwdDiscount = 0;
-			//the max pax is set to the room max pax by default
-			let roomMaxPax = roomInfo.max_pax;
-
-			//determine if monthly max pax is applicable
-			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
-				if (pax > roomInfo.room_rate.monthly.length) {
-					roomMaxPax = roomInfo.room_rate.monthly.length;
-				} else {
-					let rate = roomInfo.room_rate.monthly[pax - 1];
-					for (let i = pax; i <= roomInfo.room_rate.monthly.length; i++) {
-						if (roomInfo.room_rate.monthly[i - 1] == rate) {
-							roomMaxPax = i;
-						} else {
-							break;
-						}
-					}
-				}
+			let totalCost = total;
+			if (charges) {
+				totalCost = totalCost + charges;
 			}
 
-			//number of senior and pwd is greater than max pax for the room
-			if (count > roomMaxPax) {
-				let seniorPwdPercent =  20;
-				seniorPwdDiscount = seniorPwdPercent / 100 * total;
-				seniorPwdDiscount = seniorPwdDiscount + (count - roomMaxPax) * 0.20 * 400;
-			} else {
-				let minDenominator = roomMaxPax;
-				if (!Number.isNaN(pax)) {
-					minDenominator = Math.min(roomMaxPax, pax);
+			if (!Number.isNaN(pax) && pax > 0) {
+				//number of senior and pwd is greater than max pax for the room
+				if (count > pax) {
+					let seniorPwdPercent =  20;
+					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+				} else {
+					let seniorPwdPercent =  count / pax * 20;
+					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
 				}
-
-				let seniorPwdPercent =  count / minDenominator * 20;
-				seniorPwdDiscount = seniorPwdPercent / 100 * total;
 			}
 
 			let additionalPercentDiscount = 0;
