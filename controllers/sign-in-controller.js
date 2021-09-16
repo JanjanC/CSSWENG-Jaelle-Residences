@@ -34,8 +34,7 @@ const signInController = {
                         // let month = (today.getMonth() + 1).toString().padStart(2, 0);
 
                         // res.redirect(`/calendar/${year}-${month}`);
-                        res.render('index');
-                        // res.redirect('/management/');
+                        res.redirect('/management/');
                     } else {
                         answer.passwordFlag = "";
                         res.render('sign-in', answer);
