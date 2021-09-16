@@ -78,6 +78,8 @@ app.post('/management/:roomID/maintenance', roomManagementController.postRoomMai
 // TODO: make this POST when basic functionality is working
 app.get('/booking/:bookingID/print', bookingController.postPrintReceipt);
 
+app.get('/print', bookingController.getPrint);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);

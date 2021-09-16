@@ -8,6 +8,10 @@ const Employee = require('../models/employee-model');
 const mongoose = require('mongoose');
 
 const bookingController = {
+	getPrint: function(req, res) {
+		res.render('print');
+	},
+
 	getBookingScreen: function (req, res) {
 		let today = new Date();
 		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
