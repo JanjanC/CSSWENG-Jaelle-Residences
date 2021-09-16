@@ -4,6 +4,7 @@ const Booking = require('../models/booking-model.js');
 const Guest = require('../models/guest-model.js');
 const Room = require('../models/room-model.js');
 const Transaction = require('../models/transaction-model.js');
+const printEvent = require('./print-controller.js');
 
 const roomManagementController = {
 
@@ -153,7 +154,6 @@ const roomManagementController = {
         //create a new guest document in the database
         db.insertOne(Guest, guest, function(guestResult){
             if(guestResult) {
-
                 let transaction = {
                     duration: req.body.duration,
                     averageRate: req.body.room_rate,
@@ -194,6 +194,9 @@ const roomManagementController = {
                         // create a new booking in the database
                         db.insertOne(Booking, booking, function(bookingResult){
                             if(bookingResult) {
+                                if(req.body.print_receipt == "")
+                                    printEvent.emitPrintEvent(bookingResult._id);
+
                                 let activity = {
                                     employee: req.session.employeeID,
                                     booking: bookingResult._id,
@@ -344,6 +347,9 @@ const roomManagementController = {
         		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
         			if (bookingResult) {
+                        if(req.body.print_receipt == "")
+                            printEvent.emitPrintEvent(bookingResult._id);
+
         				let guest = {
         		            firstName: req.body.firstname,
         		            lastName: req.body.lastname,
@@ -398,6 +404,9 @@ const roomManagementController = {
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
 
             if (bookingResult) {
+                if(req.body.print_receipt == "")
+                    printEvent.emitPrintEvent(bookingResult._id);
+
                 let activity = {
                     employee: req.session.employeeID,
                     booking: bookingResult._id,
@@ -452,6 +461,8 @@ const roomManagementController = {
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
 
             if (bookingResult) {
+                if(req.body.print_receipt == "")
+                    printEvent.emitPrintEvent(bookingResult._id);
 
                 let room = {
                     $set: {
@@ -540,6 +551,9 @@ const roomManagementController = {
             }
 
             if (bookingResult) {
+                if(req.body.print_receipt == "")
+                    printEvent.emitPrintEvent(bookingResult._id);
+
                 //update the customer details in the database
                 db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
                     if (guestResult) {

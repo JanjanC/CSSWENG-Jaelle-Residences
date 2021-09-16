@@ -6,6 +6,7 @@ const Room = require('../models/room-model.js');
 const Transaction = require('../models/transaction-model');
 const Employee = require('../models/employee-model');
 const mongoose = require('mongoose');
+const printEvent = require('./print-controller.js');
 
 const bookingController = {
 	getPrint: function(req, res) {
@@ -197,6 +198,9 @@ const bookingController = {
 						// create a new booking in the database
 						db.insertOne(Booking, booking, function(bookingResult){
 							if(bookingResult) {
+								if(req.body.print_receipt == "")
+									printEvent.emitPrintEvent(bookingResult._id);
+
 								let activity = {
 									employee: req.session.employeeID,
 									booking: bookingResult._id,
@@ -355,6 +359,9 @@ const bookingController = {
 				db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
 					if (bookingResult) {
+						if(req.body.print_receipt == "")
+                            printEvent.emitPrintEvent(bookingResult._id);
+
 						let guest = {
 				            firstName: req.body.firstname,
 				            lastName: req.body.lastname,
@@ -441,6 +448,9 @@ const bookingController = {
             }
 
             if (bookingResult) {
+				if(req.body.print_receipt == "")
+                    printEvent.emitPrintEvent(bookingResult._id);
+
                 //update the customer details in the database
                 db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
                     if (guestResult) {
