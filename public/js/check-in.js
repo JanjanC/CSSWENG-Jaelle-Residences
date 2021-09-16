@@ -1,3 +1,6 @@
+const electron = require("electron");
+const {ipcRenderer} = electron;
+
 $(document).ready(function () {
 	computeInitialCost();
 	computeCharges();
@@ -143,6 +146,9 @@ function getRoomInfo () {
 function submitForm () {
 	if ($('#reservation_select').val()) {
 		$('#form-submit').attr('action', `/management/${$('#room-id').text()}/checkin/vacant/booking`);
+	}
+	if($('#print-receipt').is(":checked")){
+		ipcRenderer.send('print:goto', $('#booking-id').text());
 	}
 	return true;
 }
