@@ -2,7 +2,10 @@ describe('the pushToArray function', function() {
     it('should push the proper values into an array', function() {
         let arr = [];
         pushToArray(arr, 'Test', 'Success');
-        assert(JSON.stringify(['Test: Success']) == JSON.stringify(arr), 'incorrect value');
+        assert(JSON.stringify([`
+		<h4>Test:</h4>
+		<h5 class="ms-4 text-secondary reservation-field">Success</h5>
+		`]) == JSON.stringify(arr), 'incorrect value');
     });
 });
 
