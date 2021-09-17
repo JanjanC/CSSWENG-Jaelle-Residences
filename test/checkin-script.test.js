@@ -61,35 +61,3 @@ describe('the enableDiscountPercent function', function() {
         .equal(true);
     });
 });
-
-// NOTE: unable to go to /room path because server is not started
-// describe('the computeInitialCost function', function() {
-//     it('should compute the rate based on dates correctly', function(){
-//         // room 407
-//         $('#room-id').val('611a2b62687236173c223ae2');
-//         $('#room-pax').val('2');
-//         $('#start-date').val('2021-08-01');
-//         $('#end-date').val('2021-08-03');
-//         $('#room-extra').val('');
-//         computeInitialCost();
-
-//         assert
-//         .equal($('#duration').val(), '2')
-//         .and.equal($('#room-initial-cost').val(), '3600.00')
-//         .and.equal($('#room-rate').val(), '1800.00');
-//     });
-
-//     it('should set fields to 0 when room-id is invalid', function(){
-//         $('#room-id').val('611a2b62687237273c223ae2');
-//         $('#room-pax').val('2');
-//         $('#start-date').val('2021-08-01');
-//         $('#end-date').val('2021-08-03');
-//         $('#room-extra').val('');
-//         computeInitialCost();
-
-//         assert
-//         .equal($('#duration').val(), '0')
-//         .and.equal($('#room-initial-cost').val(), '0.00')
-//         .and.equal($('#room-rate').val(), '0.00');
-//     });
-// });
