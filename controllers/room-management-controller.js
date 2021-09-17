@@ -674,25 +674,66 @@ const roomManagementController = {
     },
 
     postTransfer: function (req, res) {
-        //check in the guest by setting checked_in to true
+         console.log(req.body);
+
+        let booking = {
+            $set: {
+                room: req.body.transfer_select,
+                endDate: new Date(`${req.body.transfer_end_date} 12:00:00`)
+            }
+        }
+
+
+        //update the booking details in the database
         db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
 
             if (bookingResult) {
-                    let activity = {
-                        employee: req.session.employeeID,
-                        booking: bookingResult._id,
-                        activityType: 'Transfer Room',
-                        timestamp: new Date()
-                    }
+                //update the customer details in the database
+                let transaction = {
+                    duration: req.body.duration,
+                    averageRate: req.body.room_rate,
+                    roomCost: req.body.room_initial_cost,
+                    pax: req.body.room_pax,
+                    pwdCount: req.body.room_pwd,
+                    seniorCitizenCount: req.body.room_senior,
+                    additionalPhpDiscount: {
+                        reason: req.body.room_discount_reason_php,
+                        amount: req.body.room_discount_php
+                    },
+                    additionalPercentDiscount: {
+                        reason: req.body.room_discount_reason_percent,
+                        amount: req.body.room_discount_percent
+                    },
+                    totalDiscount: req.body.room_subtract,
+                    extraCharges: req.body.room_extra,
+                    totalCharges: req.body.room_total_extra,
+                    netCost: req.body.room_net_cost,
+                    payment: req.body.room_payment,
+                    balance: req.body.room_balance
+                }
 
-                    //saves the action of the employee to an activity log
-                    db.insertOne(Activity, activity, function(activityResult) {
-                        if (activityResult) {
-                            res.redirect('/management/')
-                        } else {
-                            res.redirect('/error');
+                db.updateOne(Transaction, {_id: bookingResult.transaction}, transaction, function(transactionResult) {
+                    if (transactionResult) {
+                        let activity = {
+                            employee: req.session.employeeID,
+                            booking: bookingResult._id,
+                            activityType: 'Modify Check-In',
+                            timestamp: new Date()
                         }
-                    });
+
+                        //saves the action of the employee to an activity log
+                        db.insertOne(Activity, activity, function(activityResult) {
+                            if (activityResult) {
+                                // redirects to home screen after updating the booking
+                                res.redirect('/management/');
+                            } else {
+                                res.redirect('/error');
+                            }
+                        });
+                    } else {
+                        res.redirect('/error');
+                    }
+                });
             } else {
                 res.redirect('/error');
             }
