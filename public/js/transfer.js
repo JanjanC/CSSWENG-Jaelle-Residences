@@ -398,10 +398,10 @@ function computeBalance () {
 function checkAvailability () {
 	let startDate = $('#transfer-start-date').val();
 	let endDate = $('#transfer-end-date').val();
-	let bookingID = $('#').text();
+	let bookingID = $('#booking-id').text();
 	let roomID = $('#transfer-select').val();
 
-	if (startDate && endDate && endDate >= startDate && selected != "") {
+	if (startDate && endDate && endDate >= startDate && roomID != "") {
 
 		let query = {
 			startDate: startDate,
@@ -474,6 +474,21 @@ function validateEntry () {
 	getRoomInfo();
 
 	if (roomInfo) {
+		if ($('#transfer-room-type').val() == '') {
+			$('#transfer-room-type-error').text('Room Type cannot be empty');
+			isValid = false;
+		} else {
+			$('#transfer-room-type-error').text('');
+		}
+
+		if ($('#transfer-room-number').val() == '') {
+			$('#transfer-room-number-error').text('Room Number cannot be empty');
+			isValid = false;
+		} else {
+			$('#transfer-room-number-error').text('');
+		}
+
+
 		//the start date input field is empty
 		if ($('#transfer-start-date').val() == '') {
 			$('#transfer-start-date-error').text('Start Date cannot be empty');
