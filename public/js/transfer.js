@@ -6,9 +6,9 @@ $(document).ready(function () {
 	computeBalance();
 
 	$('#book').click(function(){
-		// if (validateEntry()) {
+		if (validateEntry()) {
 			showInput();
-		// }
+		}
 	});
 
 	$('#transfer-start-date').change(function () {
@@ -106,7 +106,8 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	$('#reservation_select').change(function () {
+	$('#transfer-select').change(function () {
+		roomInfo = null;
 		updateForm();
 		checkAvailability();
 		computeInitialCost();
@@ -115,11 +116,16 @@ $(document).ready(function () {
 		computeTotal();
 		computeBalance();
 	});
-
-	$('#form-submit').submit(function () {
-		submitForm();
-	});
 });
+
+function updateForm () {
+	getRoomInfo();
+
+	if (roomInfo) {
+		$('#transfer-room-type').val(roomInfo.room_type);
+		$('#transfer-room-number').val(roomInfo.room_number);
+	}
+}
 
 let roomInfo = null;
 
@@ -128,6 +134,10 @@ function getRoomInfo () {
 	if (!roomInfo) {
 
 		let roomID = $('#room-id').text();
+
+		if ($('#transfer-select').val() != '') {
+			roomID = $('#transfer-select').val();
+		}
 
 		jQuery.ajaxSetup({async: false});
 
