@@ -551,9 +551,7 @@ const roomManagementController = {
 	postEditCheckIn: function(req, res) {
 		let booking = {
             $set: {
-                endDate: new Date(`${req.body.endDate} 12:00:00`),
-				pax: req.body.room_pax,
-				payment: req.body.room_payment
+                endDate: new Date(`${req.body.endDate} 12:00:00`)
             }
         }
 
@@ -599,7 +597,7 @@ const roomManagementController = {
                             payment: req.body.room_payment,
                             balance: req.body.room_balance
                         }
-                        
+
                         db.updateOne(Transaction, {_id: bookingResult.transaction}, transaction, function(transactionResult) {
                             if (transactionResult) {
                                 let activity = {
