@@ -1,0 +1,8 @@
+body, .container {
+    min-height: 100vh !important;
+    height: 100vh !important;
+}
+
+#error-icon{
+    font-size: 12em;
+}
