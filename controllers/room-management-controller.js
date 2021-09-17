@@ -446,7 +446,55 @@ const roomManagementController = {
     },
 
     getTransfer: function (req, res) {
-        res.render('transfer');
+
+        db.findMany(Room, {}, function(roomResult) {
+            if (roomResult) {
+
+                //get the booking information given the bookingID
+                db.findOne(Booking, {_id: req.params.bookingID}, function(bookingResult) {
+        			if (bookingResult) {
+                        let values = {
+                            username: req.session.username,
+                            rooms: roomResult,
+                            booking: bookingResult,
+                        }
+                        //render the transfer screen
+                        res.render('transfer', values);
+        			} else {
+        				res.redirect('/error');
+        			}
+        		}, 'room guest transaction');
+
+            } else {
+                res.redirect('/error');
+            }
+        }, undefined, {room_number: 'asc'});
+    },
+
+    postTransfer: function (req, res) {
+        //check in the guest by setting checked_in to true
+        db.updateOne(Booking, {_id: req.params.bookingID}, booking, function(bookingResult) {
+
+            if (bookingResult) {
+                    let activity = {
+                        employee: req.session.employeeID,
+                        booking: bookingResult._id,
+                        activityType: 'Transfer Room',
+                        timestamp: new Date()
+                    }
+
+                    //saves the action of the employee to an activity log
+                    db.insertOne(Activity, activity, function(activityResult) {
+                        if (activityResult) {
+                            res.redirect('/management/')
+                        } else {
+                            res.redirect('/error');
+                        }
+                    });
+            } else {
+                res.redirect('/error');
+            }
+        });
     },
 
     postCheckOut: function (req, res) {
