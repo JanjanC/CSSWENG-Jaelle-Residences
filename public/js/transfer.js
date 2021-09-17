@@ -1,0 +1,558 @@
+$(document).ready(function () {
+	computeInitialCost();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
+
+	$('#book').click(function(){
+		// if (validateEntry()) {
+			showInput();
+		// }
+	});
+
+	$('#transfer-start-date').change(function () {
+		checkAvailability();
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+    });
+
+	$('#transfer-end-date').change(function () {
+		checkAvailability();
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+    });
+
+	$('#is-pwd').change(function () {
+		enablePWD();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#is-senior').change(function () {
+		enableSenior();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#is-discount-php').change(function () {
+		enableDiscountPhp();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#is-discount-percent').change(function () {
+		enableDiscountPercent();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-pax').change(function () {
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-senior').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-pwd').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-discount-percent').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-discount-php').change(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-discount').keyup(function () {
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-extra').keyup(function () {
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#room-payment').keyup(function () {
+		computeBalance();
+	});
+
+	$('#reservation_select').change(function () {
+		updateForm();
+		checkAvailability();
+		computeInitialCost();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#form-submit').submit(function () {
+		submitForm();
+	});
+});
+
+let roomInfo = null;
+
+function getRoomInfo () {
+
+	if (!roomInfo) {
+
+		let roomID = $('#room-id').text();
+
+		jQuery.ajaxSetup({async: false});
+
+		$.get('/room', {roomID: roomID}, function(result) {
+			roomInfo = result;
+		});
+
+		jQuery.ajaxSetup({async: true});
+
+	}
+}
+
+function computeInitialCost () {
+	getRoomInfo();
+
+	if (roomInfo) {
+		let time =  1000 * 60 * 60 * 24;
+		let startDate = new Date($('#transfer-start-date').val()).getTime();
+		let endDate = new Date($('#transfer-end-date').val()).getTime();
+
+		if (startDate && endDate && endDate - startDate >= 0) {
+
+			let duration = Math.round(Math.abs((endDate - startDate) / time));
+			let months = 0;
+			let weeks = 0;
+			let days = 0;
+
+			let monthlyRate = 0;
+			let weeklyRate = 0;
+			let dailyRate = 0;
+
+			if (duration <= 0) {
+				duration = 1;
+			}
+
+			let remaining = duration;
+			let pax = parseInt($('#room-pax').val());
+
+			if (remaining >= 30 && roomInfo.room_rate.monthly[0]) {
+				if (Number.isNaN(pax) || pax <= 0) {
+					pax = 1;
+				}
+
+				if (pax > roomInfo.room_rate.monthly.length) {
+					pax = roomInfo.room_rate.monthly.length;
+				}
+
+				monthlyRate = roomInfo.room_rate.monthly[pax - 1];
+				months = Math.floor(remaining / 30);
+				remaining = remaining % 30;
+			}
+
+			if (remaining >= 7 && roomInfo.room_rate.weekly) {
+				weeklyRate = roomInfo.room_rate.weekly;
+				weeks = remaining / 7;
+				remaining = remaining - remaining;
+			}
+
+			if (remaining >= 1 && roomInfo.room_rate.daily) {
+				dailyRate = roomInfo.room_rate.daily;
+				days = remaining;
+				remaining = remaining - remaining;
+			}
+
+			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
+			let rate = total / duration;
+
+			$('#duration').val(duration);
+			$('#room-initial-cost').val(total.toFixed(2));
+			$('#room-rate').val(rate.toFixed(2));
+		} else {
+			$('#duration').val(0);
+			$('#room-initial-cost').val((0).toFixed(2));
+			$('#room-rate').val((0).toFixed(2));
+		}
+	}
+}
+
+function computeCharges () {
+
+	getRoomInfo();
+
+	if (roomInfo) {
+		let total = parseFloat($('#room-initial-cost').val());
+		let duration = parseInt($('#duration').val());
+		let pax = parseInt($('#room-pax').val());
+		let extra = parseFloat($('#room-extra').val());
+
+		if (total) {
+			let charges = 0;
+
+			//the max pax is set to the room max pax by default
+			let roomMaxPax = roomInfo.max_pax;
+
+			//determine if monthly max pax is applicable since max pax for monthly bookings is different
+			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
+				roomMaxPax = roomInfo.room_rate.monthly.length;
+			}
+
+			// compute for the charges for extra pax if the inputted max is greater than the specified max pax for the room
+			if (!Number.isNaN(pax) && pax > roomMaxPax) {
+				charges = charges + (pax - roomMaxPax) * 400;
+			}
+
+			//add the inputted extra charge to the total charges
+			if (extra) {
+				charges = charges + extra;
+			}
+
+			$('#room-total-extra').val(charges.toFixed(2));
+		} else {
+			$('#room-total-extra').val((0).toFixed(2));
+		}
+	}
+}
+
+function enableSenior () {
+	let senior = $('#is-senior').is(':checked');
+	$('#room-senior').prop('readonly', !senior);
+
+	if (!senior) {
+		$('#room-senior').val('');
+	}
+}
+
+function enablePWD () {
+	let pwd = $('#is-pwd').is(':checked');
+	$('#room-pwd').prop('readonly', !pwd);
+
+	if (!pwd) {
+		$('#room-pwd').val('');
+	}
+}
+
+function enableDiscountPhp () {
+	let discountPhp = $('#is-discount-php').is(':checked');
+	$('#room-discount-reason-php').prop('readonly', !discountPhp);
+	$('#room-discount-php').prop('readonly', !discountPhp);
+
+	if (!discountPhp) {
+		$('#room-discount-reason-php').val('');
+		$('#room-discount-php').val('');
+	}
+
+}
+
+function enableDiscountPercent () {
+	let discountPercent = $('#is-discount-percent').is(':checked');
+	$('#room-discount-reason-percent').prop('readonly', !discountPercent);
+	$('#room-discount-percent').prop('readonly', !discountPercent);
+
+	if (!discountPercent) {
+		$('#room-discount-reason-percent').val('');
+		$('#room-discount-percent').val('');
+	}
+}
+
+function computeDiscount () {
+
+	getRoomInfo();
+
+	if (roomInfo) {
+		let total = parseFloat($('#room-initial-cost').val());
+		let charges = parseFloat($('#room-total-extra').val());
+		let senior = parseInt($('#room-senior').val());
+		let pwd = parseInt($('#room-pwd').val());
+		let additionalPhp = parseFloat($('#room-discount-php').val());
+		let additionalPercent = parseFloat($('#room-discount-percent').val());
+		let duration = parseInt($('#duration').val());
+		let pax = parseInt($('#room-pax').val());
+
+		if (total) {
+			let count = 0
+			if (senior) {
+				count = count + senior;
+			}
+
+			if (pwd) {
+				count = count + pwd;
+			}
+
+			let seniorPwdDiscount = 0;
+			let totalCost = total;
+			if (charges) {
+				totalCost = totalCost + charges;
+			}
+
+			if (!Number.isNaN(pax) && pax > 0) {
+				//number of senior and pwd is greater than max pax for the room
+				if (count > pax) {
+					let seniorPwdPercent =  20;
+					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+				} else {
+					let seniorPwdPercent =  count / pax * 20;
+					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+				}
+			}
+
+			let additionalPercentDiscount = 0;
+			if (additionalPercent) {
+				additionalPercentDiscount = additionalPercent / 100 * total;
+			}
+
+			let additionalPhpDiscount = 0;
+			if (additionalPhp) {
+				additionalPhpDiscount = additionalPhp;
+			}
+
+			let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
+
+			$('#room-subtract').val(discount.toFixed(2));
+		} else {
+			$('#room-subtract').val((0).toFixed(2));
+		}
+	}
+}
+
+function computeTotal () {
+	let total = parseFloat($('#room-initial-cost').val());
+	let charges = parseFloat($('#room-total-extra').val());
+	let discount = parseFloat($('#room-subtract').val());
+
+	if (total) {
+		let net = total;
+
+		if (charges) {
+			net = net + charges;
+		}
+
+		if (discount) {
+			net = net - discount;
+		}
+
+		$('#room-net-cost').val(net.toFixed(2));
+	} else {
+		$('#room-net-cost').val((0).toFixed(2));
+	}
+
+}
+
+function computeBalance () {
+	let net = parseFloat($('#room-net-cost').val());
+	let payment = parseFloat($('#room-payment').val());
+
+	if (net) {
+
+		let balance = payment;
+		if (payment) {
+			balance =  net - payment;
+		}
+
+		$('#room-balance').val(balance.toFixed(2));
+	} else {
+		$('#room-balance').val((0).toFixed(2));
+	}
+}
+
+function checkAvailability () {
+	let startDate = $('#transfer-start-date').val();
+	let endDate = $('#transfer-end-date').val();
+	let bookingID = $('#').text();
+	let roomID = $('#transfer-select').val();
+
+	if (startDate && endDate && endDate >= startDate && selected != "") {
+
+		let query = {
+			startDate: startDate,
+			endDate: endDate,
+			roomID: roomID,
+			bookingID: bookingID
+		}
+
+		$.get('/checkin/room/availability', query, function(result) {
+			//is available
+			if(result) {
+				$('#transfer-end-date-error').text('');
+				$('#book').prop('disabled', false);
+			} else {
+				$('#transfer-end-date-error').text('Room Unavailable for the Inputted Dates');
+				$('#book').prop('disabled', true);
+			}
+		});
+	} else {
+		$('#transfer-end-date-error').text('');
+		$('#book').prop('disabled', false);
+	}
+}
+
+function showInput () {
+	let detailsLeft = [];
+	let detailsMiddle = [];
+	let detailsRight = [];
+	pushToArray(detailsLeft, 'Room Type', $('#room_type').val());
+	pushToArray(detailsLeft, 'Room Number', $('#room-number').val());
+	pushToArray(detailsLeft, 'Start Date', $('#transfer-start-date').val());
+	pushToArray(detailsLeft, 'End Date', $('#transfer-end-date').val());
+	pushToArray(detailsRight, 'Number of Guests', $('#room-pax').val());
+	// pushToArray(detailsRight, 'Number of PWD', $('#room-pwd').val());
+	// pushToArray(detailsRight, 'Number of Senior Citizens', $('#room-senior').val());
+	// pushToArray(detailsRight, 'Other Discounts (Flat)', $('#room-discount-php').val());
+	// pushToArray(detailsRight, 'Other Discounts (%)', $('#room-discount-percent').val());
+	pushToArray(detailsRight, 'Total Discount', $('#room-subtract').val());
+	pushToArray(detailsRight, 'Extra Charges', $('#room-total-extra').val());
+	pushToArray(detailsRight, 'Total Cost', $('#room-net-cost').val());
+	pushToArray(detailsRight, 'Customer Payment', $('#room-payment').val());
+	pushToArray(detailsRight, 'Customer Balance', $('#room-balance').val());
+	let messageLeft = detailsLeft.join('');
+	let messageMiddle = detailsMiddle.join('');
+	let messageRight = detailsRight.join('');
+
+	$('#input-col-1').html(messageLeft);
+	$('#input-col-2').html(messageMiddle);
+	$('#input-col-3').html(messageRight);
+	$('#bookModal').modal('show');
+}
+
+function pushToArray(array, field, value){
+	if(value.trim() != ''){
+		array.push(`
+		<h4>${field}:</h4>
+		<h5 class="ms-4 text-secondary reservation-field">${value}</h5>
+		`);
+	}
+}
+
+function validateEntry () {
+	let isValid = true;
+
+	//get the date today in the format of YYYY-MM-DD
+	let today = new Date();
+	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+	let fiveYearString = `${(today.getFullYear() + 5).toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+
+	getRoomInfo();
+
+	if (roomInfo) {
+		//the start date input field is empty
+		if ($('#transfer-start-date').val() == '') {
+			$('#transfer-start-date-error').text('Start Date cannot be empty');
+			isValid = false;
+		} else {
+			$('#transfer-start-date-error').text('');
+		}
+
+		//the end date input field is empty
+		if ($('#transfer-end-date').val() == '') {
+			$('#transfer-end-date-error').text('End Date cannot be empty');
+			isValid = false;
+		// the end date is earlier than today
+		} else if (new Date($('#transfer-end-date').val()) < new Date(todayString)) {
+			$('#transfer-end-date-error').text('End Date cannot be earlier than Today');
+			isValid = false;
+		// the end date is earlier than the start date
+		} else if ($('#transfer-start-date').val() != '' && new Date($('#transfer-end-date').val()) < new Date($('#transfer-start-date').val())) {
+			$('#transfer-end-date-error').text('End Date cannot be earlier than Start Date');
+			isValid = false;
+		} else if ($('#transfer-start-date').val() != '' && new Date().getHours() >= 4 && new Date($('#transfer-end-date').val()).getTime() == new Date($('#transfer-start-date').val()).getTime()) {
+			$('#transfer-end-date-error').text('End Date cannot the same as Start Date');
+			isValid = false;
+		} else if (new Date($('#transfer-end-date').val()) > new Date(fiveYearString)) {
+			$('#transfer-end-date-error').text('End Date may only be 5 Years from Today');
+			isValid = false;
+		} else {
+			$('#transfer-end-date-error').text('');
+		}
+
+		if ($('#room-pax').val() == '') {
+		    $('#room-pax-error').text('Number of Guests cannot be empty');
+		    isValid = false;
+		} else if (parseInt($('#room-pax').val()) <= 0) {
+		    $('#room-pax-error').text('Number of Guests must be at least 1');
+		    isValid = false;
+		} else if ($('#duration').val() != '' && parseInt($('#duration').val()) >= 30 && roomInfo.room_rate.monthly[0] && parseInt($('#room-pax').val()) > roomInfo.room_rate.monthly.length) {
+		    $('#room-pax-error').text(`Number of Guests cannot exeeed ${roomInfo.room_rate.monthly.length} for Monthly Bookings`);
+		    isValid = false;
+		} else {
+		    $('#room-pax-error').text('');
+		}
+
+		if ($('#room-payment').val() == '') {
+			$('#room-payment-error').text('Customer Payment cannot be empty');
+			isValid = false;
+		} else if ($('#room-net-cost').val() != '' && parseFloat($('#room-net-cost').val()) - parseFloat($('#room-payment').val()) > 0) {
+			$('#room-payment-error').text('Customer Payment cannot be less than the Total Cost');
+			isValid = false;
+		} else {
+			$('#room-payment-error').text('');
+		}
+
+		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+			$('#room-pwd-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
+			isValid  = false;
+		} else if ( $('#room-pax').val() != '' && $('#room-pwd').val() != '' && parseInt($('#room-pwd').val()) > parseInt($('#room-pax').val()) ) {
+			$('#room-pwd-error').text('Number of PWD cannot exceed the Number of Guests');
+			isValid  = false;
+		} else {
+			$('#room-pwd-error').text('');
+		}
+
+		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+			$('#room-senior-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
+			isValid  = false;
+		} else if ( $('#room-pax').val() != '' && $('#room-senior').val() != '' && parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+			$('#room-senior-error').text('Number of Senior Citizens cannot exceed the Number of Guests');
+			isValid  = false;
+		} else {
+			$('#room-senior-error').text('');
+		}
+	}
+
+	if(!isValid){
+		if($('#firstname-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#firstname').offset().top - 118}, 'slow');
+		} else if($('#lastname-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#lastname').offset().top - 118}, 'slow');
+		} else if($('#transfer-start-date-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#transfer-start-date').offset().top - 118}, 'slow');
+		} else if($('#transfer-end-date-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#transfer-end-date').offset().top - 118}, 'slow');
+		} else if($('#birthdate-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
+		} else if($('#contact-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
+		}
+	}
+
+	return isValid;
+}
