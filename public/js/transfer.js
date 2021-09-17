@@ -564,10 +564,10 @@ function validateEntry () {
 	}
 
 	if(!isValid){
-		if($('#firstname-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#firstname').offset().top - 118}, 'slow');
-		} else if($('#lastname-error').text() != '') {
-			$('html, body').animate({scrollTop: $('#lastname').offset().top - 118}, 'slow');
+		if($('#transfer-room-type-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#transfer-room-type').offset().top - 118}, 'slow');
+		} else if($('#transfer-room-number-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#transfer-room-number').offset().top - 118}, 'slow');
 		} else if($('#transfer-start-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#transfer-start-date').offset().top - 118}, 'slow');
 		} else if($('#transfer-end-date-error').text() != '') {
