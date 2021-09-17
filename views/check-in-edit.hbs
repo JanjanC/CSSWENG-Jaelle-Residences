@@ -59,7 +59,7 @@
                             <!-- Start Date -->
                             <div class="form-group">
                                 <label class="h5 d-block">Start Date<span class="text-danger">*</span></label>
-                                <input class="form-control w-75" type="date" onkeydown="return false" {{#isPastDate booking.startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate booking.startDate}}">
+                                <input class="form-control w-75" type="date" readonly="true" onkeydown="return false" {{#isPastDate booking.startDate}}readonly="true"{{/isPastDate}} id="start-date" name="start_date" value="{{formatDate booking.startDate}}">
                                 <em><p class="error text-danger" id="start-date-error"></p></em>
                             </div>
 
