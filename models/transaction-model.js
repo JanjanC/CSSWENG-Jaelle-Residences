@@ -84,12 +84,12 @@ var TransactionSchema = new mongoose.Schema({
         }]
     },
 
-    totalDiscount: {
+    roomCost: {
         type: Number,
         required: true
     },
 
-    roomCost: {
+    totalDiscount: {
         type: Number,
         required: true
     },
