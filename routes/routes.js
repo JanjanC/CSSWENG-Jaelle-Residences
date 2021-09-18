@@ -65,6 +65,10 @@ app.post('/management/:bookingID/checkout', roomManagementController.postCheckOu
 
 app.get('/management/:bookingID/checkout', roomManagementController.getCheckOut);
 
+app.get('/management/:bookingID/checkin/edit', roomManagementController.getEditCheckIn);
+
+app.post('/management/:bookingID/checkin/edit', roomManagementController.postEditCheckIn);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);
