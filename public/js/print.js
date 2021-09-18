@@ -5,7 +5,6 @@ const {ipcRenderer} = electron;
 
 $(document).ready(function () {
     $('#print-it').click(function() {
-        $('#print-it').hide();
         ipcRenderer.send('print:execute');
     });
 });
