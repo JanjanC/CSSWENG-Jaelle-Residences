@@ -119,21 +119,15 @@ function addOther () {
 		//Retrieved value from other cost input
 		let newOtherCostVal = $('#add-other-cost');
 
-		//Add Others Exclusive
-		let othersCount = ($('.other-item')).length + 1;
-
 		let newDivOtherContainer = $("<div class='d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item'></div>");
 		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center'></div>");
 
 		let newOtherReason = $("<h6 class='other-val text-primary'></h6>").text(newOtherReasonVal.val().trim());
 		let newOtherCost = $("<h6 class='other-val text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
 
-		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50' type='button'></button>");
+		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50' type='button' onclick='removeOther(this)'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
 		let newDeleteIconStrong = $("<strong></strong>").text("clear");
-
-		newDivOtherContainer.attr("id", "other-item-" + othersCount);
-		newOtherDeleteButton.attr("onclick", "removeOther(" + othersCount + ")");
 
 		newOtherDeleteButton.append(newDeleteIconSpan.append(newDeleteIconStrong));
 		newDivOtherValuesSection.append(newOtherReason, newOtherCost);
@@ -148,8 +142,8 @@ function addOther () {
 	}
 }
 
-function removeOther (index) {
-	$("#other-item-" + index).remove();
+function removeOther (elem) {
+	$(elem).parent().remove();
 }
 
 //Add error for add
