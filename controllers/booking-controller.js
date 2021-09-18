@@ -164,7 +164,10 @@ const bookingController = {
 					    amount: req.body.room_discount_percent
 					},
 				    totalDiscount: req.body.room_subtract,
-				    extraCharges: req.body.room_extra,
+				    extraPaxCharges: req.body.extra_pax_cost_php,
+					extraBedCharges: req.body.extra_bed_cost_php,
+					extraPetCharges: req.body.extra_pet_cost_php,
+					otherCharges: JSON.parse(req.body.other_charges_arr),
 				    totalCharges: req.body.room_total_extra,
 				    netCost: req.body.room_net_cost,
 				    payment: req.body.room_payment,
