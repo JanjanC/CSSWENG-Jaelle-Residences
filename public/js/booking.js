@@ -134,7 +134,8 @@ $(document).ready(function () {
 	})
 
 	$('#add-charge-btn').click(function (){
-		addOtherCharge();
+		sumOtherCharges();
+		createOtherChargesArr();
 	})
 });
 
@@ -157,10 +158,10 @@ function addOther () {
 		let othersCount = ($('.other-item')).length + 1;
 
 		let newDivOtherContainer = $("<div class='d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item'></div>");
-		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center'></div>");
+		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
 
-		let newOtherReason = $("<h6 class='other-val text-primary'></h6>").text(newOtherReasonVal.val().trim());
-		let newOtherCost = $("<h6 class='other-val text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
+		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
+		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
 
 		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50' type='button'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
@@ -274,40 +275,42 @@ function computeExtraPax (pax, maxPax) {
 	}
 }
 
-function addOtherCharge () {
-	let reason = $('#add-other-reason').val();
-	let price = $('#add-other-cost').val();
-	if(price != null){
-		let item = `
-		<div class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2 other-charge-cost-item">
-		<h6 id="item-reason" class="text-primary"><span class="other-charge-cost-reason">${reason}</span></h6>
-		<h6 id="item-price" class="text-primary mb-0"><span class="other-charge-cost-price">${price}</span> <span>Php</span></h6>
-		</div>
-		`;
+// function addOtherCharge () {
+// 	let reason = $('#add-other-reason').val();
+// 	let price = $('#add-other-cost').val();
+// 	if(price != null){
+// 		let item = `
+// 		<div class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2 other-charge-cost-item">
+// 		<h6 id="item-reason" class="text-primary"><span class="other-charge-cost-reason">${reason}</span></h6>
+// 		<h6 id="item-price" class="text-primary mb-0"><span class="other-charge-cost-price">${price}</span> <span>Php</span></h6>
+// 		</div>
+// 		`;
 
-		$('#add-other-reason').val('');
-		$('#add-other-cost').val('');
-		$('#other-list').prepend(item);
-	}
-}
+// 		$('#add-other-reason').val('');
+// 		$('#add-other-cost').val('');
+// 		$('#other-list').prepend(item);
+// 	}
+// }
 
 function sumOtherCharges (){
 	let sum = 0;
-	$('.other-charge-cost-price').each(function (){
+	$('.other-val-cost').each(function (){
 		sum += parseFloat($(this).text());
 	});
+	console.log(sum);
 	return sum;
 }
 
 function createOtherChargesArr (){
 	let arr = [];
-	$('.other-charge-cost-item').each(function (){
+	$('.other-item').each(function (){
 		temp = {
-			reason: $(this).children('#item-reason').children('.other-charge-cost-reason').text(), 
-			amount: parseFloat($(this).children('#item-price').children('.other-charge-cost-price').text())
+			reason: $(this).children('.other-val').children('.other-val-reason').text(), 
+			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
 		};
 		arr.push(temp);
 	});
+	console.log(arr);
 }
 
 function computeCharges () {
