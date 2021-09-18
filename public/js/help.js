@@ -11,5 +11,6 @@ $(document).ready(function(){
       return new bootstrap.Popover(popoverTriggerEl)
     });
 
+    //Allows popover values/txt to be formattable in HTML
     $('[data-bs-toggle="popover"]').popover({html:true});
 });
