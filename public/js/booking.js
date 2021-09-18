@@ -144,11 +144,29 @@ $(document).ready(function () {
 
 function checkOtherError() {
 	//// TODO: Apply appropriate error messages
-	return true;
+	let costFlag, reasonFlag;
+	if($('#add-other-cost').val() != ''){
+		costFlag = true;
+		$('#add_other_cost_error').text('');
+	}
+	else{
+		costFlag = false;
+		$('#add_other_cost_error').text('Please input a number.');
+	}
+	
+	if($('#add-other-reason').val() !=''){
+		reasonFlag = true;
+		$('#add_other_reason_error').text('');
+	}
+	else{
+		reasonFlag = false;
+		$('#add_other_reason_error').text('Please input a reason.');
+	}
+	return costFlag && reasonFlag;
 }
 
 function addOther () {
-	if(checkOtherError) {
+	if(checkOtherError()) {
 		let othersContainer = $('#other-list');
 		let othersAddContainer = $('#other-add');
 
