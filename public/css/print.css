@@ -39,3 +39,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .btn {
 @page {
     margin: 7.5mm;
 }
+
+@media print {
+    #print-it {
+        display: none;
+    }
+}
