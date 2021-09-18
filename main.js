@@ -98,10 +98,10 @@ function print(window, copies = 3, delay = 1500) {
       printDataPassed &&
       window.getPrinters()[printerIndex].status === 0
     ) {
-      setTimeout(_print, delay);
-      printDataPassed = false;
+      setTimeout( () => { _print(window) }, delay);
+      printDataPassed = false; 
       counter++;
-    }
+    } 
 
     if (counter >= copies) {
       clearInterval(interval);
