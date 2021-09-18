@@ -13,7 +13,7 @@
     <script type="text/javascript" src="/js/check-in.js"></script>
     <script type="text/javascript" src="/js/help.js"></script>
 
-    <title>Check-in Guest</title>
+    <title>Jaelle Residences Management System</title>
 </head>
 <body>
 
@@ -43,6 +43,7 @@
                             {{/each}}
                         </select>
                     </div>
+                    <h2 class="ms-3 mt-5 mb-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Create New Guest Check-in</h2>
                 </div>
 
                 <!--ROW-->
@@ -121,8 +122,8 @@
 
                         <!--Contact No.-->
                         <div class="form-group mb-3">
-                            <label class="h5 d-block">Contact No.</label>
-                            <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Contact No." id="contact" name="contact">
+                            <label class="h5 d-block">Mobile No.</label>
+                            <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Mobile Number - 09XXXXXXXXX" id="contact" name="contact">
                             <em><p class="error text-danger" id="contact-error"></p></em>
                         </div>
 
@@ -216,7 +217,7 @@
                                         <input class="form-check-input mt-0" id="is-discount-php" type="checkbox" value="">
                                     </div>
                                     <input type="text" readonly="true" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-25" placeholder="Reason" value="">
-                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
+                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                                 <div class="input-group mb-3 w-auto">
@@ -224,7 +225,7 @@
                                         <input class="form-check-input mt-0" id="is-discount-percent" type="checkbox" value="">
                                     </div>
                                     <input type="text" readonly="true" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-25" placeholder="Reason" value="">
-                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
+                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -246,7 +247,7 @@
                             <div class="form-group mb-3 text-end">
                                 <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Extra additional charges that would be added to the cost">Extra Charges</label>
                                 <div class="input-group w-75 ms-auto">
-                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-extra" name="room_extra" class="form-control" enabled>
+                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-extra" name="room_extra" class="form-control" enabled>
                                     <span class="input-group-text">Php</span>
                                 </div>
                             </div>
@@ -274,7 +275,7 @@
                             <div class="form-group mb-3 text-end text-primary mt-5">
                                 <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid"><span class="text-danger">* </span>Customer Payment</label>
                                 <div class="input-group mb-3 w-75 ms-auto">
-                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
+                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                                 <em><p class="error text-danger" id="room-payment-error"></p></em>
@@ -309,7 +310,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body px-4 pt-3 pb-4">
-                                <p class="text-danger">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
+                                <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                 <p>Are you sure you want to <strong>check-in guest</strong> with the following information?</p>
                                 <div class="template">
                                             <div class="row mt-4">

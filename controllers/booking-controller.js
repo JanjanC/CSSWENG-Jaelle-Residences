@@ -226,7 +226,7 @@ const bookingController = {
 		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
 			let rooms = [];
 			rooms.push(req.query.roomID);
-			if (roomResult.connected_rooms) {
+			if (roomResult && roomResult.connected_rooms) {
 				for (let i = 0; i < roomResult.connected_rooms.length; i++) {
 					rooms.push(roomResult.connected_rooms[i]);
 				}
@@ -523,7 +523,7 @@ const bookingController = {
 						let startDate = new Date(bookingResult.startDate);
                         let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
-                        res.redirect(`/${startDateString}/booking/`);
+                        res.redirect(req.get('referer'));
                     } else {
                         res.redirect('/error');
                     }

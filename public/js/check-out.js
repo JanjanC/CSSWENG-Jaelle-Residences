@@ -290,11 +290,11 @@ function computeCharges () {
 				charges = charges + (pax - roomMaxPax) * 400;
 			}
 
-			//compute early checkin charges
+			//compute late checkout charges
 			let today = new Date();
 			//checkin time is from 4am to 2pm [4am, 2pm)
-			if (today.getHours() >= 4 && today.getHours() < 14) {
-				charges = charges + 0.05 * (14 - today.getHours()) * roomInfo.room_rate.daily;
+			if (today.getHours() >= 12) {
+				charges = charges + 0.05 * (today.getHours() - 12 + 1) * roomInfo.room_rate.daily;
 			}
 
 			//add the inputted extra charge to the total charges
@@ -555,9 +555,6 @@ function validateEntry () {
 		// the end date is earlier than the start date
 		} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
 			$('#end-date-error').text('End Date cannot be earlier than Start Date');
-			isValid = false;
-		} else if ($('#start-date').val() != '' && new Date().getHours() >= 4 && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
-			$('#end-date-error').text('End Date cannot the same as Start Date');
 			isValid = false;
 		} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
 			$('#end-date-error').text('End Date may only be 5 Years from Today');
