@@ -54,6 +54,22 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	$('#is-extra-pet').change(function () {
+		enablePetCharge();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#is-extra-bed').change(function () {
+		enableExtraBedsCharge();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
 	$('#room-pax').change(function () {
 		computeInitialCost();
 		computeCharges();
@@ -103,14 +119,32 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	$('#reservation_select').change(function () {
-		updateForm();
-		checkAvailability();
-		computeInitialCost();
+	$('#extra-pet-cost-php').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
+	});
+
+	$('#extra-bed-cost-php').keyup(function (){
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#add-charge-btn').click(function (){
+		createOtherChargesArr();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#reservation_select').change(function () {
+		updateForm();
+		checkAvailability();
+		computeInitialCost();
 	});
 
 	$('#form-submit').submit(function () {
@@ -182,11 +216,29 @@ function updateForm () {
 
 function checkOtherError() {
 	//// TODO: Apply appropriate error messages
-	return true;
+	let costFlag, reasonFlag;
+	if($('#add-other-cost').val() != ''){
+		costFlag = true;
+		$('#add_other_cost_error').text('');
+	}
+	else{
+		costFlag = false;
+		$('#add_other_cost_error').text('Please input a number.');
+	}
+
+	if($('#add-other-reason').val() !=''){
+		reasonFlag = true;
+		$('#add_other_reason_error').text('');
+	}
+	else{
+		reasonFlag = false;
+		$('#add_other_reason_error').text('Please input a reason.');
+	}
+	return costFlag && reasonFlag;
 }
 
 function addOther () {
-	if(checkOtherError) {
+	if(checkOtherError()) {
 		let othersContainer = $('#other-list');
 		let othersAddContainer = $('#other-add');
 
@@ -196,12 +248,12 @@ function addOther () {
 		let newOtherCostVal = $('#add-other-cost');
 
 		let newDivOtherContainer = $("<div class='d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item'></div>");
-		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center'></div>");
+		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
 
-		let newOtherReason = $("<h6 class='other-val text-primary'></h6>").text(newOtherReasonVal.val().trim());
-		let newOtherCost = $("<h6 class='other-val text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
+		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
+		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
 
-		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50' type='button' onclick='removeOther(this)'></button>");
+		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50 other-del' type='button' onclick='removeOther(this)'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
 		let newDeleteIconStrong = $("<strong></strong>").text("clear");
 
@@ -220,6 +272,11 @@ function addOther () {
 
 function removeOther (elem) {
 	$(elem).parent().remove();
+	createOtherChargesArr();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
 }
 
 function computeInitialCost () {
@@ -294,6 +351,59 @@ function computeInitialCost () {
 	jQuery.ajaxSetup({async: true});
 }
 
+function computeExtraPax (pax, maxPax) {
+	let extraPaxCost = 0;
+	console.log("computeExtraPax " + pax + " " + maxPax);
+	if(pax > maxPax && !isNaN(pax)){
+		// TODO: input rate
+		let rate = 400;
+		nExtraPax = pax - maxPax;
+		extraPaxCost = nExtraPax * rate;
+		$('#extra-pax-count').val(nExtraPax);
+		$('#extra-pax-cost-php').val(extraPaxCost);
+		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
+	}
+}
+
+// function addOtherCharge () {
+// 	let reason = $('#add-other-reason').val();
+// 	let price = $('#add-other-cost').val();
+// 	if(price != null){
+// 		let item = `
+// 		<div class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2 other-charge-cost-item">
+// 		<h6 id="item-reason" class="text-primary"><span class="other-charge-cost-reason">${reason}</span></h6>
+// 		<h6 id="item-price" class="text-primary mb-0"><span class="other-charge-cost-price">${price}</span> <span>Php</span></h6>
+// 		</div>
+// 		`;
+
+// 		$('#add-other-reason').val('');
+// 		$('#add-other-cost').val('');
+// 		$('#other-list').prepend(item);
+// 	}
+// }
+
+function sumOtherCharges (){
+	let sum = 0;
+	$('.other-val-cost').each(function (){
+		sum += parseFloat($(this).text());
+	});
+	console.log(sum);
+	return sum;
+}
+
+function createOtherChargesArr (){
+	let arr = [];
+	$('.other-item').each(function (){
+		temp = {
+			reason: $(this).children('.other-val').children('.other-val-reason').text(),
+			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
+		};
+		arr.push(temp);
+	});
+	console.log(arr);
+	$('#other-charges-arr').val(JSON.stringify(arr));
+}
+
 function computeCharges () {
 
 	let roomID = $('#room-id').text();
@@ -304,7 +414,21 @@ function computeCharges () {
 		if (result) {
 			let total = parseInt($('#room-initial-cost').val());
 			let pax = parseInt($('#room-pax').val());
-			let extra = parseInt($('#room-extra').val());
+			let extra = 0;
+			let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
+			let extraPet = parseInt($('#extra-pet-cost-php').val());
+			let extraOther = sumOtherCharges();
+
+			computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
+
+			if(!isNaN(extraBed))
+				extra += extraBed;
+			if(!isNaN(extraPet))
+				extra += extraPet;
+			if(!isNaN(extraOther))
+				extra += extraOther;
+
+			console.log("computeCharges " + total + " " + pax + " " + extra);
 
 			if (total) {
 				let charges = 0;
@@ -365,6 +489,27 @@ function enableDiscountPercent () {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').val('');
 	}
+}
+
+function enablePetCharge () {
+	let pet = $('#is-extra-pet').is(':checked');
+	$('#extra-pet-cost-php').prop('readonly', !pet);
+
+	if (!pet) {
+		$('#extra-pet-cost-php').val('');
+	}
+}
+
+function enableExtraBedsCharge () {
+	let extraBed = $('#is-extra-bed').is(':checked');
+	$('#extra-bed-count').prop('readonly', !extraBed);
+	$('#extra-bed-cost-php').prop('readonly', !extraBed);
+
+	if (!extraBed) {
+		$('#extra-bed-count').val('');
+		$('#extra-bed-cost-php').val('');
+	}
+
 }
 
 function computeDiscount () {
