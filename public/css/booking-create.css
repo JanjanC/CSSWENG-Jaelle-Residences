@@ -6,6 +6,10 @@ textarea {
     color: #2DB766;
 }
 
+#other-list {
+    height: 20em;
+}
+
 input[readonly=true]:hover {
     cursor: default;
 }
