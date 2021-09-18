@@ -134,8 +134,11 @@ $(document).ready(function () {
 	})
 
 	$('#add-charge-btn').click(function (){
-		sumOtherCharges();
 		createOtherChargesArr();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
 	})
 });
 
@@ -160,7 +163,7 @@ function addOther () {
 		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
 		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
 
-		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50' type='button' onclick='removeOther(this)'></button>");
+		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50 other-del' type='button' onclick='removeOther(this)'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
 		let newDeleteIconStrong = $("<strong></strong>").text("clear");
 
@@ -179,6 +182,11 @@ function addOther () {
 
 function removeOther (elem) {
 	$(elem).parent().remove();
+	createOtherChargesArr();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
 }
 
 //Add error for add
@@ -305,6 +313,7 @@ function createOtherChargesArr (){
 		arr.push(temp);
 	});
 	console.log(arr);
+	$('#other-charges-arr').val(JSON.stringify(arr));
 }
 
 function computeCharges () {
@@ -320,6 +329,7 @@ function computeCharges () {
 			let extra = 0;
 			let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
 			let extraPet = parseInt($('#extra-pet-cost-php').val());
+			let extraOther = sumOtherCharges();
 
 			computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
 
@@ -327,6 +337,8 @@ function computeCharges () {
 				extra += extraBed;
 			if(!isNaN(extraPet))
 				extra += extraPet;
+			if(!isNaN(extraOther))
+				extra += extraOther;
 			
 			console.log("computeCharges " + total + " " + pax + " " + extra);
 
