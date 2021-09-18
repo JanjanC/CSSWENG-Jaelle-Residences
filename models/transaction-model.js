@@ -58,7 +58,14 @@ var TransactionSchema = new mongoose.Schema({
     },
 
     extraCharges: {
-        type: Number
+        reason: {
+            type: String,
+            trim: true
+        },
+
+        amount: {
+            type: Number
+        }
     },
 
     totalCharges: {
