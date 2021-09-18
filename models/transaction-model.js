@@ -1,16 +1,5 @@
 var mongoose = require('mongoose');
 
-var ChargeSchema = new mongoose.Schema({
-    reason: {
-        type: String,
-        trim: true
-    },
-
-    amount: {
-        type: Number
-    }
-});
-
 var TransactionSchema = new mongoose.Schema({
 
     duration: {
@@ -19,11 +8,6 @@ var TransactionSchema = new mongoose.Schema({
     },
 
     averageRate: {
-        type: Number,
-        required: true
-    },
-
-    roomCost: {
         type: Number,
         required: true
     },
@@ -63,17 +47,24 @@ var TransactionSchema = new mongoose.Schema({
         }
     },
 
-    totalDiscount: {
-        type: Number,
-        required: true
-    },
-
     extraPaxCharges: {
-        type: Number
+        count: {
+            type: Number
+        },
+
+        amount: {
+            type: Number
+        }
     },
 
     extraBedCharges: {
-        type: Number
+        count: {
+            type: Number
+        },
+
+        amount: {
+            type: Number
+        }
     },
 
     extraPetCharges: {
@@ -81,7 +72,26 @@ var TransactionSchema = new mongoose.Schema({
     },
 
     otherCharges: {
-        type:[ChargeSchema]
+        type:[{
+            reason: {
+                type: String,
+                trim: true
+            },
+
+            amount: {
+                type: Number
+            }
+        }]
+    },
+
+    roomCost: {
+        type: Number,
+        required: true
+    },
+
+    totalDiscount: {
+        type: Number,
+        required: true
     },
 
     totalCharges: {
