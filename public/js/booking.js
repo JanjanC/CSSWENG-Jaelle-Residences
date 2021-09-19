@@ -400,7 +400,7 @@ function computeExtraPax (pax, maxPax) {
 function sumOtherCharges (){
 	let sum = 0;
 	$('.other-val-cost').each(function (){
-		sum += Number($(this).text());
+		sum += parseFloat($(this).text());
 	});
 	console.log(sum);
 	return sum;
