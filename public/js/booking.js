@@ -132,7 +132,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	$('#extra-bed-cost-php').keyup(function (){
+	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
@@ -432,22 +432,40 @@ function computeCharges () {
 
 	if (roomInfo) {
 		let total = parseInt($('#room-initial-cost').val());
-		let pax = parseInt($('#room-pax').val());
-		let extra = parseInt($('#room-extra').val());
+			let pax = parseInt($('#room-pax').val());
+			let extra = 0;
+			let extraBed = parseInt($('#extra-bed-count').val());
+			let extraPet = parseInt($('#extra-pet-cost-php').val());
+			let extraOther = sumOtherCharges();
 
-		if (total) {
+			computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
+
+			if(!isNaN(extraBed)) {
+				let cost = extraBed * 400;
+				extra += cost;
+				$('#extra-bed-cost-php').val(cost.toFixed(2));
+			}
+			if(!isNaN(extraPet))
+				extra += extraPet;
+			if(!isNaN(extraOther))
+				extra += extraOther;
+
+			console.log("computeCharges " + total + " " + pax + " " + extra);
+
+			if (total) {
 				let charges = 0;
-				if (!Number.isNaN(pax) && pax > roomInfo.max_pax) {
-					charges = charges + (pax - roomInfo.max_pax) * 400;
+				if (!Number.isNaN(pax) && pax > result.max_pax) {
+					charges = charges + (pax - result.max_pax) * 400;
 				}
 
-			if (extra) {
-				charges = charges + extra;
-			}
+				if (extra) {
+					charges = charges + extra;
+				}
 
-			$('#room-total-extra').val(charges);
-		} else {
-			$('#room-total-extra').val(0.00);
+				$('#room-total-extra').val(charges);
+			} else {
+				$('#room-total-extra').val(0.00);
+			}
 		}
 	}
 }
