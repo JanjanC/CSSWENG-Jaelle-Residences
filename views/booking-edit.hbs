@@ -40,8 +40,12 @@
                             <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">room_preferences</span>Room Details</h3>
 
                             <div hidden>
-                                <span id="booking-id">{{booking._id}}</span>
-                                <span id="room-id">{{booking.room._id}}</span>
+                                <span id="booking-id">{{_id}}</span>
+                                <span id="room-id">{{room._id}}</span>
+                                {{#each room.connected_rooms}}
+                                <span class="connected-rooms">{{this}}</span>
+                                {{/each}}
+                                <input id="other-charges-arr" name="other_charges_arr">
                             </div>
 
                             <!--Room Type-->
@@ -273,11 +277,11 @@
 
                                         {{#each booking.transaction.otherCharges}}
                                         <div class="d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item">
-                                            <div class="d-flex flex-column align-items-start justify-content-center">
-                                                <h6 class="other-val text-primary">{{reason}}</h6>
-                                                <h6 class="other-val text-primary mb-0">{{amount}} Php</h6>
+                                            <div class="d-flex flex-column align-items-start justify-content-center other-val">
+                                                <h6 class="other-val-reason text-primary">{{reason}}</h6>
+                                                <h6 class="other-val-cost text-primary mb-0">{{amount}} Php</h6>
                                             </div>
-                                            <button class="btn btn-outline-danger rounded-pill h-50" type="button"><span class="material-icons-outlined delete-other" onclick="removeOther(this)"><strong>clear</strong></span></button>
+                                            <button class="btn btn-outline-danger rounded-pill h-50" type="button"><span class="material-icons-outlined delete-other" id="del-other"><strong>clear</strong></span></button>
                                         </div>
                                         {{/each}}
 
