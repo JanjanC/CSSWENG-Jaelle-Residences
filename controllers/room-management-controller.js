@@ -316,38 +316,38 @@ const roomManagementController = {
     postCheckInWithoutBooking: function (req, res) {
 
         let transaction = {
-                    duration: req.body.duration,
-                    averageRate: req.body.room_rate,
-                    pax: req.body.room_pax,
-                    pwdCount: req.body.room_pwd,
-                    seniorCitizenCount: req.body.room_senior,
-                    additionalPhpDiscount: {
-                        reason: req.body.room_discount_reason_php,
-                        amount: req.body.room_discount_php
-                    },
-                    additionalPercentDiscount: {
-                        reason: req.body.room_discount_reason_php,
-                        amount: req.body.room_discount_percent
-                    },
-                    extraPaxCharges: {
-                        count: req.body.extra_bed_count,
-                        amount: req.body.extra_pax_cost_php
-                    },
-                    extraBedCharges: {
-                       count: req.body.extra_bed_count,
-                       amount: req.body.extra_bed_cost_php
-                   },
-                    extraPetCharges: req.body.extra_pet_cost_php,
-                    roomCost: req.body.room_initial_cost,
-                    totalDiscount: req.body.room_subtract,
-                    totalCharges: req.body.room_total_extra,
-                    netCost: req.body.room_net_cost,
-                    payment: req.body.room_payment,
-                    balance: req.body.room_balance
-                }
+            duration: req.body.duration,
+            averageRate: req.body.room_rate,
+            pax: req.body.room_pax,
+            pwdCount: req.body.room_pwd,
+            seniorCitizenCount: req.body.room_senior,
+            additionalPhpDiscount: {
+                reason: req.body.room_discount_reason_php,
+                amount: req.body.room_discount_php
+            },
+            additionalPercentDiscount: {
+                reason: req.body.room_discount_reason_php,
+                amount: req.body.room_discount_percent
+            },
+            extraPaxCharges: {
+                count: req.body.extra_bed_count,
+                amount: req.body.extra_pax_cost_php
+            },
+            extraBedCharges: {
+                count: req.body.extra_bed_count,
+                amount: req.body.extra_bed_cost_php
+            },
+            extraPetCharges: req.body.extra_pet_cost_php,
+            roomCost: req.body.room_initial_cost,
+            totalDiscount: req.body.room_subtract,
+            totalCharges: req.body.room_total_extra,
+            netCost: req.body.room_net_cost,
+            payment: req.body.room_payment,
+            balance: req.body.room_balance
+        }
 
-                if(req.body.other_charges_arr)
-                    transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
+        if(req.body.other_charges_arr)
+            transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
         db.insertOne(Transaction, transaction, function(transactionResult) {
             if (transactionResult) {
