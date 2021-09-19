@@ -144,7 +144,7 @@ const roomManagementController = {
                         amount: req.body.room_discount_php
                     },
                     additionalPercentDiscount: {
-                        reason: req.body.room_discount_reason_php,
+                        reason: req.body.room_discount_reason_percent,
                         amount: req.body.room_discount_percent
                     },
                     extraPaxCharges: {
