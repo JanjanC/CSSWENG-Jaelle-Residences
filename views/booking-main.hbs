@@ -226,8 +226,9 @@
 										<button id="delete-{{room._id}}" name="delete_{{room._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
 											<span class="material-icons-outlined me-1">delete</span>Delete
 										</button>
-
+										
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<a href="/booking/{{booking._id}}/print" id="print-link" class="btn btn-primary"><span class="material-icons-outlined me-1">print</span>Print Receipt</a>
 										<a href="/booking/{{booking._id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
 
 									</div>
