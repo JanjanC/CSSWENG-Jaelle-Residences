@@ -234,7 +234,6 @@ function updateForm () {
 }
 
 function checkOtherError() {
-	//// TODO: Apply appropriate error messages
 	let costFlag, reasonFlag;
 	if($('#add-other-cost').val() != ''){
 		costFlag = true;
