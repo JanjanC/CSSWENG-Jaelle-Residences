@@ -27,7 +27,7 @@ app.on('ready', function() {
         // icon: "",
         show: false,
         webPreferences: {
-            devTools: true,
+            devTools: false,
             nodeIntegration: true,
             contextIsolation: false
         }
