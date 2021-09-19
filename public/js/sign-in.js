@@ -1,8 +1,13 @@
 $(document).ready(function () {
+    //disable the sign in button if the username or password is empty
     $('#username, #password').keyup(function(){
-        if($('#username').val() != '' && $('#password').val() != '')
+        //both the username and password is not empty
+        if($('#username').val() != '' && $('#password').val() != '') {
+            //enable sign in button
             $('#signinbtn').prop('disabled', false);
-        else
+        } else {
+            //disable sign in button
             $('#signinbtn').prop('disabled', true);
+        }
     })
 });

@@ -65,11 +65,13 @@ app.post('/management/:bookingID/checkout', roomManagementController.postCheckOu
 
 app.get('/management/:bookingID/checkout', roomManagementController.getCheckOut);
 
-app.get('/management/:bookingID/transfer', roomManagementController.getTransfer);
-
 app.get('/management/:bookingID/checkin/edit', roomManagementController.getEditCheckIn);
 
 app.post('/management/:bookingID/checkin/edit', roomManagementController.postEditCheckIn);
+
+app.get('/management/:bookingID/transfer', roomManagementController.getTransfer);
+
+app.post('/management/:bookingID/transfer', roomManagementController.postTransfer);
 
 app.get('/management/:roomID/maintenance', roomManagementController.getRoomMaintenance);
 
