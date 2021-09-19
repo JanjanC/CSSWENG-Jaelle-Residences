@@ -69,6 +69,19 @@ app.get('/management/:bookingID/checkin/edit', roomManagementController.getEditC
 
 app.post('/management/:bookingID/checkin/edit', roomManagementController.postEditCheckIn);
 
+app.get('/management/:bookingID/transfer', roomManagementController.getTransfer);
+
+app.post('/management/:bookingID/transfer', roomManagementController.postTransfer);
+
+app.get('/management/:roomID/maintenance', roomManagementController.getRoomMaintenance);
+
+app.post('/management/:roomID/maintenance', roomManagementController.postRoomMaintenance);
+
+// TODO: make this POST when basic functionality is working
+app.get('/booking/:bookingID/print', bookingController.postPrintReceipt);
+
+app.get('/print', bookingController.getPrint);
+
 app.get(`/error`, errorController.getError);
 
 app.get(`/*`, errorController.getError);

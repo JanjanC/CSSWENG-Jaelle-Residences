@@ -8,11 +8,12 @@
 	<link rel="stylesheet" type="text/css" href="/css/room-management.css">
 	<link rel="stylesheet" type="text/css" href="/css/material.css">
 
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 	<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
 	<script type="text/javascript" src="/js/room-management.js"></script>
 	<script type="text/javascript" src="/js/help.js"></script>
-
+	<script>if (window.module) module = window.module;</script>
 
 	<title>Jaelle Residences Management System</title>
 </head>
@@ -33,7 +34,7 @@
 					<div class="ms-auto d-flex flex-column align-items-end w-25">
 						<form class="d-flex flex-column form-group justify-content-center align-items-center w-50" action="" method="get">
 							<h5>Chosen Time</h5>
-							<input type="time" onkeydown="return !(event.keyCode === 8 || event.keyCode === 46)" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Sets the time of the day where the status of rooms are relative to">
+							<input type="time" onkeydown="return false" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Sets the time of the day where the status of rooms are relative to">
 						</form>
 					</div>
 
@@ -63,6 +64,15 @@
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
+							<div class="mt-2">
+								{{#if room.needRepair}}
+								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
+								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
+							</div>
+
 						</button>
 
 						<!-- Modal -->
@@ -75,6 +85,17 @@
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<div class="row">
+											<div class="d-flex justify-content-start align-items-center me-3 mb-2">
+												{{#ifStatus room.needRepair room.needHousekeeping}}
+												<span class="text-secondary h5 me-2">Maintenance need:</span>
+												{{/ifStatus}}
+												{{#if room.needRepair}}
+				            					<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+												{{/if}}
+												{{#if room.needHousekeeping}}
+				            					<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+												{{/if}}
+				            				</div>
 											<!--Room information-->
 											<div class="col pe-0 border-end">
 												<h4>Room Status:</h4>
@@ -133,8 +154,12 @@
 										</div>
 									</div>
 									<div class="modal-footer">
+										<a href="/management/{{room._id}}/maintenance" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+
 										<!-- Button trigger modal-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<a href="/booking/{{booking._id}}/print" class="print-link btn btn-primary"><span class="material-icons-outlined me-1">print</span>Print Receipt</a>
+										<a href="/management/{{booking._id}}/transfer" class="btn btn-primary"><span class="material-icons-outlined me-1">transfer_within_a_station</span>Transfer</a>
 										<a href="/management/{{booking._id}}/checkin/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
 										<a href="/management/{{booking._id}}/checkout" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add_check</span>Check-out</a>
 									</div>
@@ -149,6 +174,14 @@
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
+							<div class="mt-2">
+								{{#if room.needRepair}}
+								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
+								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
+							</div>
 						</button>
 
 						<!-- Modal -->
@@ -161,6 +194,17 @@
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<div class="row">
+											<div class="d-flex justify-content-start align-items-center me-3 mb-2">
+												{{#ifStatus room.needRepair room.needHousekeeping}}
+												<span class="text-secondary h5 me-2">Maintenance need:</span>
+												{{/ifStatus}}
+												{{#if room.needRepair}}
+				            					<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+												{{/if}}
+												{{#if room.needHousekeeping}}
+				            					<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+												{{/if}}
+				            				</div>
 											<!--Room information-->
 											<div class="col pe-0 border-end">
 												<h4>Room Status:</h4>
@@ -220,11 +264,16 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<!-- Delete Form -->
-										<!-- Button trigger modal -->
-										<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
-											<span class="material-icons-outlined me-1">delete</span>Delete
-										</button>
+										<div class="me-auto ms-2">
+											<a href="/management/{{room._id}}/maintenance" class="btn btn-primary rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+
+											<!-- Delete Form -->
+											<!-- Button trigger modal -->
+											<button id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" class="btn btn-danger rounded ms-1" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
+												<span class="material-icons-outlined me-1">delete</span>Delete
+											</button>
+										</div>
+
 
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										<button id="checkin-{{booking._id}}" name="checkin_{{booking._id}}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkin-{{room._id}}-Modal">
@@ -286,6 +335,14 @@
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
+							<div class="mt-2">
+								{{#if room.needRepair}}
+								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
+								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
+							</div>
 						</button>
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
@@ -296,6 +353,17 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
+										<div class="d-flex justify-content-start align-items-center me-3 mb-2">
+											{{#ifStatus room.needRepair room.needHousekeeping}}
+											<span class="text-secondary h5 me-2">Maintenance need:</span>
+											{{/ifStatus}}
+											{{#if room.needRepair}}
+											<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+											{{/if}}
+											{{#if room.needHousekeeping}}
+											<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+											{{/if}}
+										</div>
 										<h4>Room Status:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-status">Unavailable</span></h5>
 										<h4>Room Type:</h4>
@@ -304,6 +372,7 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<a href="/management/{{room._id}}/maintenance" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 									</div>
 								</div>
@@ -317,6 +386,14 @@
 						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
+							<div class="mt-2">
+								{{#if room.needRepair}}
+								<span class="material-icons-outlined md-24 me-1">handyman</span>
+								{{/if}}
+								{{#if room.needHousekeeping}}
+								<span class="material-icons-outlined md-24 me-1">cleaning_services</span>
+								{{/if}}
+							</div>
 						</button>
 						<!-- Modal -->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
@@ -327,6 +404,17 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
+										<div class="d-flex justify-content-start align-items-center me-3 mb-2">
+											{{#ifStatus room.needRepair room.needHousekeeping}}
+											<span class="text-secondary h5 me-2">Maintenance need:</span>
+											{{/ifStatus}}
+											{{#if room.needRepair}}
+											<span class="legend h5 label rounded-pill border p-2 me-1">Repair</span>
+											{{/if}}
+											{{#if room.needHousekeeping}}
+											<span class="legend h5 label rounded-pill border p-2">Housekeeping</span>
+											{{/if}}
+										</div>
 										<h4>Room Status:</h4>
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-status">Vacant</span></h5>
 										<h4>Room Type:</h4>
@@ -335,6 +423,8 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<a href="/management/{{room._id}}/maintenance" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
+
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										{{#isNotPastDate ../date}}
 											<a href="{{room._id}}/checkin/vacant" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add</span>Check-in</a>
