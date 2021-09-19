@@ -435,34 +435,10 @@ function computeCharges () {
 		let pax = parseInt($('#room-pax').val());
 		let extra = parseInt($('#room-extra').val());
 
-	$.get('/room', {roomID: roomID}, function(result) {
-		if (result) {
-			let total = parseInt($('#room-initial-cost').val());
-			let pax = parseInt($('#room-pax').val());
-			let extra = 0;
-			let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
-			let extraPet = parseInt($('#extra-pet-cost-php').val());
-			let extraOther = sumOtherCharges();
-
-			computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
-
-			if(!isNaN(extraBed))
-				extra += extraBed;
-			if(!isNaN(extraPet))
-				extra += extraPet;
-			if(!isNaN(extraOther))
-				extra += extraOther;
-
-			console.log("computeCharges " + total + " " + pax + " " + extra);
-
-			if (total) {
+		if (total) {
 				let charges = 0;
-				if (!Number.isNaN(pax) && pax > result.max_pax) {
-					charges = charges + (pax - result.max_pax) * 400;
-				}
-
-				if (extra) {
-					charges = charges + extra;
+				if (!Number.isNaN(pax) && pax > roomInfo.max_pax) {
+					charges = charges + (pax - roomInfo.max_pax) * 400;
 				}
 
 			if (extra) {
