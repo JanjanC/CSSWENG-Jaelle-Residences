@@ -157,6 +157,10 @@ $(document).ready(function () {
 		computeTotal();
 		computeBalance();
 	})
+
+	$('#del-other').click(function () {
+		removeOther($(this).parent());
+	})
 });
 
 let roomInfo = null;
