@@ -153,7 +153,7 @@ function checkOtherError() {
 		costFlag = false;
 		$('#add_other_cost_error').text('Please input a number.');
 	}
-	
+
 	if($('#add-other-reason').val() !=''){
 		reasonFlag = true;
 		$('#add_other_reason_error').text('');
@@ -328,7 +328,7 @@ function createOtherChargesArr (){
 	let arr = [];
 	$('.other-item').each(function (){
 		temp = {
-			reason: $(this).children('.other-val').children('.other-val-reason').text(), 
+			reason: $(this).children('.other-val').children('.other-val-reason').text(),
 			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
 		};
 		arr.push(temp);
@@ -360,7 +360,7 @@ function computeCharges () {
 				extra += extraPet;
 			if(!isNaN(extraOther))
 				extra += extraOther;
-			
+
 			console.log("computeCharges " + total + " " + pax + " " + extra);
 
 			if (total) {
@@ -436,7 +436,6 @@ function enablePetCharge () {
 function enableExtraBedsCharge () {
 	let extraBed = $('#is-extra-bed').is(':checked');
 	$('#extra-bed-count').prop('readonly', !extraBed);
-	$('#extra-bed-cost-php').prop('readonly', !extraBed);
 
 	if (!extraBed) {
 		$('#extra-bed-count').val('');
