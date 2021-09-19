@@ -367,7 +367,7 @@ function computeCharges () {
 		let duration = Number($('#duration').val());
 		let pax = Number($('#room-pax').val());
 		let extra = 0;
-		let extraBed = Number($('#extra-bed-cost-php').val()) * Number($('#extra-bed-count').val());
+		let extraBed = Number($('#extra-bed-count').val());
 		let extraPet = Number($('#extra-pet-cost-php').val());
 		let extraOther = sumOtherCharges();
 
