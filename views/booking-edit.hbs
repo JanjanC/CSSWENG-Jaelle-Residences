@@ -254,9 +254,9 @@
                                         <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Pet additional charges that would be added to the cost">Pet Charge</label>
                                         <div class="input-group mb-2 w-auto">
                                             <div class="input-group-text">
-                                                <input class="form-check-input mt-0" id="is-extra-pet" type="checkbox" value="">
+                                                <input class="form-check-input mt-0" id="is-extra-pet" type="checkbox" value="{{#if transaction.extraPetCharges}} checked {{/if}}">
                                             </div>
-                                            <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pet-cost-php" name="extra_pet_cost_php" class="form-control">
+                                            <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pet-cost-php" name="extra_pet_cost_php" class="form-control" value="{{transaction.extraPetCharges}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -273,6 +273,16 @@
                                             <button class="btn btn-outline-danger rounded-pill h-50" type="button"><span class="material-icons-outlined delete-other" onclick="removeOther(this)"><strong>clear</strong></span></button>
                                         </div>
                                         -->
+
+                                        {{#each transaction.otherCharges}}
+                                        <div class="d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item">
+                                            <div class="d-flex flex-column align-items-start justify-content-center">
+                                                <h6 class="other-val text-primary">{{reason}}</h6>
+                                                <h6 class="other-val text-primary mb-0">{{amount}} Php</h6>
+                                            </div>
+                                            <button class="btn btn-outline-danger rounded-pill h-50" type="button"><span class="material-icons-outlined delete-other" onclick="removeOther(this)"><strong>clear</strong></span></button>
+                                        </div>
+                                        {{/each}}
 
                                         <!--Item Add-->
                                         <div id="other-add" class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2">
@@ -302,7 +312,7 @@
                                     <div class="form-group mb-3">
                                         <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Initial cost of the room without the extra charges and discounts">Room Cost</label>
                                         <div class="input-group mb-3 w-100">
-                                            <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control">
+                                            <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control" value="{{transaction.roomCost}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -311,7 +321,7 @@
                                     <div class="form-group mb-4">
                                         <label class="h5 text-discount" data-bs-toggle="tooltip" data-bs-placement="right" title="Total amount to be subtracted from the total cost">Total Discount</label>
                                         <div class="input-group mb-3 w-100">
-                                            <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control">
+                                            <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control" value="{{transaction.totalDiscount}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -320,7 +330,7 @@
                                     <div class="form-group mb-3 text-primary">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Total extra additional charges that would be added to the cost">Total Extra Charges</label>
                                         <div class="input-group mb-3 w-100">
-                                            <input type="number" readonly="true" id="room-total-extra" name="room_total_extra" class="form-control">
+                                            <input type="number" readonly="true" id="room-total-extra" name="room_total_extra" class="form-control" value="{{transaction.totalCharges}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -335,7 +345,7 @@
                                     <div class="form-group mb-3 text-end text-primary">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Total cost after the extra charges and discounts were applied">Total Cost</label>
                                         <div class="input-group mb-3 w-100 ms-auto">
-                                            <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control">
+                                            <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control" value="{{transaction.netCost}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -345,7 +355,7 @@
                                     <div class="form-group mb-3 text-end text-primary mt-5">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid"><span class="text-danger">* </span>Customer Payment</label>
                                         <div class="input-group mb-3 w-100 ms-auto">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control" value="{{transaction.payment}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <em><p class="error text-danger" id="room-payment-error"></p></em>
@@ -355,7 +365,7 @@
                                     <div class="form-group mb-3 text-end text-primary">
                                         <label class="h5">Remaining Balance</label>
                                         <div class="input-group mb-3 w-100 ms-auto">
-                                            <input type="number" readonly="true" id="room-balance" name="room_balance" class="form-control">
+                                            <input type="number" readonly="true" id="room-balance" name="room_balance" class="form-control" value="{{transaction.balance}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
