@@ -57,6 +57,22 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	$('#is-extra-pet').change(function () {
+		enablePetCharge();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
+	$('#is-extra-bed').change(function () {
+		enableExtraBedsCharge();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	});
+
 	$('#room-pax').change(function () {
 		computeInitialCost();
 		computeCharges();
@@ -119,6 +135,28 @@ $(document).ready(function () {
 	$('#form-submit').submit(function () {
 		submitForm();
 	});
+
+	$('#extra-pet-cost-php').keyup(function (){
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	})
+
+	$('#extra-bed-cost-php').keyup(function (){
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	})
+
+	$('#add-charge-btn').click(function (){
+		createOtherChargesArr();
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	})
 });
 
 let roomInfo = null;
@@ -198,6 +236,70 @@ function updateForm () {
 	}
 }
 
+function checkOtherError() {
+	let costFlag, reasonFlag;
+	if($('#add-other-cost').val() != ''){
+		costFlag = true;
+		$('#add_other_cost_error').text('');
+	}
+	else{
+		costFlag = false;
+		$('#add_other_cost_error').text('Please input a number.');
+	}
+
+	if($('#add-other-reason').val() !=''){
+		reasonFlag = true;
+		$('#add_other_reason_error').text('');
+	}
+	else{
+		reasonFlag = false;
+		$('#add_other_reason_error').text('Please input a reason.');
+	}
+	return costFlag && reasonFlag;
+}
+
+function addOther () {
+	if(checkOtherError()) {
+		let othersContainer = $('#other-list');
+		let othersAddContainer = $('#other-add');
+
+		//Retrieved value from other reason input
+		let newOtherReasonVal = $('#add-other-reason');
+		//Retrieved value from other cost input
+		let newOtherCostVal = $('#add-other-cost');
+
+		let newDivOtherContainer = $("<div class='d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item'></div>");
+		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
+
+		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
+		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
+
+		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50 other-del' type='button' onclick='removeOther(this)'></button>");
+		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
+		let newDeleteIconStrong = $("<strong></strong>").text("clear");
+
+		newOtherDeleteButton.append(newDeleteIconSpan.append(newDeleteIconStrong));
+		newDivOtherValuesSection.append(newOtherReason, newOtherCost);
+		newDivOtherContainer.append(newDivOtherValuesSection, newOtherDeleteButton);
+		othersAddContainer.before(newDivOtherContainer);
+
+		//Clear values
+		newOtherReasonVal.val('');
+		newOtherCostVal.val('');
+		$("#add_other_cost_error").text('');
+		$("#add_other_reason_error").text('');
+	}
+}
+
+function removeOther (elem) {
+	$(elem).parent().remove();
+	createOtherChargesArr();
+	computeCharges();
+	computeDiscount();
+	computeTotal();
+	computeBalance();
+}
+
 function computeInitialCost () {
 	getRoomInfo();
 
@@ -264,6 +366,42 @@ function computeInitialCost () {
 	}
 }
 
+function computeExtraPax (pax, maxPax) {
+	let extraPaxCost = 0;
+	console.log("computeExtraPax " + pax + " " + maxPax);
+	if(pax > maxPax && !isNaN(pax)){
+		// TODO: input rate
+		let rate = 400;
+		nExtraPax = pax - maxPax;
+		extraPaxCost = nExtraPax * rate;
+		$('#extra-pax-count').val(nExtraPax);
+		$('#extra-pax-cost-php').val(extraPaxCost);
+		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
+	}
+}
+
+function sumOtherCharges (){
+	let sum = 0;
+	$('.other-val-cost').each(function (){
+		sum += parseFloat($(this).text());
+	});
+	console.log(sum);
+	return sum;
+}
+
+function createOtherChargesArr (){
+	let arr = [];
+	$('.other-item').each(function (){
+		temp = {
+			reason: $(this).children('.other-val').children('.other-val-reason').text(),
+			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
+		};
+		arr.push(temp);
+	});
+	console.log(arr);
+	$('#other-charges-arr').val(JSON.stringify(arr));
+}
+
 function computeCharges () {
 
 	getRoomInfo();
@@ -272,7 +410,19 @@ function computeCharges () {
 		let total = parseFloat($('#room-initial-cost').val());
 		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
-		let extra = parseFloat($('#room-extra').val());
+		let extra = 0;
+		let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
+		let extraPet = parseInt($('#extra-pet-cost-php').val());
+		let extraOther = sumOtherCharges();
+
+		computeExtraPax(parseInt($('#room-pax').val()), roomInfo.max_pax);
+
+		if(!isNaN(extraBed))
+			extra += extraBed;
+		if(!isNaN(extraPet))
+			extra += extraPet;
+		if(!isNaN(extraOther))
+			extra += extraOther;
 
 		if (total) {
 			let charges = 0;
@@ -348,6 +498,27 @@ function enableDiscountPercent () {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').val('');
 	}
+}
+
+function enablePetCharge () {
+	let pet = $('#is-extra-pet').is(':checked');
+	$('#extra-pet-cost-php').prop('readonly', !pet);
+
+	if (!pet) {
+		$('#extra-pet-cost-php').val('');
+	}
+}
+
+function enableExtraBedsCharge () {
+	let extraBed = $('#is-extra-bed').is(':checked');
+	$('#extra-bed-count').prop('readonly', !extraBed);
+	$('#extra-bed-cost-php').prop('readonly', !extraBed);
+
+	if (!extraBed) {
+		$('#extra-bed-count').val('');
+		$('#extra-bed-cost-php').val('');
+	}
+
 }
 
 function computeDiscount () {

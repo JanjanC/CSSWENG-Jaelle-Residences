@@ -6,6 +6,18 @@ textarea {
     color: #2DB766;
 }
 
+.delete-other {
+    font-size: 16px !important;
+}
+
+#other-list {
+    height: 20em;
+}
+
+input[readonly=true]:hover {
+    cursor: default;
+}
+
 /*For removing the number arrows*/
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
