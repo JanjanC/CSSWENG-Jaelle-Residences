@@ -5,14 +5,13 @@ $(document).ready(function () {
 	computeTotal();
 	computeBalance();
 
-	//onclick event of the button with an id of 'submit'
 	$('#book').click(function(){
 		if (validateEntry()) {
 			showInput();
 		}
 	});
 
-	$('#start-date').change(function () {
+	$('#transfer-start-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
 		computeCharges();
@@ -21,7 +20,7 @@ $(document).ready(function () {
 		computeBalance();
     });
 
-	$('#end-date').change(function () {
+	$('#transfer-end-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
 		computeCharges();
@@ -123,19 +122,30 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	$('#extra-pet-cost-php').keyup(function (){
+	$('#transfer-select').change(function () {
+		roomInfo = null;
+		updateForm();
+		checkAvailability();
+		computeInitialCost();
 		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
+	$('#extra-pet-cost-php').keyup(function (){
+		computeCharges();
+		computeDiscount();
+		computeTotal();
+		computeBalance();
+	})
+
 	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-	});
+	})
 
 	$('#add-charge-btn').click(function (){
 		createOtherChargesArr();
@@ -143,18 +153,17 @@ $(document).ready(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-	});
-
-	$('#reservation_select').change(function () {
-		updateForm();
-		checkAvailability();
-		computeInitialCost();
-	});
-
-	$('#form-submit').submit(function () {
-		submitForm();
-	});
+	})
 });
+
+function updateForm () {
+	getRoomInfo();
+
+	if (roomInfo) {
+		$('#transfer-room-type').val(roomInfo.room_type);
+		$('#transfer-room-number').val(roomInfo.room_number);
+	}
+}
 
 let roomInfo = null;
 
@@ -163,6 +172,10 @@ function getRoomInfo () {
 	if (!roomInfo) {
 
 		let roomID = $('#room-id').text();
+
+		if ($('#transfer-select').val() != '') {
+			roomID = $('#transfer-select').val();
+		}
 
 		jQuery.ajaxSetup({async: false});
 
@@ -175,65 +188,8 @@ function getRoomInfo () {
 	}
 }
 
-function submitForm () {
-	if ($('#reservation_select').val()) {
-		$('#form-submit').attr('action', `/booking/${$('#room-id').text()}/confirm`);
-	}
-	return true;
-}
-
-function updateForm () {
-	let reservationID = $('#reservation_select').val();
-
-	if (reservationID) {
-		jQuery.ajaxSetup({async: false});
-
-		$.get('/reservation', {reservationID: reservationID}, function(result) {
-			if (result) {
-				let startDate = '';
-				if (result.startDate) {
-					startDate = new Date(result.startDate);
-					startDate = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
-				}
-
-				let endDate = '';
-				if (result.endDate) {
-					endDate = new Date(result.endDate);
-					endDate = `${endDate.getFullYear().toString()}-${(endDate.getMonth() + 1).toString().padStart(2, 0)}-${endDate.getDate().toString().padStart(2, 0)}`;
-				}
-
-				let birthdate = '';
-				if (result.guest.birthdate) {
-					birthdate = new Date(result.guest.birthdate);
-					birthdate = `${birthdate.getFullYear().toString()}-${(birthdate.getMonth() + 1).toString().padStart(2, 0)}-${birthdate.getDate().toString().padStart(2, 0)}`;
-				}
-
-				$('#start-date').val(startDate);
-				$('#end-date').val(endDate);
-				$('#firstname').val(result.guest.firstName);
-				$('#lastname').val(result.guest.lastName);
-				$('#birthdate').val(birthdate);
-				$('#address').val(result.guest.address);
-				$('#contact').val(result.guest.contact);
-				$('#company').val(result.guest.company);
-				$('#occupation').val(result.guest.occupation);
-			}
-		});
-
-		jQuery.ajaxSetup({async: true});
-	} else {
-		$('#end-date').val('');
-		$('#firstname').val('');
-		$('#lastname').val('');
-		$('#birthdate').val('');
-		$('#address').val('');
-		$('#contact').val('');
-		$('#company').val('');
-		$('#occupation').val('');
-	}
-}
-
 function checkOtherError() {
+	//// TODO: Apply appropriate error messages
 	let costFlag, reasonFlag;
 	if($('#add-other-cost').val() != ''){
 		costFlag = true;
@@ -297,15 +253,54 @@ function removeOther (elem) {
 	computeBalance();
 }
 
+function computeExtraPax (pax, maxPax) {
+	let extraPaxCost = 0;
+	console.log("computeExtraPax " + pax + " " + maxPax);
+	if(pax > maxPax && !isNaN(pax)){
+		// TODO: input rate
+		let rate = 400;
+		nExtraPax = pax - maxPax;
+		extraPaxCost = nExtraPax * rate;
+		$('#extra-pax-count').val(nExtraPax);
+		$('#extra-pax-cost-php').val(extraPaxCost);
+		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
+	} else {
+		$('#extra-pax-count').val('');
+        $('#extra-pax-cost-php').val('');
+	}
+}
+
+function sumOtherCharges (){
+	let sum = 0;
+	$('.other-val-cost').each(function (){
+		sum += parseFloat($(this).text());
+	});
+	console.log(sum);
+	return sum;
+}
+
+function createOtherChargesArr (){
+	let arr = [];
+	$('.other-item').each(function (){
+		temp = {
+			reason: $(this).children('.other-val').children('.other-val-reason').text(),
+			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
+		};
+		arr.push(temp);
+	});
+	console.log(arr);
+	$('#other-charges-arr').val(JSON.stringify(arr));
+}
+
 function computeInitialCost () {
 	getRoomInfo();
 
 	if (roomInfo) {
 		let time =  1000 * 60 * 60 * 24;
-		let startDate = new Date($('#start-date').val()).getTime();
-		let endDate = new Date($('#end-date').val()).getTime();
+		let startDate = new Date($('#transfer-start-date').val()).getTime();
+		let endDate = new Date($('#transfer-end-date').val()).getTime();
 
-		if (startDate && endDate && endDate - startDate > 0) {
+		if (startDate && endDate && endDate - startDate >= 0) {
 
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
 			let months = 0;
@@ -363,62 +358,6 @@ function computeInitialCost () {
 	}
 }
 
-function computeExtraPax (pax, maxPax) {
-	let extraPaxCost = 0;
-	console.log("computeExtraPax " + pax + " " + maxPax);
-	if(pax > maxPax && !isNaN(pax)){
-		// TODO: input rate
-		let rate = 400;
-		nExtraPax = pax - maxPax;
-		extraPaxCost = nExtraPax * rate;
-		$('#extra-pax-count').val(nExtraPax);
-		$('#extra-pax-cost-php').val(extraPaxCost.toFixed(2));
-		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
-	} else {
-		$('#extra-pax-count').val('');
-        $('#extra-pax-cost-php').val('');
-	}
-}
-
-// function addOtherCharge () {
-// 	let reason = $('#add-other-reason').val();
-// 	let price = $('#add-other-cost').val();
-// 	if(price != null){
-// 		let item = `
-// 		<div class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2 other-charge-cost-item">
-// 		<h6 id="item-reason" class="text-primary"><span class="other-charge-cost-reason">${reason}</span></h6>
-// 		<h6 id="item-price" class="text-primary mb-0"><span class="other-charge-cost-price">${price}</span> <span>Php</span></h6>
-// 		</div>
-// 		`;
-
-// 		$('#add-other-reason').val('');
-// 		$('#add-other-cost').val('');
-// 		$('#other-list').prepend(item);
-// 	}
-// }
-
-function sumOtherCharges (){
-	let sum = 0;
-	$('.other-val-cost').each(function (){
-		sum += parseFloat($(this).text());
-	});
-	console.log(sum);
-	return sum;
-}
-
-function createOtherChargesArr (){
-	let arr = [];
-	$('.other-item').each(function (){
-		temp = {
-			reason: $(this).children('.other-val').children('.other-val-reason').text(),
-			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
-		};
-		arr.push(temp);
-	});
-	console.log(arr);
-	$('#other-charges-arr').val(JSON.stringify(arr));
-}
-
 function computeCharges () {
 
 	getRoomInfo();
@@ -440,11 +379,9 @@ function computeCharges () {
 			$('#extra-bed-cost-php').val(cost.toFixed(2));
 		}
 		if(!isNaN(extraPet))
-		extra += extraPet;
+			extra += extraPet;
 		if(!isNaN(extraOther))
-		extra += extraOther;
-
-		console.log("computeCharges " + total + " " + pax + " " + extra);
+			extra += extraOther;
 
 		if (total) {
 			let charges = 0;
@@ -452,15 +389,17 @@ function computeCharges () {
 			//the max pax is set to the room max pax by default
 			let roomMaxPax = roomInfo.max_pax;
 
-			//determine if monthly max pax is applicable
+			//determine if monthly max pax is applicable since max pax for monthly bookings is different
 			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
 				roomMaxPax = roomInfo.room_rate.monthly.length;
 			}
 
+			// compute for the charges for extra pax if the inputted max is greater than the specified max pax for the room
 			if (!Number.isNaN(pax) && pax > roomMaxPax) {
 				charges = charges + (pax - roomMaxPax) * 400;
 			}
 
+			//add the inputted extra charge to the total charges
 			if (extra) {
 				charges = charges + extra;
 			}
@@ -635,12 +574,12 @@ function computeBalance () {
 }
 
 function checkAvailability () {
-	let startDate = $('#start-date').val();
-	let endDate = $('#end-date').val();
+	let startDate = $('#transfer-start-date').val();
+	let endDate = $('#transfer-end-date').val();
 	let bookingID = $('#booking-id').text();
-	let roomID = $('#room-id').text();
+	let roomID = $('#transfer-select').val();
 
-	if (startDate && endDate && endDate >= startDate) {
+	if (startDate && endDate && endDate >= startDate && roomID != "") {
 
 		let query = {
 			startDate: startDate,
@@ -649,18 +588,18 @@ function checkAvailability () {
 			bookingID: bookingID
 		}
 
-		$.get('/booking/room/availability', query, function(result) {
+		$.get('/checkin/room/availability', query, function(result) {
 			//is available
 			if(result) {
-				$('#end-date-error').text('');
+				$('#transfer-end-date-error').text('');
 				$('#book').prop('disabled', false);
 			} else {
-				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
+				$('#transfer-end-date-error').text('Room Unavailable for the Inputted Dates');
 				$('#book').prop('disabled', true);
 			}
 		});
 	} else {
-		$('#end-date-error').text('');
+		$('#transfer-end-date-error').text('');
 		$('#book').prop('disabled', false);
 	}
 }
@@ -669,18 +608,14 @@ function showInput () {
 	let detailsLeft = [];
 	let detailsMiddle = [];
 	let detailsRight = [];
-	pushToArray(detailsLeft, 'Room Type', $('#room_type').val());
-	pushToArray(detailsLeft, 'Room Number', $('#room-number').val());
-	pushToArray(detailsLeft, 'Start Date', $('#start-date').val());
-	pushToArray(detailsLeft, 'End Date', $('#end-date').val());
-	pushToArray(detailsMiddle, 'First Name', $('#firstname').val());
-	pushToArray(detailsMiddle, 'Last Name', $('#lastname').val());
-	pushToArray(detailsMiddle, 'Birthdate', $('#birthdate').val());
-	pushToArray(detailsMiddle, 'Address', $('#address').val());
-	pushToArray(detailsMiddle, 'Contact No.', $('#contact').val());
-	pushToArray(detailsMiddle, 'Company Name', $('#company').val());
-	pushToArray(detailsMiddle, 'Occupation', $('#occupation').val());
-	pushToArray(detailsRight, 'Number of Guests', $('#room-pax').val());
+	pushToArray(detailsLeft, 'Old Room Type', $('#room_type').val());
+	pushToArray(detailsLeft, 'Old Room Number', $('#room-number').val());
+	pushToArray(detailsLeft, 'Old Start Date', $('#start-date').val());
+	pushToArray(detailsLeft, 'Old End Date', $('#end-date').val());
+	pushToArray(detailsMiddle, 'New Room Type', $('#transfer-room-type').val());
+	pushToArray(detailsMiddle, 'New Room Number', $('#transfer-room-number').val());
+	pushToArray(detailsMiddle, 'New Start Date', $('#transfer-start-date').val());
+	pushToArray(detailsMiddle, 'New End Date', $('#transfer-end-date').val());
 	// pushToArray(detailsRight, 'Number of PWD', $('#room-pwd').val());
 	// pushToArray(detailsRight, 'Number of Senior Citizens', $('#room-senior').val());
 	// pushToArray(detailsRight, 'Other Discounts (Flat)', $('#room-discount-php').val());
@@ -720,65 +655,49 @@ function validateEntry () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		//the start date input field is empty
-		if ($('#start-date').val() == '') {
-			$('#start-date-error').text('Start Date cannot be empty');
+		if ($('#transfer-room-type').val() == '') {
+			$('#transfer-room-type-error').text('Room Type cannot be empty');
 			isValid = false;
 		} else {
-			$('#start-date-error').text('');
+			$('#transfer-room-type-error').text('');
+		}
+
+		if ($('#transfer-room-number').val() == '') {
+			$('#transfer-room-number-error').text('Room Number cannot be empty');
+			isValid = false;
+		} else {
+			$('#transfer-room-number-error').text('');
+		}
+
+
+		//the start date input field is empty
+		if ($('#transfer-start-date').val() == '') {
+			$('#transfer-start-date-error').text('Start Date cannot be empty');
+			isValid = false;
+		} else {
+			$('#transfer-start-date-error').text('');
 		}
 
 		//the end date input field is empty
-		if ($('#end-date').val() == '') {
-			$('#end-date-error').text('End Date cannot be empty');
+		if ($('#transfer-end-date').val() == '') {
+			$('#transfer-end-date-error').text('End Date cannot be empty');
 			isValid = false;
 		// the end date is earlier than today
-		} else if (new Date($('#end-date').val()) < new Date(todayString)) {
-			$('#end-date-error').text('End Date cannot be earlier than Today');
+		} else if (new Date($('#transfer-end-date').val()) < new Date(todayString)) {
+			$('#transfer-end-date-error').text('End Date cannot be earlier than Today');
 			isValid = false;
 		// the end date is earlier than the start date
-		} else if ($('#start-date').val() != '' && new Date($('#end-date').val()) < new Date($('#start-date').val())) {
-			$('#end-date-error').text('End Date cannot be earlier than Start Date');
+		} else if ($('#transfer-start-date').val() != '' && new Date($('#transfer-end-date').val()) < new Date($('#transfer-start-date').val())) {
+			$('#transfer-end-date-error').text('End Date cannot be earlier than Start Date');
 			isValid = false;
-		} else if ($('#start-date').val() != '' && new Date($('#end-date').val()).getTime() == new Date($('#start-date').val()).getTime()) {
-			$('#end-date-error').text('End Date cannot the same as Start Date');
+		} else if ($('#transfer-start-date').val() != '' && new Date().getHours() >= 4 && new Date($('#transfer-end-date').val()).getTime() == new Date($('#transfer-start-date').val()).getTime()) {
+			$('#transfer-end-date-error').text('End Date cannot the same as Start Date');
 			isValid = false;
-		} else if (new Date($('#end-date').val()) > new Date(fiveYearString)) {
-			$('#end-date-error').text('End Date may only be 5 Years from Today');
-			isValid = false;
-		} else {
-			$('#end-date-error').text('');
-		}
-
-		//the first name input field is empty OR the input only consists of whitespaces
-		if ($('#firstname').val() == '' || $('#firstname').val().trim().length == 0) {
-			$('#firstname-error').text('First Name cannot be empty');
+		} else if (new Date($('#transfer-end-date').val()) > new Date(fiveYearString)) {
+			$('#transfer-end-date-error').text('End Date may only be 5 Years from Today');
 			isValid = false;
 		} else {
-			$('#firstname-error').text('');
-		}
-
-		//the last name input field is empty OR the input only consists of whitespaces
-		if ($('#lastname').val() == '' || $('#lastname').val().trim().length == 0) {
-			$('#lastname-error').text('Last Name cannot be empty');
-			isValid = false;
-		} else {
-			$('#lastname-error').text('');
-		}
-
-		if (new Date($('#birthdate').val()) > new Date(todayString)) {
-			$('#birthdate-error').text('Birthdate cannot be later than Today');
-			isValid = false;
-		} else {
-			$('#birthdate-error').text('');
-		}
-
-		let numberPattern = new RegExp('^(09)\\d{9}$');
-		if ($('#contact').val() != '' && !numberPattern.test($('#contact').val())) {
-			$('#contact-error').text('Contact Number is invalid');
-			isValid = false;
-		} else {
-			$('#contact-error').text('');
+			$('#transfer-end-date-error').text('');
 		}
 
 		if ($('#room-pax').val() == '') {
@@ -826,23 +745,18 @@ function validateEntry () {
 	}
 
 	if(!isValid){
-		if($('#firstname-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#firstname').offset().top - 118}, 'slow');
-		}
-		else if($('#lastname-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#lastname').offset().top - 118}, 'slow');
-		}
-		else if($('#start-date-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#start-date').offset().top - 118}, 'slow');
-		}
-		else if($('#birthdate-error').text() != ''){
+		if($('#transfer-room-type-error').text() != ''){
+			$('html, body').animate({scrollTop: $('#transfer-room-type').offset().top - 118}, 'slow');
+		} else if($('#transfer-room-number-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#transfer-room-number').offset().top - 118}, 'slow');
+		} else if($('#transfer-start-date-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#transfer-start-date').offset().top - 118}, 'slow');
+		} else if($('#transfer-end-date-error').text() != '') {
+			$('html, body').animate({scrollTop: $('#transfer-end-date').offset().top - 118}, 'slow');
+		} else if($('#birthdate-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
-		}
-		else if($('#contact-error').text() != ''){
+		} else if($('#contact-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
-		}
-		else if($('#end-date-error').text() != ''){
-			$('html, body').animate({scrollTop: $('#end-date').offset().top - 118}, 'slow');
 		}
 	}
 

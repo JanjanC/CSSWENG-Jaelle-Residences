@@ -30,9 +30,9 @@ function updateHousekeepingRow () {
 
 	if (housekeeping == 'true') {
 		$('#housekeeping-row').addClass('required');
-		$('#housekeeping-row').removeClass('okay');
+		$('#housekeeping-row').removeClass('not-required');
 	} else {
-		$('#housekeeping-row').addClass('okay');
+		$('#housekeeping-row').addClass('not-required');
 		$('#housekeeping-row').removeClass('required');
 	}
 }
@@ -42,9 +42,9 @@ function updateRepairRow () {
 
 	if (repair == 'true') {
 		$('#repair-row').addClass('required');
-		$('#repair-row').removeClass('okay');
+		$('#repair-row').removeClass('not-required');
 	} else {
-		$('#repair-row').addClass('okay');
+		$('#repair-row').addClass('not-required');
 		$('#repair-row').removeClass('required');
 	}
 }

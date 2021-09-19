@@ -34,7 +34,7 @@
 					<div class="ms-auto d-flex flex-column align-items-end w-25">
 						<form class="d-flex flex-column form-group justify-content-center align-items-center w-50" action="" method="get">
 							<h5>Chosen Time</h5>
-							<input type="time" onkeydown="return !(event.keyCode === 8 || event.keyCode === 46)" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Sets the time of the day where the status of rooms are relative to">
+							<input type="time" onkeydown="return false" class="form-control" name="chosen-time" id="chosen-time" value="{{time}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Sets the time of the day where the status of rooms are relative to">
 						</form>
 					</div>
 
@@ -85,7 +85,7 @@
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<div class="row">
-											<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+											<div class="d-flex justify-content-start align-items-center me-3 mb-2">
 												{{#ifStatus room.needRepair room.needHousekeeping}}
 												<span class="text-secondary h5 me-2">Maintenance need:</span>
 												{{/ifStatus}}
@@ -194,7 +194,7 @@
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<div class="row">
-											<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+											<div class="d-flex justify-content-start align-items-center me-3 mb-2">
 												{{#ifStatus room.needRepair room.needHousekeeping}}
 												<span class="text-secondary h5 me-2">Maintenance need:</span>
 												{{/ifStatus}}
@@ -353,7 +353,7 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
-										<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+										<div class="d-flex justify-content-start align-items-center me-3 mb-2">
 											{{#ifStatus room.needRepair room.needHousekeeping}}
 											<span class="text-secondary h5 me-2">Maintenance need:</span>
 											{{/ifStatus}}
@@ -404,7 +404,7 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
-										<div class="d-flex justify-content-end align-items-center me-3 mb-2">
+										<div class="d-flex justify-content-start align-items-center me-3 mb-2">
 											{{#ifStatus room.needRepair room.needHousekeeping}}
 											<span class="text-secondary h5 me-2">Maintenance need:</span>
 											{{/ifStatus}}

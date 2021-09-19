@@ -143,6 +143,7 @@ const bookingController = {
 	},
 
 	postCreateBooking: function(req, res) {
+		console.log(req.body);
 		// collect the guest information from post request
         let guest = {
             firstName: req.body.firstname,
@@ -161,7 +162,6 @@ const bookingController = {
 				let transaction = {
 				    duration: req.body.duration,
 				    averageRate: req.body.room_rate,
-				    roomCost: req.body.room_initial_cost,
 				    pax: req.body.room_pax,
 				    pwdCount: req.body.room_pwd,
 				    seniorCitizenCount: req.body.room_senior,
@@ -170,16 +170,28 @@ const bookingController = {
 				        amount: req.body.room_discount_php
 				    },
 				    additionalPercentDiscount: {
-				        reason: req.body.room_discount_reason_percent,
-				        amount: req.body.room_discount_percent
+						reason: req.body.room_discount_reason_percent,
+					    amount: req.body.room_discount_percent
+					},
+					extraPaxCharges: {
+				        count: req.body.extra_bed_count,
+				        amount: req.body.extra_pax_cost_php
 				    },
-				    totalDiscount: req.body.room_subtract,
-				    extraCharges: req.body.room_extra,
+					extraBedCharges: {
+					   count: req.body.extra_bed_count,
+					   amount: req.body.extra_bed_cost_php
+				   },
+					extraPetCharges: req.body.extra_pet_cost_php,
+					roomCost: req.body.room_initial_cost,
+					totalDiscount: req.body.room_subtract,
 				    totalCharges: req.body.room_total_extra,
 				    netCost: req.body.room_net_cost,
 				    payment: req.body.room_payment,
 				    balance: req.body.room_balance
 				}
+
+				if(req.body.other_charges_arr)
+					transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
 				db.insertOne(Transaction, transaction, function(transactionResult) {
 				    if (transactionResult) {
@@ -320,27 +332,38 @@ const bookingController = {
 	confirmReservation: function(req, res) {
 
 		let transaction = {
-		    duration: req.body.duration,
-		    averageRate: req.body.room_rate,
-		    roomCost: req.body.room_initial_cost,
-		    pax: req.body.room_pax,
-		    pwdCount: req.body.room_pwd,
-		    seniorCitizenCount: req.body.room_senior,
-		    additionalPhpDiscount: {
-		        reason: req.body.room_discount_reason_php,
-		        amount: req.body.room_discount_php
-		    },
-		    additionalPercentDiscount: {
-		        reason: req.body.room_discount_reason_percent,
-		        amount: req.body.room_discount_percent
-		    },
-		    totalDiscount: req.body.room_subtract,
-		    extraCharges: req.body.room_extra,
-		    totalCharges: req.body.room_total_extra,
-		    netCost: req.body.room_net_cost,
-		    payment: req.body.room_payment,
-		    balance: req.body.room_balance
+			duration: req.body.duration,
+			averageRate: req.body.room_rate,
+			pax: req.body.room_pax,
+			pwdCount: req.body.room_pwd,
+			seniorCitizenCount: req.body.room_senior,
+			additionalPhpDiscount: {
+				reason: req.body.room_discount_reason_php,
+				amount: req.body.room_discount_php
+			},
+			additionalPercentDiscount: {
+				reason: req.body.room_discount_reason_percent,
+				amount: req.body.room_discount_percent
+			},
+			extraPaxCharges: {
+				count: req.body.extra_bed_count,
+				amount: req.body.extra_pax_cost_php
+			},
+			extraBedCharges: {
+			   count: req.body.extra_bed_count,
+			   amount: req.body.extra_bed_cost_php
+		   },
+			extraPetCharges: req.body.extra_pet_cost_php,
+			roomCost: req.body.room_initial_cost,
+			totalDiscount: req.body.room_subtract,
+			totalCharges: req.body.room_total_extra,
+			netCost: req.body.room_net_cost,
+			payment: req.body.room_payment,
+			balance: req.body.room_balance
 		}
+
+		if(req.body.other_charges_arr)
+			transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
 		db.insertOne(Transaction, transaction, function(transactionResult) {
 		    if (transactionResult) {
@@ -459,7 +482,6 @@ const bookingController = {
 							$set: {
 								duration: req.body.duration,
 							    averageRate: req.body.room_rate,
-							    roomCost: req.body.room_initial_cost,
 							    pax: req.body.room_pax,
 							    pwdCount: req.body.room_pwd,
 							    seniorCitizenCount: req.body.room_senior,
@@ -468,17 +490,29 @@ const bookingController = {
 							        amount: req.body.room_discount_php
 							    },
 							    additionalPercentDiscount: {
-							        reason: req.body.room_discount_reason_percent,
-							        amount: req.body.room_discount_percent
+									reason: req.body.room_discount_reason_percent,
+								    amount: req.body.room_discount_percent
+								},
+								extraPaxCharges: {
+							        count: req.body.extra_bed_count,
+							        amount: req.body.extra_pax_cost_php
 							    },
-							    totalDiscount: req.body.room_subtract,
-							    extraCharges: req.body.room_extra,
+								extraBedCharges: {
+								   count: req.body.extra_bed_count,
+								   amount: req.body.extra_bed_cost_php
+							   },
+								extraPetCharges: req.body.extra_pet_cost_php,
+								roomCost: req.body.room_initial_cost,
+								totalDiscount: req.body.room_subtract,
 							    totalCharges: req.body.room_total_extra,
 							    netCost: req.body.room_net_cost,
 							    payment: req.body.room_payment,
 							    balance: req.body.room_balance
 							}
 						}
+
+						if(req.body.other_charges_arr)
+							transaction.$set.otherCharges = JSON.parse(req.body.other_charges_arr);
 
 						db.updateOne(Transaction, {_id: bookingResult.transaction}, transaction, function(transactionResult) {
 						    if (transactionResult) {
@@ -538,7 +572,7 @@ const bookingController = {
 						let startDate = new Date(bookingResult.startDate);
                         let startDateString = `${startDate.getFullYear().toString()}-${(startDate.getMonth() + 1).toString().padStart(2, 0)}-${startDate.getDate().toString().padStart(2, 0)}`;
 
-                        res.redirect(`/${startDateString}/booking/`);
+                        res.redirect(req.get('referer'));
                     } else {
                         res.redirect('/error');
                     }
