@@ -15,7 +15,11 @@ $(document).ready(function () {
 	$(".print-link").on("click", function(e) {
 		e.preventDefault();
 
-		let href = $(".print-link").attr('href');
+		let roomCards = $(".print-link").toArray()
+		let index = e.target.getAttribute('data-index')
+
+		let targetRoomCard = roomCards[+index]
+		let href = targetRoomCard.getAttribute('href');
 		let bookingID = href.split('/')[2];
 		
 	    ipcRenderer.send('print:goto', bookingID);
