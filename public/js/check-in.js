@@ -524,7 +524,6 @@ function enablePetCharge () {
 function enableExtraBedsCharge () {
 	let extraBed = $('#is-extra-bed').is(':checked');
 	$('#extra-bed-count').prop('readonly', !extraBed);
-	$('#extra-bed-cost-php').prop('readonly', !extraBed);
 
 	if (!extraBed) {
 		$('#extra-bed-count').val('');
