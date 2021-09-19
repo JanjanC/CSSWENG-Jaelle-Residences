@@ -126,7 +126,7 @@ $(document).ready(function () {
 		computeBalance();
 	})
 
-	$('#extra-bed-cost-php').keyup(function (){
+	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
@@ -348,14 +348,17 @@ function computeCharges () {
 			let total = parseInt($('#room-initial-cost').val());
 			let pax = parseInt($('#room-pax').val());
 			let extra = 0;
-			let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
+			let extraBed = parseInt($('#extra-bed-count').val());
 			let extraPet = parseInt($('#extra-pet-cost-php').val());
 			let extraOther = sumOtherCharges();
 
 			computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
 
-			if(!isNaN(extraBed))
-				extra += extraBed;
+			if(!isNaN(extraBed)) {
+				let cost = extraBed * 400;
+				extra += cost;
+				$('#extra-bed-cost-php').val(cost.toFixed(2));
+			}
 			if(!isNaN(extraPet))
 				extra += extraPet;
 			if(!isNaN(extraOther))
