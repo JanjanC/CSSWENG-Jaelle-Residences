@@ -10,12 +10,11 @@ $(document).ready(function () {
 		chooseTime();
 	});
 
-	$("#print-link").on("click", function(e) {
+	$(".print-link").on("click", function(e) {
 		e.preventDefault();
 
-		let href = $("#print-link").attr('href');
+		let href = $(".print-link").attr('href');
 		let bookingID = href.split('/')[2];
-		console.log('hatdog ' + bookingID);
 	    ipcRenderer.send('print:goto', bookingID);
 	});
 });
