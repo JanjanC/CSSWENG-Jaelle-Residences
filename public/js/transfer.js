@@ -368,7 +368,7 @@ function computeCharges () {
 		let extraPet = parseInt($('#extra-pet-cost-php').val());
 		let extraOther = sumOtherCharges();
 
-		computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
+		computeExtraPax(parseInt($('#room-pax').val()), roomInfo.max_pax);
 
 		if(!isNaN(extraBed))
 			extra += extraBed;
