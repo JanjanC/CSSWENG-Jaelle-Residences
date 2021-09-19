@@ -210,7 +210,7 @@
                                         <input class="form-check-input mt-0" id="is-discount-php" type="checkbox" value="">
                                     </div>
                                     <input type="text" readonly="true" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-25" placeholder="Reason" value="">
-                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
+                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
                                     <span class="input-group-text">Php</span>
                                 </div>
                                 <div class="input-group mb-3 w-auto">
@@ -218,7 +218,7 @@
                                         <input class="form-check-input mt-0" id="is-discount-percent" type="checkbox" value="">
                                     </div>
                                     <input type="text" readonly="true" id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-25" placeholder="Reason" value="">
-                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
+                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -265,7 +265,7 @@
                                 </div>
                             </div>
 
-                            <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Otheer additional charges that would be added to the cost">Other Charges</label>
+                            <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Other Charges</label>
                             <div id="other-list" class="overflow-auto p-3 border rounded w-100">
 
                                 <!-- Item template example
@@ -281,18 +281,18 @@
                                 <!--Item Add-->
                                 <div id="other-add" class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2">
                                     <div class="form-group text-start w-75 mb-1">
+                                        <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Reason for other additional charges that would be added to the cost">Add Reason</label>
+                                        <div class="input-group w-auto mb-1">
+                                            <input type="text" id="add-other-reason" name="add_other_reason" class="form-control">
+                                        </div>
+                                        <em><p class="error text-danger mb-2" id="add_other_reason_error"></p></em>
+                                        <p></p>
                                         <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Add Charge Cost</label>
                                         <div class="input-group w-auto mb-1">
                                             <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="add-other-cost" name="add_other_cost" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <em><p class="error text-danger mb-2" id="add_other_cost_error"></p></em>
-                                        <p></p>
-                                        <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Reason for other additional charges that would be added to the cost">Add Reason</label>
-                                        <div class="input-group w-auto mb-1">
-                                            <input type="text" id="add-other-reason" name="add_other_reason" class="form-control">
-                                        </div>
-                                        <em><p class="error text-danger mb-2" id="add_other_reason_error"></p></em>
                                     </div>
                                     <button type="button" class="btn btn-primary align-self-end rounded-pill" id="add-charge-btn" onclick="addOther()"><span class="material-icons-outlined me-1">add_circle_outline</span>Add Charge</button>
                                 </div>
