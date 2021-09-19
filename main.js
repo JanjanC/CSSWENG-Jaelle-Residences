@@ -9,6 +9,8 @@ const electron = require('electron');
 const server = require('./server.js');
 const { ipcMain } = require('electron');
 const printEvent = require('./controllers/print-controller');
+const fs = require('fs')
+const os = require('os')
 
 //retrieves the necessary attributes from electron
 const {app, BrowserWindow} = electron;
@@ -69,6 +71,14 @@ function createAddWindow(bookingID){
       }
   });
   addWindow.loadURL(`http://localhost:3000/booking/${bookingID}/print`);
+  addWindow.webContents.on('did-finish-load', async () => {
+      const pdf = await addWindow.webContents.printToPDF({});
+      const filePath = `${os.homedir()}/Desktop/${bookingID}.pdf`;
+      fs.writeFile(filePath, pdf, (error) => {
+          if(error) throw error;
+      })
+
+  })
   addWindow.on('closed', () => addWindow = null);
 }
 
