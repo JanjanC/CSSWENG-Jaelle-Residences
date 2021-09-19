@@ -545,6 +545,7 @@ function computeDiscount () {
 		let additionalPercent = Number($('#room-discount-percent').val());
 		let duration = Number($('#duration').val());
 		let pax = Number($('#room-pax').val());
+		let petCharge = Number($('#extra-pet-cost-php').val());
 
 		if (total) {
 			let count = 0
@@ -566,10 +567,10 @@ function computeDiscount () {
 				//number of senior and pwd is greater than max pax for the room
 				if (count > pax) {
 					let seniorPwdPercent =  20;
-					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+					seniorPwdDiscount = seniorPwdPercent / 100 * (totalCost - petCharge);
 				} else {
 					let seniorPwdPercent =  count / pax * 20;
-					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+					seniorPwdDiscount = seniorPwdPercent / 100 *(totalCost - petCharge);
 				}
 			}
 
