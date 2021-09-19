@@ -318,6 +318,9 @@ const bookingController = {
 			balance: req.body.room_balance
 		}
 
+		if(req.body.other_charges_arr)
+			transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
+
 		db.insertOne(Transaction, transaction, function(transactionResult) {
 		    if (transactionResult) {
 
