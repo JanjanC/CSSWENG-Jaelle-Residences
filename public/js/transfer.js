@@ -140,7 +140,7 @@ $(document).ready(function () {
 		computeBalance();
 	})
 
-	$('#extra-bed-cost-php').keyup(function (){
+	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
@@ -199,7 +199,7 @@ function checkOtherError() {
 		costFlag = false;
 		$('#add_other_cost_error').text('Please input a number.');
 	}
-	
+
 	if($('#add-other-reason').val() !=''){
 		reasonFlag = true;
 		$('#add_other_reason_error').text('');
@@ -225,7 +225,7 @@ function addOther () {
 		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
 
 		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
-		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
+		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(Number(newOtherCostVal.val()).toFixed(2) + " PHP");
 
 		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50 other-del' type='button' onclick='removeOther(this)'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
@@ -264,6 +264,9 @@ function computeExtraPax (pax, maxPax) {
 		$('#extra-pax-count').val(nExtraPax);
 		$('#extra-pax-cost-php').val(extraPaxCost);
 		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
+	} else {
+		$('#extra-pax-count').val('');
+        $('#extra-pax-cost-php').val('');
 	}
 }
 
@@ -280,7 +283,7 @@ function createOtherChargesArr (){
 	let arr = [];
 	$('.other-item').each(function (){
 		temp = {
-			reason: $(this).children('.other-val').children('.other-val-reason').text(), 
+			reason: $(this).children('.other-val').children('.other-val-reason').text(),
 			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
 		};
 		arr.push(temp);
@@ -370,8 +373,11 @@ function computeCharges () {
 
 		computeExtraPax(parseInt($('#room-pax').val()), roomInfo.max_pax);
 
-		if(!isNaN(extraBed))
-			extra += extraBed;
+		if(!isNaN(extraBed)) {
+			let cost = extraBed * 400;
+			extra += cost;
+			$('#extra-bed-cost-php').val(cost.toFixed(2));
+		}
 		if(!isNaN(extraPet))
 			extra += extraPet;
 		if(!isNaN(extraOther))
@@ -458,7 +464,6 @@ function enablePetCharge () {
 function enableExtraBedsCharge () {
 	let extraBed = $('#is-extra-bed').is(':checked');
 	$('#extra-bed-count').prop('readonly', !extraBed);
-	$('#extra-bed-cost-php').prop('readonly', !extraBed);
 
 	if (!extraBed) {
 		$('#extra-bed-count').val('');
@@ -472,14 +477,15 @@ function computeDiscount () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseFloat($('#room-initial-cost').val());
-		let charges = parseFloat($('#room-total-extra').val());
-		let senior = parseInt($('#room-senior').val());
-		let pwd = parseInt($('#room-pwd').val());
-		let additionalPhp = parseFloat($('#room-discount-php').val());
-		let additionalPercent = parseFloat($('#room-discount-percent').val());
-		let duration = parseInt($('#duration').val());
-		let pax = parseInt($('#room-pax').val());
+		let total = Number($('#room-initial-cost').val());
+		let charges = Number($('#room-total-extra').val());
+		let senior = Number($('#room-senior').val());
+		let pwd = Number($('#room-pwd').val());
+		let additionalPhp = Number($('#room-discount-php').val());
+		let additionalPercent = Number($('#room-discount-percent').val());
+		let duration = Number($('#duration').val());
+		let pax = Number($('#room-pax').val());
+		let petCharge = Number($('#extra-pet-cost-php').val());
 
 		if (total) {
 			let count = 0
@@ -501,10 +507,10 @@ function computeDiscount () {
 				//number of senior and pwd is greater than max pax for the room
 				if (count > pax) {
 					let seniorPwdPercent =  20;
-					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+					seniorPwdDiscount = seniorPwdPercent / 100 * (totalCost - petCharge);
 				} else {
 					let seniorPwdPercent =  count / pax * 20;
-					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+					seniorPwdDiscount = seniorPwdPercent / 100 *(totalCost - petCharge);
 				}
 			}
 
