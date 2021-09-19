@@ -12,11 +12,6 @@ var TransactionSchema = new mongoose.Schema({
         required: true
     },
 
-    roomCost: {
-        type: Number,
-        required: true
-    },
-
     pax: {
         type: Number,
         required: true
@@ -52,13 +47,51 @@ var TransactionSchema = new mongoose.Schema({
         }
     },
 
-    totalDiscount: {
+    extraPaxCharges: {
+        count: {
+            type: Number
+        },
+
+        amount: {
+            type: Number
+        }
+    },
+
+    extraBedCharges: {
+        count: {
+            type: Number
+        },
+
+        amount: {
+            type: Number
+        }
+    },
+
+    extraPetCharges: {
+        type: Number
+    },
+
+    otherCharges: {
+        type:[{
+            reason: {
+                type: String,
+                trim: true
+            },
+
+            amount: {
+                type: Number
+            }
+        }]
+    },
+
+    roomCost: {
         type: Number,
         required: true
     },
 
-    extraCharges: {
-        type: Number
+    totalDiscount: {
+        type: Number,
+        required: true
     },
 
     totalCharges: {
