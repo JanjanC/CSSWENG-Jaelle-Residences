@@ -1,8 +1,22 @@
+//import the necessary modules
+const electron = require("electron");
+//retrieves the necessary attributes from electron
+const {ipcRenderer} = electron;
+
 $(document).ready(function () {
 	$('#booking-sidebar').addClass('active');
 
 	$('#chosen-time').change(function (){
 		chooseTime();
+	});
+
+	$("#print-link").on("click", function(e) {
+		e.preventDefault();
+
+		let href = $("#print-link").attr('href');
+		let bookingID = href.split('/')[2];
+		console.log('hatdog ' + bookingID);
+	    ipcRenderer.send('print:goto', bookingID);
 	});
 });
 
