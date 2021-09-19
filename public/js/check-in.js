@@ -143,7 +143,7 @@ $(document).ready(function () {
 		computeBalance();
 	})
 
-	$('#extra-bed-cost-php').keyup(function (){
+	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
@@ -415,18 +415,23 @@ function computeCharges () {
 		let duration = parseInt($('#duration').val());
 		let pax = parseInt($('#room-pax').val());
 		let extra = 0;
-		let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
+		let extraBed = parseInt($('#extra-bed-count').val());
 		let extraPet = parseInt($('#extra-pet-cost-php').val());
 		let extraOther = sumOtherCharges();
 
 		computeExtraPax(parseInt($('#room-pax').val()), roomInfo.max_pax);
 
-		if(!isNaN(extraBed))
-			extra += extraBed;
+		if(!isNaN(extraBed)) {
+			let cost = extraBed * 400;
+			extra += cost;
+			$('#extra-bed-cost-php').val(cost.toFixed(2));
+		}
 		if(!isNaN(extraPet))
 			extra += extraPet;
 		if(!isNaN(extraOther))
 			extra += extraOther;
+
+		console.log("computeCharges " + total + " " + pax + " " + extra);
 
 		if (total) {
 			let charges = 0;
@@ -434,7 +439,7 @@ function computeCharges () {
 			//the max pax is set to the room max pax by default
 			let roomMaxPax = roomInfo.max_pax;
 
-			//determine if monthly max pax is applicable since max pax for monthly bookings is different
+			//determine if monthly max pax is applicable
 			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
 				roomMaxPax = roomInfo.room_rate.monthly.length;
 			}
