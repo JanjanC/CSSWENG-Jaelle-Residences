@@ -55,6 +55,7 @@
 
                         <div hidden>
                             <span id="room-id">{{room._id}}</span>
+                            <input id="other-charges-arr" name="other_charges_arr">
                         </div>
 
                         <!--Room Type-->
@@ -282,7 +283,7 @@
                                     <div class="form-group text-start w-75 mb-1">
                                         <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Add Charge Cost</label>
                                         <div class="input-group w-auto mb-1">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="add-other-cost" name="add_other_cost" class="form-control">
+                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="add-other-cost" name="add_other_cost" class="form-control">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <em><p class="error text-danger mb-2" id="add_other_cost_error"></p></em>
