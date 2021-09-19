@@ -154,11 +154,6 @@ $(document).ready(function () {
 	$('#form-submit').submit(function () {
 		submitForm();
 	});
-
-	$('#del-other').click(function () {
-		console.log("DEL");
-		removeOther($(this).parent());
-	})
 });
 
 let roomInfo = null;
