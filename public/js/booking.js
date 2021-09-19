@@ -293,8 +293,8 @@ function computeExtraPax (pax, maxPax) {
 		$('#extra-pax-cost-php').val(extraPaxCost);
 		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
 	} else {
-		$('#extra-pax-count').val("");
-        $('#extra-pax-cost-php').val("");
+		$('#extra-pax-count').val('');
+        $('#extra-pax-cost-php').val('');
 	}
 }
 
