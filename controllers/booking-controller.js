@@ -172,7 +172,6 @@ const bookingController = {
 					   amount: req.body.extra_bed_cost_php
 				   },
 					extraPetCharges: req.body.extra_pet_cost_php,
-					otherCharges: JSON.parse(req.body.other_charges_arr),
 					roomCost: req.body.room_initial_cost,
 					totalDiscount: req.body.room_subtract,
 				    totalCharges: req.body.room_total_extra,
@@ -316,7 +315,6 @@ const bookingController = {
 			   amount: req.body.extra_bed_cost_php
 		   },
 			extraPetCharges: req.body.extra_pet_cost_php,
-			otherCharges: JSON.parse(req.body.other_charges_arr),
 			roomCost: req.body.room_initial_cost,
 			totalDiscount: req.body.room_subtract,
 			totalCharges: req.body.room_total_extra,
