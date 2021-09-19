@@ -39,7 +39,7 @@
                             <div class="d-flex justify-content-end align-items-center me-3">
             					<span class="text-secondary h5 me-2">LEGEND:</span>
             					<span class="legend required h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is in need of action">Required</span>
-            					<span class="legend okay h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is fine">Okay</span>
+            					<span class="legend not-required h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is fine">Not Required</span>
             				</div>
                             <table class="table p-3 mt-2">
                                 <tbody>
@@ -61,7 +61,7 @@
                                         <td id="housekeeping-row" class="">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="housekeeping-select" name="housekeeping_select">
-                                                    <option value="false" {{#unless room.needHousekeeping}} selected {{/unless}}>Okay</option>
+                                                    <option value="false" {{#unless room.needHousekeeping}} selected {{/unless}}>Not Required</option>
                                                     <option value="true" {{#if room.needHousekeeping}} selected {{/if}}>Required</option>
                                                 </select>
                                             </div>
@@ -79,7 +79,7 @@
                                         <td id = "repair-row" class="">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="repair-select" name="repair_select">
-                                                    <option value="false" {{#unless room.needRepair}} selected {{/unless}}>Okay</option>
+                                                    <option value="false" {{#unless room.needRepair}} selected {{/unless}}>Not Required</option>
                                                     <option value="true" {{#if room.needRepair}} selected {{/if}}>Required</option>
                                                 </select>
                                             </div>
