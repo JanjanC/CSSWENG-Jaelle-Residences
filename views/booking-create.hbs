@@ -84,19 +84,12 @@
                             <em><p class="error text-danger" id="start-date-error"></p></em>
                         </div>
 
-                        <!--NOTE:
-                        THE ONLY ONES THAT WILL BE ACCEPTED ARE THOSE THAT HAVE ENDDATES THAT ARE VALID
-                        MEANING... END DATES WITH NO CONFLICT WITH OTHER BOOKINGS/OCCUPIED IN THE DATABASE
-
-                        For example: If reserved customer (A) have Aug 1 - Aug 5... But in the database, another customer (B) is already booked for Aug 4.
-                        The enddate field will complain that there is a conflict.
-                    -->
-                    <!-- End Date -->
-                    <div class="form-group">
-                        <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
-                        <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date" value="{{formatDate date}}">
-                        <em><p class="error text-danger" id="end-date-error"></p></em>
-                    </div>
+                        <!-- End Date -->
+                        <div class="form-group">
+                            <label class="h5 d-block">End Date<span class="text-danger">*</span></label>
+                            <input class="form-control w-75" type="date" onkeydown="return false" id="end-date" name="end_date" value="{{formatDate date}}">
+                            <em><p class="error text-danger" id="end-date-error"></p></em>
+                        </div>
                 </div>
 
                 <!--COLUMN 2: Customer Details-->
