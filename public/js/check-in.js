@@ -247,7 +247,7 @@ function checkOtherError() {
 		costFlag = false;
 		$('#add_other_cost_error').text('Please input a number.');
 	}
-	
+
 	if($('#add-other-reason').val() !=''){
 		reasonFlag = true;
 		$('#add_other_reason_error').text('');
@@ -394,7 +394,7 @@ function createOtherChargesArr (){
 	let arr = [];
 	$('.other-item').each(function (){
 		temp = {
-			reason: $(this).children('.other-val').children('.other-val-reason').text(), 
+			reason: $(this).children('.other-val').children('.other-val-reason').text(),
 			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
 		};
 		arr.push(temp);
@@ -416,7 +416,7 @@ function computeCharges () {
 		let extraPet = parseInt($('#extra-pet-cost-php').val());
 		let extraOther = sumOtherCharges();
 
-		computeExtraPax(parseInt($('#room-pax').val()), result.max_pax);
+		computeExtraPax(parseInt($('#room-pax').val()), roomInfo.max_pax);
 
 		if(!isNaN(extraBed))
 			extra += extraBed;
