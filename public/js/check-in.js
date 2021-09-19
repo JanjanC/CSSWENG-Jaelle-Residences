@@ -143,7 +143,7 @@ $(document).ready(function () {
 		computeBalance();
 	})
 
-	$('#extra-bed-cost-php').keyup(function (){
+	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
@@ -272,7 +272,7 @@ function addOther () {
 		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
 
 		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
-		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(newOtherCostVal.val() + " PHP");
+		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(Number(newOtherCostVal.val()).toFixed(2) + " PHP");
 
 		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50 other-del' type='button' onclick='removeOther(this)'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
@@ -324,7 +324,7 @@ function computeInitialCost () {
 			}
 
 			let remaining = duration;
-			let pax = parseInt($('#room-pax').val());
+			let pax = Number($('#room-pax').val());
 
 			if (remaining >= 30 && roomInfo.room_rate.monthly[0]) {
 				if (Number.isNaN(pax) || pax <= 0) {
@@ -375,15 +375,18 @@ function computeExtraPax (pax, maxPax) {
 		nExtraPax = pax - maxPax;
 		extraPaxCost = nExtraPax * rate;
 		$('#extra-pax-count').val(nExtraPax);
-		$('#extra-pax-cost-php').val(extraPaxCost);
+		$('#extra-pax-cost-php').val(extraPaxCost.toFixed(2));
 		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
+	} else {
+        $('#extra-pax-count').val('');
+        $('#extra-pax-cost-php').val('');
 	}
 }
 
 function sumOtherCharges (){
 	let sum = 0;
 	$('.other-val-cost').each(function (){
-		sum += parseFloat($(this).text());
+		sum += Number($(this).text());
 	});
 	console.log(sum);
 	return sum;
@@ -394,7 +397,7 @@ function createOtherChargesArr (){
 	$('.other-item').each(function (){
 		temp = {
 			reason: $(this).children('.other-val').children('.other-val-reason').text(),
-			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
+			amount: Number($(this).children('.other-val').children('.other-val-cost').text())
 		};
 		arr.push(temp);
 	});
@@ -407,22 +410,27 @@ function computeCharges () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseFloat($('#room-initial-cost').val());
-		let duration = parseInt($('#duration').val());
-		let pax = parseInt($('#room-pax').val());
+		let total = Number($('#room-initial-cost').val());
+		let duration = Number($('#duration').val());
+		let pax = Number($('#room-pax').val());
 		let extra = 0;
-		let extraBed = parseInt($('#extra-bed-cost-php').val()) * parseInt($('#extra-bed-count').val());
-		let extraPet = parseInt($('#extra-pet-cost-php').val());
+		let extraBed = Number($('#extra-bed-count').val());
+		let extraPet = Number($('#extra-pet-cost-php').val());
 		let extraOther = sumOtherCharges();
 
-		computeExtraPax(parseInt($('#room-pax').val()), roomInfo.max_pax);
+		computeExtraPax(Number($('#room-pax').val()), roomInfo.max_pax);
 
-		if(!isNaN(extraBed))
-			extra += extraBed;
+		if(!isNaN(extraBed)) {
+			let cost = extraBed * 400;
+			extra += cost;
+			$('#extra-bed-cost-php').val(cost.toFixed(2));
+		}
 		if(!isNaN(extraPet))
 			extra += extraPet;
 		if(!isNaN(extraOther))
 			extra += extraOther;
+
+		console.log("computeCharges " + total + " " + pax + " " + extra);
 
 		if (total) {
 			let charges = 0;
@@ -430,7 +438,7 @@ function computeCharges () {
 			//the max pax is set to the room max pax by default
 			let roomMaxPax = roomInfo.max_pax;
 
-			//determine if monthly max pax is applicable since max pax for monthly bookings is different
+			//determine if monthly max pax is applicable
 			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
 				roomMaxPax = roomInfo.room_rate.monthly.length;
 			}
@@ -512,7 +520,6 @@ function enablePetCharge () {
 function enableExtraBedsCharge () {
 	let extraBed = $('#is-extra-bed').is(':checked');
 	$('#extra-bed-count').prop('readonly', !extraBed);
-	$('#extra-bed-cost-php').prop('readonly', !extraBed);
 
 	if (!extraBed) {
 		$('#extra-bed-count').val('');
@@ -526,14 +533,15 @@ function computeDiscount () {
 	getRoomInfo();
 
 	if (roomInfo) {
-		let total = parseFloat($('#room-initial-cost').val());
-		let charges = parseFloat($('#room-total-extra').val());
-		let senior = parseInt($('#room-senior').val());
-		let pwd = parseInt($('#room-pwd').val());
-		let additionalPhp = parseFloat($('#room-discount-php').val());
-		let additionalPercent = parseFloat($('#room-discount-percent').val());
-		let duration = parseInt($('#duration').val());
-		let pax = parseInt($('#room-pax').val());
+		let total = Number($('#room-initial-cost').val());
+		let charges = Number($('#room-total-extra').val());
+		let senior = Number($('#room-senior').val());
+		let pwd = Number($('#room-pwd').val());
+		let additionalPhp = Number($('#room-discount-php').val());
+		let additionalPercent = Number($('#room-discount-percent').val());
+		let duration = Number($('#duration').val());
+		let pax = Number($('#room-pax').val());
+		let petCharge = Number($('#extra-pet-cost-php').val());
 
 		if (total) {
 			let count = 0
@@ -555,10 +563,10 @@ function computeDiscount () {
 				//number of senior and pwd is greater than max pax for the room
 				if (count > pax) {
 					let seniorPwdPercent =  20;
-					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+					seniorPwdDiscount = seniorPwdPercent / 100 * (totalCost - petCharge);
 				} else {
 					let seniorPwdPercent =  count / pax * 20;
-					seniorPwdDiscount = seniorPwdPercent / 100 * totalCost;
+					seniorPwdDiscount = seniorPwdPercent / 100 *(totalCost - petCharge);
 				}
 			}
 
@@ -582,9 +590,9 @@ function computeDiscount () {
 }
 
 function computeTotal () {
-	let total = parseFloat($('#room-initial-cost').val());
-	let charges = parseFloat($('#room-total-extra').val());
-	let discount = parseFloat($('#room-subtract').val());
+	let total = Number($('#room-initial-cost').val());
+	let charges = Number($('#room-total-extra').val());
+	let discount = Number($('#room-subtract').val());
 
 	if (total) {
 		let net = total;
@@ -605,8 +613,8 @@ function computeTotal () {
 }
 
 function computeBalance () {
-	let net = parseFloat($('#room-net-cost').val());
-	let payment = parseFloat($('#room-payment').val());
+	let net = Number($('#room-net-cost').val());
+	let payment = Number($('#room-payment').val());
 
 	if (net) {
 
@@ -771,10 +779,10 @@ function validateEntry () {
 		if ($('#room-pax').val() == '') {
 		    $('#room-pax-error').text('Number of Guests cannot be empty');
 		    isValid = false;
-		} else if (parseInt($('#room-pax').val()) <= 0) {
+		} else if (Number($('#room-pax').val()) <= 0) {
 		    $('#room-pax-error').text('Number of Guests must be at least 1');
 		    isValid = false;
-		} else if ($('#duration').val() != '' && parseInt($('#duration').val()) >= 30 && roomInfo.room_rate.monthly[0] && parseInt($('#room-pax').val()) > roomInfo.room_rate.monthly.length) {
+		} else if ($('#duration').val() != '' && Number($('#duration').val()) >= 30 && roomInfo.room_rate.monthly[0] && Number($('#room-pax').val()) > roomInfo.room_rate.monthly.length) {
 		    $('#room-pax-error').text(`Number of Guests cannot exeeed ${roomInfo.room_rate.monthly.length} for Monthly Bookings`);
 		    isValid = false;
 		} else {
@@ -784,27 +792,27 @@ function validateEntry () {
 		if ($('#room-payment').val() == '') {
 			$('#room-payment-error').text('Customer Payment cannot be empty');
 			isValid = false;
-		} else if ($('#room-net-cost').val() != '' && parseFloat($('#room-net-cost').val()) - parseFloat($('#room-payment').val()) > 0) {
+		} else if ($('#room-net-cost').val() != '' && Number($('#room-net-cost').val()) - Number($('#room-payment').val()) > 0) {
 			$('#room-payment-error').text('Customer Payment cannot be less than the Total Cost');
 			isValid = false;
 		} else {
 			$('#room-payment-error').text('');
 		}
 
-		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-pwd-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
-		} else if ( $('#room-pax').val() != '' && $('#room-pwd').val() != '' && parseInt($('#room-pwd').val()) > parseInt($('#room-pax').val()) ) {
+		} else if ( $('#room-pax').val() != '' && $('#room-pwd').val() != '' && Number($('#room-pwd').val()) > Number($('#room-pax').val()) ) {
 			$('#room-pwd-error').text('Number of PWD cannot exceed the Number of Guests');
 			isValid  = false;
 		} else {
 			$('#room-pwd-error').text('');
 		}
 
-		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && parseInt($('#room-pwd').val()) + parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-senior-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
-		} else if ( $('#room-pax').val() != '' && $('#room-senior').val() != '' && parseInt($('#room-senior').val()) > parseInt($('#room-pax').val()) ) {
+		} else if ( $('#room-pax').val() != '' && $('#room-senior').val() != '' && Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-senior-error').text('Number of Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
 		} else {
