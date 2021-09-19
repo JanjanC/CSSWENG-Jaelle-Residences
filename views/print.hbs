@@ -34,6 +34,11 @@
             <h6 class="text-secondary mb-1">Extra Charges:</h6>
             <p class="text-value mb-1 ms-2">{{extraCharges}} Php</p>
             {{/if}}
+            <h6 class="text-secondary mb-1">Other Charges:</h6>
+            {{#each otherCharges}}
+            <p class="text-value mb-1 ms-2">{{reason}}</p>
+            <p class="text-value mb-1 ms-2">{{amount}} Php</p>
+            {{/each}}
             <h6 class="text-secondary mb-1">Subtotal:</h6>
             <p class="text-value mb-1 ms-2">{{subtotal}} Php</p>
         </div>
