@@ -379,7 +379,7 @@ function computeExtraPax (pax, maxPax) {
 		nExtraPax = pax - maxPax;
 		extraPaxCost = nExtraPax * rate;
 		$('#extra-pax-count').val(nExtraPax);
-		$('#extra-pax-cost-php').val(extraPaxCost);
+		$('#extra-pax-cost-php').val(extraPaxCost.toFixed(2));
 		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
 	} else {
         $('#extra-pax-count').val('');
