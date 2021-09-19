@@ -397,7 +397,7 @@ function createOtherChargesArr (){
 	$('.other-item').each(function (){
 		temp = {
 			reason: $(this).children('.other-val').children('.other-val-reason').text(),
-			amount: Number($(this).children('.other-val').children('.other-val-cost').text())
+			amount: parseFloat($(this).children('.other-val').children('.other-val-cost').text())
 		};
 		arr.push(temp);
 	});
