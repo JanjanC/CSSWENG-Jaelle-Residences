@@ -88,7 +88,6 @@ const reservationController = {
             if(guestResult) {
                 // create an object to be inserted into the database
                 let reservation = {
-                    // // booked_rate: ,
                     bookedType: req.body.reserve_type_select,
                     guest: guestResult._id,
                     employee: req.session.employeeID,
