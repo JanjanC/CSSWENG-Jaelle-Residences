@@ -4,18 +4,17 @@ const Employee = require('../models/employee-model.js');
 const bcrypt = require(`bcryptjs`);
 
 const signInController = {
-
     getSignIn: function (req, res) {
         answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
         res.render('sign-in', answer);
     },
 
     postSignIn: function(req, res) {
-
         let username = req.body.username;
         let password = req.body.password;
         answer = {usernameFlag: "hidden", passwordFlag: "hidden"};
 
+        // verifies employee credentials
         db.findOne(Employee, {username: username}, function(result) {
             if(result) {
                 answer.usernameFlag = "hidden";
@@ -24,11 +23,6 @@ const signInController = {
                         req.session.username = result.username;
                         req.session.employeeID = result._id;
 
-                        // let today = new Date();
-                    	// let year = today.getFullYear().toString();
-                        // let month = (today.getMonth() + 1).toString().padStart(2, 0);
-
-                        // res.redirect(`/calendar/${year}-${month}`);
                         res.redirect('/management/');
                     } else {
                         answer.passwordFlag = "";
