@@ -12,6 +12,7 @@ $(document).ready(function () {
 		chooseTime();
 	});
 
+	// sends a signal to open print preview page
 	$(".print-link").on("click", function(e) {
 		e.preventDefault();
 

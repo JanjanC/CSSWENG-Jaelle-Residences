@@ -5,12 +5,14 @@ $(document).ready(function () {
 	computeTotal();
 	computeBalance();
 
+	//onclick event of the button with an id of 'book'
 	$('#book').click(function(){
 		if (validateEntry()) {
 			showInput();
 		}
 	});
 
+	// checks for conflict in new start date and recomputes necessary fields
 	$('#transfer-start-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
@@ -20,6 +22,7 @@ $(document).ready(function () {
 		computeBalance();
     });
 
+	// checks for conflict in new end date and recomputes necessary fields
 	$('#transfer-end-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
@@ -29,6 +32,7 @@ $(document).ready(function () {
 		computeBalance();
     });
 
+	// recomputes necessary fields when PWD discount is applied
 	$('#is-pwd').change(function () {
 		enablePWD();
 		computeDiscount();
@@ -36,6 +40,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when senior citizen discount is applied
 	$('#is-senior').change(function () {
 		enableSenior();
 		computeDiscount();
@@ -43,6 +48,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when additional flat discount is applied
 	$('#is-discount-php').change(function () {
 		enableDiscountPhp();
 		computeDiscount();
@@ -50,6 +56,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when additional percent discount is applied
 	$('#is-discount-percent').change(function () {
 		enableDiscountPercent();
 		computeDiscount();
@@ -57,6 +64,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when extra pet charge is applied
 	$('#is-extra-pet').change(function () {
 		enablePetCharge();
 		computeCharges();
@@ -65,6 +73,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when extra bed charge is applied
 	$('#is-extra-bed').change(function () {
 		enableExtraBedsCharge();
 		computeCharges();
@@ -73,6 +82,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields based on number of people
 	$('#room-pax').change(function () {
 		computeInitialCost();
 		computeCharges();
@@ -81,47 +91,40 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when number of senior citizens is changed
 	$('#room-senior').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
+	// recomputes necessary fields when number of PWD is changed
 	$('#room-pwd').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
+	// recomputes necessary fields when additional percent discount is changed
 	$('#room-discount-percent').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
+	// recomputes necessary fields when additional flat discount is changed
 	$('#room-discount-php').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
-	$('#room-discount').keyup(function () {
-		computeDiscount();
-		computeTotal();
-		computeBalance();
-	});
-
-	$('#room-extra').keyup(function () {
-		computeCharges();
-		computeDiscount();
-		computeTotal();
-		computeBalance();
-	});
-
+	// computes the balance when payment is entered
 	$('#room-payment').keyup(function () {
 		computeBalance();
 	});
 
+	// updates fields based on selected room
 	$('#transfer-select').change(function () {
 		roomInfo = null;
 		updateForm();
@@ -133,6 +136,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
+	// recomputes necessary fields when extra pet charge is changed
 	$('#extra-pet-cost-php').keyup(function (){
 		computeCharges();
 		computeDiscount();
@@ -140,6 +144,7 @@ $(document).ready(function () {
 		computeBalance();
 	})
 
+	// recomputes necessary fields when extra bed charge is changed
 	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
@@ -147,6 +152,7 @@ $(document).ready(function () {
 		computeBalance();
 	})
 
+	// recomputes necessary fields when additional charges are added
 	$('#add-charge-btn').click(function (){
 		createOtherChargesArr();
 		computeCharges();
@@ -168,9 +174,8 @@ function updateForm () {
 let roomInfo = null;
 
 function getRoomInfo () {
-
+	// retrieves room information
 	if (!roomInfo) {
-
 		let roomID = $('#room-id').text();
 
 		if ($('#transfer-select').val() != '') {
@@ -188,8 +193,8 @@ function getRoomInfo () {
 	}
 }
 
+// validates fields for other charges module
 function checkOtherError() {
-	//// TODO: Apply appropriate error messages
 	let costFlag, reasonFlag;
 	if($('#add-other-cost').val() != ''){
 		costFlag = true;
@@ -211,6 +216,7 @@ function checkOtherError() {
 	return costFlag && reasonFlag;
 }
 
+// adds other charges item
 function addOther () {
 	if(checkOtherError()) {
 		let othersContainer = $('#other-list');
@@ -221,6 +227,7 @@ function addOther () {
 		//Retrieved value from other cost input
 		let newOtherCostVal = $('#add-other-cost');
 
+		// creates nodes for other charges
 		let newDivOtherContainer = $("<div class='d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item'></div>");
 		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
 
@@ -231,6 +238,7 @@ function addOther () {
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
 		let newDeleteIconStrong = $("<strong></strong>").text("clear");
 
+		// appends the nodes
 		newOtherDeleteButton.append(newDeleteIconSpan.append(newDeleteIconStrong));
 		newDivOtherValuesSection.append(newOtherReason, newOtherCost);
 		newDivOtherContainer.append(newDivOtherValuesSection, newOtherDeleteButton);
@@ -244,8 +252,11 @@ function addOther () {
 	}
 }
 
+// removes an other charges item
 function removeOther (elem) {
 	$(elem).parent().remove();
+
+	// recomputes necessary fields
 	createOtherChargesArr();
 	computeCharges();
 	computeDiscount();
@@ -253,32 +264,37 @@ function removeOther (elem) {
 	computeBalance();
 }
 
+// computes the cost associated with exceeding the pax limit
 function computeExtraPax (pax, maxPax) {
 	let extraPaxCost = 0;
-	console.log("computeExtraPax " + pax + " " + maxPax);
+	
+	// if pax limit is exceeded
 	if(pax > maxPax && !isNaN(pax)){
-		// TODO: input rate
 		let rate = 400;
+
 		nExtraPax = pax - maxPax;
 		extraPaxCost = nExtraPax * rate;
+
 		$('#extra-pax-count').val(nExtraPax);
 		$('#extra-pax-cost-php').val(extraPaxCost);
-		console.log("computeExtraPax " + extraPaxCost + " " + nExtraPax);
 	} else {
+		// if within pax limit
 		$('#extra-pax-count').val('');
         $('#extra-pax-cost-php').val('');
 	}
 }
 
+// sums the charges in the other charges module
 function sumOtherCharges (){
 	let sum = 0;
 	$('.other-val-cost').each(function (){
 		sum += parseFloat($(this).text());
 	});
-	console.log(sum);
+	
 	return sum;
 }
 
+// retrieves the details of each other charges item and places them into an object array
 function createOtherChargesArr (){
 	let arr = [];
 	$('.other-item').each(function (){
@@ -288,7 +304,7 @@ function createOtherChargesArr (){
 		};
 		arr.push(temp);
 	});
-	console.log(arr);
+	
 	$('#other-charges-arr').val(JSON.stringify(arr));
 }
 
@@ -318,6 +334,7 @@ function computeInitialCost () {
 			let remaining = duration;
 			let pax = Number($('#room-pax').val());
 
+			// uses the monthly rate if it exists and the duration is at least 30 days
 			if (remaining >= 30 && roomInfo.room_rate.monthly[0]) {
 				if (Number.isNaN(pax) || pax <= 0) {
 					pax = 1;
@@ -332,25 +349,32 @@ function computeInitialCost () {
 				remaining = remaining % 30;
 			}
 
+			// uses the weekly rate if it exists and the duration is at least 7 days
 			if (remaining >= 7 && roomInfo.room_rate.weekly) {
 				weeklyRate = roomInfo.room_rate.weekly;
 				weeks = remaining / 7;
 				remaining = remaining - remaining;
 			}
 
+			// uses the daily rate if it exists and the duration is at least 1 day
 			if (remaining >= 1 && roomInfo.room_rate.daily) {
 				dailyRate = roomInfo.room_rate.daily;
 				days = remaining;
 				remaining = remaining - remaining;
 			}
 
+			// sums the calculated costs
 			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
+			
+			// calculates the final daily rate
 			let rate = total / duration;
 
+			// sets values to appropriate fields on form
 			$('#duration').val(duration);
 			$('#room-initial-cost').val(total.toFixed(2));
 			$('#room-rate').val(rate.toFixed(2));
 		} else {
+			// set fields to 0.00 when duration is 0 or less
 			$('#duration').val(0);
 			$('#room-initial-cost').val((0).toFixed(2));
 			$('#room-rate').val((0).toFixed(2));
@@ -358,8 +382,9 @@ function computeInitialCost () {
 	}
 }
 
+// computes additional charges and displays them on the form
 function computeCharges () {
-
+	// gets room details
 	getRoomInfo();
 
 	if (roomInfo) {
@@ -373,6 +398,7 @@ function computeCharges () {
 
 		computeExtraPax(Number($('#room-pax').val()), roomInfo.max_pax);
 
+		// checks if the extra charges have inputs before summing them together
 		if(!isNaN(extraBed)) {
 			let cost = extraBed * 400;
 			extra += cost;
@@ -411,6 +437,7 @@ function computeCharges () {
 	}
 }
 
+// enables/disables senior discount field depending on checkbox
 function enableSenior () {
 	let senior = $('#is-senior').is(':checked');
 	$('#room-senior').prop('readonly', !senior);
@@ -420,6 +447,7 @@ function enableSenior () {
 	}
 }
 
+// enables/disables PWD discount field depending on checkbox
 function enablePWD () {
 	let pwd = $('#is-pwd').is(':checked');
 	$('#room-pwd').prop('readonly', !pwd);
@@ -429,6 +457,7 @@ function enablePWD () {
 	}
 }
 
+// enables/disables flat discount fields depending on checkbox
 function enableDiscountPhp () {
 	let discountPhp = $('#is-discount-php').is(':checked');
 	$('#room-discount-reason-php').prop('readonly', !discountPhp);
@@ -441,6 +470,7 @@ function enableDiscountPhp () {
 
 }
 
+// enables/disables percent discount fields depending on checkbox
 function enableDiscountPercent () {
 	let discountPercent = $('#is-discount-percent').is(':checked');
 	$('#room-discount-reason-percent').prop('readonly', !discountPercent);
@@ -452,6 +482,7 @@ function enableDiscountPercent () {
 	}
 }
 
+// enables/disables pet charge field depending on checkbox
 function enablePetCharge () {
 	let pet = $('#is-extra-pet').is(':checked');
 	$('#extra-pet-cost-php').prop('readonly', !pet);
@@ -461,6 +492,7 @@ function enablePetCharge () {
 	}
 }
 
+// enables/disables extra bed charge fields depending on checkbox
 function enableExtraBedsCharge () {
 	let extraBed = $('#is-extra-bed').is(':checked');
 	$('#extra-bed-count').prop('readonly', !extraBed);
@@ -472,6 +504,7 @@ function enableExtraBedsCharge () {
 
 }
 
+// computes the applicable discounts and selects the largest one
 function computeDiscount () {
 
 	getRoomInfo();
@@ -488,6 +521,7 @@ function computeDiscount () {
 		let petCharge = Number($('#extra-pet-cost-php').val());
 
 		if (total) {
+			// count the number of PWD/seniors
 			let count = 0
 			if (senior) {
 				count = count + senior;
@@ -503,6 +537,7 @@ function computeDiscount () {
 				totalCost = totalCost + charges;
 			}
 
+			// compute the senior/PWD discount
 			if (!Number.isNaN(pax) && pax > 0) {
 				//number of senior and pwd is greater than max pax for the room
 				if (count > pax) {
@@ -514,6 +549,7 @@ function computeDiscount () {
 				}
 			}
 
+			// compute the additional percent discount
 			let additionalPercentDiscount = 0;
 			if (additionalPercent) {
 				additionalPercentDiscount = additionalPercent / 100 * total;
@@ -533,6 +569,7 @@ function computeDiscount () {
 	}
 }
 
+// computes the net cost
 function computeTotal () {
 	let total = Number($('#room-initial-cost').val());
 	let charges = Number($('#room-total-extra').val());
@@ -556,6 +593,7 @@ function computeTotal () {
 
 }
 
+// computes the balance after payment
 function computeBalance () {
 	let net = Number($('#room-net-cost').val());
 	let payment = Number($('#room-payment').val());
@@ -573,6 +611,7 @@ function computeBalance () {
 	}
 }
 
+// checks if the booking has no conflicts in the specified date range
 function checkAvailability () {
 	let startDate = $('#transfer-start-date').val();
 	let endDate = $('#transfer-end-date').val();
@@ -604,37 +643,44 @@ function checkAvailability () {
 	}
 }
 
+// adds details to modal
 function showInput () {
 	let detailsLeft = [];
 	let detailsMiddle = [];
 	let detailsRight = [];
+
+	// old room information
 	pushToArray(detailsLeft, 'Old Room Type', $('#room_type').val());
 	pushToArray(detailsLeft, 'Old Room Number', $('#room-number').val());
 	pushToArray(detailsLeft, 'Old Start Date', $('#start-date').val());
 	pushToArray(detailsLeft, 'Old End Date', $('#end-date').val());
+
+	// new room information
 	pushToArray(detailsMiddle, 'New Room Type', $('#transfer-room-type').val());
 	pushToArray(detailsMiddle, 'New Room Number', $('#transfer-room-number').val());
 	pushToArray(detailsMiddle, 'New Start Date', $('#transfer-start-date').val());
 	pushToArray(detailsMiddle, 'New End Date', $('#transfer-end-date').val());
-	// pushToArray(detailsRight, 'Number of PWD', $('#room-pwd').val());
-	// pushToArray(detailsRight, 'Number of Senior Citizens', $('#room-senior').val());
-	// pushToArray(detailsRight, 'Other Discounts (Flat)', $('#room-discount-php').val());
-	// pushToArray(detailsRight, 'Other Discounts (%)', $('#room-discount-percent').val());
+	
+	// transaction information
 	pushToArray(detailsRight, 'Total Discount', $('#room-subtract').val());
 	pushToArray(detailsRight, 'Extra Charges', $('#room-total-extra').val());
 	pushToArray(detailsRight, 'Total Cost', $('#room-net-cost').val());
 	pushToArray(detailsRight, 'Customer Payment', $('#room-payment').val());
 	pushToArray(detailsRight, 'Customer Balance', $('#room-balance').val());
+
+	// join the strings together
 	let messageLeft = detailsLeft.join('');
 	let messageMiddle = detailsMiddle.join('');
 	let messageRight = detailsRight.join('');
 
+	// set the messages in the appropriate modal fields before showing
 	$('#input-col-1').html(messageLeft);
 	$('#input-col-2').html(messageMiddle);
 	$('#input-col-3').html(messageRight);
 	$('#bookModal').modal('show');
 }
 
+// formats the details before pushing into an array
 function pushToArray(array, field, value){
 	if(value.trim() != ''){
 		array.push(`
@@ -644,6 +690,7 @@ function pushToArray(array, field, value){
 	}
 }
 
+// validates input in the fields
 function validateEntry () {
 	let isValid = true;
 

@@ -9,11 +9,12 @@ const printEvent = require('./print-controller.js');
 const roomManagementController = {
 
     getRoomManagement: function (req, res) {
-
+        // initializes the required dates
         let today = new Date();
 		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 		let hourMinuteString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
         let fullTimeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`
+
 		//there is a given time
 		if (req.query.time !== undefined) {
             hourMinuteString = `${req.query.time}:00`
@@ -102,7 +103,7 @@ const roomManagementController = {
         //find the information of the room given a roomID
 		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
 			if (roomResult) {
-                console.log(roomResult);
+                // initializes the required dates
                 let today = new Date();
             	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 
@@ -185,6 +186,7 @@ const roomManagementController = {
                     balance: req.body.room_balance
                 }
 
+                // adds other charges field if it exists
                 if(req.body.other_charges_arr)
                     transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -239,6 +241,8 @@ const roomManagementController = {
     },
 
     checkCheckInAvailability: function(req, res) {
+        // creates an array of rooms which are connected to know which room statuses 
+		// need to be updated together
 		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
 			let rooms = [];
 			rooms.push(req.query.roomID);
@@ -317,7 +321,7 @@ const roomManagementController = {
     },
 
     postCheckInWithoutBooking: function (req, res) {
-
+        // creates transaction object to be inserted into database
         let transaction = {
             duration: req.body.duration,
             averageRate: req.body.room_rate,
@@ -349,6 +353,7 @@ const roomManagementController = {
             balance: req.body.room_balance
         }
 
+        // add other charges field if it exists
         if(req.body.other_charges_arr)
             transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -458,7 +463,6 @@ const roomManagementController = {
                     username: req.session.username,
                     booking: result,
                 }
-                console.log(result);
                 //render the check out screen
                 res.render('check-out', values);
             } else {
@@ -508,6 +512,7 @@ const roomManagementController = {
                             db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
                                 if (guestResult) {
 
+                                    // creates transaction object to be inserted to database
                                     let transaction = {
                                         duration: req.body.duration,
                                         averageRate: req.body.room_rate,
@@ -539,6 +544,7 @@ const roomManagementController = {
                                         balance: req.body.room_balance
                                     }
 
+                                    // add other charges field if it exists
                                     if(req.body.other_charges_arr)
                                         transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -637,13 +643,14 @@ const roomManagementController = {
             }
 
             if (bookingResult) {
+                // opens print preview window when print receipt checkbox is ticked
                 if(req.body.print_receipt == "")
                     printEvent.emitPrintEvent(bookingResult._id);
 
                 //update the customer details in the database
                 db.updateOne(Guest, {_id: bookingResult.guest}, guest, function(guestResult) {
                     if (guestResult) {
-
+                        // create transaction object to be inserted to the database
                         let transaction = {
                             duration: req.body.duration,
                             averageRate: req.body.room_rate,
@@ -675,6 +682,7 @@ const roomManagementController = {
                             balance: req.body.room_balance
                         }
 
+                        // add other charges field if it exists
                         if(req.body.other_charges_arr)
                             transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -738,8 +746,6 @@ const roomManagementController = {
     },
 
     postTransfer: function (req, res) {
-         console.log(req.body);
-
         let booking = {
             $set: {
                 room: req.body.transfer_select,
@@ -832,7 +838,7 @@ const roomManagementController = {
     },
 
     postRoomMaintenance: function (req, res)  {
-
+        // sets selected statuses to the room
         let room = {
             $set: {
                 needHousekeeping: req.body.housekeeping_select,
