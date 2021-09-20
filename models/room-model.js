@@ -15,19 +15,22 @@ var RoomSchema = new mongoose.Schema({
         required: true
     },
 
-    // the current rate the room goes for
+    // the rate the room
     room_rate: {
+        //the daily rate of the room
         daily: {
             type: Number,
             required: true
         },
 
+        //the weekly rate of the room
         weekly: {
             type: Number,
             required: true,
             default: 0
         },
 
+        //the monthly rate of the room
         monthly: {
             type: [Number],
             required: true,
@@ -35,11 +38,13 @@ var RoomSchema = new mongoose.Schema({
         }
     },
 
+    //the maximum number of person allowed for the room
     max_pax: {
         type: Number,
         required: true
     },
 
+    //the list of rooms connected to the current room
     connected_rooms: {
         type: [{
             type: mongoose.ObjectId,

@@ -76,6 +76,7 @@ var BookingSchema = new mongoose.Schema({
         default: false
     },
 
+    // the corresponding transaction/receipt of the booking
     transaction: {
         type: mongoose.ObjectId,
         ref: 'Transaction'
