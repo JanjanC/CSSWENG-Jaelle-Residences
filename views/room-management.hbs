@@ -61,7 +61,7 @@
 					{{#if booking.checkedIn}}
 					<!--OCCUPIED-->
 					<div class="room-container col-2 p-0 m-0 border occupied">
-						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
+						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100 room-card" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 							<div class="mt-2">
@@ -158,7 +158,7 @@
 
 										<!-- Button trigger modal-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-										<a href="/booking/{{booking._id}}/print" class="print-link btn btn-primary" data-index={{@index}}><span class="material-icons-outlined me-1">print</span>Print Receipt</a>
+										<a href="/booking/{{booking._id}}/print" class="print-link btn btn-primary"><span class="material-icons-outlined me-1">print</span>Print Receipt</a>
 										<a href="/management/{{booking._id}}/transfer" class="btn btn-primary"><span class="material-icons-outlined me-1">transfer_within_a_station</span>Transfer</a>
 										<a href="/management/{{booking._id}}/checkin/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
 										<a href="/management/{{booking._id}}/checkout" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add_check</span>Check-out</a>
