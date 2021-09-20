@@ -4,6 +4,7 @@ const electron = require("electron");
 const {ipcRenderer} = electron;
 
 $(document).ready(function () {
+	let index;
 	//set the booking tab as the active tab in the sidebar
 	$('#nav-room').addClass('active');
 
@@ -15,10 +16,14 @@ $(document).ready(function () {
 	$(".print-link").on("click", function(e) {
 		e.preventDefault();
 
-		let href = $(".print-link").attr('href');
+		let href = e.target.getAttribute('href');
 		let bookingID = href.split('/')[2];
 		
 	    ipcRenderer.send('print:goto', bookingID);
+	});
+
+	$(".room-card").on("click", function(e) {
+		index = e.target.getAttribute('data-index')
 	});
 });
 

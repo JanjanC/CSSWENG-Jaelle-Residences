@@ -648,7 +648,8 @@ const bookingController = {
 								totalDiscount: biggestDisc,
 								total: transaction_result.netCost,
 								payment: transaction_result.payment,
-								change: transaction_result.balance
+								change: transaction_result.balance,
+								otherCharges: transaction_result.otherCharges
 							}
 
 							if(flatFlag || percentFlag || seniorPwdFlag)
