@@ -5,7 +5,7 @@ $(document).ready(function () {
 	computeTotal();
 	computeBalance();
 
-	//onclick event of the button with an id of 'submit'
+	//onclick event of the button with an id of 'book'
 	$('#book').click(function(){
 		if (validateEntry()) {
 			showInput();
@@ -112,7 +112,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when additional flat` discount is changed
+	// recomputes necessary fields when additional flat discount is changed
 	$('#room-discount-php').change(function () {
 		computeDiscount();
 		computeTotal();
@@ -266,6 +266,7 @@ function checkOtherError() {
 	}
 	return costFlag && reasonFlag;
 }
+
 // adds other charges item
 function addOther () {
 	if(checkOtherError()) {
@@ -696,6 +697,7 @@ function checkAvailability () {
 	}
 }
 
+// adds details to modal
 function showInput () {
 	let detailsLeft = [];
 	let detailsMiddle = [];

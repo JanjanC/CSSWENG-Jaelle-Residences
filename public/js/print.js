@@ -4,6 +4,7 @@ const electron = require("electron");
 const {ipcRenderer} = electron;
 
 $(document).ready(function () {
+    // prints receipt on button click
     $('#print-it').click(function() {
         ipcRenderer.send('print:execute');
     });
