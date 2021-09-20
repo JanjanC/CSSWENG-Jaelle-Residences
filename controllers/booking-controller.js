@@ -159,6 +159,7 @@ const bookingController = {
         db.insertOne(Guest, guest, function(guestResult){
             if(guestResult) {
 
+				// creates transaction object to be inserted to database
 				let transaction = {
 				    duration: req.body.duration,
 				    averageRate: req.body.room_rate,
@@ -190,6 +191,7 @@ const bookingController = {
 				    balance: req.body.room_balance
 				}
 
+				// adds field for other charges if it exists
 				if(req.body.other_charges_arr)
 					transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -245,6 +247,8 @@ const bookingController = {
 
     checkBookingAvailability: function(req, res) {
 		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
+			// creates an array of rooms which are connected to know which room statuses 
+			// need to be updated together
 			let rooms = [];
 			rooms.push(req.query.roomID);
 			if (roomResult && roomResult.connected_rooms) {
@@ -324,6 +328,7 @@ const bookingController = {
 	getRoom: function(req, res) {
 		let roomID = req.query.roomID;
 
+		// sends the Room entry back as response
 		db.findOne(Room, {_id: roomID}, function(result) {
 			res.send(result);
 		});
@@ -331,6 +336,7 @@ const bookingController = {
 
 	confirmReservation: function(req, res) {
 
+		// creates transaction object to be inserted to database
 		let transaction = {
 			duration: req.body.duration,
 			averageRate: req.body.room_rate,
@@ -362,6 +368,7 @@ const bookingController = {
 			balance: req.body.room_balance
 		}
 
+		// adds other charges field if it exists
 		if(req.body.other_charges_arr)
 			transaction.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -382,6 +389,7 @@ const bookingController = {
 				db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
 					if (bookingResult) {
+						// opens print preview page if print receipt checkbox is ticked
 						if(req.body.print_receipt == "")
                             printEvent.emitPrintEvent(bookingResult._id);
 
@@ -394,7 +402,8 @@ const bookingController = {
 				            company: req.body.company,
 				            occupation: req.body.occupation
 				        }
-						//upda the information of the guest
+
+						//update the information of the guest
 						db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
 							if (guestResult) {
 
@@ -471,6 +480,7 @@ const bookingController = {
             }
 
             if (bookingResult) {
+				// opens print preview window if print receipt checkbox is ticked
 				if(req.body.print_receipt == "")
                     printEvent.emitPrintEvent(bookingResult._id);
 
@@ -511,6 +521,7 @@ const bookingController = {
 							}
 						}
 
+						// adds other charges field if it exists
 						if(req.body.other_charges_arr)
 							transaction.$set.otherCharges = JSON.parse(req.body.other_charges_arr);
 
@@ -549,6 +560,7 @@ const bookingController = {
 	},
 
 	postDeleteBooking: function(req, res) {
+		// set booking status to cancelled
 		let booking = {
             $set: {
                 isCancelled: true
@@ -584,6 +596,7 @@ const bookingController = {
 	},
 
 	postPrintReceipt: function(req, res){
+		// accesses the necessary records for receipt details
 		db.findOne(Booking, {_id: req.params.bookingID}, function(booking_result){
 			db.findOne(Guest, {_id: booking_result.guest}, function(guest_result){
 				db.findOne(Transaction, {_id: booking_result.transaction}, function(transaction_result){
@@ -597,6 +610,7 @@ const bookingController = {
 							percentFlag = transaction_result.additionalPercentDiscount.amount != null;
 							seniorPwdFlag = transaction_result.pwdCount != null || transaction_result.seniorCitizenCount != null;
 
+							// determines the discount that was applied to the transaction
 							if(flatFlag)
 								flatDisc = transaction_result.additionalPhpDiscount.amount;
 
@@ -641,6 +655,7 @@ const bookingController = {
 							if(flatFlag || percentFlag || seniorPwdFlag)
 								renderObj["appliedDiscount"] = discountDesc;
 							
+							// adds extra charges fields if it exists
 							if(transaction_result.extraCharges != null)
 								renderObj["extraCharges"] = transaction_result.extraCharges;
 
