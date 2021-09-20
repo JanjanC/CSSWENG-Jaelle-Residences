@@ -364,7 +364,7 @@ function computeInitialCost () {
 
 			// sums the calculated costs
 			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
-			
+
 			// calculates the final daily rate
 			let rate = total / duration;
 
@@ -384,7 +384,7 @@ function computeInitialCost () {
 // computes the cost associated with exceeding the pax limit
 function computeExtraPax (pax, maxPax) {
 	let extraPaxCost = 0;
-	
+
 	// if pax limit is exceeded
 	if(pax > maxPax && !isNaN(pax)){
 		let rate = 400;
@@ -795,6 +795,7 @@ function validateEntry () {
 			$('#lastname-error').text('');
 		}
 
+		//error checking for birthdate
 		if (new Date($('#birthdate').val()) > new Date(todayString)) {
 			$('#birthdate-error').text('Birthdate cannot be later than Today');
 			isValid = false;
@@ -802,6 +803,7 @@ function validateEntry () {
 			$('#birthdate-error').text('');
 		}
 
+		//error checking for contact
 		let numberPattern = new RegExp('^(09)\\d{9}$');
 		if ($('#contact').val() != '' && !numberPattern.test($('#contact').val())) {
 			$('#contact-error').text('Contact Number is invalid');
@@ -810,6 +812,7 @@ function validateEntry () {
 			$('#contact-error').text('');
 		}
 
+		//error checking for room pax
 		if ($('#room-pax').val() == '') {
 		    $('#room-pax-error').text('Number of Guests cannot be empty');
 		    isValid = false;
@@ -823,6 +826,7 @@ function validateEntry () {
 		    $('#room-pax-error').text('');
 		}
 
+		//error checking for room payment
 		if ($('#room-payment').val() == '') {
 			$('#room-payment-error').text('Customer Payment cannot be empty');
 			isValid = false;
@@ -833,6 +837,7 @@ function validateEntry () {
 			$('#room-payment-error').text('');
 		}
 
+		//error checking for pwd count
 		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-pwd-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
@@ -843,6 +848,7 @@ function validateEntry () {
 			$('#room-pwd-error').text('');
 		}
 
+		//error checking for senior count
 		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-senior-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
