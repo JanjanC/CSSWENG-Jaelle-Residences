@@ -1,8 +1,10 @@
 $(document).ready(function () {
+	//set the calendar as the active tab in the view
 	$('#nav-calendar').addClass('active');
 	initializeCalendar();
 });
 
+//intializes the data of the calendar with the corresponding months, weeks, and days value
 function initializeCalendar () {
 	const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
