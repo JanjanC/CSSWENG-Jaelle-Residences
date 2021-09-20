@@ -4,7 +4,6 @@ const printEvent = new events.EventEmitter();
 //the callback receives the argument 'data' from the emitter
 function onPrintEvent(callback) {
   printEvent.on("print", (data) => {
-    console.log("PRINTEVENT OCCURRED");
     callback(data);
   });
 }

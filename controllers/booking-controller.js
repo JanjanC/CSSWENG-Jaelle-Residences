@@ -143,7 +143,6 @@ const bookingController = {
 	},
 
 	postCreateBooking: function(req, res) {
-		console.log(req.body);
 		// collect the guest information from post request
         let guest = {
             firstName: req.body.firstname,
