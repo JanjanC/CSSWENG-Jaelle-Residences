@@ -267,7 +267,7 @@ function removeOther (elem) {
 // computes the cost associated with exceeding the pax limit
 function computeExtraPax (pax, maxPax) {
 	let extraPaxCost = 0;
-	
+
 	// if pax limit is exceeded
 	if(pax > maxPax && !isNaN(pax)){
 		let rate = 400;
@@ -290,7 +290,7 @@ function sumOtherCharges (){
 	$('.other-val-cost').each(function (){
 		sum += parseFloat($(this).text());
 	});
-	
+
 	return sum;
 }
 
@@ -304,7 +304,7 @@ function createOtherChargesArr (){
 		};
 		arr.push(temp);
 	});
-	
+
 	$('#other-charges-arr').val(JSON.stringify(arr));
 }
 
@@ -365,7 +365,7 @@ function computeInitialCost () {
 
 			// sums the calculated costs
 			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
-			
+
 			// calculates the final daily rate
 			let rate = total / duration;
 
@@ -660,7 +660,7 @@ function showInput () {
 	pushToArray(detailsMiddle, 'New Room Number', $('#transfer-room-number').val());
 	pushToArray(detailsMiddle, 'New Start Date', $('#transfer-start-date').val());
 	pushToArray(detailsMiddle, 'New End Date', $('#transfer-end-date').val());
-	
+
 	// transaction information
 	pushToArray(detailsRight, 'Total Discount', $('#room-subtract').val());
 	pushToArray(detailsRight, 'Extra Charges', $('#room-total-extra').val());
@@ -747,6 +747,7 @@ function validateEntry () {
 			$('#transfer-end-date-error').text('');
 		}
 
+		//error checking for guest count
 		if ($('#room-pax').val() == '') {
 		    $('#room-pax-error').text('Number of Guests cannot be empty');
 		    isValid = false;
@@ -760,6 +761,7 @@ function validateEntry () {
 		    $('#room-pax-error').text('');
 		}
 
+		//error checking customer payment
 		if ($('#room-payment').val() == '') {
 			$('#room-payment-error').text('Customer Payment cannot be empty');
 			isValid = false;
@@ -770,6 +772,7 @@ function validateEntry () {
 			$('#room-payment-error').text('');
 		}
 
+		//error checking for pwd count
 		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-pwd-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
@@ -780,6 +783,7 @@ function validateEntry () {
 			$('#room-pwd-error').text('');
 		}
 
+		//error checking for senior count
 		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-senior-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;

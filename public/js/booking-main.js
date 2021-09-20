@@ -16,6 +16,7 @@ $(document).ready(function () {
 	$(".print-link").on("click", function(e) {
 		e.preventDefault();
 
+		//retrieves the route of the printer button
 		let href = $(".print-link").attr('href');
 		let bookingID = href.split('/')[2];
 	    ipcRenderer.send('print:goto', bookingID);
