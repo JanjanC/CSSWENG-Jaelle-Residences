@@ -22,19 +22,19 @@
 
     <div class="row w-100 m-0 h-100">
 
-        <div id="main-screen" class="col-10 mx-auto">
-            <div id="container-screen" class="container shadow-lg bg-light p-4">
+        <div class="col-10 mx-auto" id="main-screen">
+            <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">SET ROOM MAINTENANCE</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where maintenance of rooms are handled with regards to assigning and resolving maintenance status.</p>
-                    <div id="chosen-room" class="d-flex flex-column ms-auto me-4 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm">
+                    <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where maintenance of rooms are handled with regards to assigning and resolving maintenance status.</p>
+                    <div class="d-flex flex-column ms-auto me-4 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" id="chosen-room">
                         <span class="material-icons-two-tone md-36 mb-2">sensor_door</span>
                         <h4 class="m-0">Room Number</h4>
                         <h3 class="text-primary m-0">{{room.room_number}}</h3>
                     </div>
                 </div>
 
-                <form id="form-submit" class="" action="/management/{{room._id}}/maintenance" method="post">
+                <form id="form-submit" action="/management/{{room._id}}/maintenance" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center pt-2 mt-4">
                         <div class="col p-3 px-5">
@@ -60,7 +60,7 @@
                                         <td class="text-secondary">
                                             Housekeeping involves the need for cleaning of the room
                                         </td>
-                                        <td id="housekeeping-row" class="">
+                                        <td id="housekeeping-row">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="housekeeping-select" name="housekeeping_select">
                                                     <option value="false" {{#unless room.needHousekeeping}} selected {{/unless}}>Not Required</option>
@@ -78,7 +78,7 @@
                                         <td class="text-secondary">
                                             Repair involves the need for reparation or fixing of the room
                                         </td>
-                                        <td id = "repair-row" class="">
+                                        <td id="repair-row">
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="repair-select" name="repair_select">
                                                     <option value="false" {{#unless room.needRepair}} selected {{/unless}}>Not Required</option>
@@ -96,7 +96,7 @@
                     <div class="d-flex flex-row-reverse mt-3">
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
-                        <button id="maintenance" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
+                        <button class="btn btn-primary mb-4 me-5 mt-2 w-25" id="maintenance" type="button" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
                             Set Maintenance
                         </button>
                         <!-- Modal -->
@@ -121,7 +121,7 @@
                                         </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                        <button class="btn btn-primary" id="submit" type="submit" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                     </div>
                 <!-- RETURN -->
                 <!-- Button trigger modal -->
-                <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                <button class="btn btn-secondary mb-4 me-5 mt-2 w-25" id="return" type="button" data-bs-toggle="modal" data-bs-target="#returnModal">
                     Return
                 </button>
                 <!-- Modal -->
@@ -151,7 +151,6 @@
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </form>
