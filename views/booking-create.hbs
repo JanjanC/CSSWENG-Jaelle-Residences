@@ -21,8 +21,8 @@
 
     {{>navbar}}
 
+    <!--MAIN SCREEN-->
     <div class="row w-100 m-0 h-100">
-
         <div class="col-10 mx-auto" id="main-screen">
             <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
@@ -32,15 +32,14 @@
 
                 <br>
 
+            <!--MAIN BOOKING FORM-->
             <form id="form-submit" action="/booking/{{room._id}}/create" method="post">
 
+                <!--RESERVATION TO BOOKING SECTION-->
                 <div class="ps-2">
-                        <!--NOTE:
-                        THE ONES THAT WILL APPEAR ARE RESERVATIONS HAVING THE SAME START DATE
-                        CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
-                    -->
                     <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">group_add</span>Add From Reservation</h2>
                     <p class="w-50 text-secondary ms-4" id="screen-info">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
+                    <!--RESERVATION DROPDOWN; Reservations appearing are dependent on the specified date and time of booking-->
                     <div class="form-group ms-4 mb-3">
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
                             <option value="" selected>(Optional) Select a reservation</option>
@@ -52,7 +51,7 @@
                     <h2 class="ms-3 mt-5 mb-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Create New Booking</h2>
                 </div>
 
-                <!--ROW-->
+                <!--ROOM AND GUEST DETAILS ROW-->
                 <div class="row justify-content-center py-2">
                     <!-- COLUMN 1: Room Details -->
                     <div class="col-5 me-3 border p-4 pt-2 rounded">
@@ -117,7 +116,6 @@
 
                         <!--OPTIONAL FIELDS BELOW-->
                         <hr>
-
                         <!--Birthday-->
                         <div class="form-group">
                             <label class="h5 d-block">Birthdate</label>
@@ -152,9 +150,9 @@
                     </div>
                 </div>
 
-                <!--TRANSACTION-->
+                <!--TRANSACTION MAIN SECTION-->
                 <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
-                    <!--TRANSACTION INFO-->
+                    <!--TRANSACTION INFO ROW-->
                     <div class="row mb-4 justify-content-between" id="transaction-info">
                         <h3 class="pb-2 ps-2 pt-2 border-bottom mb-4"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
 
@@ -175,8 +173,6 @@
                                     <span class="input-group-text">Php/Day</span>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!--TRANSACTION 2nd COL-->
@@ -215,25 +211,29 @@
                             <!--Other Discount-->
                             <div class="form-group mb-3">
                                 <label class="h5 text-discount" data-bs-toggle="tooltip" data-bs-placement="right" title="Other discounts based on reasons not stated above. Discount can be in php or %">Other Discounts</label>
+                                <!--DISCOUNT IN PHP WITH REASON-->
                                 <div class="input-group mb-2 w-auto">
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-discount-php" type="checkbox" value="">
                                     </div>
-                                    <input type="text" readonly="true" id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-25" placeholder="Reason" value="">
-                                    <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control">
+                                    <!--Discount Reason Field-->
+                                    <input class="form-control w-25" type="text" readonly="true" id="room-discount-reason-php" name="room_discount_reason_php" placeholder="Reason" value="">
+                                    <!--Discount in php-->
+                                    <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php">
                                     <span class="input-group-text">Php</span>
                                 </div>
+                                <!--DISCOUNT IN PERCENT WITH REASON-->
                                 <div class="input-group mb-3 w-auto">
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-discount-percent" type="checkbox" value="">
                                     </div>
+                                    <!--Discount Reason Field-->
                                     <input class="form-control w-25" type="text" readonly="true" id="room-discount-reason-percent" name="room_discount_reason_percent" placeholder="Reason" value="">
+                                    <!--Discount in percent (%)-->
                                     <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!--TRANSACTION 3rd COL-->
@@ -242,8 +242,10 @@
                             <div class="form-group mb-2 text-end">
                                 <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Extra pax additional charges that would be added to the cost">Extra Pax Charges</label>
                                 <div class="input-group mb-2 w-auto">
+                                    <!--Number of pax/guests set through the previous pax field-->
                                     <input class="form-control" type="number" readonly="true" id="extra-pax-count" name="extra_pax_count" placeholder="# of Pax" value="">
                                     <span class="input-group-text">Pax</span>
+                                    <!--Cost of set numbeer of pax/guests-->
                                     <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pax-cost-php" name="extra_pax_cost_php">
                                     <span class="input-group-text">Php</span>
                                 </div>
@@ -256,8 +258,10 @@
                                     <div class="input-group-text">
                                         <input class="form-check-input mt-0" id="is-extra-bed" type="checkbox" value="">
                                     </div>
+                                    <!--Number of beds set-->
                                     <input class="form-control w-0" type="number" readonly="true" id="extra-bed-count" name="extra_bed_count" placeholder="# of Beds" value="">
                                     <span class="input-group-text">Bed</span>
+                                    <!--Cost of set number of beds-->
                                     <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-bed-cost-php" name="extra_bed_cost_php">
                                     <span class="input-group-text">Php</span>
                                 </div>
@@ -275,28 +279,31 @@
                                 </div>
                             </div>
 
+                            <!--OTHER EXTRA CHARGES-->
                             <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Other Charges</label>
                             <div class="overflow-auto p-3 border rounded w-100" id="other-list">
 
-                                <!-- Item template example
+                                <!-- Added item structure reference
                                 <div class="d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item">
                                     <div class="d-flex flex-column align-items-start justify-content-center">
                                         <h6 class="other-val text-primary"></h6>
                                         <h6 class="other-val text-primary mb-0"><span>Php</span></h6>
                                     </div>
-                                    <button class="btn btn-outline-danger rounded-pill h-50" type="button"><span class="material-icons-outlined delete-other" onclick="removeOther(this)"><strong>clear</strong></span></button>
+                                    <button class="btn btn-outline-danger rounded-pill h-50 delete-other" type="button"><span class="material-icons-outlined" onclick="removeOther(this)"><strong>clear</strong></span></button>
                                 </div>
                                 -->
 
-                                <!--Item Add-->
+                                <!--Other Extra Charges Add-->
                                 <div class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2" id="other-add">
                                     <div class="form-group text-start w-75 mb-1">
+                                        <!--Other Extra Charge Item Reason-->
                                         <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Reason for other additional charges that would be added to the cost">Add Reason</label>
                                         <div class="input-group w-auto mb-1">
                                             <input class="form-control" type="text" id="add-other-reason" name="add_other_reason">
                                         </div>
                                         <em><p class="error text-danger mb-2" id="add_other_reason_error"></p></em>
                                         <p></p>
+                                        <!--Other Extra Charge Item Cost-->
                                         <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Add Charge Cost</label>
                                         <div class="input-group w-auto mb-1">
                                             <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="add-other-cost" name="add_other_cost">
@@ -307,10 +314,12 @@
                                     <button type="button" class="btn btn-primary align-self-end rounded-pill" id="add-charge-btn" onclick="addOther()"><span class="material-icons-outlined me-1">add_circle_outline</span>Add Charge</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
+
+                    <!--TRANSACTION BREAKDOWN ROW-->
                     <div class="row mb-4 pt-5 border-top justify-content-between" id="transaction-cost">
+                        <!--TRANSACTION BREAKDOWN OF OVERALL COST-->
                         <div class="col">
                             <!--Room Cost-->
                             <div class="form-group mb-3">
@@ -344,6 +353,7 @@
                         <div class="col">
                         </div>
 
+                        <!--TRANSACTION BREAKDOWN OF PAYMENT-->
                         <div class="col">
                             <!--Total Cost-->
                             <div class="form-group mb-3 text-end text-primary">
@@ -378,14 +388,13 @@
                 </div>
             </div>
 
-            <!--MODAL-->
+            <!--MODAL BUTTONS SECTION-->
             <div class="d-flex flex-row-reverse mt-3">
-                <!-- RESERVE-->
-                <!-- Button trigger modal -->
+                <!--BOOK BUTTON TRIGGER MODAL/DIALOG-->
                 <button class="btn btn-primary mb-4 me-5 mt-2 w-25" id="book" type="button">
                     Book
                 </button>
-                <!-- Modal -->
+                <!--Book Modal-->
                 <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
@@ -396,9 +405,7 @@
                             <div class="modal-body px-4 pt-3 pb-0">
                                 <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                 <p>Are you sure you want to <strong>book guest</strong> with the following information?</p>
-                                {{!-- <div id="inputted-info">
-
-                                </div> --}}
+                                <!--SUMMARY OF BOOKING CONTENTS; Contents are fed automatically through JS DOM-->
                                 <div class="template">
                                             <div class="row mt-4">
                                                 <!--Room information-->
@@ -416,6 +423,7 @@
                                             </div>
                                 </div>
 
+                                <!--(OPTIONAL) PRINT RECEIPT FUNCTIONALITY-->
                                 <div class="d-flex flex-row-reverse my-3 me-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="print-receipt" name="print_receipt">
@@ -426,19 +434,20 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
+                                <!--CLOSE MODAL/DIALOG-->
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <!--SUBMIT BOOKING FORM-->
                                 <button class="btn btn-primary" id="submit" type="submit" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- RETURN -->
-                <!-- Button trigger modal -->
+                <!--RETURN BUTTON TRIGGER MODAL/DIALOG-->
                 <button class="btn btn-secondary mb-4 me-5 mt-2 w-25" id="return" type="button" data-bs-toggle="modal" data-bs-target="#returnModal">
                     Return
                 </button>
-                <!-- Modal -->
+                <!--Return Modal-->
                 <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -451,13 +460,14 @@
                                 <p>Are you sure you want to return to the previous page?</p>
                             </div>
                             <div class="modal-footer">
+                                <!--CLOSE MODAL/DIALOG-->
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <!--RETURN TO PREVIOUS PAGE WITH UNSAVED CHANGES-->
                                 <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </form>
     </div>
