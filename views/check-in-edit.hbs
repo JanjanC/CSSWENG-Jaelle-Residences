@@ -241,7 +241,7 @@
                                             <!--Number of pax/guests set through the previous pax field-->
                                             <input class="form-control" type="number" readonly="true" id="extra-pax-count" name="extra_pax_count" placeholder="# of Pax" value="{{booking.transaction.extraPaxCharges.count}}">
                                             <span class="input-group-text">Pax</span>
-                                            <!--Cost of set numbeer of pax/guests-->
+                                            <!--Cost of set number of pax/guests-->
                                             <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pax-cost-php" name="extra_pax_cost_php" value="{{booking.transaction.extraPaxCharges.amount}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
@@ -454,7 +454,9 @@
                                         <p>Are you sure you want to return to the previous page?</p>
                                     </div>
                                     <div class="modal-footer">
+                                        <!--CLOSE MODAL/DIALOG-->
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <!--RETURN TO PREVIOUS PAGE WITH UNSAVED CHANGES-->
                                         <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
                                     </div>
                                 </div>
