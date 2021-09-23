@@ -31,16 +31,16 @@
         <!--COLUMN FOR MAIN-->
         <div class="col-10 mx-auto">
             <!--CONTAINER FOR MAIN RESERVATION-->
-            <div id="container-screen" class="container shadow-lg bg-light p-4">
+            <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 align-items-center">
                     <h1 class="m-0">RESERVATION</h1>
                     {{#isNotPastDate date}}
-                    <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill align-middle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
+                    <a class="btn btn-primary ms-4 rounded-pill align-middle" href="create" id="submit" name="submit" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
                         <h5 class="p-2 m-0"><span class="material-icons-outlined">queue</span> Create Reservation</h5>
                     </a>
                     {{/isNotPastDate}}
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where reservations are created, edited, and managed corresponding the current date chosen.</p>
-                    <div id="chosen-date" class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" onclick="window.location='/calendar/{{getMonthYear date}}'">
+                    <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where reservations are created, edited, and managed corresponding the current date chosen.</p>
+                    <div class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" id="chosen-date" onclick="window.location='/calendar/{{getMonthYear date}}'">
                         <span class="material-icons-two-tone md-36 mb-2">today</span>
                         <h5 class="m-0">Chosen Date</h5>
                         <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
@@ -51,14 +51,14 @@
                 <div class="row px-4 py-3 d-flex justify-content-center">
                     {{#each list}}
                     <div class="col-3 border mx-3 px-0 pb-2 mb-5 rounded reservation-list shadow-sm">
-                        <h4 id="{{bookedType}}" class="p-3 m-0 text-center text-break room-type-label">{{bookedType}}</h4>
+                        <h4 class="p-3 m-0 text-center text-break room-type-label" id="{{bookedType}}">{{bookedType}}</h4>
                         <!-- Room Item -->
                         <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
                             <div class="flex-grow-1 px-3 pb-3">
                                 <!-- Button trigger modal -->
                                 {{#each reservations}}
-                                <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
-                                    <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.firstName}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.lastName}}</span></h5>
+                                <button class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" id="reservation-{{_id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
+                                    <h5><span class="fa fa-pencil" id="reservation-{{_id}}-firstname-label-id" aria-hidden="true">{{guest.firstName}}</span> <span class="fa fa-pencil" id="reservation-{{_id}}-lastname-label-id" aria-hidden="true">{{guest.lastName}}</span></h5>
                                     <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate startDate}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate endDate}}</span></h6>
                                 </button>
                                 <!-- Modal -->
@@ -81,7 +81,7 @@
                                                     <!--Guest information-->
                                                     <div class="col ps-4">
                                                         <h4>Guest Name:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-firstname" class="text-break">{{guest.firstName}}</span> <span id="reservation-lastname-id">{{guest.lastName}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span class="text-break" id="reservation-{{_id}}-firstname">{{guest.firstName}}</span> <span id="reservation-lastname-id">{{guest.lastName}}</span></h5>
                                                         <!-- Optional Fields -->
                                                         {{#if guest.birthdate}}
                                                         <h4>Birthdate:</h4>
@@ -89,7 +89,7 @@
                                                         {{/if}}
                                                         {{#if guest.address}}
                                                         <h4>Address:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span class="text-break" id="reservation-{{_id}}-address">{{guest.address}}</span></h5>
                                                         {{/if}}
                                                         {{#if guest.contact}}
                                                         <h4>Contact Number:</h4>
@@ -97,7 +97,7 @@
                                                         {{/if}}
                                                         {{#if guest.company}}
                                                         <h4>Company Name:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-company" class="text-break">{{guest.company}}</span></h5>
+                                                        <h5 class="ms-4 text-secondary reservation-field"><span class="text-break" id="reservation-{{_id}}-company">{{guest.company}}</span></h5>
                                                         {{/if}}
                                                         {{#if guest.occupation}}
                                                         <h4>Occupation:</h4>
@@ -147,7 +147,6 @@
                         </div>
                     </div>
                     {{else}}
-                    <!--TODO: FIX THIS, INADD KO LANG ITO INCASE NA WALANG RESERVATION FOR THE DAY-->
                     <h4 class="m-0 p-0 text-secondary text-center">No reservations today</h4>
                     {{/each}}
                 </div>
