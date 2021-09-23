@@ -184,6 +184,7 @@
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
+							<!--MAINTENANCE ICONS-->
 							<div class="mt-2">
 								{{#if room.needRepair}}
 								<span class="material-icons-outlined md-24 me-1">handyman</span>
@@ -276,6 +277,7 @@
 									</div>
 									<div class="modal-footer">
 										<div class="me-auto ms-2">
+											<!--SET MAINTENANCE BUTTON REDIRECT-->
 											<a href="/management/{{room._id}}/maintenance" class="btn btn-primary rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
 											<!--DELETE BUTTON TRIGGER MODAL/DIALOG-->
 											<button class="btn btn-danger rounded ms-1" id="delete-{{booking._id}}" name="delete_{{booking._id}}" type="button" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
@@ -348,6 +350,7 @@
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
+							<!--MAINTENANCE ICONS-->
 							<div class="mt-2">
 								{{#if room.needRepair}}
 								<span class="material-icons-outlined md-24 me-1">handyman</span>
@@ -366,7 +369,7 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
-										<!--Maintenance Status-->
+										<!--Maintenance information-->
 										<div class="d-flex justify-content-start align-items-center me-3 mb-2">
 											{{#ifStatus room.needRepair room.needHousekeeping}}
 											<span class="text-secondary h5 me-2">Maintenance need:</span>
@@ -388,6 +391,7 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<!--SET MAINTENANCE BUTTON REDIRECT-->
 										<a href="/management/{{room._id}}/maintenance" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
 										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -404,6 +408,7 @@
 						<!--"THIS" ROOM BUTTON TRIGGER MODAL/DIALOG-->
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
+							<!--MAINTENANCE ICONS-->
 							{{room.room_type}}
 							<div class="mt-2">
 								{{#if room.needRepair}}
@@ -423,7 +428,7 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
-										<!--Maintenance Status-->
+										<!--Maintenance information-->
 										<div class="d-flex justify-content-start align-items-center me-3 mb-2">
 											{{#ifStatus room.needRepair room.needHousekeeping}}
 											<span class="text-secondary h5 me-2">Maintenance need:</span>
@@ -445,6 +450,7 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<!--SET MAINTENANCE BUTTON REDIRECT-->
 										<a href="/management/{{room._id}}/maintenance" class="btn btn-primary me-auto rounded-pill"><span class="material-icons-outlined me-1">cleaning_services</span>Maintenance Status</a>
 										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
