@@ -24,14 +24,14 @@
 
     <div class="row w-100 m-0 h-100">
 
-        <div id="main-screen" class="col-10 mx-auto">
-            <div id="container-screen" class="container shadow-lg bg-light p-4">
+        <div class="col-10 mx-auto" id="main-screen">
+            <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">CREATE RESERVATION</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where reservation forms are accomplished and created.</p>
+                    <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where reservation forms are accomplished and created.</p>
                 </div>
 
-                <form id="form-submit" class="" action="/reservation/create" method="post">
+                <form id="form-submit" action="/reservation/create" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
 
@@ -125,7 +125,7 @@
 
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
-                        <button id="reserve" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
+                        <button class="btn btn-primary mb-4 me-5 mt-2 w-25" id="reserve" type="button">
                             Reserve
                         </button>
                         <!-- Modal -->
@@ -140,10 +140,6 @@
                                         <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                         <p>Are you sure you want to reserve guest with the following information?</p>
 
-                                        <!--
-                                        <div id="inputted-info">
-                                        </div>
-                                        -->
                                         <div class="template">
                                             <div class="row mt-4">
                                                 <!--Room information-->
@@ -159,7 +155,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                        <button class="btn btn-primary" id="submit" type="submit" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +163,7 @@
 
                         <!-- RETURN -->
                         <!-- Button trigger modal -->
-                        <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                        <button class="btn btn-secondary mb-4 me-5 mt-2 w-25" id="return" type="button" data-bs-toggle="modal" data-bs-target="#returnModal">
                             Return
                         </button>
                         <!-- Modal -->
