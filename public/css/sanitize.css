@@ -1,3 +1,5 @@
+/*SANITIZE IS FOR SETTING THE STANDARD THEME CONSISTENT ALL THROUGHOUT THE SOFTWARE*/
+
 @font-face {
     font-family: "Primary";
     src: url("/css/fonts/HammersmithOne-Regular.ttf");
