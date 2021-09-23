@@ -24,16 +24,16 @@
 
     <div class="row w-100 m-0 h-100">
 
-        <div id="main-screen" class="col-10 mx-auto">
-            <div id="container-screen" class="container shadow-lg bg-light p-4">
+        <div class="col-10 mx-auto" id="main-screen">
+            <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">Transfer Room</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where guests are to be transferred rooms (Transferring of rooms make changes to transaction costs).</p>
+                    <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where guests are to be transferred rooms (Transferring of rooms make changes to transaction costs).</p>
                 </div>
 
                 <br>
 
-                <form id="form-submit" class="" action="/management/{{booking._id}}/transfer" method="post">
+                <form id="form-submit" action="/management/{{booking._id}}/transfer" method="post">
 
                     <div class="ps-2">
                             <!--NOTE:
@@ -41,7 +41,7 @@
                             CHECKING OF CONFLICTS WILL OCCUR IN THE ENDDATE FIELD
                         -->
                         <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">meeting_room</span>Room to transfer {{booking.guest.firstName}} {{booking.guest.lastName}} to</h2>
-                        <p id="screen-info" class="w-50 text-secondary ms-4">Select the destination room to transfer the guest to.</p>
+                        <p class="w-50 text-secondary ms-4" id="screen-info">Select the destination room to transfer the guest to.</p>
                         <div class="form-group ms-4 mb-3">
                             <select class="form-select form-control w-50" id="transfer-select" name="transfer_select">
                                 <option value="" selected>(Optional) Select a room to transfer to</option>
@@ -109,9 +109,8 @@
                         <!--COLUMN 3: Transfer Room Details-->
                         <div class="col-5 border p-4 pt-2 rounded">
 
-                            <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
                             <!--CUSTOMER INFO-->
-                            <div id="transfer-info" class="mb-4">
+                            <div class="mb-4" id="transfer-info">
                                 <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3 text-danger"><span class="material-icons-outlined md-36 me-2">room_preferences</span>Destination Room</h3>
 
                                 <div hidden>
