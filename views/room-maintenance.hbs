@@ -21,7 +21,7 @@
     {{>navbar}}
 
     <div class="row w-100 m-0 h-100">
-
+        <!--COLUMN FOR MAIN-->
         <div class="col-10 mx-auto" id="main-screen">
             <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
@@ -34,25 +34,29 @@
                     </div>
                 </div>
 
+                <!--MAINTENANCE STATUS FORM-->
                 <form id="form-submit" action="/management/{{room._id}}/maintenance" method="post">
-                    <!--ROW-->
+                    <!--MAINTENANCE ROW-->
                     <div class="row justify-content-center pt-2 mt-4">
                         <div class="col p-3 px-5">
+                            <!--LEGEND-->
                             <div class="d-flex justify-content-end align-items-center me-3">
             					<span class="text-secondary h5 me-2">LEGEND:</span>
             					<span class="legend required h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is in need of action">Required</span>
             					<span class="legend not-required h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room's status of this maintenance is fine">Not Required</span>
             				</div>
+
+                            <!--MAINTENANCE TABLE-->
                             <table class="table p-3 mt-2">
                                 <tbody>
-                                    <!--Label-->
+                                    <!--LABEL-->
                                     <tr class="table-header h4 p-0 border">
                                         <td>Name</td>
                                         <td>Description</td>
                                         <td>Status</td>
                                     </tr>
 
-                                    <!--Housekeeping-->
+                                    <!--HOUSEKEEPING-->
                                     <tr>
                                         <td>
                                             <h3 class="m-0"><span class="material-icons-outlined md-24 me-1">cleaning_services</span>Housekeeping</h3>
@@ -61,6 +65,7 @@
                                             Housekeeping involves the need for cleaning of the room
                                         </td>
                                         <td id="housekeeping-row">
+                                            <!--MAINTENANCE SET DROPDOWN-->
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="housekeeping-select" name="housekeeping_select">
                                                     <option value="false" {{#unless room.needHousekeeping}} selected {{/unless}}>Not Required</option>
@@ -70,7 +75,7 @@
                                         </td>
                                     </tr>
 
-                                    <!--Repair-->
+                                    <!--REPAIR-->
                                     <tr>
                                         <td>
                                             <h3 class="m-0"><span class="material-icons-outlined md-24 me-1">handyman</span>Repair</h3>
@@ -79,6 +84,7 @@
                                             Repair involves the need for reparation or fixing of the room
                                         </td>
                                         <td id="repair-row">
+                                            <!--MAINTENANCE SET DROPDOWN-->
                                             <div class="form-group dropdown">
                                                 <select class="form-select form-control w-50 m-0 d-inline" id="repair-select" name="repair_select">
                                                     <option value="false" {{#unless room.needRepair}} selected {{/unless}}>Not Required</option>
@@ -87,19 +93,18 @@
                                             </div>
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
+                    <!--MODAL BUTTONS SECTION-->
                     <div class="d-flex flex-row-reverse mt-3">
-                        <!-- RESERVE-->
-                        <!-- Button trigger modal -->
+                        <!--MAINTENANCE BUTTON TRIGGER MODAL/DIALOG-->
                         <button class="btn btn-primary mb-4 me-5 mt-2 w-25" id="maintenance" type="button" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
                             Set Maintenance
                         </button>
-                        <!-- Modal -->
+                        <!-- Maintenance Modal -->
                         <div class="modal fade" id="maintenanceModal" tabindex="-1" aria-labelledby="maintenanceModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -110,6 +115,7 @@
                                     <div class="modal-body px-4 pt-3 pb-2">
                                         <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
                                         <p>Are you sure you want to set the room's housekeeping and repair with the following maintenance status?</p>
+                                        <!--SUMMARY OF MAINTENANCE CONTENTS; Contents are fed automatically through JS DOM-->
                                         <div class="template">
                                             <div class="row mt-4 mb-3">
                                                 <!--Room information-->
@@ -119,45 +125,43 @@
                                                 <h5 class="ms-4 text-secondary maintenance-field"><span id="repair-status"></span></h5>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button class="btn btn-primary" id="submit" type="submit" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--RETURN BUTTON TRIGGER MODAL/DIALOG-->
+                        <button class="btn btn-secondary mb-4 me-5 mt-2 w-25" id="return" type="button" data-bs-toggle="modal" data-bs-target="#returnModal">
+                            Return
+                        </button>
+                        <!--Return Modal-->
+                        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-danger">WARNING: This page contains temporary data. Information that you have entered will <strong>NOT</strong> be <strong>SAVED</strong>. This action cannot be undone once the <strong>RETURN</strong> button has been pressed.</p>
+                                        <p>Are you sure you want to return to the previous page?</p>
+                                    </div>
                                     <div class="modal-footer">
+                                        <!--CLOSE MODAL/DIALOG-->
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary" id="submit" type="submit" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                        <!--RETURN TO PREVIOUS PAGE WITH UNSAVED CHANGES-->
+                                        <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <!-- RETURN -->
-                <!-- Button trigger modal -->
-                <button class="btn btn-secondary mb-4 me-5 mt-2 w-25" id="return" type="button" data-bs-toggle="modal" data-bs-target="#returnModal">
-                    Return
-                </button>
-                <!-- Modal -->
-                <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="returnModalLabel">Return to previous page</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-danger">WARNING: This page contains temporary data. Information that you have entered will <strong>NOT</strong> be <strong>SAVED</strong>. This action cannot be undone once the <strong>RETURN</strong> button has been pressed.</p>
-                                <p>Are you sure you want to return to the previous page?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <a href="javascript: history.back()" class="btn btn-danger"><span class="material-icons-outlined me-1">keyboard_return</span>Return</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
-</div>
-
-
 </body>
 </html>
