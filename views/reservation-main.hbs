@@ -40,28 +40,31 @@
                     </a>
                     {{/isNotPastDate}}
                     <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where reservations are created, edited, and managed corresponding the current date chosen.</p>
+                    <!--FOR TIME INPUT-->
                     <div class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" id="chosen-date" onclick="window.location='/calendar/{{getMonthYear date}}'">
                         <span class="material-icons-two-tone md-36 mb-2">today</span>
                         <h5 class="m-0">Chosen Date</h5>
                         <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
                     </div>
-
                 </div>
+
                 <hr>
+
+                <!--RESERVATION ARRAY IN CARDS-->
                 <div class="row px-4 py-3 d-flex justify-content-center">
                     {{#each list}}
                     <div class="col-3 border mx-3 px-0 pb-2 mb-5 rounded reservation-list shadow-sm">
                         <h4 class="p-3 m-0 text-center text-break room-type-label" id="{{bookedType}}">{{bookedType}}</h4>
-                        <!-- Room Item -->
+                        <!-- RESERVATION ROOM ITEM -->
                         <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
                             <div class="flex-grow-1 px-3 pb-3">
-                                <!-- Button trigger modal -->
+                                <!--BUTTON TRIGGER FOR "THIS" RESERVATION ITEM-->
                                 {{#each reservations}}
                                 <button class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" id="reservation-{{_id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
                                     <h5><span class="fa fa-pencil" id="reservation-{{_id}}-firstname-label-id" aria-hidden="true">{{guest.firstName}}</span> <span class="fa fa-pencil" id="reservation-{{_id}}-lastname-label-id" aria-hidden="true">{{guest.lastName}}</span></h5>
                                     <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate startDate}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate endDate}}</span></h6>
                                 </button>
-                                <!-- Modal -->
+                                <!-- RESERVATION MODAL -->
                                 <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content">
@@ -107,11 +110,13 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <!-- Delete modal -->
+                                                <!--DELETE BUTTON TRIGGER MODAL/DIALOG-->
                                                 <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{_id}}-Modal">
                                                     <span class="material-icons-outlined me-1">delete</span>Delete
                                                 </button>
+                                                <!--CLOSE MODAL/DIALOG-->
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <!--EDIT ROOM DETAILS IF WITHIN VALID DATE-->
                                                 {{#isNotPastDate endDate}}
                                                 <a href="/reservation/{{_id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
                                                 {{/isNotPastDate}}
@@ -119,8 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Modal -->
+                                <!--DELETE MODAL-->
                                 <div class="modal deleteModalItem fade" id="delete-{{_id}}-Modal" tabindex="-1" aria-labelledby="delete-{{_id}}-ModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
@@ -133,8 +137,9 @@
                                                 <p>Are you sure you want to <strong>permanently delete</strong> this reservation with the following information?</p>
                                             </div>
                                             <div class="modal-footer">
+                                                <!--CLOSE MODAL/DIALOG-->
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <!--Delete Form-->
+                                                <!--DELETE "THIS" RESERVATION ITEM BUTTON-->
                                                 <form id="form-delete" action="/reservation/{{_id}}/delete" method="post">
                                                     <button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
                                                 </form>
