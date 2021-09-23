@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
     <link rel="stylesheet" type="text/css" href="/css/booking-edit.css">
     <link rel="stylesheet" type="text/css" href="/css/material.css">
-    
+
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
@@ -24,16 +24,16 @@
 
     <div class="row w-100 m-0 h-100">
 
-        <div id="main-screen" class="col-10 mx-auto">
-            <div id="container-screen" class="container shadow-lg bg-light p-4">
+        <div class="col-10 mx-auto" id="main-screen">
+            <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
                     <h1 class="m-0">Edit Booking</h1>
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where parts of existing booking forms for booked rooms are edited.</p>
+                    <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where parts of existing booking forms for booked rooms are edited.</p>
                 </div>
 
                 <br>
 
-                <form id="form-submit" class="" action="/booking/{{booking._id}}/edit" method="post">
+                <form id="form-submit" action="/booking/{{booking._id}}/edit" method="post">
                     <!--ROW-->
                     <div class="row justify-content-center py-2">
                         <!-- COLUMN 1: Room Details -->
@@ -86,7 +86,7 @@
 
                             <!--TODO: When the user chooses an item... automatically fill the appropriate fields up under div guest info-->
                             <!--CUSTOMER INFO-->
-                            <div id="customer-info" class="mb-4">
+                            <div class="mb-4" id="customer-info">
                                 <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
 
                                 <!--First Name-->
@@ -143,7 +143,7 @@
                         <!--TRANSACTION-->
                         <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
                             <!--TRANSACTION INFO-->
-                            <div id="transaction-info" class="row mb-4 justify-content-between">
+                            <div class="row mb-4 justify-content-between" id="transaction-info">
                                 <h3 class="pb-2 ps-2 pt-2 border-bottom mb-4"><span class="material-icons-outlined md-36 me-2">receipt_long</span>Transaction Details</h3>
 
                                 <!--TRANSACTION 1st COL-->
@@ -159,7 +159,7 @@
                                     <div class="form-group mb-3">
                                         <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Average room rate cost per day in php">Avg. Room Rate Per Day (Php)</label>
                                         <div class="input-group mb-3 w-75">
-                                            <input type="number" readonly="true" id="room-rate" name="room_rate" class="form-control" value={{booking.transaction.averageRate}}>
+                                            <input class="form-control" type="number" readonly="true" id="room-rate" name="room_rate" value={{booking.transaction.averageRate}}>
                                             <span class="input-group-text">Php/Day</span>
                                         </div>
                                     </div>
@@ -208,7 +208,7 @@
                                                 <input class="form-check-input mt-0" id="is-discount-php" type="checkbox" {{#if booking.transaction.additionalPhpDiscount.amount}} checked {{/if}}>
                                             </div>
                                             <input type="text" {{#unless booking.transaction.additionalPhpDiscount.amount}} readonly="true" {{/unless}} id="room-discount-reason-php" name="room_discount_reason_php" class="form-control w-25" placeholder="Reason" value="{{booking.transaction.additionalPhpDiscount.reason}}">
-                                            <input type="number" {{#unless booking.transaction.additionalPhpDiscount.amount}} readonly="true" {{/unless}} onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" class="form-control" value="{{booking.transaction.additionalPhpDiscount.amount}}">
+                                            <input class="form-control" type="number" {{#unless booking.transaction.additionalPhpDiscount.amount}} readonly="true" {{/unless}} onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-php" name="room_discount_php" value="{{booking.transaction.additionalPhpDiscount.amount}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <div class="input-group mb-3 w-auto">
@@ -216,7 +216,7 @@
                                                 <input class="form-check-input mt-0" id="is-discount-percent" type="checkbox" {{#if booking.transaction.additionalPercentDiscount.amount}} checked {{/if}}>
                                             </div>
                                             <input type="text" {{#unless booking.transaction.additionalPercentDiscount.amount}} readonly="true" {{/unless}} id="room-discount-reason-percent" name="room_discount_reason_percent" class="form-control w-25" placeholder="Reason" value="{{booking.transaction.additionalPercentDiscount.reason}}">
-                                            <input type="number" {{#unless booking.transaction.additionalPercentDiscount.amount}} readonly="true" {{/unless}} onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" class="form-control" value="{{booking.transaction.additionalPercentDiscount.amount}}">
+                                            <input class="form-control" type="number" {{#unless booking.transaction.additionalPercentDiscount.amount}} readonly="true" {{/unless}} onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="room-discount-percent" name="room_discount_percent" value="{{booking.transaction.additionalPercentDiscount.amount}}">
                                             <span class="input-group-text">%</span>
                                         </div>
                                     </div>
@@ -228,9 +228,9 @@
                                     <div class="form-group mb-2 text-end">
                                         <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Extra pax additional charges that would be added to the cost">Extra Pax Charges</label>
                                         <div class="input-group mb-2 w-auto">
-                                            <input type="number" readonly="true" id="extra-pax-count" name="extra_pax_count" class="form-control" placeholder="# of Pax" value="{{booking.transaction.extraPaxCharges.count}}">
+                                            <input class="form-control" type="number" readonly="true" id="extra-pax-count" name="extra_pax_count" placeholder="# of Pax" value="{{booking.transaction.extraPaxCharges.count}}">
                                             <span class="input-group-text">Pax</span>
-                                            <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pax-cost-php" name="extra_pax_cost_php" class="form-control" value="{{booking.transaction.extraPaxCharges.amount}}">
+                                            <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pax-cost-php" name="extra_pax_cost_php" value="{{booking.transaction.extraPaxCharges.amount}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -244,7 +244,7 @@
                                             </div>
                                             <input type="number" {{#unless booking.transaction.extraBedCharges.count}} readonly="true" {{/unless}} id="extra-bed-count" name="extra_bed_count" class="form-control w-0" placeholder="# of Beds" value="{{booking.transaction.extraBedCharges.count}}">
                                             <span class="input-group-text">Bed</span>
-                                            <input type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-bed-cost-php" name="extra_bed_cost_php" class="form-control" value="{{booking.transaction.extraBedCharges.amount}}">
+                                            <input class="form-control" type="number" readonly="true" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-bed-cost-php" name="extra_bed_cost_php" value="{{booking.transaction.extraBedCharges.amount}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -256,13 +256,13 @@
                                             <div class="input-group-text">
                                                 <input class="form-check-input mt-0" id="is-extra-pet" type="checkbox" {{#if booking.transaction.extraPetCharges}} checked {{/if}}>
                                             </div>
-                                            <input type="number" {{#unless booking.transaction.extraPetCharges}} readonly="true" {{/unless}} onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pet-cost-php" name="extra_pet_cost_php" class="form-control" value="{{booking.transaction.extraPetCharges}}">
+                                            <input class="form-control" type="number" {{#unless booking.transaction.extraPetCharges}} readonly="true" {{/unless}} onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="extra-pet-cost-php" name="extra_pet_cost_php" value="{{booking.transaction.extraPetCharges}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
 
                                     <label class="h5 text-primary" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Other Charges</label>
-                                    <div id="other-list" class="overflow-auto p-3 border rounded w-100">
+                                    <div class="overflow-auto p-3 border rounded w-100" id="other-list">
 
                                         <!-- Item template example
                                         <div class="d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item">
@@ -286,7 +286,7 @@
 
                                         <!--Item Add-->
                                         <div id="other-add" class="d-flex flex-column align-items-start justify-content-center border p-3 mb-2">
-                                            <div class="form-group text-start w-75 mb-1">                                                
+                                            <div class="form-group text-start w-75 mb-1">
                                                 <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Reason for other additional charges that would be added to the cost">Add Reason</label>
                                                 <div class="input-group w-auto mb-1">
                                                     <input type="text" id="add-other-reason" name="add_other_reason" class="form-control">
@@ -295,7 +295,7 @@
                                                 <p></p>
                                                 <label class="h6" data-bs-toggle="tooltip" data-bs-placement="right" title="Other additional charges that would be added to the cost">Add Charge Cost</label>
                                                 <div class="input-group w-auto mb-1">
-                                                    <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="add-other-cost" name="add_other_cost" class="form-control">
+                                                    <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 190 ? true : !isNaN(Number(event.key))" id="add-other-cost" name="add_other_cost">
                                                     <span class="input-group-text">Php</span>
                                                 </div>
                                                 <em><p class="error text-danger mb-2" id="add_other_cost_error"></p></em>
@@ -306,13 +306,13 @@
 
                                 </div>
                             </div>
-                            <div id="transaction-cost" class="row mb-4 pt-5 border-top justify-content-between">
+                            <div class="row mb-4 pt-5 border-top justify-content-between" id="transaction-cost">
                                 <div class="col">
                                     <!--Room Cost-->
                                     <div class="form-group mb-3">
                                         <label class="h5 text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Initial cost of the room without the extra charges and discounts">Room Cost</label>
                                         <div class="input-group mb-3 w-100">
-                                            <input type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" class="form-control" value="{{booking.transaction.roomCost}}">
+                                            <input class="form-control" type="number" readonly="true" id="room-initial-cost" name="room_initial_cost" value="{{booking.transaction.roomCost}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -321,7 +321,7 @@
                                     <div class="form-group mb-4">
                                         <label class="h5 text-discount" data-bs-toggle="tooltip" data-bs-placement="right" title="Total amount to be subtracted from the total cost">Total Discount</label>
                                         <div class="input-group mb-3 w-100">
-                                            <input type="number" readonly="true" id="room-subtract" name="room_subtract" class="form-control" value="{{booking.transaction.totalDiscount}}">
+                                            <input class="form-control" type="number" readonly="true" id="room-subtract" name="room_subtract" value="{{booking.transaction.totalDiscount}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -330,7 +330,7 @@
                                     <div class="form-group mb-3 text-primary">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Total extra additional charges that would be added to the cost">Total Extra Charges</label>
                                         <div class="input-group mb-3 w-100">
-                                            <input type="number" readonly="true" id="room-total-extra" name="room_total_extra" class="form-control" value="{{booking.transaction.totalCharges}}">
+                                            <input class="form-control" type="number" readonly="true" id="room-total-extra" name="room_total_extra" value="{{booking.transaction.totalCharges}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -345,7 +345,7 @@
                                     <div class="form-group mb-3 text-end text-primary">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Total cost after the extra charges and discounts were applied">Total Cost</label>
                                         <div class="input-group mb-3 w-100 ms-auto">
-                                            <input type="number" readonly="true" id="room-net-cost" name="room_net_cost" class="form-control" value="{{booking.transaction.netCost}}">
+                                            <input class="form-control" type="number" readonly="true" id="room-net-cost" name="room_net_cost" value="{{booking.transaction.netCost}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -355,7 +355,7 @@
                                     <div class="form-group mb-3 text-end text-primary mt-5">
                                         <label class="h5" data-bs-toggle="tooltip" data-bs-placement="right" title="Amount that the customer has paid"><span class="text-danger">* </span>Customer Payment</label>
                                         <div class="input-group mb-3 w-100 ms-auto">
-                                            <input type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" class="form-control" value="{{booking.transaction.payment}}">
+                                            <input class="form-control" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="room-payment" name="room_payment" value="{{booking.transaction.payment}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                         <em><p class="error text-danger" id="room-payment-error"></p></em>
@@ -365,7 +365,7 @@
                                     <div class="form-group mb-3 text-end text-primary">
                                         <label class="h5">Remaining Balance</label>
                                         <div class="input-group mb-3 w-100 ms-auto">
-                                            <input type="number" readonly="true" id="room-balance" name="room_balance" class="form-control" value="{{booking.transaction.balance}}">
+                                            <input class="form-control" type="number" readonly="true" id="room-balance" name="room_balance" value="{{booking.transaction.balance}}">
                                             <span class="input-group-text">Php</span>
                                         </div>
                                     </div>
@@ -378,7 +378,7 @@
                     <div class="d-flex flex-row-reverse mt-3">
                         <!-- RESERVE-->
                         <!-- Button trigger modal -->
-                        <button id="book" type="button" class="btn btn-primary mb-4 me-5 mt-2 w-25">
+                        <button class="btn btn-primary mb-4 me-5 mt-2 w-25" id="book" type="button">
                             Edit
                         </button>
                         <!-- Modal -->
@@ -387,7 +387,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="bookModalLabel">Edit Booking</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body px-4 pt-3 pb-0">
                                         <p class="text-danger mb-0">WARNING: Changes cannot be undone once the <strong>Confirm</strong> button has been pressed.</p>
@@ -420,7 +420,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
+                                        <button class="btn btn-primary" id="submit" type="submit" data-bs-dismiss="modal"><span class="material-icons-outlined me-1">done</span>Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -428,7 +428,7 @@
 
                         <!-- RETURN -->
                         <!-- Button trigger modal -->
-                        <button id="return" type="button" class="btn btn-secondary mb-4 me-5 mt-2 w-25" data-bs-toggle="modal" data-bs-target="#returnModal">
+                        <button class="btn btn-secondary mb-4 me-5 mt-2 w-25" id="return" type="button" data-bs-toggle="modal" data-bs-target="#returnModal">
                             Return
                         </button>
                         <!-- Modal -->
