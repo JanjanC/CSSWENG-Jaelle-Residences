@@ -6,16 +6,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-nowrap">
+                <!--ROOM MANAGEMENT REDIRECT BUTTON-->
                 <li class="nav-item">
-                    <!--TODO: TODAY ROOM MANAGEMENT-->
                     <a href="/management/" class="nav-link rounded-pill px-3" id="nav-room" aria-current="page">Room Management</a>
                 </li>
+                <!--CALENDAR REDIRECT BUTTON-->
                 <li class="nav-item">
                     <a href="/calendar/{{getCurrentMonthYear}}" class="nav-link rounded-pill px-3" id="nav-calendar">Calendar</a>
                 </li>
             </ul>
 
             <ul class="navbar-nav mb-2 mb-lg-0 text-nowrap">
+                <!--ADDITIONAL INFO POP OVER-->
                 <li>
                     <button type="button" class="btn nav-link rounded-circle px-3" id="help-sidebar"data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="hover" title="<h4 class='m-0 p-2 text-center'>HELP INFORMATION</h4>"
                         data-bs-content="
@@ -32,6 +34,7 @@
                         <span class="material-icons-outlined md-36">info</span>
                     </button>
                 </li>
+                <!--USERNAME DROPDOWN-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle rounded-pill px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{username}}
