@@ -28,7 +28,7 @@
 
 		<!--COLUMN FOR MAIN-->
 		<div class="col-10 mx-auto" id="main-screen">
-			<!--CONTAINER FOR MAIN room-->
+			<!--CONTAINER FOR MAIN-->
 			<div class="container shadow-lg bg-light p-4" id="container-screen">
 				<div class="d-flex pt-2 ps-2 m-0 align-items-center">
 					<h1 class="m-0">BOOKING</h1>
@@ -41,14 +41,16 @@
 						</form>
 					</div>
 
-
 					<div class="d-flex flex-column ms-4 me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" id="chosen-date" onclick="window.location='/calendar/{{getMonthYear date}}'">
                         <span class="material-icons-two-tone md-36 mb-2">today</span>
                         <h5 class="m-0">Chosen Date</h5>
                         <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
                     </div>
 				</div>
+
 				<hr>
+
+				<!--LEGEND-->
 				<div class="d-flex justify-content-end align-items-center me-3">
 					<span class="text-secondary h5 me-2">LEGEND:</span>
 					<span class="legend occupied h5 rounded-pill border p-2 me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently being occupied by a customer">Occupied</span>
@@ -57,18 +59,18 @@
 					<span class="legend unavailable h5 label rounded-pill border p-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The room is currently unavailable for booking">Unavailable</span>
 				</div>
 
-				<!--ROOM ARRAY HERE-->
+				<!--ROOM ARRAY IN TILES-->
 				<div class="row m-3">
 					{{#each list}}
 					{{#if booking.checkedIn}}
 					<!--OCCUPIED-->
 					<div class="room-container col-2 p-0 m-0 border occupied">
+						<!--BUTTON TRIGGER FOR "THIS" ROOM TILE-->
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
-
-						<!-- Modal -->
+						<!--ROOM MODAL-->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-xl">
 								<div class="modal-content">
@@ -136,6 +138,7 @@
 										</div>
 									</div>
 									<div class="modal-footer">
+										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 									</div>
 								</div>
@@ -147,12 +150,12 @@
 					{{else if booking.booked}}
 					<!--BOOKED-->
 					<div class="room-container col-2 p-0 m-0 border booked">
+						<!--"THIS" ROOM BUTTON TRIGGER MODAL/DIALOG-->
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
-
-						<!-- Modal -->
+						<!--ROOM MODAL-->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-xl">
 								<div class="modal-content">
@@ -221,21 +224,21 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<!-- Delete Form -->
-										<!-- Button trigger modal -->
+										<!--DELETE BUTTON TRIGGER MODAL/DIALOG-->
 										<button class="btn btn-danger rounded me-auto ms-2" id="delete-{{room._id}}" name="delete_{{room._id}}" type="button" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
 											<span class="material-icons-outlined me-1">delete</span>Delete
 										</button>
-
+										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<!--PRINT ROOM CARD DETAILS-->
 										<a href="/booking/{{booking._id}}/print" class="print-link btn btn-primary"><span class="material-icons-outlined me-1">print</span>Print Receipt</a>
+										<!--EDIT ROOM DETAILS-->
 										<a href="/booking/{{booking._id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
-
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- Modal -->
+						<!--DELETE MODAL-->
 						<div class="modal fade deleteModalItem" id="delete-{{room._id}}-Modal" tabindex="-1" aria-labelledby="delete-{{room._id}}-ModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
@@ -248,7 +251,9 @@
 										<p>Are you sure you want to <strong>permanently delete</strong> this booking with the following information?</p>
 									</div>
 									<div class="modal-footer">
+										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Return</button>
+										<!--DELETE "THIS" ROOM CARD BUTTON-->
 										<form class="m-0 p-1" id="form-delete-{{room._id}}" action="/booking/{{booking._id}}/delete" method="post">
 											<button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
 										</form>
@@ -258,14 +263,16 @@
 						</div>
 					</div>
 					<!--BOOKED END-->
+
 					{{else if booking.unavailable}}
 					<!--UNAVAILABLE-->
 					<div class="room-container col-2 p-0 m-0 border unavailable">
+						<!--"THIS" ROOM BUTTON TRIGGER MODAL/DIALOG-->
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
-						<!-- Modal -->
+						<!--ROOM MODAL-->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
@@ -282,6 +289,7 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 									</div>
 								</div>
@@ -289,14 +297,16 @@
 						</div>
 					</div>
 					<!--UNAVAILABLE END-->
+
 					{{else}}
 					<!--VACANT-->
 					<div class="room-container col-2 p-0 m-0 border vacant">
+						<!--"THIS" ROOM BUTTON TRIGGER MODAL/DIALOG-->
 						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
-						<!-- Modal -->
+						<!--ROOM MODAL-->
 						<div class="modal fade" id="room-{{room._id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content">
@@ -313,8 +323,10 @@
 										<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-rate">{{room.room_rate.daily}} Php/Day</span></h5>
 									</div>
 									<div class="modal-footer">
+										<!--CLOSE MODAL/DIALOG-->
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										{{#isNotPastDate ../date}}
+										<!--IF WITHIN VALID DATE: BOOK ROOM-->
 											<a href="{{room._id}}/create" class="btn btn-primary"><span class="material-icons-outlined me-1">library_add</span>Book</a>
 										{{/isNotPastDate}}
 									</div>
@@ -324,17 +336,10 @@
 					</div>
 					<!--VACANT END-->
 					{{/if}}
-
-
-
 					{{/each}}
 				</div>
-
 			</div>
 		</div>
 	</div>
-
-
-
 </body>
 </html>
