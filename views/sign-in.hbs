@@ -16,21 +16,21 @@
         <title>Jaelle Residences Management System</title>
     </head>
     <body>
-        <div id="container-screen" class="container shadow-lg bg-light p-4 d-flex flex-column justify-content-center">
+        <div class="container shadow-lg bg-light p-4 d-flex flex-column justify-content-center" id="container-screen">
             <div class="d-flex flex-column align-items-center justify-content-center">
-                <h1 id="logo-name" class="mb-0">Jaelle Residences</h1>
+                <h1 class="mb-0" id="logo-name">Jaelle Residences</h1>
                 <h3 class="text-primary">Condotel Management System</h3>
                 <!-- Temporary Sign In -->
                 <form class="w-50 mt-5" action="/sign-in" method="POST">
                     <div class="form-group mb-2">
                         <label for="username" class="h4">Username</label>
                         <input type="username" class="form-control" placeholder="Enter Username" id="username" name="username">
-                        <em><p id="error-username" class="text-danger" {{usernameFlag}}>User does not exist</p></em>
+                        <em><p class="text-danger" id="error-username" {{usernameFlag}}>User does not exist</p></em>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="password" class="h4">Password</label>
+                        <label class="h4" for="password">Password</label>
                         <input type="password" class="form-control" placeholder="Enter Password" id="password" name="password">
-                        <em><p id="error-password" class="text-danger" {{passwordFlag}}>Incorrect password</p></em>
+                        <em><p class="text-danger" id="error-password" {{passwordFlag}}>Incorrect password</p></em>
                     </div>
 
                     <button type="submit" class="btn btn-primary mt-2 rounded-pill" id="signinbtn" disabled="disabled">Sign In</button>
