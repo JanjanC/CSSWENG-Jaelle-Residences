@@ -27,12 +27,12 @@
 		{{>sidebar}}
 
 		<!--COLUMN FOR MAIN-->
-		<div id="main-screen" class="col-10 mx-auto">
+		<div class="col-10 mx-auto" id="main-screen">
 			<!--CONTAINER FOR MAIN room-->
-			<div id="container-screen" class="container shadow-lg bg-light p-4">
+			<div class="container shadow-lg bg-light p-4" id="container-screen">
 				<div class="d-flex pt-2 ps-2 m-0 align-items-center">
 					<h1 class="m-0">BOOKING</h1>
-					<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where bookings are created, edited, and managed corresponding the current date chosen.</p>
+					<p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where bookings are created, edited, and managed corresponding the current date chosen.</p>
 					<!--FOR TIME INPUT-->
 					<div class="ms-auto d-flex flex-column align-items-end w-25">
 						<form class="d-flex flex-column form-group justify-content-center align-items-center w-50" action="" method="get">
@@ -42,7 +42,7 @@
 					</div>
 
 
-					<div id="chosen-date" class="d-flex flex-column ms-4 me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" onclick="window.location='/calendar/{{getMonthYear date}}'">
+					<div class="d-flex flex-column ms-4 me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" id="chosen-date" onclick="window.location='/calendar/{{getMonthYear date}}'">
                         <span class="material-icons-two-tone md-36 mb-2">today</span>
                         <h5 class="m-0">Chosen Date</h5>
                         <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
@@ -58,12 +58,12 @@
 				</div>
 
 				<!--ROOM ARRAY HERE-->
-				<div id="" class="row m-3">
+				<div class="row m-3">
 					{{#each list}}
 					{{#if booking.checkedIn}}
 					<!--OCCUPIED-->
 					<div class="room-container col-2 p-0 m-0 border occupied">
-						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
+						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
@@ -92,7 +92,7 @@
 											<!--Guest information-->
 											<div class="col ps-4 border-end">
 												<h4>Guest Name:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-firstname" class="text-break">{{booking.guest.firstName}}</span> <span id="room-lastname-id">{{booking.guest.lastName}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-firstname">{{booking.guest.firstName}}</span> <span id="room-lastname-id">{{booking.guest.lastName}}</span></h5>
 												<!-- Optional Fields -->
 												{{#if booking.guest.birthdate}}
 												<h4>Birthdate:</h4>
@@ -100,7 +100,7 @@
 												{{/if}}
 												{{#if booking.guest.address}}
 												<h4>Address:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-address" class="text-break">{{booking.guest.address}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-address">{{booking.guest.address}}</span></h5>
 												{{/if}}
 												{{#if booking.guest.contact}}
 												<h4>Contact Number:</h4>
@@ -108,7 +108,7 @@
 												{{/if}}
 												{{#if booking.guest.company}}
 												<h4>Company Name:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-company" class="text-break">{{booking.guest.company}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-company">{{booking.guest.company}}</span></h5>
 												{{/if}}
 												{{#if booking.guest.occupation}}
 												<h4>Occupation:</h4>
@@ -119,19 +119,19 @@
 											<!--Transaction information-->
 											<div class="col ps-4">
 												<h4>Number of Guests:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.transaction.pax}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-pax">{{booking.transaction.pax}}</span></h5>
 												{{#if booking.transaction.totalDiscount}}
 												<h4>Discount:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{roundNumber booking.transaction.totalDiscount}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-discount">{{roundNumber booking.transaction.totalDiscount}}</span></h5>
 												{{/if}}
 												{{#if booking.transaction.totalCharges}}
 												<h4>Extra Charges:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{roundNumber booking.transaction.totalCharges}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-charges">{{roundNumber booking.transaction.totalCharges}}</span></h5>
 												{{/if}}
 												<h4>Total Cost:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{roundNumber booking.transaction.netCost}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-total-cost">{{roundNumber booking.transaction.netCost}}</span></h5>
 												<h4>Customer Payment:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{roundNumber booking.transaction.payment}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-payment">{{roundNumber booking.transaction.payment}}</span></h5>
 											</div>
 										</div>
 									</div>
@@ -147,7 +147,7 @@
 					{{else if booking.booked}}
 					<!--BOOKED-->
 					<div class="room-container col-2 p-0 m-0 border booked">
-						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
+						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center room-number">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
@@ -177,7 +177,7 @@
 											<!--Guest information-->
 											<div class="col ps-4">
 												<h4>Guest Name:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-firstname" class="text-break">{{booking.guest.firstName}}</span> <span id="room-lastname-id">{{booking.guest.lastName}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-firstname">{{booking.guest.firstName}}</span> <span id="room-lastname-id">{{booking.guest.lastName}}</span></h5>
 												<!-- Optional Fields -->
 												{{#if booking.guest.birthdate}}
 												<h4>Birthdate:</h4>
@@ -185,7 +185,7 @@
 												{{/if}}
 												{{#if booking.guest.address}}
 												<h4>Address:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-address" class="text-break">{{booking.guest.address}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-address">{{booking.guest.address}}</span></h5>
 												{{/if}}
 												{{#if booking.guest.contact}}
 												<h4>Contact Number:</h4>
@@ -193,7 +193,7 @@
 												{{/if}}
 												{{#if booking.guest.company}}
 												<h4>Company Name:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-company" class="text-break">{{booking.guest.company}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-company">{{booking.guest.company}}</span></h5>
 												{{/if}}
 												{{#if booking.guest.occupation}}
 												<h4>Occupation:</h4>
@@ -204,29 +204,29 @@
 											<!--Transaction information-->
 											<div class="col ps-4">
 												<h4>Number of Guests:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-pax" class="text-break">{{booking.transaction.pax}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-pax">{{booking.transaction.pax}}</span></h5>
 												{{#if booking.transaction.totalDiscount}}
 												<h4>Discount:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-discount" class="text-break">{{roundNumber booking.transaction.totalDiscount}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-discount">{{roundNumber booking.transaction.totalDiscount}}</span></h5>
 												{{/if}}
 												{{#if booking.transaction.totalCharges}}
 												<h4>Extra Charges:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-charges" class="text-break">{{roundNumber booking.transaction.totalCharges}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-charges">{{roundNumber booking.transaction.totalCharges}}</span></h5>
 												{{/if}}
 												<h4>Total Cost:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-total-cost" class="text-break">{{roundNumber booking.transaction.netCost}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-total-cost">{{roundNumber booking.transaction.netCost}}</span></h5>
 												<h4>Customer Payment:</h4>
-												<h5 class="ms-4 text-secondary room-field"><span id="room-{{room._id}}-payment" class="text-break">{{roundNumber booking.transaction.payment}}</span></h5>
+												<h5 class="ms-4 text-secondary room-field"><span class="text-break" id="room-{{room._id}}-payment">{{roundNumber booking.transaction.payment}}</span></h5>
 											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
 										<!-- Delete Form -->
 										<!-- Button trigger modal -->
-										<button id="delete-{{room._id}}" name="delete_{{room._id}}" type="button" class="btn btn-danger rounded me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
+										<button class="btn btn-danger rounded me-auto ms-2" id="delete-{{room._id}}" name="delete_{{room._id}}" type="button" data-bs-toggle="modal" data-bs-target="#delete-{{room._id}}-Modal">
 											<span class="material-icons-outlined me-1">delete</span>Delete
 										</button>
-										
+
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 										<a href="/booking/{{booking._id}}/print" class="print-link btn btn-primary"><span class="material-icons-outlined me-1">print</span>Print Receipt</a>
 										<a href="/booking/{{booking._id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
@@ -249,7 +249,7 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Return</button>
-										<form id="form-delete-{{room._id}}" class="m-0 p-1" action="/booking/{{booking._id}}/delete" method="post">
+										<form class="m-0 p-1" id="form-delete-{{room._id}}" action="/booking/{{booking._id}}/delete" method="post">
 											<button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
 										</form>
 									</div>
@@ -261,7 +261,7 @@
 					{{else if booking.unavailable}}
 					<!--UNAVAILABLE-->
 					<div class="room-container col-2 p-0 m-0 border unavailable">
-						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
+						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
@@ -271,7 +271,7 @@
 								<div class="modal-content">
 									<div class="modal-header unavailable">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<h4>Room Status:</h4>
@@ -292,7 +292,7 @@
 					{{else}}
 					<!--VACANT-->
 					<div class="room-container col-2 p-0 m-0 border vacant">
-						<button id="room-{{room._id}}-id" type="button" class="btn w-100 h-100" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
+						<button class="btn w-100 h-100" id="room-{{room._id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#room-{{room._id}}-modal">
 							<h3 class="text-center">{{room.room_number}}</h3>
 							{{room.room_type}}
 						</button>
@@ -302,7 +302,7 @@
 								<div class="modal-content">
 									<div class="modal-header vacant">
 										<h3 class="modal-title" id="reserveItemModalLabel">Room {{room.room_number}} Information</h3>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body px-4 pt-3 pb-4">
 										<h4>Room Status:</h4>
