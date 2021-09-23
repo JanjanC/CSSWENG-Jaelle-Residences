@@ -21,8 +21,8 @@
 
     {{>navbar}}
 
+    <!--MAIN SCREEN-->
     <div class="row w-100 m-0 h-100">
-
         <div class="col-10 mx-auto" id="main-screen">
             <div class="container shadow-lg bg-light p-4" id="container-screen">
                 <div class="d-flex pt-2 ps-2 m-0 mb-3 align-items-center">
@@ -32,11 +32,14 @@
 
                 <br>
 
+            <!--MAIN BOOKING FORM-->
             <form id="form-submit" action="/management/{{room._id}}/checkin/vacant/reservation" method="post">
 
+                <!--RESERVATION TO BOOKING SECTION-->
                 <div class="ps-2">
                     <h2 class="ms-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">group_add</span>Add From Reservation</h2>
                     <p class="w-50 text-secondary ms-4" id="screen-info">(Optional) if the guest has a prior reservation, you may choose their reservation in order to automatically fill up parts of the form.</p>
+                    <!--RESERVATION DROPDOWN; Reservations appearing are dependent on the specified date and time of check-in-->
                     <div class="form-group ms-4 mb-3">
                         <select class="form-select form-control w-50" id="reservation_select" name="reservation_select">
                             <option value="" hidden selected>(Optional) Select a reservation</option>
@@ -48,7 +51,7 @@
                     <h2 class="ms-3 mt-5 mb-3 text-primary"><span class="material-icons-outlined text-primary md-36 me-1">event_note</span>Create New Guest Check-in</h2>
                 </div>
 
-                <!--ROW-->
+                <!--ROOM AND GUEST DETAILS ROW-->
                 <div class="row justify-content-center py-2">
                     <!-- COLUMN 1: Room Details -->
                     <div class="col-5 me-3 border p-4 pt-2 rounded">
@@ -87,62 +90,63 @@
                         </div>
                     </div>
 
-                <!--COLUMN 2: Customer Details-->
-                <div class="col-6 border p-4 pt-2 rounded">
-                    <!--CUSTOMER INFO-->
-                    <div class="mb-4" id="customer-info">
-                        <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
+                    <!--COLUMN 2: Customer Details-->
+                    <div class="col-6 border p-4 pt-2 rounded">
 
-                        <!--First Name-->
-                        <div class="form-group">
-                            <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
-                            <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
-                            <em><p class="error text-danger" id="firstname-error"></p></em>
-                        </div>
+                        <!--CUSTOMER INFO-->
+                        <div class="mb-4" id="customer-info">
+                            <h3 class="pb-2 ps-2 pt-2 border-bottom mb-3"><span class="material-icons-two-tone md-36 me-2">person</span>Customer Details</h3>
 
-                        <!--Last Name-->
-                        <div class="form-group">
-                            <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
-                            <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
-                            <em><p class="error text-danger" id="lastname-error"></p></em>
-                        </div>
+                            <!--First Name-->
+                            <div class="form-group">
+                                <label class="h5 d-block">First Name<span class="text-danger">*</span></label>
+                                <input class="form-control w-50" type="text" placeholder="Enter First Name" id="firstname" name="firstname">
+                                <em><p class="error text-danger" id="firstname-error"></p></em>
+                            </div>
 
-                        <!--OPTIONAL FIELDS BELOW-->
-                        <hr>
+                            <!--Last Name-->
+                            <div class="form-group">
+                                <label class="h5 d-block">Last Name<span class="text-danger">*</span></label>
+                                <input class="form-control w-50" type="text" placeholder="Enter Last Name" id="lastname" name="lastname">
+                                <em><p class="error text-danger" id="lastname-error"></p></em>
+                            </div>
+                            
+                            <hr>
 
-                        <!--Birthday-->
-                        <div class="form-group">
-                            <label class="h5 d-block">Birthdate</label>
-                            <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
-                            <em><p class="error text-danger" id="birthdate-error"></p></em>
-                        </div>
+                            <!--OPTIONAL FIELDS BELOW-->
+                            <!--Birthday-->
+                            <div class="form-group">
+                                <label class="h5 d-block">Birthdate</label>
+                                <input class="form-control w-50" type="text" onkeydown="return false" placeholder="(Optional) Enter Birthdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthdate" name="birthdate">
+                                <em><p class="error text-danger" id="birthdate-error"></p></em>
+                            </div>
 
-                        <!--Address-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Address</label>
-                            <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3"></textarea>
-                        </div>
+                            <!--Address-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Address</label>
+                                <textarea class="form-control w-75" placeholder="(Optional) Enter Address" id="address" name="address" rows="3"></textarea>
+                            </div>
 
-                        <!--Contact No.-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Mobile No.</label>
-                            <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Mobile Number - 09XXXXXXXXX" id="contact" name="contact">
-                            <em><p class="error text-danger" id="contact-error"></p></em>
-                        </div>
+                            <!--Contact No.-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Mobile No.</label>
+                                <input class="form-control w-75" type="number" onkeydown="return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" placeholder="(Optional) Enter Mobile Number - 09XXXXXXXXX" id="contact" name="contact">
+                                <em><p class="error text-danger" id="contact-error"></p></em>
+                            </div>
 
-                        <!--Company's Name-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Company Name</label>
-                            <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company">
-                        </div>
+                            <!--Company's Name-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Company Name</label>
+                                <input class="form-control w-75" type="text" placeholder="(Optional) Enter Company Name" id="company" name="company">
+                            </div>
 
-                        <!--Occupation-->
-                        <div class="form-group mb-3">
-                            <label class="h5 d-block">Occupation</label>
-                            <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation">
+                            <!--Occupation-->
+                            <div class="form-group mb-3">
+                                <label class="h5 d-block">Occupation</label>
+                                <input class="form-control w-50" type="text" placeholder="(Optional) Enter Occupation" id="occupation" name="occupation">
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 <!--TRANSACTION-->
                 <div class="col-11 border p-5 pt-3 pb-3 mt-3 rounded">
