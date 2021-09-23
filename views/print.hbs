@@ -21,8 +21,11 @@
   </head>
   <body>
     <div class="p-3">
+        <!--RECEIPT HEADER-->
         <h5 class="text-center mb-2">Welcome to Jaelle Residences</h5>
         <p class="text-center text-value" id="receipt-message">We hope to serve you well</p>
+
+        <!--RECEIPT INFO AND BREAKDOWN-->
         <div class="pb-2 mb-3 border-bottom">
             <h6 class="text-secondary mb-1">Guest: <span class="text-value">{{guest}}</span></h6>
             <h6 class="text-secondary mb-1">Check-in Date: <span class="text-value">{{checkin}}</span></h6>
@@ -51,6 +54,7 @@
         </div>
         {{/if}}
 
+        <!--RECEIPT TOTAL-->
         <div class="ps-2 mb-3">
             <h6 class="text-secondary mb-1">Total Discount:</h6>
             <p class="text-value mb-1 ms-2">{{totalDiscount}} Php</p>
@@ -62,10 +66,9 @@
             <p class="text-value mb-1 ms-2">{{change}} Php</p>
         </div>
         <div class="d-flex align-items-center justify-content-evenly">
-            {{!-- <button type="button" class="btn btn-primary rounded-pill" id="print-test">new window</button> --}}
+            <!--PRINT BUTTON-->
             <button type="button" class="btn btn-primary rounded-pill" id="print-it">print</button>
         </div>
     </div>
-
   </body>
 </html>
