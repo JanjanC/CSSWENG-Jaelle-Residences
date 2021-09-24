@@ -1,10 +1,13 @@
-<div id="sidebar" class="col-2 p-0 shadow-sm">
-    <div id="sidebar-list" class="list-group position-fixed h-100">
-        <a href="/{{formatDate date}}/booking/" id="booking-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 d-flex flex-column align-items-center">
+<!--SIDEBAR-->
+<div class="col-2 p-0 shadow-sm" id="sidebar">
+    <div class="list-group position-fixed h-100" id="sidebar-list">
+        <!--BOOKING REDIRECT BUTTON-->
+        <a href="/{{formatDate date}}/booking/" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 d-flex flex-column align-items-center" id="booking-sidebar">
             <span class="material-icons-outlined md-48 mb-2">book</span>
             <h2 class="m-0 text-center">Booking</h2>
         </a>
-        <a href="/{{formatDate date}}/reservation/" id="reservation-sidebar" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 d-flex flex-column align-items-center">
+        <!--RESERVATION REDIRECT BUTTON-->
+        <a href="/{{formatDate date}}/reservation/" class="list-group-item list-group-item-action rounded-0 sidebar-item p-5 d-flex flex-column align-items-center" id="reservation-sidebar">
             <span class="material-icons-outlined md-48 mb-2">event_note</span>
             <h2 class="m-0 text-center">Reservation</h2>
         </a>

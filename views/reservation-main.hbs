@@ -1,158 +1,162 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
-    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
-    <link rel="stylesheet" type="text/css" href="/css/reservation-main.css">
-    <link rel="stylesheet" type="text/css" href="/css/material.css">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/css/sanitize.css">
+        <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+        <link rel="stylesheet" type="text/css" href="/css/reservation-main.css">
+        <link rel="stylesheet" type="text/css" href="/css/material.css">
 
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
-    <script type="text/javascript" src="/js/reservation-main.js"></script>
-    <script type="text/javascript" src="/js/help.js"></script>
-    <script>if (window.module) module = window.module;</script>
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+        <script type="text/javascript" src="/js/reservation-main.js"></script>
+        <script type="text/javascript" src="/js/help.js"></script>
+        <script>if (window.module) module = window.module;</script>
 
-    <title>Jaelle Residences Management System</title>
-</head>
-<body>
+        <title>Jaelle Residences Management System</title>
+    </head>
+    <body>
 
-    <!--NAVBAR-->
-    {{>navbar}}
+        <!--NAVBAR-->
+        {{>navbar}}
 
-    <!--MAIN ROW-->
-    <div class="row w-100 m-0 h-100">
-        <!--COLUMN FOR SIDEBAR-->
-        {{>sidebar}}
+        <!--MAIN ROW-->
+        <div class="row w-100 m-0 h-100">
+            <!--COLUMN FOR SIDEBAR-->
+            {{>sidebar}}
 
-        <!--COLUMN FOR MAIN-->
-        <div class="col-10 mx-auto">
-            <!--CONTAINER FOR MAIN RESERVATION-->
-            <div id="container-screen" class="container shadow-lg bg-light p-4">
-                <div class="d-flex pt-2 ps-2 m-0 align-items-center">
-                    <h1 class="m-0">RESERVATION</h1>
-                    {{#isNotPastDate date}}
-                    <a href="create" id="submit" name="submit" type="submit" class="btn btn-primary ms-4 rounded-pill align-middle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
-                        <h5 class="p-2 m-0"><span class="material-icons-outlined">queue</span> Create Reservation</h5>
-                    </a>
-                    {{/isNotPastDate}}
-                    <p id="screen-info" class="border-start my-0 ms-4 ps-3 w-25 text-secondary">Where reservations are created, edited, and managed corresponding the current date chosen.</p>
-                    <div id="chosen-date" class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" onclick="window.location='/calendar/{{getMonthYear date}}'">
-                        <span class="material-icons-two-tone md-36 mb-2">today</span>
-                        <h5 class="m-0">Chosen Date</h5>
-                        <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
-                    </div>
-
-                </div>
-                <hr>
-                <div class="row px-4 py-3 d-flex justify-content-center">
-                    {{#each list}}
-                    <div class="col-3 border mx-3 px-0 pb-2 mb-5 rounded reservation-list shadow-sm">
-                        <h4 id="{{bookedType}}" class="p-3 m-0 text-center text-break room-type-label">{{bookedType}}</h4>
-                        <!-- Room Item -->
-                        <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
-                            <div class="flex-grow-1 px-3 pb-3">
-                                <!-- Button trigger modal -->
-                                {{#each reservations}}
-                                <button id="reservation-{{_id}}-id" type="button" class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
-                                    <h5><span id="reservation-{{_id}}-firstname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.firstName}}</span> <span id="reservation-{{_id}}-lastname-label-id" class="fa fa-pencil" aria-hidden="true">{{guest.lastName}}</span></h5>
-                                    <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate startDate}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate endDate}}</span></h6>
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title" id="reserveItemModalLabel">Reservation Information</h3>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body px-4 pt-3 pb-4">
-                                                <div class="row">
-                                                    <!--Room information-->
-                                                    <div class="col pe-0 border-end">
-                                                        <h4>Room Type:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-type">{{bookedType}}</span></h5>
-                                                        <h4>Reservation Date:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-startdate">{{beautifyDate startDate}}</span> to <span id="reservation-enddate-id">{{beautifyDate endDate}}</span></h5>
-                                                    </div>
-                                                    <!--Guest information-->
-                                                    <div class="col ps-4">
-                                                        <h4>Guest Name:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-firstname" class="text-break">{{guest.firstName}}</span> <span id="reservation-lastname-id">{{guest.lastName}}</span></h5>
-                                                        <!-- Optional Fields -->
-                                                        {{#if guest.birthdate}}
-                                                        <h4>Birthdate:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
-                                                        {{/if}}
-                                                        {{#if guest.address}}
-                                                        <h4>Address:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-address" class="text-break">{{guest.address}}</span></h5>
-                                                        {{/if}}
-                                                        {{#if guest.contact}}
-                                                        <h4>Contact Number:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-contact">{{guest.contact}}</span></h5>
-                                                        {{/if}}
-                                                        {{#if guest.company}}
-                                                        <h4>Company Name:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-company" class="text-break">{{guest.company}}</span></h5>
-                                                        {{/if}}
-                                                        {{#if guest.occupation}}
-                                                        <h4>Occupation:</h4>
-                                                        <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-occupation">{{guest.occupation}}</span></h5>
-                                                        {{/if}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <!-- Delete modal -->
-                                                <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{_id}}-Modal">
-                                                    <span class="material-icons-outlined me-1">delete</span>Delete
-                                                </button>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                {{#isNotPastDate endDate}}
-                                                <a href="/reservation/{{_id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
-                                                {{/isNotPastDate}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modal -->
-                                <div class="modal deleteModalItem fade" id="delete-{{_id}}-Modal" tabindex="-1" aria-labelledby="delete-{{_id}}-ModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="delete-{{_id}}-ModalLabel">Delete Reservation</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="text-danger">WARNING: Changes cannot be undone once the <strong>DELETE</strong> button has been pressed.</p>
-                                                <p>Are you sure you want to <strong>permanently delete</strong> this reservation with the following information?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <!--Delete Form-->
-                                                <form id="form-delete" action="/reservation/{{_id}}/delete" method="post">
-                                                    <button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{/each}}
-                            </div>
+            <!--COLUMN FOR MAIN-->
+            <div class="col-10 mx-auto">
+                <!--CONTAINER FOR MAIN RESERVATION-->
+                <div class="container shadow-lg bg-light p-4" id="container-screen">
+                    <div class="d-flex pt-2 ps-2 m-0 align-items-center">
+                        <h1 class="m-0">RESERVATION</h1>
+                        {{#isNotPastDate date}}
+                        <a class="btn btn-primary ms-4 rounded-pill align-middle" href="create" id="submit" name="submit" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Proceeds to page for accomplishing a reservation form">
+                            <h5 class="p-2 m-0"><span class="material-icons-outlined">queue</span> Create Reservation</h5>
+                        </a>
+                        {{/isNotPastDate}}
+                        <p class="border-start my-0 ms-4 ps-3 w-25 text-secondary" id="screen-info">Where reservations are created, edited, and managed corresponding the current date chosen.</p>
+                        <!--FOR TIME INPUT-->
+                        <div class="d-flex flex-column ms-auto me-3 justfy-content-center align-items-center text-center rounded border p-3 shadow-sm" id="chosen-date" onclick="window.location='/calendar/{{getMonthYear date}}'">
+                            <span class="material-icons-two-tone md-36 mb-2">today</span>
+                            <h5 class="m-0">Chosen Date</h5>
+                            <h4 class="text-primary m-0">{{beautifyDate date}}</h4>
                         </div>
                     </div>
-                    {{else}}
-                    <!--TODO: FIX THIS, INADD KO LANG ITO INCASE NA WALANG RESERVATION FOR THE DAY-->
-                    <h4 class="m-0 p-0 text-secondary text-center">No reservations today</h4>
-                    {{/each}}
+
+                    <hr>
+
+                    <!--RESERVATION ARRAY IN CARDS-->
+                    <div class="row px-4 py-3 d-flex justify-content-center">
+                        {{#each list}}
+                        <div class="col-3 border mx-3 px-0 pb-2 mb-5 rounded reservation-list shadow-sm">
+                            <h4 class="p-3 m-0 text-center text-break room-type-label" id="{{bookedType}}">{{bookedType}}</h4>
+                            <!-- RESERVATION ROOM ITEM -->
+                            <div class="d-flex position-relative ml-0 mr-0 mb-2 reservation-list-container">
+                                <div class="flex-grow-1 px-3 pb-3">
+                                    <!--BUTTON TRIGGER FOR "THIS" RESERVATION ITEM-->
+                                    {{#each reservations}}
+                                    <button class="btn w-100 text-start p-3 border mb-2 rounded-0 shadow-sm reservation-item overflow-auto" id="reservation-{{_id}}-id" type="button" data-bs-toggle="modal" data-bs-target="#reservation-{{_id}}-modal">
+                                        <h5><span class="fa fa-pencil" id="reservation-{{_id}}-firstname-label-id" aria-hidden="true">{{guest.firstName}}</span> <span class="fa fa-pencil" id="reservation-{{_id}}-lastname-label-id" aria-hidden="true">{{guest.lastName}}</span></h5>
+                                        <h6 class="text-secondary reservation-field"><span id="reservation-{{_id}}-startdate-label-id">{{beautifyDate startDate}}</span> to <span id="reservation-{{_id}}-enddate-label-id">{{beautifyDate endDate}}</span></h6>
+                                    </button>
+                                    <!-- RESERVATION MODAL -->
+                                    <div class="modal fade" id="reservation-{{_id}}-modal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title" id="reserveItemModalLabel">Reservation Information</h3>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body px-4 pt-3 pb-4">
+                                                    <div class="row">
+                                                        <!--Room information-->
+                                                        <div class="col pe-0 border-end">
+                                                            <h4>Room Type:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-type">{{bookedType}}</span></h5>
+                                                            <h4>Reservation Date:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-startdate">{{beautifyDate startDate}}</span> to <span id="reservation-enddate-id">{{beautifyDate endDate}}</span></h5>
+                                                        </div>
+                                                        <!--Guest information-->
+                                                        <div class="col ps-4">
+                                                            <h4>Guest Name:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span class="text-break" id="reservation-{{_id}}-firstname">{{guest.firstName}}</span> <span id="reservation-lastname-id">{{guest.lastName}}</span></h5>
+                                                            <!-- Optional Fields -->
+                                                            {{#if guest.birthdate}}
+                                                            <h4>Birthdate:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-birthdate">{{beautifyDate guest.birthdate}}</span></h5>
+                                                            {{/if}}
+                                                            {{#if guest.address}}
+                                                            <h4>Address:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span class="text-break" id="reservation-{{_id}}-address">{{guest.address}}</span></h5>
+                                                            {{/if}}
+                                                            {{#if guest.contact}}
+                                                            <h4>Contact Number:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-contact">{{guest.contact}}</span></h5>
+                                                            {{/if}}
+                                                            {{#if guest.company}}
+                                                            <h4>Company Name:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span class="text-break" id="reservation-{{_id}}-company">{{guest.company}}</span></h5>
+                                                            {{/if}}
+                                                            {{#if guest.occupation}}
+                                                            <h4>Occupation:</h4>
+                                                            <h5 class="ms-4 text-secondary reservation-field"><span id="reservation-{{_id}}-occupation">{{guest.occupation}}</span></h5>
+                                                            {{/if}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <!--DELETE BUTTON TRIGGER MODAL/DIALOG-->
+                                                    <button type="button" class="btn btn-danger me-auto ms-2" data-bs-toggle="modal" data-bs-target="#delete-{{_id}}-Modal">
+                                                        <span class="material-icons-outlined me-1">delete</span>Delete
+                                                    </button>
+                                                    <!--CLOSE MODAL/DIALOG-->
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <!--EDIT ROOM DETAILS IF WITHIN VALID DATE-->
+                                                    {{#isNotPastDate endDate}}
+                                                    <a href="/reservation/{{_id}}/edit" class="btn btn-primary"><span class="material-icons-outlined me-1">edit</span>Edit</a>
+                                                    {{/isNotPastDate}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--DELETE MODAL-->
+                                    <div class="modal deleteModalItem fade" id="delete-{{_id}}-Modal" tabindex="-1" aria-labelledby="delete-{{_id}}-ModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="delete-{{_id}}-ModalLabel">Delete Reservation</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="text-danger">WARNING: Changes cannot be undone once the <strong>DELETE</strong> button has been pressed.</p>
+                                                    <p>Are you sure you want to <strong>permanently delete</strong> this reservation with the following information?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <!--CLOSE MODAL/DIALOG-->
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <!--DELETE "THIS" RESERVATION ITEM BUTTON-->
+                                                    <form id="form-delete" action="/reservation/{{_id}}/delete" method="post">
+                                                        <button type="submit" class="btn btn-danger"><span class="material-icons-outlined me-1">done</span>Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                        {{else}}
+                        <h4 class="m-0 p-0 text-secondary text-center">No reservations today</h4>
+                        {{/each}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

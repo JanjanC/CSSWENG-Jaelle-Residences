@@ -19,15 +19,15 @@
 	</head>
 	<body>
 		{{>navbar}}
-
+		<!--MAIN SCREEN CONTAINER-->
 		<div class="container shadow-lg p-4">
-
 			<div class="d-flex pt-2 ps-2 mt-2 mb-3 align-items-center">
 				<h1 class="m-0">CALENDAR</h1>
-				<p id="screen-info" class="border-start my-0 ms-4 ps-3 w-50 text-secondary">Where dates to manage booking and reservation for are chosen.<br> <span class="text-primary">Click any of the date tiles to proceed to the booking and reservation of the said date.</span></p>
+				<p class="border-start my-0 ms-4 ps-3 w-50 text-secondary" id="screen-info">Where dates to manage booking and reservation for are chosen.<br> <span class="text-primary">Click any of the date tiles to proceed to the booking and reservation of the said date.</span></p>
 			</div>
-
+			<!--CALENDAR-->
 			<table class="table" id="calendar">
+				<!--CALENDAR MONTH NAVIGATION-->
 				<thead>
 					<tr>
 						<th id="prev-month" data-bs-toggle="tooltip" data-bs-placement="right" title="Previous Month" onclick="window.location.href='/calendar/{{getPrevMonth currMonthYear}}'"><</th>
@@ -35,7 +35,9 @@
 					 	<th id="next-month" data-bs-toggle="tooltip" data-bs-placement="left" title="Next Month" onclick="window.location.href='/calendar/{{getNextMonth currMonthYear}}'">></th>
 					</tr>
 			  	</thead>
+				<!--CALENDAR TILES ARRAY-->
 			  	<tbody>
+					<!--WEEKS LABEL-->
 					<tr>
 						<td class="dofweek">Sunday</td>
 						<td class="dofweek">Monday</td>
