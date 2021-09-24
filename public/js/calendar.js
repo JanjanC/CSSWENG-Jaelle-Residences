@@ -16,7 +16,7 @@ function initializeCalendar () {
 	let curMonth = months[date.getMonth()];
 	//get the current year today
 	let curYear = date.getFullYear();
-
+	
 	//get the current month and year on the calendar
 	let calendarMonth = $('#cal-month').text();
 	let calendarYear =  parseInt($('#cal-year').text());
@@ -28,29 +28,29 @@ function initializeCalendar () {
 
 	//set the styles for each of the cell in the calendar
 	$('#calendar tr').each(function() {
-        for (let i = 0; i < 7; i++) {
+		for (let i = 0; i < 7; i++) {
 
-        	//skips first row in the calendar
-            if ($(this.cells[i]).text() == 'Sunday') {
-            	i = 7
-            }
+			//skips first row in the calendar
+			if ($(this.cells[i]).text() == 'Sunday') {
+				i = 7
+			}
 
-            //adds style for the current date today
-            if (parseInt($(this.cells[i]).text()) == today && curMonth == calendarMonth && curYear == calendarYear) {
-                $(this.cells[i]).addClass('today')
-            }
+			//adds style for the current date today
+			if (parseInt($(this.cells[i]).text()) == today && curMonth == calendarMonth && curYear == calendarYear) {
+				$(this.cells[i]).addClass('today')
+			}
 
-            //adds styles for the days that NOT part of month
-            if($(this.cells[i]).text() == '0') {
-                $(this.cells[i]).text('')
-                $(this.cells[i]).addClass('not-month')
-                $(this.cells[i]).attr("onclick","");
-            }
+			//adds styles for the days that NOT part of month
+			if($(this.cells[i]).text() == '0') {
+				$(this.cells[i]).text('')
+				$(this.cells[i]).addClass('not-month')
+				$(this.cells[i]).attr("onclick","");
+			}
 
-            //adds styles for the day that are part of month
-            else {
-                $(this.cells[i]).addClass('in-month')
-            }
-        }
-    });
+			//adds styles for the day that are part of month
+			else {
+				$(this.cells[i]).addClass('in-month')
+			}
+		}
+	});
 }
