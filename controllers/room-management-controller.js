@@ -13,150 +13,150 @@ const roomManagementController = {
         //get the date today  as the default date in the form of YYYY/MM/DD
         let today = new Date();
         //get the date today  as the default date in the form of YYYY-MM-DD
-		let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+        let dateString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
         //get the time now as the default time in the form of HH:MM:00
         let hourMinuteString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:00`;
         //get the time now as the default time in the form of HH:MM:59
         let fullTimeString = `${today.getHours().toString().padStart(2, 0)}:${(today.getMinutes()).toString().padStart(2, 0)}:59`
 
-		//a time is given as part of the query
-		if (req.query.time !== undefined) {
+        //a time is given as part of the query
+        if (req.query.time !== undefined) {
             //reformat the time in the form of HH:MM:00
             hourMinuteString = `${req.query.time}:00`
             //reformat the time in the form of HH:MM:59
-			fullTimeString = `${req.query.time}:59`;
-		}
+            fullTimeString = `${req.query.time}:59`;
+        }
 
         //form the current date and time by concatening the date and time string
         let date = new Date(`${dateString} ${fullTimeString}`);
 
         //find all the rooms in the database
-		db.findMany(Room, {}, function (roomResult) {
+        db.findMany(Room, {}, function (roomResult) {
 
-			if (roomResult) {
+            if (roomResult) {
                 //an array containg the list of rooms
-				let list = [];
-				//transform the list of rooms into an object so that a booking may be later linked to a room
-				for (let i = 0; i < roomResult.length; i++) {
-					let room = {
-						room: roomResult[i],
-						booking: {}
-					}
-					list.push(room);
-				}
+                let list = [];
+                //transform the list of rooms into an object so that a booking may be later linked to a room
+                for (let i = 0; i < roomResult.length; i++) {
+                    let room = {
+                        room: roomResult[i],
+                        booking: {}
+                    }
+                    list.push(room);
+                }
 
                 //the list of conditions that are to be met in the query
                 let booking = {
-					//the current date is between the start date and end date of the booking, inclusive
-		            startDate: {$lte: date},
-		            endDate: {$gte: date},
+                    //the current date is between the start date and end date of the booking, inclusive
+                    startDate: {$lte: date},
+                    endDate: {$gte: date},
                     //the booking is currently either booked or checked in
-		            $or: [
+                    $or: [
                         //booked
-		            	{booked: true},
+                        {booked: true},
                         //checked in
                         {checkedIn: true}
-					],
+                    ],
                     //the booking is neither checked our nor cancelled
                     checkedOut: false,
-					isCancelled: false,
-		        };
+                    isCancelled: false,
+                };
 
                 //find all the bookings that matches the conditions specified in the booking variable
-				db.findMany(Booking, booking, function (bookingResult) {
-		        	if (bookingResult) {
-						//loop through each booking
-						for (let i = 0; i < bookingResult.length; i++) {
-							//loop through each room
-							for (let j = 0; j < list.length; j++) {
-								//check if the room id of the booking matches the id of the room
-								if (list[j].room._id.toString() == bookingResult[i].room._id.toString()) {
-									//links the room to a booking
-									list[j].booking = bookingResult[i];
-									break;
-								}
-							}
-							//loop through each of the connected rooms in the booking
-							for(let k = 0; k < bookingResult[i].room.connected_rooms.length; k++) {
-								//loop through each room
-								for (let j = 0; j < list.length; j++) {
-									//check if the room id of the connected rooms in the booking matches the id of the room
-									if (list[j].room._id.toString() == bookingResult[i].room.connected_rooms[k].toString()) {
-										//make the room unavailable
-										list[j].booking.unavailable = true;
-										break;
-									}
-								}
-							}
-						}
+                db.findMany(Booking, booking, function (bookingResult) {
+                    if (bookingResult) {
+                        //loop through each booking
+                        for (let i = 0; i < bookingResult.length; i++) {
+                            //loop through each room
+                            for (let j = 0; j < list.length; j++) {
+                                //check if the room id of the booking matches the id of the room
+                                if (list[j].room._id.toString() == bookingResult[i].room._id.toString()) {
+                                    //links the room to a booking
+                                    list[j].booking = bookingResult[i];
+                                    break;
+                                }
+                            }
+                            //loop through each of the connected rooms in the booking
+                            for(let k = 0; k < bookingResult[i].room.connected_rooms.length; k++) {
+                                //loop through each room
+                                for (let j = 0; j < list.length; j++) {
+                                    //check if the room id of the connected rooms in the booking matches the id of the room
+                                    if (list[j].room._id.toString() == bookingResult[i].room.connected_rooms[k].toString()) {
+                                        //make the room unavailable
+                                        list[j].booking.unavailable = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
 
                         //place all the values that is to be loaded in the hbs file in an object
-						let values = {
-							username: req.session.username,
-							list: list,
-							date: dateString,
-							time: hourMinuteString
-						}
+                        let values = {
+                            username: req.session.username,
+                            list: list,
+                            date: dateString,
+                            time: hourMinuteString
+                        }
 
-						//loads the room-management page along with the values specified in the values object
-						res.render('room-management', values);
-		        	} else {
+                        //loads the room-management page along with the values specified in the values object
+                        res.render('room-management', values);
+                    } else {
                         //redirect to an error page if an error occured
-						res.redirect('/error');
-					}
-		        }, 'room guest transaction');
-			} else {
+                        res.redirect('/error');
+                    }
+                }, 'room guest transaction');
+            } else {
                 //redirect to an error page if an error occured
-				res.redirect('/error')
-			}
-		}, undefined, {room_number: 'asc'});
+                res.redirect('/error')
+            }
+        }, undefined, {room_number: 'asc'});
     },
 
     //load the create check in page for a vacant room
     getCheckInVacant: function (req, res) {
 
         //retrieve the information of the room given a roomID
-		db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
-			if (roomResult) {
+        db.findOne(Room, {_id: req.params.roomID}, function(roomResult) {
+            if (roomResult) {
                 // get the date today in the form of YYYY-MM-DD
                 let today = new Date();
-            	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+                let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 
                 //the list of conditions that are to be met in the query
                 let reservation = {
-		            //the current date is between the start date and end date of the reservation, inclusive
-					startDate: todayString,
- 	               	endDate: {$gte: todayString},
-					bookedType: roomResult.room_type,
+                    //the current date is between the start date and end date of the reservation, inclusive
+                    startDate: todayString,
+                    endDate: {$gte: todayString},
+                    bookedType: roomResult.room_type,
                     reserved: true,
-					booked: false,
-					checkedIn: false,
-					checkedOut: false,
-		            isCancelled: false
-		        };
+                    booked: false,
+                    checkedIn: false,
+                    checkedOut: false,
+                    isCancelled: false
+                };
 
                 //find all the reservations such that the current date is between the start and end date of the reservation
                 db.findMany(Booking, reservation, function (reservationResult) {
                     if (reservationResult) {
                         //place all the values that is to be loaded in the hbs file in an object
                         let values = {
-    						username: req.session.username,
-    	                    room: roomResult,
-    						reservations: reservationResult,
-    	                    date: todayString
-    	                }
+                            username: req.session.username,
+                            room: roomResult,
+                            reservations: reservationResult,
+                            date: todayString
+                        }
                         //loads the create check in page along with values specified in the check in page
-        				res.render('check-in', values);
+                        res.render('check-in', values);
                     } else {
                         //redirect to an error page if an error occured
                         res.redirect('/error');
                     }
-				}, 'guest');
-			} else {
+                }, 'guest');
+            } else {
                 //redirect to an error page if an error occured
-				res.redirect('/error');
-			}
-		});
+                res.redirect('/error');
+            }
+        });
     },
 
     //saves the data from the create checkin to the database when no prior reservation has been made by the guest
@@ -196,9 +196,9 @@ const roomManagementController = {
                         amount: req.body.extra_pax_cost_php
                     },
                     extraBedCharges: {
-                       count: req.body.extra_bed_count,
-                       amount: req.body.extra_bed_cost_php
-                   },
+                        count: req.body.extra_bed_count,
+                        amount: req.body.extra_bed_cost_php
+                    },
                     extraPetCharges: req.body.extra_pet_cost_php,
                     roomCost: req.body.room_initial_cost,
                     totalDiscount: req.body.room_subtract,
@@ -227,7 +227,7 @@ const roomManagementController = {
                             startDate: new Date (),
                             //set the end time to 12pm by default
                             endDate: new Date(`${req.body.end_date} 12:00:00`),
-        					checkedIn: true,
+                            checkedIn: true,
                             transaction: transactionResult._id
                         }
 
@@ -277,99 +277,99 @@ const roomManagementController = {
     //checks the availability if the room is currently avaialable for check in
     checkCheckInAvailability: function(req, res) {
         //find the room information given the roomID
-		db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
+        db.findOne(Room, {_id: req.query.roomID}, function(roomResult) {
             // creates an array of rooms containing the current room and the connect rooms
-			let rooms = [];
+            let rooms = [];
             //add the current room to the array
-			rooms.push(req.query.roomID);
-			if (roomResult && roomResult.connected_rooms) {
+            rooms.push(req.query.roomID);
+            if (roomResult && roomResult.connected_rooms) {
                 //loops through each of the connected rooms
-				for (let i = 0; i < roomResult.connected_rooms.length; i++) {
+                for (let i = 0; i < roomResult.connected_rooms.length; i++) {
                     //add the list of connected rooms to the array
-					rooms.push(roomResult.connected_rooms[i]);
-				}
-			}
+                    rooms.push(roomResult.connected_rooms[i]);
+                }
+            }
 
-			// retrieves the start and end date from the query
-	        let start = new Date();
-	        let end = new Date(`${req.query.endDate} 12:00:00`);
+            // retrieves the start and end date from the query
+            let start = new Date();
+            let end = new Date(`${req.query.endDate} 12:00:00`);
 
             //set a lowwer and upper bound for the dates so as to minimize the time of the query
-	        let lowerBound = new Date(req.query.startDate);
-	        let upperBound = new Date(req.query.endDate);
+            let lowerBound = new Date(req.query.startDate);
+            let upperBound = new Date(req.query.endDate);
             //the lower bound and upper bound are to +/- 5 years from the current date
-	        lowerBound.setFullYear(lowerBound.getFullYear() - 5);
-	        upperBound.setFullYear(upperBound.getFullYear() + 5);
+            lowerBound.setFullYear(lowerBound.getFullYear() - 5);
+            upperBound.setFullYear(upperBound.getFullYear() + 5);
 
-	        // set the conditions for the queries
-			query = {
-				$and: [
+            // set the conditions for the queries
+            query = {
+                $and: [
                     //checks the status of both the current room and the connected rooms
-					{room: {$in : rooms}},
-					// the reservation dates is within 5 years
-					{$and: [
-						{startDate: {$gte: lowerBound}},
-						{endDate: {$lte: upperBound}}
-					]},
-					// the booking must either be currently booked or checked in
-					{$and:[
-						{$or: [
-							{booked: true},
-							{checkedIn: true}
-						]},
-						{checkedOut: false},
-						{isCancelled: false}
-					]},
-					// cases to check for existing bookings
-					{$or: [
+                    {room: {$in : rooms}},
+                    // the reservation dates is within 5 years
+                    {$and: [
+                        {startDate: {$gte: lowerBound}},
+                        {endDate: {$lte: upperBound}}
+                    ]},
+                    // the booking must either be currently booked or checked in
+                    {$and:[
+                        {$or: [
+                            {booked: true},
+                            {checkedIn: true}
+                        ]},
+                        {checkedOut: false},
+                        {isCancelled: false}
+                    ]},
+                    // cases to check for existing bookings
+                    {$or: [
                         //the inputted start date is between the start and end date of the booking
-						// booking_start_date <= inputted_start_date <= booking_end_date
-						{$and: [
-							{startDate: {$gte: start}},
-							{startDate: {$lte: end}}
-						]},
+                        // booking_start_date <= inputted_start_date <= booking_end_date
+                        {$and: [
+                            {startDate: {$gte: start}},
+                            {startDate: {$lte: end}}
+                        ]},
                         //the inputted end date is between the start and end date of the booking
-						// booking_start_date <= inputted_end_date <= booking_end_date
-						{$and: [
-							{endDate: {$gte: start}},
-							{endDate: {$lte: end}}
-						]},
+                        // booking_start_date <= inputted_end_date <= booking_end_date
+                        {$and: [
+                            {endDate: {$gte: start}},
+                            {endDate: {$lte: end}}
+                        ]},
                         // the inputted start and end date is between the start and end date of the booking
-						// booking_start_date <= inputted_start_date <= inputted_end_date <= booking_end_date
-						{$and: [
-							{startDate: {$lte: start}},
-							{endDate: {$gte: end}}
-						]},
+                        // booking_start_date <= inputted_start_date <= inputted_end_date <= booking_end_date
+                        {$and: [
+                            {startDate: {$lte: start}},
+                            {endDate: {$gte: end}}
+                        ]},
                         //the booking start and end date is between the inputted start and end date
-						//inputted_start_date <= booking_start_date <= booking_end_date <= inputted_end_date
-						{$and: [
-							{startDate: {$gte: start}},
-							{endDate: {$lte: end}}
-						]}
-					]}
-				]
-			};
+                        //inputted_start_date <= booking_start_date <= booking_end_date <= inputted_end_date
+                        {$and: [
+                            {startDate: {$gte: start}},
+                            {endDate: {$lte: end}}
+                        ]}
+                    ]}
+                ]
+            };
 
-			// a booking ID is included as part of the query
-			if(req.query.bookingID != '') {
+            // a booking ID is included as part of the query
+            if(req.query.bookingID != '') {
                 // do not include its own bookingID in the query to prevent a conflicting booking
-				query.$and.push({_id: {$ne: req.query.bookingID}});
-			}
+                query.$and.push({_id: {$ne: req.query.bookingID}});
+            }
 
-	        // find atleast one booking for a specified room between the start and end date inclusive
-	        db.findOne(Booking, query, function(result) {
-	            // a booking is found
-	            if(result) {
+            // find atleast one booking for a specified room between the start and end date inclusive
+            db.findOne(Booking, query, function(result) {
+                // a booking is found
+                if(result) {
                     //the room is not available for checkin
-	                res.send(false);
-	            // no booking is found
-	        	} else {
+                    res.send(false);
+                    // no booking is found
+                } else {
                     //the room is avaialble for checkin
-	                res.send(true);
-	            }
-	        });
+                    res.send(true);
+                }
+            });
 
-		});
+        });
     },
 
     //saves the data from the create checkin to the database when no prior booking has been made by the guest
@@ -416,50 +416,50 @@ const roomManagementController = {
             if (transactionResult) {
                 let reservation = {
                     $set: {
-        				//assign the guest to a specific room
-        				room: req.params.roomID,
+                        //assign the guest to a specific room
+                        room: req.params.roomID,
                         //set the start date to the current date and time
-        				startDate: new Date (),
+                        startDate: new Date (),
                         //set the end date to 12pm by default
                         endDate: new Date(`${req.body.end_date} 12:00:00`),
-        				//checks in the guest by setting the checkedIn variable to true
-        				checkedIn: true,
+                        //checks in the guest by setting the checkedIn variable to true
+                        checkedIn: true,
                         //updates the transaction ID of the booking
                         transaction: transactionResult._id
                     }
                 }
 
-        		//update the booking information in the database with the contents as specified in the reservation object
-        		db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
+                //update the booking information in the database with the contents as specified in the reservation object
+                db.updateOne(Booking, {_id: req.body.reservation_select}, reservation, function (bookingResult) {
 
-        			if (bookingResult) {
+                    if (bookingResult) {
                         // opens print preview page if print receipt checkbox is ticked
                         if(req.body.print_receipt == "") {
                             printEvent.emitPrintEvent(bookingResult._id);
                         }
 
                         // collect the guest information from post request that is to be stored to the database
-        				let guest = {
-        		            firstName: req.body.firstname,
-        		            lastName: req.body.lastname,
-        		            birthdate: req.body.birthdate,
-        		            address: req.body.address,
-        		            contact: req.body.contact,
-        		            company: req.body.company,
-        		            occupation: req.body.occupation
-        		        }
-        				//update the guest information in the database with the contents as specified in the guest object
-        				db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
-        					if (guestResult) {
+                        let guest = {
+                            firstName: req.body.firstname,
+                            lastName: req.body.lastname,
+                            birthdate: req.body.birthdate,
+                            address: req.body.address,
+                            contact: req.body.contact,
+                            company: req.body.company,
+                            occupation: req.body.occupation
+                        }
+                        //update the guest information in the database with the contents as specified in the guest object
+                        db.updateOne(Guest, {_id: bookingResult.guest}, guest, function (guestResult) {
+                            if (guestResult) {
                                 //create an object indicating the activity of the employee
-        						let activity = {
+                                let activity = {
                                     employee: req.session.employeeID,
                                     booking: bookingResult._id,
                                     activityType: 'Check-In Without Booking',
                                     timestamp: new Date()
                                 }
-        						//saves the action of the employee to an activity log
-        						db.insertOne(Activity, activity, function(activityResult) {
+                                //saves the action of the employee to an activity log
+                                db.insertOne(Activity, activity, function(activityResult) {
                                     if (activityResult) {
                                         // redirects to booking screen after adding a record
                                         res.redirect('/management/');
@@ -468,16 +468,16 @@ const roomManagementController = {
                                         res.redirect('/error');
                                     }
                                 });
-        					} else {
+                            } else {
                                 //redirects to an error page if an error occured
-        						res.redirect('/error');
-        					}
-        				});
-        			} else {
+                                res.redirect('/error');
+                            }
+                        });
+                    } else {
                         //redirects to an error page if an error occured
-        				res.redirect('/error');
-        			}
-        		});
+                        res.redirect('/error');
+                    }
+                });
             } else {
                 //redirects to an error page if an error occured
                 res.redirect('/error');
@@ -693,32 +693,32 @@ const roomManagementController = {
 
                 //get the booking information from the database given a bookingID
                 db.findOne(Booking, {_id: req.params.bookingID}, function(bookingResult) {
-        			if (bookingResult) {
+                    if (bookingResult) {
                         //stoes the value that are to be loaded to the hbs file in an object
                         let values = {
                             username: req.session.username,
                             rooms: roomResult,
                             booking: bookingResult,
                         }
-        				//render the edit check in screen along with the values specified in the values object
-        				res.render('check-in-edit', values);
-        			} else {
+                        //render the edit check in screen along with the values specified in the values object
+                        res.render('check-in-edit', values);
+                    } else {
                         //redirect to an error page if something went wrong
-        				res.redirect('/error');
-        			}
-        		}, 'room guest transaction');
+                        res.redirect('/error');
+                    }
+                }, 'room guest transaction');
 
             } else {
                 //redirect to an error page if something went wrong
                 res.redirect('/error');
             }
         }, undefined, {room_number: 'asc'});
-	},
+    },
 
     //updates the booking information of the guest in the database
-	postEditCheckIn: function(req, res) {
+    postEditCheckIn: function(req, res) {
         // collect the booking information from post request that is to be stored to the database
-		let booking = {
+        let booking = {
             $set: {
                 endDate: new Date(`${req.body.endDate} 12:00:00`)
             }
@@ -776,9 +776,9 @@ const roomManagementController = {
                                 amount: req.body.extra_pax_cost_php
                             },
                             extraBedCharges: {
-                               count: req.body.extra_bed_count,
-                               amount: req.body.extra_bed_cost_php
-                           },
+                                count: req.body.extra_bed_count,
+                                amount: req.body.extra_bed_cost_php
+                            },
                             extraPetCharges: req.body.extra_pet_cost_php,
                             roomCost: req.body.room_initial_cost,
                             totalDiscount: req.body.room_subtract,
@@ -842,7 +842,7 @@ const roomManagementController = {
 
                 //get the booking information from the database given a bookingID
                 db.findOne(Booking, {_id: req.params.bookingID}, function(bookingResult) {
-        			if (bookingResult) {
+                    if (bookingResult) {
                         //stores the values that are to be loaded to the hbs file in an object
                         let values = {
                             username: req.session.username,
@@ -851,11 +851,11 @@ const roomManagementController = {
                         }
                         //render the transfer screen along with the values specified in the value object
                         res.render('transfer', values);
-        			} else {
+                    } else {
                         //redirect to an error page
-        				res.redirect('/error');
-        			}
-        		}, 'room guest transaction');
+                        res.redirect('/error');
+                    }
+                }, 'room guest transaction');
 
             } else {
                 //redirect to an error page
@@ -900,9 +900,9 @@ const roomManagementController = {
                         amount: req.body.extra_pax_cost_php
                     },
                     extraBedCharges: {
-                       count: req.body.extra_bed_count,
-                       amount: req.body.extra_bed_cost_php
-                   },
+                        count: req.body.extra_bed_count,
+                        amount: req.body.extra_bed_cost_php
+                    },
                     extraPetCharges: req.body.extra_pet_cost_php,
                     roomCost: req.body.room_initial_cost,
                     totalDiscount: req.body.room_subtract,
@@ -981,7 +981,7 @@ const roomManagementController = {
         //update the room maintenance status of the room with the contents specified in the room object
         db.updateOne(Room, {_id: req.params.roomID}, room, function(roomResult) {
             if (roomResult) {
-                //redirect to the room management page
+                //redirect to the room management pa
                 res.redirect('/management/');
             } else {
                 //redirect to an error page if an error occured
