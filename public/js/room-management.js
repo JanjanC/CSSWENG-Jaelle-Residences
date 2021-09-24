@@ -8,20 +8,24 @@ $(document).ready(function () {
 	//set the booking tab as the active tab in the sidebar
 	$('#nav-room').addClass('active');
 
-	//reload the page the new information
+	//reload the page based on the selected time of the user
 	$('#chosen-time').change(function (){
 		chooseTime();
 	});
 
+	//redirect to the print preview page
 	$(".print-link").on("click", function(e) {
 		e.preventDefault();
 
+		//retrieve the booking ID from the url
 		let href = e.target.getAttribute('href');
 		let bookingID = href.split('/')[2];
-		
-	    ipcRenderer.send('print:goto', bookingID);
+
+		//opens a new window with the print preview
+		ipcRenderer.send('print:goto', bookingID);
 	});
 
+	//retrieves the booking ID from the room card
 	$(".room-card").on("click", function(e) {
 		index = e.target.getAttribute('data-index')
 	});
@@ -36,4 +40,3 @@ function chooseTime() {
 	let href = `${location.protocol}//${location.host}${location.pathname}`;
 	window.location.replace(`${href}?time=${time}`);
 }
-
