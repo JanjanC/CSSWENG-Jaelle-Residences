@@ -1,18 +1,19 @@
 $(document).ready(function () {
+	//compute transaction fields upon loading the page
 	computeInitialCost();
 	computeCharges();
 	computeDiscount();
 	computeTotal();
 	computeBalance();
 
-	//onclick event of the button with an id of 'book'
+	//validate and show the input of the user through a modal
 	$('#book').click(function(){
 		if (validateEntry()) {
 			showInput();
 		}
 	});
 
-	// checks for conflict in new start date and recomputes necessary fields
+	// checks for the room availability and recomputes the transaction details when start date changes
 	$('#transfer-start-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
@@ -20,9 +21,9 @@ $(document).ready(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-    });
+	});
 
-	// checks for conflict in new end date and recomputes necessary fields
+	// checks for the room availability and recomputes the transaction details when end date changes
 	$('#transfer-end-date').change(function () {
 		checkAvailability();
 		computeInitialCost();
@@ -30,9 +31,9 @@ $(document).ready(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-    });
+	});
 
-	// recomputes necessary fields when PWD discount is applied
+	// recomputes the transaction details when PWD discount is applied
 	$('#is-pwd').change(function () {
 		enablePWD();
 		computeDiscount();
@@ -40,7 +41,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when senior citizen discount is applied
+	// recomputes the transaction details when senior citizen discount is applied
 	$('#is-senior').change(function () {
 		enableSenior();
 		computeDiscount();
@@ -48,7 +49,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when additional flat discount is applied
+	// recomputes the transaction details when additional flat discount is applied
 	$('#is-discount-php').change(function () {
 		enableDiscountPhp();
 		computeDiscount();
@@ -56,7 +57,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when additional percent discount is applied
+	// recomputes the transaction details when additional percent discount is applied
 	$('#is-discount-percent').change(function () {
 		enableDiscountPercent();
 		computeDiscount();
@@ -64,7 +65,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when extra pet charge is applied
+	// recomputes the transaction details when extra pet charge is applied
 	$('#is-extra-pet').change(function () {
 		enablePetCharge();
 		computeCharges();
@@ -73,7 +74,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when extra bed charge is applied
+	// recomputes the transaction details when extra bed charge is applied
 	$('#is-extra-bed').change(function () {
 		enableExtraBedsCharge();
 		computeCharges();
@@ -82,7 +83,7 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields based on number of people
+	// recomputes the transaction details based on number of people
 	$('#room-pax').change(function () {
 		computeInitialCost();
 		computeCharges();
@@ -91,40 +92,40 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when number of senior citizens is changed
+	// recomputes the transaction details when number of senior citizens is changed
 	$('#room-senior').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
-	// recomputes necessary fields when number of PWD is changed
+	// recomputes the transaction details when number of PWD is changed
 	$('#room-pwd').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
-	// recomputes necessary fields when additional percent discount is changed
+	// recomputes the transaction details when additional percent discount is changed
 	$('#room-discount-percent').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
-	// recomputes necessary fields when additional flat discount is changed
+	// recomputes the transaction details when additional flat discount is changed
 	$('#room-discount-php').change(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
 	});
 
-	// computes the balance when payment is entered
+	//recomputes the balance when payment is entered
 	$('#room-payment').keyup(function () {
 		computeBalance();
 	});
 
-	// updates fields based on selected room
+	// loads the room information to form and updates the transaction details when a room is selected
 	$('#transfer-select').change(function () {
 		roomInfo = null;
 		updateForm();
@@ -136,30 +137,30 @@ $(document).ready(function () {
 		computeBalance();
 	});
 
-	// recomputes necessary fields when extra pet charge is changed
+	// recomputes the transaction details when extra pet charge is changed
 	$('#extra-pet-cost-php').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-	})
+	});
 
-	// recomputes necessary fields when extra bed charge is changed
+	// recomputes the transaction details when extra bed charge is changed
 	$('#extra-bed-count').keyup(function (){
 		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-	})
+	});
 
-	// recomputes necessary fields when additional charges are added
+	// recomputes the transaction details when additional charges are added
 	$('#add-charge-btn').click(function (){
 		createOtherChargesArr();
 		computeCharges();
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-	})
+	});
 });
 
 function updateForm () {
@@ -173,9 +174,11 @@ function updateForm () {
 
 let roomInfo = null;
 
+//retrieves the information of the room from the database
 function getRoomInfo () {
-	// retrieves room information
+	// the room information has not been retrieved
 	if (!roomInfo) {
+		//gets the roomID of the room from thepage
 		let roomID = $('#room-id').text();
 
 		if ($('#transfer-select').val() != '') {
@@ -184,6 +187,7 @@ function getRoomInfo () {
 
 		jQuery.ajaxSetup({async: false});
 
+		//retrieves the room information
 		$.get('/room', {roomID: roomID}, function(result) {
 			roomInfo = result;
 		});
@@ -196,19 +200,23 @@ function getRoomInfo () {
 // validates fields for other charges module
 function checkOtherError() {
 	let costFlag, reasonFlag;
+	// the amount for the other the other charges is NOT empty
 	if($('#add-other-cost').val() != ''){
 		costFlag = true;
 		$('#add_other_cost_error').text('');
 	}
+	// the amount for the other the other charges is empty
 	else{
 		costFlag = false;
 		$('#add_other_cost_error').text('Please input a number.');
 	}
 
+	// the reason for the other the other charges is NOT empty
 	if($('#add-other-reason').val() !=''){
 		reasonFlag = true;
 		$('#add_other_reason_error').text('');
 	}
+	// the reason for the other the other charges is empty
 	else{
 		reasonFlag = false;
 		$('#add_other_reason_error').text('Please input a reason.');
@@ -216,35 +224,37 @@ function checkOtherError() {
 	return costFlag && reasonFlag;
 }
 
-// adds other charges item
+// adds other charges item to the view dynamically
 function addOther () {
 	if(checkOtherError()) {
 		let othersContainer = $('#other-list');
 		let othersAddContainer = $('#other-add');
 
-		//Retrieved value from other reason input
+		// retrieve value from other reason input
 		let newOtherReasonVal = $('#add-other-reason');
-		//Retrieved value from other cost input
+		// retrieve value from other cost input
 		let newOtherCostVal = $('#add-other-cost');
 
 		// creates nodes for other charges
 		let newDivOtherContainer = $("<div class='d-flex flex-row border p-3 mb-2 justify-content-between align-items-center other-item'></div>");
 		let newDivOtherValuesSection = $("<div class='d-flex flex-column align-items-start justify-content-center other-val'></div>");
 
+		//retrieves the input
 		let newOtherReason = $("<h6 class='other-val-reason text-primary'></h6>").text(newOtherReasonVal.val().trim());
 		let newOtherCost = $("<h6 class='other-val-cost text-primary mb-0'></h6>").text(Number(newOtherCostVal.val()).toFixed(2) + " PHP");
 
+		//create a delete button for the other charges item
 		let newOtherDeleteButton = $("<button class='btn btn-outline-danger rounded-pill h-50 other-del' type='button' onclick='removeOther(this)'></button>");
 		let newDeleteIconSpan = $("<span class='material-icons-outlined delete-other'></span>");
 		let newDeleteIconStrong = $("<strong></strong>").text("clear");
 
-		// appends the nodes
+		// appends the nodes to its corresponding parent
 		newOtherDeleteButton.append(newDeleteIconSpan.append(newDeleteIconStrong));
 		newDivOtherValuesSection.append(newOtherReason, newOtherCost);
 		newDivOtherContainer.append(newDivOtherValuesSection, newOtherDeleteButton);
 		othersAddContainer.before(newDivOtherContainer);
 
-		//Clear values
+		//resets the values of the input field
 		newOtherReasonVal.val('');
 		newOtherCostVal.val('');
 		$("#add_other_cost_error").text('');
@@ -256,7 +266,7 @@ function addOther () {
 function removeOther (elem) {
 	$(elem).parent().remove();
 
-	// recomputes necessary fields
+	// recomputes the transaction details
 	createOtherChargesArr();
 	computeCharges();
 	computeDiscount();
@@ -270,23 +280,28 @@ function computeExtraPax (pax, maxPax) {
 
 	// if pax limit is exceeded
 	if(pax > maxPax && !isNaN(pax)){
+		//the rate for an extre pax pax
 		let rate = 400;
 
+		//computes the extra charges for every number of guest that exceeded the maximum allowable number of guests
 		nExtraPax = pax - maxPax;
 		extraPaxCost = nExtraPax * rate;
 
+		// sets the values for the number of extra pax and the charges for the extra pax
 		$('#extra-pax-count').val(nExtraPax);
-		$('#extra-pax-cost-php').val(extraPaxCost);
+		$('#extra-pax-cost-php').val(extraPaxCost.toFixed(2));
 	} else {
-		// if within pax limit
+		//the number of pax is within the pax limit
 		$('#extra-pax-count').val('');
-        $('#extra-pax-cost-php').val('');
+		$('#extra-pax-cost-php').val('');
 	}
 }
 
 // sums the charges in the other charges module
 function sumOtherCharges (){
 	let sum = 0;
+
+	//computes the sum of all the other charges
 	$('.other-val-cost').each(function (){
 		sum += parseFloat($(this).text());
 	});
@@ -297,6 +312,8 @@ function sumOtherCharges (){
 // retrieves the details of each other charges item and places them into an object array
 function createOtherChargesArr (){
 	let arr = [];
+
+	//creates an object for each other charges item
 	$('.other-item').each(function (){
 		temp = {
 			reason: $(this).children('.other-val').children('.other-val-reason').text(),
@@ -305,20 +322,29 @@ function createOtherChargesArr (){
 		arr.push(temp);
 	});
 
+	//converts the array into a string
 	$('#other-charges-arr').val(JSON.stringify(arr));
 }
 
+// computes room cost based on room rate and duration
 function computeInitialCost () {
+	//retrieves the room information
 	getRoomInfo();
 
+	//the room information was previously retrieved
 	if (roomInfo) {
+		//the number of milliseconds in a day
 		let time =  1000 * 60 * 60 * 24;
+		//retrieves the start and end date input
 		let startDate = new Date($('#transfer-start-date').val()).getTime();
 		let endDate = new Date($('#transfer-end-date').val()).getTime();
 
+		//the end date is later than the start date
 		if (startDate && endDate && endDate - startDate >= 0) {
 
+			//compute the duration of the booking in days
 			let duration = Math.round(Math.abs((endDate - startDate) / time));
+			//initialize the variables to 0
 			let months = 0;
 			let weeks = 0;
 			let days = 0;
@@ -327,24 +353,34 @@ function computeInitialCost () {
 			let weeklyRate = 0;
 			let dailyRate = 0;
 
+			//the duration is less than or equal to 0 days
 			if (duration <= 0) {
 				duration = 1;
 			}
 
+			//the number of days left that is to be accounted for in the computation
 			let remaining = duration;
+
+			//retrieves the number of guests staying in the room
 			let pax = Number($('#room-pax').val());
 
 			// uses the monthly rate if it exists and the duration is at least 30 days
 			if (remaining >= 30 && roomInfo.room_rate.monthly[0]) {
+				//the number of guests is less than or equal to 0
 				if (Number.isNaN(pax) || pax <= 0) {
 					pax = 1;
 				}
 
+				//the number of guests is greater than the maximum number of guest allowed for the monthly rate
 				if (pax > roomInfo.room_rate.monthly.length) {
+					//set the current number of guest to the maximum number of guest allowed
 					pax = roomInfo.room_rate.monthly.length;
 				}
 
+				//retrieves the rate for the corresponding number of guest
 				monthlyRate = roomInfo.room_rate.monthly[pax - 1];
+
+				//update the number of days left that is to be accounted for in the computation
 				months = Math.floor(remaining / 30);
 				remaining = remaining % 30;
 			}
@@ -352,6 +388,8 @@ function computeInitialCost () {
 			// uses the weekly rate if it exists and the duration is at least 7 days
 			if (remaining >= 7 && roomInfo.room_rate.weekly) {
 				weeklyRate = roomInfo.room_rate.weekly;
+
+				//update the number of days left that is to be accounted for in the computation
 				weeks = remaining / 7;
 				remaining = remaining - remaining;
 			}
@@ -359,22 +397,24 @@ function computeInitialCost () {
 			// uses the daily rate if it exists and the duration is at least 1 day
 			if (remaining >= 1 && roomInfo.room_rate.daily) {
 				dailyRate = roomInfo.room_rate.daily;
+
+				//update the number of days left that is to be accounted for in the computation
 				days = remaining;
 				remaining = remaining - remaining;
 			}
 
-			// sums the calculated costs
+			// calculate the total room cost
 			let total = monthlyRate * months + weeklyRate * weeks + dailyRate * days;
 
-			// calculates the final daily rate
+			// calculates the average daily rate
 			let rate = total / duration;
 
-			// sets values to appropriate fields on form
+			// sets the values for the duration, room cost, and room rate in the form
 			$('#duration').val(duration);
 			$('#room-initial-cost').val(total.toFixed(2));
 			$('#room-rate').val(rate.toFixed(2));
 		} else {
-			// set fields to 0.00 when duration is 0 or less
+			// set the values to 0.00 when the booking duration is 0 or less
 			$('#duration').val(0);
 			$('#room-initial-cost').val((0).toFixed(2));
 			$('#room-rate').val((0).toFixed(2));
@@ -384,9 +424,10 @@ function computeInitialCost () {
 
 // computes additional charges and displays them on the form
 function computeCharges () {
-	// gets room details
+	// retrieves the room information
 	getRoomInfo();
 
+	//the room information was previously retrieved
 	if (roomInfo) {
 		let total = Number($('#room-initial-cost').val());
 		let duration = Number($('#duration').val());
@@ -396,18 +437,26 @@ function computeCharges () {
 		let extraPet = Number($('#extra-pet-cost-php').val());
 		let extraOther = sumOtherCharges();
 
+		//computes the charges for exceeding the pax limit
 		computeExtraPax(Number($('#room-pax').val()), roomInfo.max_pax);
 
 		// checks if the extra charges have inputs before summing them together
 		if(!isNaN(extraBed)) {
+			//compute the charge for the extra bed
 			let cost = extraBed * 400;
 			extra += cost;
 			$('#extra-bed-cost-php').val(cost.toFixed(2));
 		}
-		if(!isNaN(extraPet))
+
+		//adds the charges for the pet
+		if(!isNaN(extraPet)) {
 			extra += extraPet;
-		if(!isNaN(extraOther))
+		}
+
+		//adds the charges for the other extra charges
+		if(!isNaN(extraOther)) {
 			extra += extraOther;
+		}
 
 		if (total) {
 			let charges = 0;
@@ -415,7 +464,7 @@ function computeCharges () {
 			//the max pax is set to the room max pax by default
 			let roomMaxPax = roomInfo.max_pax;
 
-			//determine if monthly max pax is applicable since max pax for monthly bookings is different
+			//determine if monthly max pax is applicable
 			if (!Number.isNaN(duration) && duration >= 30 && roomInfo.room_rate.monthly[0] && !Number.isNaN(pax) && pax > 0) {
 				roomMaxPax = roomInfo.room_rate.monthly.length;
 			}
@@ -430,39 +479,51 @@ function computeCharges () {
 				charges = charges + extra;
 			}
 
+			// sets the value for the total charges in the form
 			$('#room-total-extra').val(charges.toFixed(2));
 		} else {
+
+			// clears the value for the total charges in the form
 			$('#room-total-extra').val((0).toFixed(2));
 		}
 	}
 }
 
-// enables/disables senior discount field depending on checkbox
+// enables/disables senior discount field depending on the state of the checkbox
 function enableSenior () {
 	let senior = $('#is-senior').is(':checked');
+
+	//enable/disable the input field when the checkbox is ticked/unticked
 	$('#room-senior').prop('readonly', !senior);
 
+	//clears the input when the checkbox is disabled
 	if (!senior) {
 		$('#room-senior').val('');
 	}
 }
 
-// enables/disables PWD discount field depending on checkbox
+// enables/disables PWD discount field depending on the state of the checkbox
 function enablePWD () {
 	let pwd = $('#is-pwd').is(':checked');
+
+	//enable/disable the input field when the checkbox is ticked/unticked
 	$('#room-pwd').prop('readonly', !pwd);
 
+	//clears the input when the checkbox is disabled
 	if (!pwd) {
 		$('#room-pwd').val('');
 	}
 }
 
-// enables/disables flat discount fields depending on checkbox
+// enables/disables flat discount fields depending on the state of the checkbox
 function enableDiscountPhp () {
 	let discountPhp = $('#is-discount-php').is(':checked');
+
+	//enable/disable the input field when the checkbox is ticked/unticked
 	$('#room-discount-reason-php').prop('readonly', !discountPhp);
 	$('#room-discount-php').prop('readonly', !discountPhp);
 
+	//clears the input when the checkbox is disabled
 	if (!discountPhp) {
 		$('#room-discount-reason-php').val('');
 		$('#room-discount-php').val('');
@@ -470,45 +531,55 @@ function enableDiscountPhp () {
 
 }
 
-// enables/disables percent discount fields depending on checkbox
+// enables/disables percent discount fields depending on the state of the checkbox
 function enableDiscountPercent () {
 	let discountPercent = $('#is-discount-percent').is(':checked');
+
+	//enable/disable the input field when the checkbox is ticked/unticked
 	$('#room-discount-reason-percent').prop('readonly', !discountPercent);
 	$('#room-discount-percent').prop('readonly', !discountPercent);
 
+	//clears the input when the checkbox is disabled
 	if (!discountPercent) {
 		$('#room-discount-reason-percent').val('');
 		$('#room-discount-percent').val('');
 	}
 }
 
-// enables/disables pet charge field depending on checkbox
+// enables/disables pet charge field depending on the state of the checkbox
 function enablePetCharge () {
 	let pet = $('#is-extra-pet').is(':checked');
+
+	//enable/disable the input field when the checkbox is ticked/unticked
 	$('#extra-pet-cost-php').prop('readonly', !pet);
 
+	//clears the input when the checkbox is disabled
 	if (!pet) {
 		$('#extra-pet-cost-php').val('');
 	}
 }
 
-// enables/disables extra bed charge fields depending on checkbox
+// enables/disables extra bed charge fields depending on the state of the checkbox
 function enableExtraBedsCharge () {
 	let extraBed = $('#is-extra-bed').is(':checked');
+
+	//enable/disable the input field when the checkbox is ticked/unticked
 	$('#extra-bed-count').prop('readonly', !extraBed);
 
+	//clears the input when the checkbox is disabled
 	if (!extraBed) {
 		$('#extra-bed-count').val('');
 		$('#extra-bed-cost-php').val('');
 	}
-
 }
 
 // computes the applicable discounts and selects the largest one
 function computeDiscount () {
 
+	//retrieve the room information
 	getRoomInfo();
 
+	//the room information was previously retrieved
 	if (roomInfo) {
 		let total = Number($('#room-initial-cost').val());
 		let charges = Number($('#room-total-extra').val());
@@ -521,18 +592,22 @@ function computeDiscount () {
 		let petCharge = Number($('#extra-pet-cost-php').val());
 
 		if (total) {
-			// count the number of PWD/seniors
 			let count = 0
+
+			// count the number of seniors
 			if (senior) {
 				count = count + senior;
 			}
 
+			// count the number of pwd
 			if (pwd) {
 				count = count + pwd;
 			}
 
 			let seniorPwdDiscount = 0;
 			let totalCost = total;
+
+			//compute the total cost by adding the charges to the total cost
 			if (charges) {
 				totalCost = totalCost + charges;
 			}
@@ -541,9 +616,15 @@ function computeDiscount () {
 			if (!Number.isNaN(pax) && pax > 0) {
 				//number of senior and pwd is greater than max pax for the room
 				if (count > pax) {
+					//computes the senior citizen discount
+					//the discount is computed as the ratio between the number of senior/pwd and the total number of guests
+					//multiplied by the 20% discount and the the total cost (minus the pet charge)
 					let seniorPwdPercent =  20;
 					seniorPwdDiscount = seniorPwdPercent / 100 * (totalCost - petCharge);
 				} else {
+					//computes the senior citizen discount
+					//the discount is computed as the ratio between the number of senior/pwd and the total number of guests
+					//multiplied by the 20% discount and the the total cost (minus the pet charge)
 					let seniorPwdPercent =  count / pax * 20;
 					seniorPwdDiscount = seniorPwdPercent / 100 *(totalCost - petCharge);
 				}
@@ -555,45 +636,54 @@ function computeDiscount () {
 				additionalPercentDiscount = additionalPercent / 100 * total;
 			}
 
+			// compute the additional php discount
 			let additionalPhpDiscount = 0;
 			if (additionalPhp) {
 				additionalPhpDiscount = additionalPhp;
 			}
 
+			// select the largest discount among the senior/pwd discount, additional percent discount, additional php discount
 			let discount = Math.max(seniorPwdDiscount, additionalPercentDiscount, additionalPhpDiscount);
 
+			//sets the value for the discount field in the form
 			$('#room-subtract').val(discount.toFixed(2));
 		} else {
+			//clears the value for the discount field in the form
 			$('#room-subtract').val((0).toFixed(2));
 		}
 	}
 }
 
-// computes the net cost
+// computes the net cost of the transaction
 function computeTotal () {
 	let total = Number($('#room-initial-cost').val());
 	let charges = Number($('#room-total-extra').val());
 	let discount = Number($('#room-subtract').val());
 
 	if (total) {
+		//initialize net cost to the total cost of the transaction
 		let net = total;
 
+		//computes for the net cost by adding the charges to the total cost
 		if (charges) {
 			net = net + charges;
 		}
 
+		//computes for the net cost by adding the discount to the total cost
 		if (discount) {
 			net = net - discount;
 		}
 
+		//sets the value for the net cost field in the form
 		$('#room-net-cost').val(net.toFixed(2));
 	} else {
+		//clears the value for the net cost field in the form
 		$('#room-net-cost').val((0).toFixed(2));
 	}
 
 }
 
-// computes the balance after payment
+// computes the balance of the guest after making a payment
 function computeBalance () {
 	let net = Number($('#room-net-cost').val());
 	let payment = Number($('#room-payment').val());
@@ -601,12 +691,16 @@ function computeBalance () {
 	if (net) {
 
 		let balance = payment;
+
+		//subtracts the customer payment from the net cost
 		if (payment) {
 			balance =  net - payment;
 		}
 
+		//sets the value for the remaining balance field in the form
 		$('#room-balance').val(balance.toFixed(2));
 	} else {
+		//clears the value for the remaining balance field in the form
 		$('#room-balance').val((0).toFixed(2));
 	}
 }
@@ -618,8 +712,10 @@ function checkAvailability () {
 	let bookingID = $('#booking-id').text();
 	let roomID = $('#transfer-select').val();
 
+	//the end date is later than the start date of the transfer
 	if (startDate && endDate && endDate >= startDate && roomID != "") {
 
+		//the booking information that is to be sent as part of the query
 		let query = {
 			startDate: startDate,
 			endDate: endDate,
@@ -627,13 +723,15 @@ function checkAvailability () {
 			bookingID: bookingID
 		}
 
+		//cneck the availability of the room for transfer given the conidtions in the query object
 		$.get('/checkin/room/availability', query, function(result) {
-			//is available
+			//the room is available for transfer
 			if(result) {
-				$('#transfer-end-date-error').text('');
+				$('#end-date-error').text('');
 				$('#book').prop('disabled', false);
+			//the room is NOT available for transfer
 			} else {
-				$('#transfer-end-date-error').text('Room Unavailable for the Inputted Dates');
+				$('#end-date-error').text('Room Unavailable for the Inputted Dates');
 				$('#book').prop('disabled', true);
 			}
 		});
@@ -643,46 +741,50 @@ function checkAvailability () {
 	}
 }
 
-// adds details to modal
+// display the inputted checkin details of the guest to a modal
 function showInput () {
 	let detailsLeft = [];
 	let detailsMiddle = [];
 	let detailsRight = [];
 
-	// old room information
+	// format and push the old room information to an array
 	pushToArray(detailsLeft, 'Old Room Type', $('#room_type').val());
 	pushToArray(detailsLeft, 'Old Room Number', $('#room-number').val());
 	pushToArray(detailsLeft, 'Old Start Date', $('#start-date').val());
 	pushToArray(detailsLeft, 'Old End Date', $('#end-date').val());
 
-	// new room information
+	// format and push the new room information to an array
 	pushToArray(detailsMiddle, 'New Room Type', $('#transfer-room-type').val());
 	pushToArray(detailsMiddle, 'New Room Number', $('#transfer-room-number').val());
 	pushToArray(detailsMiddle, 'New Start Date', $('#transfer-start-date').val());
 	pushToArray(detailsMiddle, 'New End Date', $('#transfer-end-date').val());
 
-	// transaction information
+	// format and push the transaction information to an array
 	pushToArray(detailsRight, 'Total Discount', $('#room-subtract').val());
 	pushToArray(detailsRight, 'Extra Charges', $('#room-total-extra').val());
 	pushToArray(detailsRight, 'Total Cost', $('#room-net-cost').val());
 	pushToArray(detailsRight, 'Customer Payment', $('#room-payment').val());
 	pushToArray(detailsRight, 'Customer Balance', $('#room-balance').val());
 
-	// join the strings together
+	// converts the room and transaction arrays to strings
 	let messageLeft = detailsLeft.join('');
 	let messageMiddle = detailsMiddle.join('');
 	let messageRight = detailsRight.join('');
 
-	// set the messages in the appropriate modal fields before showing
+	// set the transfer information in the appropriate modal fields
 	$('#input-col-1').html(messageLeft);
 	$('#input-col-2').html(messageMiddle);
 	$('#input-col-3').html(messageRight);
+
+	// display the modal
 	$('#bookModal').modal('show');
 }
 
-// formats the details before pushing into an array
+// formats and push the checkin information to an array
 function pushToArray(array, field, value){
+	//the string is not empty
 	if(value.trim() != ''){
+		//format and push the value to an array
 		array.push(`
 		<h4>${field}:</h4>
 		<h5 class="ms-4 text-secondary reservation-field">${value}</h5>
@@ -690,7 +792,7 @@ function pushToArray(array, field, value){
 	}
 }
 
-// validates input in the fields
+// validates the transfer information of the guest in the form
 function validateEntry () {
 	let isValid = true;
 
@@ -699,32 +801,43 @@ function validateEntry () {
 	let todayString = `${today.getFullYear().toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 	let fiveYearString = `${(today.getFullYear() + 5).toString()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
 
+	//retrieve the room information
 	getRoomInfo();
 
+	//the room information was not previously retrieved
 	if (roomInfo) {
+		//error checking for the new room type
+		//a new room type was not selected
 		if ($('#transfer-room-type').val() == '') {
 			$('#transfer-room-type-error').text('Room Type cannot be empty');
 			isValid = false;
+		//the new room type input is valid
 		} else {
 			$('#transfer-room-type-error').text('');
 		}
 
+		//error checking for the new room number
+		//a new room number was not selected
 		if ($('#transfer-room-number').val() == '') {
 			$('#transfer-room-number-error').text('Room Number cannot be empty');
 			isValid = false;
+		//the new room number input is valid
 		} else {
 			$('#transfer-room-number-error').text('');
 		}
 
 
+		//error checking for start date
 		//the start date input field is empty
 		if ($('#transfer-start-date').val() == '') {
 			$('#transfer-start-date-error').text('Start Date cannot be empty');
 			isValid = false;
+		//the start date input is valid
 		} else {
 			$('#transfer-start-date-error').text('');
 		}
 
+		//error checking for end date
 		//the end date input field is empty
 		if ($('#transfer-end-date').val() == '') {
 			$('#transfer-end-date-error').text('End Date cannot be empty');
@@ -737,75 +850,98 @@ function validateEntry () {
 		} else if ($('#transfer-start-date').val() != '' && new Date($('#transfer-end-date').val()) < new Date($('#transfer-start-date').val())) {
 			$('#transfer-end-date-error').text('End Date cannot be earlier than Start Date');
 			isValid = false;
+		//the end date is the same as the start date
 		} else if ($('#transfer-start-date').val() != '' && new Date().getHours() >= 4 && new Date($('#transfer-end-date').val()).getTime() == new Date($('#transfer-start-date').val()).getTime()) {
 			$('#transfer-end-date-error').text('End Date cannot the same as Start Date');
 			isValid = false;
+		//the end date is more than 5 years from today
 		} else if (new Date($('#transfer-end-date').val()) > new Date(fiveYearString)) {
 			$('#transfer-end-date-error').text('End Date may only be 5 Years from Today');
 			isValid = false;
+		//the end date input is valid
 		} else {
 			$('#transfer-end-date-error').text('');
 		}
 
-		//error checking for guest count
+		//error checking for the number of guest
+		//the room pax input field is empty
 		if ($('#room-pax').val() == '') {
 		    $('#room-pax-error').text('Number of Guests cannot be empty');
 		    isValid = false;
+		//the room pax is less than or equal to 0
 		} else if (Number($('#room-pax').val()) <= 0) {
 		    $('#room-pax-error').text('Number of Guests must be at least 1');
 		    isValid = false;
+		//the room pax exceeded the maximum allowable number of pax for a monthly booking
 		} else if ($('#duration').val() != '' && Number($('#duration').val()) >= 30 && roomInfo.room_rate.monthly[0] && Number($('#room-pax').val()) > roomInfo.room_rate.monthly.length) {
 		    $('#room-pax-error').text(`Number of Guests cannot exeeed ${roomInfo.room_rate.monthly.length} for Monthly Bookings`);
 		    isValid = false;
+		//the room pax input is valid
 		} else {
 		    $('#room-pax-error').text('');
 		}
 
-		//error checking customer payment
+		//error checking for room payment
+		//the room payment input field is empty
 		if ($('#room-payment').val() == '') {
 			$('#room-payment-error').text('Customer Payment cannot be empty');
 			isValid = false;
+		//the room payment is less than total cost for the transaction
 		} else if ($('#room-net-cost').val() != '' && Number($('#room-net-cost').val()) - Number($('#room-payment').val()) > 0) {
 			$('#room-payment-error').text('Customer Payment cannot be less than the Total Cost');
 			isValid = false;
+		//the room payment input is valid
 		} else {
 			$('#room-payment-error').text('');
 		}
 
-		//error checking for pwd count
+		//eror checking for the number of pwd
+		//the total number of pwd and senior citizen is more than the number of guest in the room
 		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-pwd-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
+		//the number of pwd is more than the number of guests in the room
 		} else if ( $('#room-pax').val() != '' && $('#room-pwd').val() != '' && Number($('#room-pwd').val()) > Number($('#room-pax').val()) ) {
 			$('#room-pwd-error').text('Number of PWD cannot exceed the Number of Guests');
 			isValid  = false;
+		//the number of pwd input is valid
 		} else {
 			$('#room-pwd-error').text('');
 		}
 
-		//error checking for senior count
+		//eror checking for the number of senior citizens
+		//the total number of pwd and senior citizen is more than the number of guest in the room
 		if ( $('#room-pax').val() != '' && $('#room-pwd').val() != ''&& $('#room-senior').val() != '' && Number($('#room-pwd').val()) + Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-senior-error').text('Number of PWD and Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
+		//the number of senior citizens is more than the number of guest in the room
 		} else if ( $('#room-pax').val() != '' && $('#room-senior').val() != '' && Number($('#room-senior').val()) > Number($('#room-pax').val()) ) {
 			$('#room-senior-error').text('Number of Senior Citizens cannot exceed the Number of Guests');
 			isValid  = false;
+		//the number of senior citizen input is valid
 		} else {
 			$('#room-senior-error').text('');
 		}
 	}
 
+	// scrolls to the field with an error closest to the top of the screen
 	if(!isValid){
+		//the new room type input is invalid
 		if($('#transfer-room-type-error').text() != ''){
 			$('html, body').animate({scrollTop: $('#transfer-room-type').offset().top - 118}, 'slow');
+		//the new room number input is invalid
 		} else if($('#transfer-room-number-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#transfer-room-number').offset().top - 118}, 'slow');
+		//the new start date input is invalid
 		} else if($('#transfer-start-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#transfer-start-date').offset().top - 118}, 'slow');
+		//the new end date input is invalid
 		} else if($('#transfer-end-date-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#transfer-end-date').offset().top - 118}, 'slow');
+		//the birthdate input is invalid
 		} else if($('#birthdate-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#birthdate').offset().top - 118}, 'slow');
+		//the contact number input is invalid
 		} else if($('#contact-error').text() != '') {
 			$('html, body').animate({scrollTop: $('#contact').offset().top - 118}, 'slow');
 		}
