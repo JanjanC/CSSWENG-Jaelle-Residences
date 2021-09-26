@@ -21,7 +21,7 @@ $(document).ready(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-    });
+	});
 
 	// recomputes the transaction details when end date changes
 	$('#end-date').change(function () {
@@ -31,7 +31,7 @@ $(document).ready(function () {
 		computeDiscount();
 		computeTotal();
 		computeBalance();
-    });
+	});
 
 	// recomputes the transaction details when PWD discount is applied
 	$('#is-pwd').change(function () {
@@ -452,8 +452,8 @@ function computeExtraPax (pax, maxPax) {
 		$('#extra-pax-cost-php').val(extraPaxCost.toFixed(2));
 	} else {
 		//the number of pax is within the pax limit
-        $('#extra-pax-count').val('');
-        $('#extra-pax-cost-php').val('');
+		$('#extra-pax-count').val('');
+		$('#extra-pax-cost-php').val('');
 	}
 }
 
